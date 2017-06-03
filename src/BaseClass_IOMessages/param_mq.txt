@@ -1,0 +1,5 @@
+MQIP,amqp://username:pwd@MQIP:MQPort,comment:RabbitMQ的地址
+MQQueueName,Queue_ConsumingByXXX_ByXXX,comment:
+ExchangeName,name,comment:RabbitMQ's exchange name for consuming messages
+ExchangeNameOut,name,comment:RabbitMQ's exchange name for publishing messages. If not specified, use ExchangeName
+ConsumerTag,WuLin_ConsumingXXX,comment:consumer name of the queue

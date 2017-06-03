@@ -1,0 +1,12 @@
+ExternV_ShipCount,60000,comment:For debug association correctness
+
+IsDebugMode,1,comment:0表示非debug模式；1表示debug模式
+ClockAheadInSeconds,0-0:5-2,comment: Ahead of time (negative value means behind true time) in seconds of clocks from each source and info type.First number in the value is info source,second number is info type, 3rd number is expected ahead of clock in seconds, 4th number is std dev of ahead. The code of each source and info type is in the CommonEnum.proto
+ClockAheadInSeconds,1-1:5-2,comment:EV_TargetInfoSource_AgricultureMinistry,EV_TargetInfoType_ArgosAndMaritimeSatellite
+ClockAheadInSeconds,1-2:0-0,comment:EV_TargetInfoSource_AgricultureMinistry,EV_TargetInfoType_Beidou
+ClockAheadInSeconds,2-3:5-20,comment:EV_TargetInfoSource_MaritimeBureau,EV_TargetInfoType_AISStatic
+ClockAheadInSeconds,2-4:5-20,comment:EV_TargetInfoSource_MaritimeBureau,EV_TargetInfoType_AISDynamic
+ClockAheadInSeconds,3-7:0-10,comment:EV_TargetInfoSource_Haijian,EV_TargetInfoType_Haijian
+
+ExternV_SECONDS_CHECK_TARGET_COUNT,10,comment:定时检查目标总数，并输出
+
