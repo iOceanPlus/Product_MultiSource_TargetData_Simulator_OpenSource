@@ -140,6 +140,20 @@ ParallelWorld::~ParallelWorld()
      }
  }
 
+bool ParallelWorld::isInWater(const double &longitudeInDegree,const double &latitudeInDegree)
+{
+    qint32 rowInd,colInd;
+     if(getGridIndex(longitudeInDegree,latitudeInDegree,rowInd,colInd))
+     {
+         if(rowInd<(qint32)rowCount&&colInd<(qint32)colCount)
+             return isWater[rowInd][colCount];
+         else
+             return false;
+     }
+     else
+         return false;
+}
+
  void ParallelWorld::updateMonitorProbeAckWithOneMessageRcvd()
  {
      monitor_ProbeAck.set_commandmessagesrcvd(monitor_ProbeAck.commandmessagesrcvd()+1);

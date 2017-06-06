@@ -18,16 +18,12 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
     if(msecondsElapsed<sampleMilliSeconds)
     {
         isMeasureSuccessful=false;
-        return PBTargetPosition.default_instance();
+        return PBTargetPosition::default_instance();
     }
     else
     {
         isMeasureSuccessful=true;
-        targetInstalled->updateTargetPosCurrentAndOrigIfMeetLand();
         lastSampleTime=currentTime;
-        return targetInstalled->get
-
-
+        return targetInstalled->updateAndGetPbTargetPosCurrent();
     }
-
 }

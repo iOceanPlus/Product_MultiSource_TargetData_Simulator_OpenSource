@@ -20,12 +20,12 @@ public:
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
     PBTargetPosition getReckonedPbTargetPos(const QDateTime &dtToReckon, bool &isOnLand) const;
 
-    /************Update the pbTargetPosOrig when the target meet land **************/
-    void  updateTargetPosCurrentAndOrigIfMeetLand();
-
     PBTargetPosition updateAndGetPbTargetPosCurrent();
 
 private:
+    /************Update the pbTargetPosOrig when the target meet land **************/
+    void  updateTargetPosCurrentAndOrigIfMeetLand();
+
     QList <PosDevice> listPosDevice;
 
     /*******
