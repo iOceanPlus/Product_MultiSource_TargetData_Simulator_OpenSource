@@ -5,7 +5,7 @@
 #include <QMultiMap>
 #include "PBCoderDecoder.h"
 #include "ContainerOfThreadMQTopicPublish.h"
-#include "posdevice.h"
+#include "PosDevice.h"
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
 class ParallelWorld;

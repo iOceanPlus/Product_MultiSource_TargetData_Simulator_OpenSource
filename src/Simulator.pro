@@ -40,10 +40,10 @@ SOURCES += main.cpp \
     ParallelWorld.cpp \
     target.cpp \
     ProtoCPP/Monitor.pb.cc \
-    posdevice.cpp \
     simulator.cpp \
     DataChannel.cpp \
-    DataSource.cpp
+    DataSource.cpp \
+    PosDevice.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -73,10 +73,10 @@ HEADERS += \
     ParallelWorld.h \
     target.h \
     ProtoCPP/Monitor.pb.h \
-    posdevice.h \
     simulator.h \
     DataChannel.h \
-    DataSource.h
+    DataSource.h \
+    PosDevice.h
 
 DISTFILES += \
     param.txt \

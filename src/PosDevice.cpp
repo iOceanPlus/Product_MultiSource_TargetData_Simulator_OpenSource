@@ -1,6 +1,6 @@
 #include <QDateTime>
 #include <QGeoCoordinate>
-#include "posdevice.h"
+#include "PosDevice.h"
 #include "target.h"
 #include "macro.h"
 
