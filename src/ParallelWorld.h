@@ -27,9 +27,11 @@ class ParallelWorld : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParallelWorld(QMutex *mutex, QObject *parent = 0);
+    explicit ParallelWorld( QMutex *mutex, QObject *parent = 0);
     ~ParallelWorld();
     bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
+
+    QList<Target *> getListTargets() const;
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);

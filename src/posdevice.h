@@ -15,6 +15,7 @@ public:
                                QDateTime lastDeviceSampleTime, const double &positioningDevInMeters=10);
     /*** If the time since last measurement is no less than sampling interval, the measure will be successful*****/
     PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful);
+    bool addDevToPos(PBTargetPosition &pbTargetPos);
 
 private:
      PB_Enum_TargetInfo_Type   targetInfoType;

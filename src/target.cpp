@@ -29,7 +29,6 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
     {
         pbTargetPosOrig.CopyFrom(pbTargetPosCurrent);
         posOrigDateTime=posCurrentDateTime;
-        qsrand(currentDateTime.time().msec());
         bool turnRight=qrand()%2==0;
         bool newCOGGot=false;
         for(int i=1;i<=7;i++)
@@ -69,6 +68,11 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
     }
 }
 
+QHash<PB_Enum_TargetInfo_Type, PosDevice*> Target::getHashTargetInfoTypePosDevice() const
+{
+    return hashTargetInfoTypePosDevice;
+}
+
 PBTargetPosition Target::updateAndGetPbTargetPosCurrent()
 {
     updateTargetPosCurrentAndOrigIfMeetLand();
@@ -102,6 +106,14 @@ PBTargetPosition Target::getReckonedPbTargetPos(const QDateTime &dtToReckon, boo
         isOnLand=true;
 
     return pbTargetPosReckoned;
+}
+
+PosDevice* Target::getDevice(const PB_Enum_TargetInfo_Type &infoType)
+{
+    if(!hashTargetInfoTypePosDevice.contains(infoType))
+        return NULL;
+    else
+        return hashTargetInfoTypePosDevice.value(infoType);
 }
 
 quint64 Target::getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig)

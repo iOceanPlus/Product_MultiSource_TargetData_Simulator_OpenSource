@@ -22,11 +22,14 @@ public:
 
     PBTargetPosition updateAndGetPbTargetPosCurrent();
 
+    QHash<PB_Enum_TargetInfo_Type, PosDevice *> getHashTargetInfoTypePosDevice() const;
+    PosDevice* getDevice(const PB_Enum_TargetInfo_Type &infoType);
+
 private:
     /************Update the pbTargetPosOrig when the target meet land **************/
     void  updateTargetPosCurrentAndOrigIfMeetLand();
 
-    QList <PosDevice> listPosDevice;
+    QHash <PB_Enum_TargetInfo_Type, PosDevice*> hashTargetInfoTypePosDevice;
 
     /*******
      * Periodically update pbTargetPosCurrent, assuming Great Circle journey from pbTargetPosOrig.

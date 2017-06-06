@@ -12,6 +12,8 @@ using namespace std;
 ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
                             QObject(parent)
 {
+    qsrand(QDateTime::currentDateTime().time().msec());
+
     colCount=GRID_ARRAY_ROW_COUNT*2;
     rowCount=GRID_ARRAY_ROW_COUNT;
 
@@ -38,12 +40,8 @@ ParallelWorld::~ParallelWorld()
 
  void  ParallelWorld::initTargets()
 {
-    QListIterator <PBTargetPosition> iListPos(listPbTargetPos);
-     while(iListPos.hasNext())
-     {
-         PBTargetPosition targetPosInList=iListPos.next();
 
-     }
+
 
  }
 
@@ -176,6 +174,11 @@ bool ParallelWorld::isInWater(const double &longitudeInDegree,const double &lati
  {
      monitor_ProbeAck.set_commandmessagessent(monitor_ProbeAck.commandmessagessent()+messageCount);
      monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
+ }
+
+ QList<Target *> ParallelWorld::getListTargets() const
+ {
+     return listTargets;
  }
 
 

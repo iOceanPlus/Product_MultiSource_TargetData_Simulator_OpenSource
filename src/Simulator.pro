@@ -41,7 +41,9 @@ SOURCES += main.cpp \
     target.cpp \
     ProtoCPP/Monitor.pb.cc \
     posdevice.cpp \
-    simulator.cpp
+    simulator.cpp \
+    DataChannel.cpp \
+    DataSource.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -72,7 +74,9 @@ HEADERS += \
     target.h \
     ProtoCPP/Monitor.pb.h \
     posdevice.h \
-    simulator.h
+    simulator.h \
+    DataChannel.h \
+    DataSource.h
 
 DISTFILES += \
     param.txt \
