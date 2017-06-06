@@ -72,4 +72,6 @@ HEADERS += \
 
 DISTFILES += \
     param.txt \
-    BaseClass_IOMessages/param_mq.txt
+    BaseClass_IOMessages/param_mq.txt \
+    ../README.md \
+    ../LICENSE

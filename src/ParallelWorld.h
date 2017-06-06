@@ -23,12 +23,6 @@ struct GridIndex
     qint32 colIndex;
 };
 
-/*********************
- * 说明：类中存储了所有栅格的指针，以及每个target位于哪个栅格中。
- * 在栅格类SpatialGrid中，记录了位于该栅格中的每个目标的指针。
- * ParallelWorld类可以根据MMSI查出哪个SpatialGrid中有这艘船，然后再去这个SpatialGrid中获取这艘船的指针 *
- *
- * ********************/
 class ParallelWorld : public QObject
 {
     Q_OBJECT
@@ -38,7 +32,6 @@ public:
     ~ParallelWorld();
 
 signals:
-     //Connect this signal with that of Association only if this is the chosen world
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 
 private slots:
@@ -57,6 +50,9 @@ private:
 
     /****************************************Grids related methods***********************************/
     void initiateWorldGrids();
+    bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
+    bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
+                      qint32 &rowIndex, qint32 &colIndex) const;
 
     bool isWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //栅格
 
