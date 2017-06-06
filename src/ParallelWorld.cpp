@@ -38,8 +38,33 @@ ParallelWorld::~ParallelWorld()
     }
 }
 
+void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
+{
+
+
+
+
+
+
+
+
+
+}
+
  void  ParallelWorld::initTargets()
 {
+
+
+
+
+
+ }
+
+ void ParallelWorld::initDataSources()
+{
+
+
+
 
 
 

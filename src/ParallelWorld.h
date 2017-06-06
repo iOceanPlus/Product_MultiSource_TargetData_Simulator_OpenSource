@@ -11,6 +11,8 @@
 #include "Target.pb.h"
 #include "Monitor.pb.h"
 #include "IOMessages.h"
+#include "DataChannel.h"
+#include "DataSource.h"
 
 using namespace std;
 
@@ -38,26 +40,25 @@ signals:
 
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
+    void slotTimerEventMeasureAndUpdateTargetsPos();
 private:
     void initTargets();
-
-    void updateMonitorProbeAckWithOneMessageRcvd();
-    void updateMonitorProbeAckWithOneMessageSent();
-    void updateMonitorProbeAckWithMessagesSent(qint32 messageCount);
-
-    void sendPBTargetToMQ(const PBTarget &pbTargetToSend);
-    void sendPBTargetToMQ(const PBTargetPosition &pbTargetPosToSend);
-    void sendPBTargetToMQ(qint32 targetID);
-
-
-    QList <Target*> listTargets;
-
-
+    void initDataSources();
     /****************************************Grids related methods***********************************/
     void initiateWaterGrids();
     bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
     bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                       qint32 &rowIndex, qint32 &colIndex) const;
+
+    void updateMonitorProbeAckWithOneMessageRcvd();
+    void updateMonitorProbeAckWithOneMessageSent();
+    void updateMonitorProbeAckWithMessagesSent(qint32 messageCount);
+
+    void sendPBTargetToMQ(const PBTargetPosition &pbTargetPosToSend);
+
+    QList <Target*> listTargets;
+    QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
+    QMap <PB_Enum_TargetInfo_Type,DataSource*> mapInfoTypeDataSources;
 
     bool isWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //栅格
 

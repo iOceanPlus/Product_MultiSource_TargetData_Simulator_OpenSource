@@ -8,9 +8,8 @@ DataChannel::DataChannel(ParallelWorld *world, const PB_Enum_TargetInfo_Type &ta
     this->world=world;
 }
 
-QList <PBTargetPosition> DataChannel::fetchDataFromPosDevices()
+bool DataChannel::fetchDataFromPosDevicesIntoChannel()
 {
-    QList <PBTargetPosition> listPBTargetPosGot;
     QListIterator <Target*> iListTarget(world->getListTargets());
     while(iListTarget.hasNext())
     {
@@ -22,8 +21,14 @@ QList <PBTargetPosition> DataChannel::fetchDataFromPosDevices()
         {
             PBTargetPosition pbTargetPosMeasured= target->getDevice(targetInfoType)->measurePBTargetPosAndUpdateTarget(isMeasured);
             if(isMeasured)
-                listPBTargetPosGot.append(pbTargetPosMeasured);
+                listPBTargetPosInChannel.append(pbTargetPosMeasured);
         }
     }
-    return listPBTargetPosGot;
+    return true;
+}
+
+bool DataChannel::clearListPBTargetPosInChannel()
+{
+    listPBTargetPosInChannel.clear();
+    return true;
 }
