@@ -9,8 +9,7 @@
 #include "target.h"
 using namespace std;
 
-ParallelWorld::ParallelWorld(QMap<quint64, qint32> mapClockIDSecondsAhead, QMap<quint64, qint32> mapClockIDSecondsAheadStddev,
-                             qint32 secondsWindowSizeOfTargetPos,  bool paramIsChosenWorld, bool paramFiltOutlierTimeRecord, QMutex *mutex,  QObject *parent) :
+ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
                             QObject(parent)
 {
     colCount=GRID_ARRAY_ROW_COUNT*2;
@@ -23,14 +22,21 @@ ParallelWorld::ParallelWorld(QMap<quint64, qint32> mapClockIDSecondsAhead, QMap<
     pbCoderDecoder=new PBCoderDecoder(SOFTWARE_NAME,this);
 
     initiateWaterGrids();
+    initTargets();
 }
 
 ParallelWorld::~ParallelWorld()
 {
-
+    QListIterator <Target*> iListTargets(listTargets);
+    while (iListTargets.hasNext())
+    {
+        Target *target=iListTargets.next();
+        if(target)
+            delete target;
+    }
 }
 
- void  ParallelWorld::initTargets(QList <PBTargetPosition> listPbTargetPos)
+ void  ParallelWorld::initTargets()
 {
     QListIterator <PBTargetPosition> iListPos(listPbTargetPos);
      while(iListPos.hasNext())

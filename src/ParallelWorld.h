@@ -27,8 +27,7 @@ class ParallelWorld : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParallelWorld(QMap <quint64,qint32> mapClockIDSecondsAhead, QMap <quint64,qint32> mapClockIDSecondsAheadStddev,
-                            qint32 secondsWindowSizeOfTargetPos, bool paramIsChosenWorld, bool paramFiltOutlierTimeRecord,QMutex *mutex, QObject *parent = 0);
+    explicit ParallelWorld(QMutex *mutex, QObject *parent = 0);
     ~ParallelWorld();
     bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
 
@@ -38,7 +37,7 @@ signals:
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
 private:
-    void initTargets(QList <PBTargetPosition> listPbTargetPos);
+    void initTargets();
 
     void updateMonitorProbeAckWithOneMessageRcvd();
     void updateMonitorProbeAckWithOneMessageSent();
@@ -47,6 +46,10 @@ private:
     void sendPBTargetToMQ(const PBTarget &pbTargetToSend);
     void sendPBTargetToMQ(const PBTargetPosition &pbTargetPosToSend);
     void sendPBTargetToMQ(qint32 targetID);
+
+
+    QList <Target*> listTargets;
+
 
     /****************************************Grids related methods***********************************/
     void initiateWaterGrids();
@@ -60,7 +63,6 @@ private:
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;
 
     PBMonitor_ProbeAck monitor_ProbeAck;
-
     QMutex *mutex;
 };
 

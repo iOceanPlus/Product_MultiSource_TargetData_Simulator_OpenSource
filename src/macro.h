@@ -4,7 +4,7 @@
 #include "QObject"
 #include "CommonEnum.pb.h"
 
-extern uint ExternV_ShipCount;
+extern uint ExternV_TargetCount;
 
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool ExternV_IS_DEBUG_MODE;
