@@ -22,7 +22,7 @@ ParallelWorld::ParallelWorld(QMap<quint64, qint32> mapClockIDSecondsAhead, QMap<
     //pbCoderDecoderForAggregatedPBToSend=new PBCoderDecoder(SOFTWARE_NAME,this);
     pbCoderDecoder=new PBCoderDecoder(SOFTWARE_NAME,this);
 
-    initiateWorldGrids();
+    initiateWaterGrids();
 }
 
 ParallelWorld::~ParallelWorld()
@@ -30,7 +30,7 @@ ParallelWorld::~ParallelWorld()
 
 }
 
- void  ParallelWorld::slotPutInitialTargetsToGrid(QList <PBTargetPosition> listPbTargetPos)
+ void  ParallelWorld::initTargets(QList <PBTargetPosition> listPbTargetPos)
 {
     QListIterator <PBTargetPosition> iListPos(listPbTargetPos);
      while(iListPos.hasNext())
@@ -126,7 +126,7 @@ ParallelWorld::~ParallelWorld()
      }
  }
 
- void ParallelWorld::initiateWorldGrids()
+ void ParallelWorld::initiateWaterGrids()
  {
      for(qint32 rowIndex=0;rowIndex<(qint32)rowCount;rowIndex++)
      {

@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     macro.cpp \
     ParallelWorld.cpp \
     target.cpp \
-    ProtoCPP/Monitor.pb.cc
+    ProtoCPP/Monitor.pb.cc \
+    posdevice.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -68,7 +69,8 @@ HEADERS += \
     macro.h \
     ParallelWorld.h \
     target.h \
-    ProtoCPP/Monitor.pb.h
+    ProtoCPP/Monitor.pb.h \
+    posdevice.h
 
 DISTFILES += \
     param.txt \

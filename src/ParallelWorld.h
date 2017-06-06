@@ -30,15 +30,15 @@ public:
     explicit ParallelWorld(QMap <quint64,qint32> mapClockIDSecondsAhead, QMap <quint64,qint32> mapClockIDSecondsAheadStddev,
                             qint32 secondsWindowSizeOfTargetPos, bool paramIsChosenWorld, bool paramFiltOutlierTimeRecord,QMutex *mutex, QObject *parent = 0);
     ~ParallelWorld();
+    bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 
 private slots:
-    void slotPutInitialTargetsToGrid(QList <PBTargetPosition> listPbTargetPos);
-
     void slotPBMonitor(PBMonitor pbMonitor); //
 private:
+    void initTargets(QList <PBTargetPosition> listPbTargetPos);
 
     void updateMonitorProbeAckWithOneMessageRcvd();
     void updateMonitorProbeAckWithOneMessageSent();
@@ -49,7 +49,7 @@ private:
     void sendPBTargetToMQ(qint32 targetID);
 
     /****************************************Grids related methods***********************************/
-    void initiateWorldGrids();
+    void initiateWaterGrids();
     bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
     bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                       qint32 &rowIndex, qint32 &colIndex) const;

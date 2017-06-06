@@ -5,29 +5,38 @@
 #include <QMultiMap>
 #include "PBCoderDecoder.h"
 #include "ContainerOfThreadMQTopicPublish.h"
+#include "posdevice.h"
 
+const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
 class ParallelWorld;
 
 class Target
 {
 public:
-    explicit Target(PBTargetPosition pbTargetPos, ParallelWorld *parallelWorld, qint32 secondsWindowSizeOfTargetPos);
+    explicit Target(const PBTargetPosition &pbTargetPosOrig, ParallelWorld *parallelWorld, const QDateTime &posOrigDateTime);
     ~Target();
 
 public:
-    //获得deltaSeconds后的船位置等
-    static PBAISDynamic getReckonedAISDynamic(const PBAISDynamic &pbAISDynamic,
-                                              const qint32 &deltaSecondsLater, double &stdDevDistance);
-    const PBTargetPosition& getConstPbTargetPosFusedLast() const;
-    PBTargetPosition &getPbTargetPosFusedLastRef();
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
+    PBTargetPosition getReckonedPbTargetPos(const QDateTime &dtToReckon, bool &isOnLand) const;
+
+    /************Update the pbTargetPosOrig when the target meet land **************/
+    void  updateTargetPosCurrentAndOrigIfMeetLand();
+
+    PBTargetPosition updateAndGetPbTargetPosCurrent();
 
 private:
+    QList <PosDevice> listPosDevice;
 
-    PBTargetPosition pbTargetPosFusedLast;
-    PBCoderDecoder *pbCoderDecoder;
+    /*******
+     * Periodically update pbTargetPosCurrent, assuming Great Circle journey from pbTargetPosOrig.
+     * When the target meets land, change the pbTargetPosOrig,  pbTargetPosCurrent and posTime.
+********/
+    PBTargetPosition pbTargetPosOrig, pbTargetPosCurrent;
+    QDateTime posOrigDateTime, posCurrentDateTime;
+
+    //PBCoderDecoder *pbCoderDecoder;
     ParallelWorld *parallelWorld;
-
 };
 
 #endif // TARGET_H
