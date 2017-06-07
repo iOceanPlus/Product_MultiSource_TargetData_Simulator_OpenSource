@@ -7,28 +7,31 @@
 #include "IOMessages.h"
 
 class ParallelWorld;
-struct Struct_TransmitQuality
+struct Struct_TransmissionQuality
 {
     PB_Enum_TargetInfo_Type infoType;
-    double meanLatencyInSeconds;
-    double stdDevLatencyInSeconds;
-    quint8 packetLossPercentage;
+    qint32 meanTransmissionLatencyInMiliSeconds; //The latency of transmission
+    qint32 stdDevTransmissionLatencyInMiliSeconds;
+    qint32 meanTimestampErrorInMiliSeconds; //Error in the timestamp of PBTargetPosition
+    qint32 stdDevTimestampErrorInMiliSeconds; //
+    quint8 packetLossPercentage; //When data souce fetch data from Data Channel, some packets are lost
 };
+
 
 class DataSource : public QObject
 {
     Q_OBJECT
 public:
-    explicit DataSource(ParallelWorld *world,const QMap <PB_Enum_TargetInfo_Type,Struct_TransmitQuality>  &mapInfoTypeTransmitQuality,
+    explicit DataSource(ParallelWorld *world,const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
                         QObject *parent = 0);
-    QList <StructDataAndKey> fetchDataFromChannels();
+    bool fetchDataFromChannelsAndSendToMQ();
 
 signals:
 
 public slots:
 
 private:
-    QMap <PB_Enum_TargetInfo_Type,Struct_TransmitQuality> mapInfoTypeTransmitQuality;
+    QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
     ParallelWorld *world;
 };
 

@@ -12,27 +12,34 @@ using namespace std;
 ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
                             QObject(parent)
 {
-    qsrand(QDateTime::currentDateTime().time().msec());
+    qsrand(QDateTime::currentDateTime().toTime_t());
 
     colCount=GRID_ARRAY_ROW_COUNT*2;
     rowCount=GRID_ARRAY_ROW_COUNT;
-
 
     this->mutex=mutex;
 
     //pbCoderDecoderForAggregatedPBToSend=new PBCoderDecoder(SOFTWARE_NAME,this);
     pbCoderDecoder=new PBCoderDecoder(SOFTWARE_NAME,this);
 
-    initiateWaterGrids();
+    parseParamFileAndInitMembers();
+}
+
+void ParallelWorld::parseParamFileAndInitMembers()
+{
+
+
+    initWaterGrids();
     initTargets();
 }
 
 ParallelWorld::~ParallelWorld()
 {
-    QListIterator <Target*> iListTargets(listTargets);
-    while (iListTargets.hasNext())
+    QHashIterator <qint32, Target*> iHashTargets(hashIDTarget);
+    while (iHashTargets.hasNext())
     {
-        Target *target=iListTargets.next();
+       iHashTargets.next();
+       Target *target=iHashTargets.value();
         if(target)
             delete target;
     }
@@ -155,7 +162,7 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
      }
  }
 
- void ParallelWorld::initiateWaterGrids()
+ void ParallelWorld::initWaterGrids()
  {
      for(qint32 rowIndex=0;rowIndex<(qint32)rowCount;rowIndex++)
      {
@@ -201,9 +208,8 @@ bool ParallelWorld::isInWater(const double &longitudeInDegree,const double &lati
      monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
  }
 
- QList<Target *> ParallelWorld::getListTargets() const
+ QHash<qint32, Target *> ParallelWorld::getHashIDTarget() const
  {
-     return listTargets;
+     return hashIDTarget;
  }
-
 

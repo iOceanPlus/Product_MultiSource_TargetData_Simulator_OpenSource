@@ -10,10 +10,11 @@ DataChannel::DataChannel(ParallelWorld *world, const PB_Enum_TargetInfo_Type &ta
 
 bool DataChannel::fetchDataFromPosDevicesIntoChannel()
 {
-    QListIterator <Target*> iListTarget(world->getListTargets());
-    while(iListTarget.hasNext())
+    QHashIterator <qint32, Target*> iHashTarget(world->getHashIDTarget());
+    while(iHashTarget.hasNext())
     {
-        Target *target=iListTarget.next();
+        iHashTarget.next();
+        Target *target=iHashTarget.value();
 
         bool isMeasured;
         PosDevice *posDevice= target->getDevice(targetInfoType);

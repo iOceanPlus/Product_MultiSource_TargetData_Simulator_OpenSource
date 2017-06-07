@@ -33,7 +33,7 @@ public:
     ~ParallelWorld();
     bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
 
-    QList<Target *> getListTargets() const;
+    QHash<qint32, Target *> getHashIDTarget() const;
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
@@ -42,10 +42,14 @@ private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
     void slotTimerEventMeasureAndUpdateTargetsPos();
 private:
+    void parseParamFileAndInitMembers();
+
     void initTargets();
     void initDataSources();
+    void initDataChannels();
+    void initWaterGrids();
+
     /****************************************Grids related methods***********************************/
-    void initiateWaterGrids();
     bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
     bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                       qint32 &rowIndex, qint32 &colIndex) const;
@@ -56,7 +60,7 @@ private:
 
     void sendPBTargetToMQ(const PBTargetPosition &pbTargetPosToSend);
 
-    QList <Target*> listTargets;
+    QHash <qint32, Target*> hashIDTarget;
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
     QMap <PB_Enum_TargetInfo_Type,DataSource*> mapInfoTypeDataSources;
 
