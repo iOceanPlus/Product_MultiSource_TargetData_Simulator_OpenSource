@@ -27,10 +27,15 @@ public:
     PosDevice* getDevice(const PB_Enum_TargetInfo_Type &infoType);
     const Struct_PosDeviceInfo getDeviceInfo(const PB_Enum_TargetInfo_Type &infoType) const;
 
-private:
     /************Update the pbTargetPosOrig when the target meet land **************/
     void  updateTargetPosCurrentAndOrigIfMeetLand();
 
+    void setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet);
+    void  clearInvalidFields(PBTargetPosition &pbTargetPos);
+    void set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPosition &pbTargetPosToSet);
+
+
+private:
     QHash <PB_Enum_TargetInfo_Type, PosDevice*> hashTargetInfoTypePosDevice;
 
     /*******

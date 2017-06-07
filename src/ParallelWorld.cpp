@@ -168,11 +168,53 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 
  void  ParallelWorld::initTargetsAndDataSources()
 {
+     QFile paramJsonFile(ship_FileName);
+     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
+         qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
+         exit(3);
+         return ;
+     }
+
+     qint32 targetID=0;
+     while (!paramJsonFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
+     {
+         targetID++; //Start from 1
+
+         QList <QByteArray> listField = paramJsonFile.readLine().trimmed().split(',');
+         if(listField.size()!=6)
+         {
+             qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
+             exit(4);
+             break;
+         }
+         qint32 longitudeX60W=listField.at(1).toInt();
+         qint32 latitudeX60W=listField.at(2).toInt();
+         qint32 cogX10=listField.at(3).toInt();
+         qint32 sogX10=listField.at(4).toInt();
+
+        PBTargetPosition pbTargetPosOrig;
+        pbTargetPosOrig.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+        pbTargetPosOrig.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
+        pbTargetPosOrig.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
+        pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(cogX10);
+        pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(sogX10);
+        pbTargetPosOrig.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
+        pbTargetPosOrig.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
+        pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
+        pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+
+        pbTargetPosOrig.set_beidouid(EV_TargetIDType_BeidouID*ExternV_TargetCount+targetID);
+        pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
+        pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
+
+        QHash <PB_Enum_TargetInfo_Type, PosDevice*> hashTargetInfoTypePosDevice;
+
+        Target *target=new Target()
 
 
 
 
-
+     }
  }
 
  void ParallelWorld::initDataChannels()

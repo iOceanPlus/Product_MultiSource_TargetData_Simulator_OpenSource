@@ -25,6 +25,10 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
         isMeasureSuccessful=true;
         lastSampleTime=currentTime;
         PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent();
+        pbTargetPos.set_enum_targetinfotype(infoType);
+        targetInstalled->set_enum_targetidorigAndIDType_AccordingToInfoType(pbTargetPos);
+        targetInstalled->clearInvalidFields(pbTargetPos);
+
         addDevToPos(pbTargetPos);
         return pbTargetPos;
     }
