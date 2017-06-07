@@ -79,7 +79,7 @@ HEADERS += \
     PosDevice.h
 
 DISTFILES += \
-    param.txt \
     BaseClass_IOMessages/param_mq.txt \
     ../README.md \
-    ../LICENSE
+    ../LICENSE \
+    param.json
