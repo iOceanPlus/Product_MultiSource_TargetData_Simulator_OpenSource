@@ -51,12 +51,94 @@ void ParallelWorld::parseParamFileAndInitMembers()
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice"))
     {
         QJsonArray arrayDevices=jsonObjcet.value("PosDevice").toArray();
-
-
+        for(QJsonArray::const_iterator iArray=arrayDevices.constBegin(); iArray!=arrayDevices.constEnd();iArray++)
+        {
+            QJsonObject jsonObjInArray= (*iArray).toObject();
+            if(checkJsonObjectAndOutPutValue(jsonObjInArray,"TargetInfo_Type")&&
+                    checkJsonObjectAndOutPutValue(jsonObjInArray,"PositioningDevInMeters")&&
+                    checkJsonObjectAndOutPutValue(jsonObjInArray,"SampleMilliSeconds"))
+            {
+                PB_Enum_TargetInfo_Type infoType=(PB_Enum_TargetInfo_Type)jsonObjInArray.value("TargetInfo_Type").toInt(0);
+                Struct_PosDeviceInfo deviceInfo;
+                deviceInfo.infoType=infoType;
+                deviceInfo.positioningDevInMeters=jsonObjInArray.value("PositioningDevInMeters").toDouble(0);
+                deviceInfo.sampleMilliSeconds=jsonObjInArray.value("SampleMilliSeconds").toInt(10000);
+                mapInfoTypePosDeviceInfo.insert(infoType, deviceInfo);
+            }
+            else
+                qDebug()<<"Fail to parse jsonObject:"<<jsonObjInArray;
+        }
     }
 
+    QMapIterator <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> iMapInfoTypePosDeviceInfo(mapInfoTypePosDeviceInfo);
+    while(iMapInfoTypePosDeviceInfo.hasNext())
+    {
+        iMapInfoTypePosDeviceInfo.next();
+        DataChannel *dataChannel=new DataChannel(this,iMapInfoTypePosDeviceInfo.key(),this);
+        mapInfoTypeDataChannels.insert(iMapInfoTypePosDeviceInfo.key(),dataChannel);
+    }
 
+    /****************************** Start  the iteration  of all Data sources********************************/
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"DataSources"))
+    {
+        QJsonArray arrayDataSources=jsonObjcet.value("DataSources").toArray();
 
+        /****************************** iterate  Data source one by one***************************************/
+        for(QJsonArray::const_iterator iArray=arrayDataSources.constBegin(); iArray!=arrayDataSources.constEnd();iArray++)
+        {
+            QJsonObject jsonDataSourceObjInArray= (*iArray).toObject(); //One data source
+            if(checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"TargetInfo_Source")&&
+                    checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"SourceInfo"))
+            {
+                qint32 dataSourceID=jsonDataSourceObjInArray.value("TargetInfo_Source").toInt(0);
+                QJsonArray arraySourceInfo=jsonDataSourceObjInArray.value("SourceInfo").toArray();
+                QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  mapInfoTypeTransmitQualityOfOneDataSource;
+
+                /****************************** iterate  sourceInfo of one Data source one by one*******************************/
+                for(QJsonArray::const_iterator iArraySourceInfo=arraySourceInfo.constBegin(); iArraySourceInfo!=arraySourceInfo.constEnd();iArraySourceInfo++)
+                {
+                    QJsonObject jsonSourceInfoObjInArray= (*iArraySourceInfo).toObject(); //One  source info
+                    if(     checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"TargetInfo_Type")&&
+                            checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"ObservePercentage")&&
+                            checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"meanTransmissionLatencyInMiliSeconds")&&
+                            checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"stdDevTransmissionLatencyInMiliSeconds")&&
+                            checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"meanTimestampErrorInMiliSeconds")&&
+                            checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"stdDevTimestampErrorInMiliSeconds")&&
+                            checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"packetLossPercentage"))
+                    {
+                        PB_Enum_TargetInfo_Type infoType=(PB_Enum_TargetInfo_Type)jsonDataSourceObjInArray.value("TargetInfo_Type").toInt(0);
+                        if(!mapInfoTypePosDeviceInfo.contains(infoType))
+                        {
+                            qDebug()<<"This infoType is not configured in PosDevice of param.json, ignored: "<<infoType;
+                            continue;
+                        }
+                        Struct_TransmissionQuality transQuality;
+                        transQuality.infoType=infoType;
+                        transQuality.percentageTargetsObserved=jsonDataSourceObjInArray.value("ObservePercentage").toInt(100);
+                        transQuality.meanTransmissionLatencyInMiliSeconds=jsonDataSourceObjInArray.value("meanTransmissionLatencyInMiliSeconds").toInt(0);
+                        transQuality.stdDevTransmissionLatencyInMiliSeconds=jsonDataSourceObjInArray.value("stdDevTransmissionLatencyInMiliSeconds").toInt(0);
+                        transQuality.meanTimestampErrorInMiliSeconds=jsonDataSourceObjInArray.value("meanTimestampErrorInMiliSeconds").toInt(0);
+                        transQuality.stdDevTimestampErrorInMiliSeconds=jsonDataSourceObjInArray.value("stdDevTimestampErrorInMiliSeconds").toInt(0);
+                        transQuality.packetLossPercentage=jsonDataSourceObjInArray.value("packetLossPercentage").toInt(0);
+                        mapInfoTypeTransmitQualityOfOneDataSource.insert(infoType, transQuality);
+                    }
+                    else
+                        qDebug()<<"Fail to parse jsonObject of SourceInfo in One Data Source:"<<jsonSourceInfoObjInArray;
+                }
+                /****************************** end the iteration  of all sourceInfos of one Data source***************/
+               if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
+                    mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,
+                                                 new DataSource(this,mapInfoTypeTransmitQualityOfOneDataSource,this));
+            }
+            else //
+                qDebug()<<"Fail to parse jsonObject of One Data Source:"<<jsonDataSourceObjInArray;
+
+            /****************************** end of the iteration  of one Data source********************************/
+        }
+        /****************************** end  the iteration  of ALL Data sources****************************************/
+    }
+    else
+        qDebug()<<"Fail to parse jsonObject of Data Sources:"<<jsonObjcet; //No data sources in the json
 
 
     initWaterGrids();

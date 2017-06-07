@@ -7,8 +7,9 @@
 #include <QDebug>
 #include <QtMath>
 
-Target::Target(const PBTargetPosition &pbTargetPos, ParallelWorld *paramParallelWorld, const QDateTime &posDateTime)
+Target::Target(const QHash<PB_Enum_TargetInfo_Type, PosDevice *> &hashTargetInfoTypePosDevice, const PBTargetPosition &pbTargetPos, ParallelWorld *paramParallelWorld, const QDateTime &posDateTime)
 {
+    this->hashTargetInfoTypePosDevice=hashTargetInfoTypePosDevice;
     this->pbTargetPosOrig.CopyFrom(pbTargetPos);
     this->parallelWorld=paramParallelWorld;
     this->posOrigDateTime=posDateTime;

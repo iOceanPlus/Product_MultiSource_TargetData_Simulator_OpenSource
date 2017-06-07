@@ -67,7 +67,7 @@ private:
 
     QHash <qint32, Target*> hashIDTarget;
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
-    QMap <PB_Enum_TargetInfo_Type,DataSource*> mapInfoTypeDataSources;
+    QMap <PB_Enum_TargetInfo_Source,DataSource*> mapInfoSourceDataSources;
     QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> mapInfoTypePosDeviceInfo;
 
     bool isWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //栅格
