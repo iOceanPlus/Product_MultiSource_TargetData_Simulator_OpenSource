@@ -47,8 +47,7 @@ private slots:
 private:
     void parseParamFileAndInitMembers();
 
-    void initTargets();
-    void initDataSources();
+    void initTargetsAndDataSources();
     void initDataChannels();
     void initWaterGrids();
 
@@ -74,6 +73,7 @@ private:
 
     quint32 colCount,rowCount;
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;
+    QString waterGridsFileName,ship_FileName;
 
     PBMonitor_ProbeAck monitor_ProbeAck;
     QMutex *mutex;
