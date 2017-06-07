@@ -49,6 +49,8 @@ private:
     void initDataChannels();
     void initWaterGrids();
 
+    bool checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key);
+
     /****************************************Grids related methods***********************************/
     bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
     bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,

@@ -5,6 +5,10 @@
 #include <QtMath>
 #include <exception>
 #include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
 #include "macro.h"
 #include "target.h"
 using namespace std;
@@ -27,10 +31,29 @@ ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
 
 void ParallelWorld::parseParamFileAndInitMembers()
 {
+    QFile paramJsonFile(QStringLiteral("param.json"));
+    if (!paramJsonFile.open(QIODevice::ReadOnly)) {
+        qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
+        exit(1);
+        return ;
+    }
+    QByteArray jsonData = paramJsonFile.readAll();
+    QJsonDocument jsonDoc( QJsonDocument::fromJson(jsonData));
+    QJsonObject jsonObjcet=jsonDoc.object();
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"ISDebugMode"))
+    {
+        ExternV_IS_DEBUG_MODE=jsonObjcet.value("ISDebugMode").toBool(false);
+    }
+
+
+    qDebug()<<jsonObjcet.value("people").toArray().at(0).toObject().value("firstName").toString();
+
 
 
     initWaterGrids();
     initTargets();
+    initDataChannels();
+    initDataSources();
 }
 
 ParallelWorld::~ParallelWorld()
@@ -76,6 +99,24 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 
 
  }
+
+ void ParallelWorld::initDataChannels()
+ {
+
+ }
+
+
+ bool ParallelWorld::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key)
+{
+     if(jsonObject.contains(key))
+     {
+         qDebug()<<key<<":"<<jsonObject.value(key);
+         return true;
+     }
+     else
+         return false;
+}
+
 
  bool ParallelWorld::getLocation(quint32 rowIndex, quint32 colIndex,
                           double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree)
