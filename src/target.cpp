@@ -106,7 +106,7 @@ void  Target::setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet
     }
 }
 
-void Target::clearInvalidFields(PBTargetPosition &pbTargetPos)
+void Target::clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetPos)
 {
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
     {

@@ -31,7 +31,7 @@ public:
     void  updateTargetPosCurrentAndOrigIfMeetLand();
 
     void setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet);
-    void  clearInvalidFields(PBTargetPosition &pbTargetPos);
+    void  clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetPos);
     void set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPosition &pbTargetPosToSet);
 
 
