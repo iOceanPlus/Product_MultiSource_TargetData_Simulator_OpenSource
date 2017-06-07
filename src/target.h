@@ -24,6 +24,7 @@ public:
 
     QHash<PB_Enum_TargetInfo_Type, PosDevice *> getHashTargetInfoTypePosDevice() const;
     PosDevice* getDevice(const PB_Enum_TargetInfo_Type &infoType);
+    const Struct_PosDeviceInfo getDeviceInfo(const PB_Enum_TargetInfo_Type &infoType) const;
 
 private:
     /************Update the pbTargetPosOrig when the target meet land **************/

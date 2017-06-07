@@ -13,6 +13,7 @@
 #include "IOMessages.h"
 #include "DataChannel.h"
 #include "DataSource.h"
+#include "PosDevice.h"
 
 using namespace std;
 
@@ -34,6 +35,8 @@ public:
     bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
 
     QHash<qint32, Target *> getHashIDTarget() const;
+
+    QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> getMapInfoTypePosDeviceInfo() const;
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
@@ -65,6 +68,7 @@ private:
     QHash <qint32, Target*> hashIDTarget;
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
     QMap <PB_Enum_TargetInfo_Type,DataSource*> mapInfoTypeDataSources;
+    QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> mapInfoTypePosDeviceInfo;
 
     bool isWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //栅格
 

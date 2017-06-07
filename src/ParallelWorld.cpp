@@ -40,13 +40,22 @@ void ParallelWorld::parseParamFileAndInitMembers()
     QByteArray jsonData = paramJsonFile.readAll();
     QJsonDocument jsonDoc( QJsonDocument::fromJson(jsonData));
     QJsonObject jsonObjcet=jsonDoc.object();
+
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"ISDebugMode"))
+        ExternV_IS_DEBUG_MODE=jsonObjcet.value("ISDebugMode").toBool(ExternV_IS_DEBUG_MODE);
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"TargetCount"))
+        ExternV_TargetCount=jsonObjcet.value("TargetCount").toInt(ExternV_TargetCount);
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT"))
+        ExternV_SECONDS_CHECK_TARGET_COUNT=jsonObjcet.value("SECONDS_CHECK_TARGET_COUNT").toInt(ExternV_SECONDS_CHECK_TARGET_COUNT);
+
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice"))
     {
-        ExternV_IS_DEBUG_MODE=jsonObjcet.value("ISDebugMode").toBool(false);
+        QJsonArray arrayDevices=jsonObjcet.value("PosDevice").toArray();
+
+
     }
 
 
-    qDebug()<<jsonObjcet.value("people").toArray().at(0).toObject().value("firstName").toString();
 
 
 
@@ -247,6 +256,11 @@ bool ParallelWorld::isInWater(const double &longitudeInDegree,const double &lati
  {
      monitor_ProbeAck.set_commandmessagessent(monitor_ProbeAck.commandmessagessent()+messageCount);
      monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
+ }
+
+ QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> ParallelWorld::getMapInfoTypePosDeviceInfo() const
+ {
+     return mapInfoTypePosDeviceInfo;
  }
 
  QHash<qint32, Target *> ParallelWorld::getHashIDTarget() const

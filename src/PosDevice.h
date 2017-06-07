@@ -6,23 +6,28 @@
 #include <QObject>
 #include <QDateTime>
 class Target;
+class ParallelWorld;
+
+struct Struct_PosDeviceInfo
+{
+    PB_Enum_TargetInfo_Type infoType;
+    qint64 sampleMilliSeconds;
+    double positioningDevInMeters;
+};
 
 /****** Positioning devices like AIS, radar, beidou, etc. *******/
 class PosDevice
 {
 public:
-    PosDevice(const PB_Enum_TargetInfo_Type   &targetInfoType, Target * const targetInstalled, qint64 sampleMilliSeconds,
-                               QDateTime lastDeviceSampleTime, const double &positioningDevInMeters=10);
+    PosDevice(const QDateTime &lastDeviceSampleTime, Target * const target, const PB_Enum_TargetInfo_Type &infoType);
     /*** If the time since last measurement is no less than sampling interval, the measure will be successful*****/
     PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful);
     bool addDevToPos(PBTargetPosition &pbTargetPos);
 
-private:
-     PB_Enum_TargetInfo_Type   targetInfoType;
-     Target *targetInstalled;
-     double positioningDevInMeters;
-     qint64 sampleMilliSeconds;
-     QDateTime lastSampleTime;
+private:    
+    PB_Enum_TargetInfo_Type infoType;
+    Target *targetInstalled;
+    QDateTime lastSampleTime;
 };
 
 #endif // POSDEVICE_H

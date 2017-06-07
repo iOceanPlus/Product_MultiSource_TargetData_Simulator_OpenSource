@@ -116,6 +116,11 @@ PosDevice* Target::getDevice(const PB_Enum_TargetInfo_Type &infoType)
         return hashTargetInfoTypePosDevice.value(infoType);
 }
 
+const Struct_PosDeviceInfo Target::getDeviceInfo(const PB_Enum_TargetInfo_Type &infoType) const
+{
+    return parallelWorld->getMapInfoTypePosDeviceInfo().value(infoType);
+}
+
 quint64 Target::getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig)
 {
     quint64 targetIDToReturn=targetID_Type;

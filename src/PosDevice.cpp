@@ -4,21 +4,18 @@
 #include "target.h"
 #include "macro.h"
 
-PosDevice::PosDevice(const PB_Enum_TargetInfo_Type   &targetInfoType, Target * const targetInstalled,
-                     qint64 sampleMilliSeconds, QDateTime lastDeviceSampleTime, const double &positioningDevInMeters)
+PosDevice::PosDevice(const QDateTime &lastDeviceSampleTime, Target * const target, const PB_Enum_TargetInfo_Type &infoType)
 {
-    this->targetInfoType=targetInfoType;
-    this->targetInstalled=targetInstalled;
-    this->sampleMilliSeconds=sampleMilliSeconds;
-    this->positioningDevInMeters=positioningDevInMeters;
+    this->targetInstalled=target;
     this->lastSampleTime= lastDeviceSampleTime;
+    this->infoType=infoType;
 }
 
 PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful)
 {
     QDateTime currentTime=QDateTime::currentDateTime();
     qint64 msecondsElapsed=lastSampleTime.msecsTo(currentTime);
-    if(msecondsElapsed<sampleMilliSeconds)
+    if(msecondsElapsed<targetInstalled->getDeviceInfo(infoType).sampleMilliSeconds)
     {
         isMeasureSuccessful=false;
         return PBTargetPosition::default_instance();
@@ -35,7 +32,7 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
 
 bool  PosDevice::addDevToPos(PBTargetPosition &pbTargetPos)
 {
-    double distance=positioningDevInMeters*(qrand()%10000/10000.0);
+    double distance=targetInstalled->getDeviceInfo(infoType).positioningDevInMeters*(qrand()%10000/10000.0);
     double azimuth=qrand()%3600/3600.0;
 
     QGeoCoordinate geo(pbTargetPos.aisdynamic().intlatitudex60w()/AISPosDivider,pbTargetPos.aisdynamic().intlongitudex60w()/AISPosDivider);
