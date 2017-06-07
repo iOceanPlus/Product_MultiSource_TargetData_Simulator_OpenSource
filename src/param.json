@@ -2,6 +2,30 @@
     "ISDebugMode":"TRUE",
     "TargetCount": 30000,
     "SECONDS_CHECK_TARGET_COUNT" : 10,
+    "PosDevice":
+    [
+        {
+            "TargetInfo_Type":1,
+            "PositioningDevInMeters":10,
+            "SampleMilliSeconds":30000
+        },
+        {
+            "TargetInfo_Type":2,
+            "PositioningDevInMeters":10,
+            "SampleMilliSeconds":10000
+        },
+        {
+            "TargetInfo_Type":4,
+            "PositioningDevInMeters":10,
+            "SampleMilliSeconds":10000
+        },
+        {
+            "TargetInfo_Type":5,
+            "PositioningDevInMeters":10,
+            "SampleMilliSeconds":12000
+        }
+    ],
+
     "Comment":"One data source may contain multiple data channels, each channel fetch data from one type of data.",
     "CommentOfSourceAndInfoType":"Refer to CommonEnum for the encoding",
     "DataSources":
@@ -9,6 +33,7 @@
         {
             "TargetInfo_Source":1,
             "TargetInfo_Type":1,
+            "ObservePercentage":10,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -17,7 +42,8 @@
         },
         {
             "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Type":2,
+            "ObservePercentage":10,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -26,7 +52,8 @@
         },
         {
             "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Type":4,
+            "ObservePercentage":100,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -34,8 +61,9 @@
             "packetLossPercentage":0
         },
         {
-            "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Source":2,
+            "TargetInfo_Type":4,
+            "ObservePercentage":30,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -43,8 +71,9 @@
             "packetLossPercentage":0
         },
         {
-            "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Source":2,
+            "TargetInfo_Type":5,
+            "ObservePercentage":10,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -52,8 +81,9 @@
             "packetLossPercentage":0
         },
         {
-            "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Source":3,
+            "TargetInfo_Type":7,
+            "ObservePercentage":30,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -61,8 +91,9 @@
             "packetLossPercentage":0
         },
         {
-            "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Source":7,
+            "TargetInfo_Type":7,
+            "ObservePercentage":20,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -70,8 +101,9 @@
             "packetLossPercentage":0
         },
         {
-            "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Source":5,
+            "TargetInfo_Type":7,
+            "ObservePercentage":40,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
@@ -79,8 +111,9 @@
             "packetLossPercentage":0
         },
         {
-            "TargetInfo_Source":1,
-            "TargetInfo_Type":1,
+            "TargetInfo_Source":4,
+            "TargetInfo_Type":4,
+            "ObservePercentage":10,
             "meanTransmissionLatencyInMiliSeconds":0,
             "stdDevTransmissionLatencyInMiliSeconds":0,
             "meanTimestampErrorInMiliSeconds":0,
