@@ -39,6 +39,10 @@ public:
 
     QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> getMapInfoTypePosDeviceInfo() const;
 
+    QMap<PB_Enum_TargetInfo_Type, DataChannel *> getMapInfoTypeDataChannels() const;
+
+    PBCoderDecoder *getPbCoderDecoder() const;
+
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 

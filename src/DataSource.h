@@ -46,6 +46,9 @@ signals:
 public slots:
 
 private:
+    void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, Struct_TransmissionQuality transQ) const;
+
+
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
     ParallelWorld *world;
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,

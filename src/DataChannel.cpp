@@ -33,3 +33,13 @@ bool DataChannel::clearListPBTargetPosInChannel()
     listPBTargetPosInChannel.clear();
     return true;
 }
+
+QList<PBTargetPosition> DataChannel::getListPBTargetPosInChannel() const
+{
+    return listPBTargetPosInChannel;
+}
+
+PB_Enum_TargetInfo_Type DataChannel::getTargetInfoType() const
+{
+    return targetInfoType;
+}

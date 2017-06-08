@@ -299,8 +299,18 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
      }
      else
          return false;
-}
-
+ }
+ 
+ PBCoderDecoder *ParallelWorld::getPbCoderDecoder() const
+ {
+     return pbCoderDecoder;
+ }
+ 
+ QMap<PB_Enum_TargetInfo_Type, DataChannel *> ParallelWorld::getMapInfoTypeDataChannels() const
+ {
+     return mapInfoTypeDataChannels;
+ }
+ 
  QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> ParallelWorld::getMapInfoTypePosDeviceInfo() const
  {
      return mapInfoTypePosDeviceInfo;

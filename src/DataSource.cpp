@@ -1,4 +1,6 @@
 #include "DataSource.h"
+#include "ParallelWorld.h"
+#include "PBCoderDecoder.h"
 
 DataSource::DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
@@ -35,15 +37,53 @@ bool DataSource::addTargetIDObservedWithHaijian(qint32 targetID)
 
 bool DataSource::fetchDataFromChannelsAndSendToMQ()
 {
+    QList <StructDataAndKey> listDataAndKey;
+
+    if(!setTargetIDsObservedWithAIS.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic)
+            &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
+    {
+        Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
+
+        PBTarget pbTarget;
+        pbTarget.set_sequencenum(world->getPbCoderDecoder()->getSerialNumAndIncrement());
+        pbTarget.set_enum_sender_software(world->getPbCoderDecoder()->getPbEnumSenderSoftware());
+
+        QListIterator <PBTargetPosition> iListTargetPos(world->getMapInfoTypeDataChannels().value(EV_TargetInfoType_AISDynamic)->getListPBTargetPosInChannel());
+        while(iListTargetPos.hasNext())
+        {
+            PBTargetPosition pbTargePos= iListTargetPos.next();
+            if(!setTargetIDsObservedWithAIS.contains(pbTargePos.targetid())
+                    ||qrand()%100<transmissionQ.packetLossPercentage )
+                continue;
+
+            addTimeStampErrorInDynamicOfTargetPos(pbTargePos,transmissionQ);
+
+
+
+           }
+        if(pbTarget.listtargetpos_size()>0)
+        {
+
+
+        }
+
+    }
 
 
 
 
 
 
+    if(!listDataAndKey.isEmpty())
+        emit sigSend2MQ(listDataAndKey);
 
+    return true;
+}
 
-
+void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, Struct_TransmissionQuality transQ) const
+{
+    pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
+                                   qRound( (transQ.meanTimestampErrorInMiliSeconds+qrand()%transQ.stdDevTimestampErrorInMiliSeconds)/1000.0) );
 
 }
 

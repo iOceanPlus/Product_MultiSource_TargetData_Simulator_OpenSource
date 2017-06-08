@@ -13,6 +13,10 @@ public:
     bool fetchDataFromPosDevicesIntoChannel();
     bool clearListPBTargetPosInChannel();
 
+    QList<PBTargetPosition> getListPBTargetPosInChannel() const;
+
+    PB_Enum_TargetInfo_Type getTargetInfoType() const;
+
 signals:
 
 public slots:
