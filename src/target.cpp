@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QtMath>
 
-Target::Target(const QHash<PB_Enum_TargetInfo_Type, PosDevice *> &hashTargetInfoTypePosDevice, const PBTargetPosition &pbTargetPos,
+Target::Target(const PBTargetPosition &pbTargetPos,
                ParallelWorld *paramParallelWorld, const QDateTime &posDateTime)
 {
     this->hashTargetInfoTypePosDevice=hashTargetInfoTypePosDevice;
@@ -72,6 +72,23 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
         pbTargetPosCurrent.CopyFrom(pbTargetPosReckoned);
         posCurrentDateTime=currentDateTime;
     }
+}
+
+bool Target::addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev)
+{
+    hashTargetInfoTypePosDevice.insert(infoType,posDev);
+    return true;
+}
+
+bool Target::installPosDevices()
+{
+
+
+
+
+
+
+
 }
 
 /***************data cleaning*******************/
@@ -153,6 +170,8 @@ void  Target::set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPositio
         pbTargetPosToSet.set_targetidorig(-1);
         break;
     }
+
+    clearInvalidFieldsInAnOriginalTargetPos(pbTargetPosToSet);
 
 }
 

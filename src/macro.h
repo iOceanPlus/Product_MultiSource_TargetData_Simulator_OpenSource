@@ -8,6 +8,7 @@ extern uint ExternV_TargetCount;
 
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool ExternV_IS_DEBUG_MODE;
+extern uint SOGX10_LOWER_THRESH;
 
 const PB_Enum_Software SOFTWARE_NAME=EV_Software_NA;
 const bool IS_INTLONGITUDE_0_VALID =false; //If 0 is a valid coordinate

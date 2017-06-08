@@ -47,7 +47,7 @@ private slots:
 private:
     void parseParamFileAndInitMembers();
 
-    void initTargetsAndDataSources();
+    void initTargetsAndAddToDataSources();
     void initDataChannels();
     void initWaterGrids();
 

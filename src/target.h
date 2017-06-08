@@ -13,8 +13,9 @@ class ParallelWorld;
 class Target
 {
 public:
-    explicit Target(const QHash <PB_Enum_TargetInfo_Type, PosDevice*> &hashTargetInfoTypePosDevice,
-                             const PBTargetPosition &pbTargetPosOrig, ParallelWorld *parallelWorld, const QDateTime &posOrigDateTime);
+    explicit Target(const PBTargetPosition &pbTargetPosOrig, ParallelWorld *parallelWorld, const QDateTime &posOrigDateTime);
+    bool addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev);
+    bool installPosDevices();
     ~Target();
 
 public:

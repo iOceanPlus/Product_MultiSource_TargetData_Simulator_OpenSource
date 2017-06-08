@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMap>
 #include <QHash>
+#include <QSet>
 #include "CommonEnum.pb.h"
 #include "IOMessages.h"
 
@@ -28,6 +29,12 @@ class DataSource : public QObject
 public:
     explicit DataSource(ParallelWorld *world,const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
                          QObject *parent = 0);
+
+    bool addTargetIDObservedWithAIS(qint32 targetID);
+    bool addTargetIDObservedWithBeidou(qint32 targetID);
+    bool addTargetIDObservedWithArgosAndMarineSat(qint32 targetID);
+    bool addTargetIDObservedWithHaijian(qint32 targetID);
+
     bool fetchDataFromChannelsAndSendToMQ();
 
 signals:
@@ -37,7 +44,8 @@ public slots:
 private:
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
     ParallelWorld *world;
-    QHash <PB_Enum_TargetInfo_Type, Target*> hashInfoTypeTargetsObserved;
+    QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
+                setTargetIDsObservedWithHaijian;
 };
 
 #endif // DATASOURCE_H

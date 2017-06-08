@@ -2,6 +2,7 @@
     "ISDebugMode":"TRUE",
     "TargetCount": 30000,
     "SECONDS_CHECK_TARGET_COUNT" : 10,
+    "SOGX10_LOWER_THRESH":30,
     "WaterGridsFileName":"Waters_1_Degree_2014.csv",
     "Ship_FileName":"ais_ship_realtime_valid_anonymous_randomOrder.csv",
     "PosDevice":

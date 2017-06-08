@@ -44,12 +44,15 @@ void ParallelWorld::parseParamFileAndInitMembers()
         ExternV_IS_DEBUG_MODE=jsonObjcet.value("ISDebugMode").toBool(ExternV_IS_DEBUG_MODE);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"TargetCount"))
         ExternV_TargetCount=jsonObjcet.value("TargetCount").toInt(ExternV_TargetCount);
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_LOWER_THRESH"))
+        SOGX10_LOWER_THRESH=jsonObjcet.value("SOGX10_LOWER_THRESH").toInt(SOGX10_LOWER_THRESH);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT"))
         ExternV_SECONDS_CHECK_TARGET_COUNT=jsonObjcet.value("SECONDS_CHECK_TARGET_COUNT").toInt(ExternV_SECONDS_CHECK_TARGET_COUNT);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"WaterGridsFileName"))
         waterGridsFileName=jsonObjcet.value("WaterGridsFileName").toString();
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"Ship_FileName"))
         ship_FileName=jsonObjcet.value("Ship_FileName").toString();
+
 
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice"))
     {
@@ -138,7 +141,7 @@ void ParallelWorld::parseParamFileAndInitMembers()
         qDebug()<<"Fail to parse jsonObject of Data Sources:"<<jsonObjcet; //No data sources in the json
 
     initWaterGrids();
-    initTargetsAndDataSources();
+    initTargetsAndAddToDataSources();
 }
 
 ParallelWorld::~ParallelWorld()
@@ -166,7 +169,7 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 
 }
 
- void  ParallelWorld::initTargetsAndDataSources()
+ void  ParallelWorld::initTargetsAndAddToDataSources()
 {
      QFile paramJsonFile(ship_FileName);
      if (!paramJsonFile.open(QIODevice::ReadOnly)) {
@@ -178,7 +181,6 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
      qint32 targetID=0;
      while (!paramJsonFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
      {
-         targetID++; //Start from 1
 
          QList <QByteArray> listField = paramJsonFile.readLine().trimmed().split(',');
          if(listField.size()!=6)
@@ -191,6 +193,11 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
          qint32 latitudeX60W=listField.at(2).toInt();
          qint32 cogX10=listField.at(3).toInt();
          qint32 sogX10=listField.at(4).toInt();
+
+         if(sogX10<(qint32)SOGX10_LOWER_THRESH)
+             continue;
+
+         targetID++; //Start from 1
 
         PBTargetPosition pbTargetPosOrig;
         pbTargetPosOrig.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
@@ -207,14 +214,18 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
         pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
         pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
 
-        QHash <PB_Enum_TargetInfo_Type, PosDevice*> hashTargetInfoTypePosDevice;
+        Target *target=new Target(pbTargetPosOrig,this,QDateTime::currentDateTime());
+        target->installPosDevices();
+        hashIDTarget.insert(targetID,target);
 
-        Target *target=new Target()
+        QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
+        while(iMapInfoSourceDataSources.hasNext())
+        {
+            iMapInfoSourceDataSources.next();
 
-
-
-
+        }
      }
+     qDebug()<<"Number of targets created: "<<targetID;
  }
 
  void ParallelWorld::initDataChannels()
