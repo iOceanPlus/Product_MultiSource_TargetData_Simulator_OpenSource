@@ -15,7 +15,8 @@
 ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
                             QObject(parent)
 {
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    //qsrand(QDateTime::currentDateTime().toTime_t());
+    qsrand(0); //Make sure that every time the program started, the simulated scence is the same.
 
     colCount=GRID_ARRAY_ROW_COUNT*2;
     rowCount=GRID_ARRAY_ROW_COUNT;
@@ -128,7 +129,7 @@ void ParallelWorld::parseParamFileAndInitMembers()
                 /****************************** end the iteration  of all sourceInfos of one Data source***************/
                if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
                     mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,
-                                                 new DataSource(this,mapInfoTypeTransmitQualityOfOneDataSource,this));
+                                                 new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this));
             }
             else //
                 qDebug()<<"Fail to parse jsonObject of One Data Source:"<<jsonDataSourceObjInArray;
@@ -222,7 +223,33 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
         while(iMapInfoSourceDataSources.hasNext())
         {
             iMapInfoSourceDataSources.next();
-
+            DataSource *dataSource=iMapInfoSourceDataSources.value();
+             QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality=
+                     dataSource->getMapInfoTypeTransmitQuality();
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithAIS(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithBeidou(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Haijian);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithHaijian(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_ArgosAndMaritimeSatellite);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
+             }
         }
      }
      qDebug()<<"Number of targets created: "<<targetID;

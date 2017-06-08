@@ -1,10 +1,12 @@
 #include "DataSource.h"
 
-DataSource::DataSource(ParallelWorld *world, const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
+DataSource::DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                       const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
                        QObject *parent ) : QObject(parent)
 {
     this->mapInfoTypeTransmitQuality=mapInfoTypeTransmitQuality;
     this->world=world;
+    this->pbTargetInfoSource=pbTargetInfoSource;
 }
 
 bool DataSource::addTargetIDObservedWithAIS(qint32 targetID)
@@ -43,4 +45,14 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
 
 
 
+}
+
+QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> DataSource::getMapInfoTypeTransmitQuality() const
+{
+    return mapInfoTypeTransmitQuality;
+}
+
+PB_Enum_TargetInfo_Source DataSource::getPbTargetInfoSource() const
+{
+    return pbTargetInfoSource;
 }

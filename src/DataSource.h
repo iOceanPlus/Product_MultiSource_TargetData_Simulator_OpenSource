@@ -27,8 +27,8 @@ class DataSource : public QObject
 {
     Q_OBJECT
 public:
-    explicit DataSource(ParallelWorld *world,const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
-                         QObject *parent = 0);
+    explicit DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality, QObject *parent = 0);
 
     bool addTargetIDObservedWithAIS(qint32 targetID);
     bool addTargetIDObservedWithBeidou(qint32 targetID);
@@ -36,6 +36,10 @@ public:
     bool addTargetIDObservedWithHaijian(qint32 targetID);
 
     bool fetchDataFromChannelsAndSendToMQ();
+
+    QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> getMapInfoTypeTransmitQuality() const;
+
+    PB_Enum_TargetInfo_Source getPbTargetInfoSource() const;
 
 signals:
 
@@ -46,6 +50,7 @@ private:
     ParallelWorld *world;
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
                 setTargetIDsObservedWithHaijian;
+    PB_Enum_TargetInfo_Source pbTargetInfoSource;
 };
 
 #endif // DATASOURCE_H
