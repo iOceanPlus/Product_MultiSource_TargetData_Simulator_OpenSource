@@ -38,10 +38,10 @@ public:
     bool fetchDataFromChannelsAndSendToMQ();
 
     QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> getMapInfoTypeTransmitQuality() const;
-
     PB_Enum_TargetInfo_Source getPbTargetInfoSource() const;
 
 signals:
+    void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 
 public slots:
 

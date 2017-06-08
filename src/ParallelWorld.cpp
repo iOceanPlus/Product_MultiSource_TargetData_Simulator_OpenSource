@@ -128,8 +128,11 @@ void ParallelWorld::parseParamFileAndInitMembers()
                 }
                 /****************************** end the iteration  of all sourceInfos of one Data source***************/
                if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
-                    mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,
-                                                 new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this));
+               {
+                   DataSource *dataSource=new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this);
+                    connect(dataSource,SIGNAL(sigSend2MQ(QList<StructDataAndKey>)),this,SIGNAL(sigSend2MQ(QList<StructDataAndKey>)));
+                    mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,dataSource);
+               }
             }
             else //
                 qDebug()<<"Fail to parse jsonObject of One Data Source:"<<jsonDataSourceObjInArray;
@@ -159,15 +162,28 @@ ParallelWorld::~ParallelWorld()
 
 void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 {
+    /**************************************** put data to channels*********************/
+    QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
+    while(iMapInfoTypeDataChannels.hasNext())
+    {
+        iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel();
+    }
 
+    /**********************************Data sources get data from channels****************/
+    QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
+    while(iMapInfoSourceDataSources.hasNext())
+    {
+        iMapInfoSourceDataSources.next();
+        iMapInfoSourceDataSources.value()->fetchDataFromChannelsAndSendToMQ();
+    }
 
-
-
-
-
-
-
-
+    /*************************Clear data in data channels*****************************/
+    iMapInfoTypeDataChannels.toFront();
+    while(iMapInfoTypeDataChannels.hasNext())
+    {
+        iMapInfoTypeDataChannels.next();
+        iMapInfoTypeDataChannels.value()->clearListPBTargetPosInChannel();
+    }
 }
 
  void  ParallelWorld::initTargetsAndAddToDataSources()
