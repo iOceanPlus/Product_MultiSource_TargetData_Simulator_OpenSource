@@ -6,6 +6,7 @@
 
 extern uint ExternV_TargetCount;
 
+extern uint ExternV_Milliseconds_FetchData;
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool ExternV_IS_DEBUG_MODE;
 extern uint SOGX10_LOWER_THRESH;

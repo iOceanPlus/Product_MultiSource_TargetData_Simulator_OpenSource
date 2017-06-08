@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
+#include <QTimer>
 #include "macro.h"
 #include "target.h"
 
@@ -27,6 +28,9 @@ ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
     pbCoderDecoder=new PBCoderDecoder(SOFTWARE_NAME,this);
 
     parseParamFileAndInitMembers();
+    timerMeasureAndUpdateTargetPos=new QTimer(this);
+    connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos);
+    timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
 }
 
 void ParallelWorld::parseParamFileAndInitMembers()

@@ -19,6 +19,7 @@ using namespace std;
 
 class PBCoderDecoder;
 class Target;
+class QTimer;
 
 struct GridIndex
 {
@@ -76,6 +77,8 @@ private:
     quint32 colCount,rowCount;
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;
     QString waterGridsFileName,ship_FileName;
+
+    QTimer *timerMeasureAndUpdateTargetPos;
 
     PBMonitor_ProbeAck monitor_ProbeAck;
     QMutex *mutex;
