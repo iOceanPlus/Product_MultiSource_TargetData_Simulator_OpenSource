@@ -26,6 +26,11 @@
             "TargetInfo_Type":5,
             "PositioningDevInMeters":10.0,
             "SampleMilliSeconds":12000
+        },
+        {
+            "TargetInfo_Type":7,
+            "PositioningDevInMeters":10.0,
+            "SampleMilliSeconds":10000
         }
     ],
 
