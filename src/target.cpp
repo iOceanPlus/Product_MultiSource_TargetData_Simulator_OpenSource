@@ -42,6 +42,8 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
             qint32 newCOGX10=pbTargetPosOrig.aisdynamic().cogdegreex10()+turnRight*DegreesX10_ToTurn_WhenMeetLand;
             if(newCOGX10<0)
                 newCOGX10+=3600;
+            else
+                newCOGX10%=3600;
 
             pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
             bool isNewPosOnLand;

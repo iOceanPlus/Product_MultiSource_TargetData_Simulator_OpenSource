@@ -42,41 +42,60 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
     if(!setTargetIDsObservedWithAIS.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
     {
-        Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
-
-        PBTarget pbTarget;
-        pbTarget.set_sequencenum(world->getPbCoderDecoder()->getSerialNumAndIncrement());
-        pbTarget.set_enum_sender_software(world->getPbCoderDecoder()->getPbEnumSenderSoftware());
-
-        QListIterator <PBTargetPosition> iListTargetPos(world->getMapInfoTypeDataChannels().value(EV_TargetInfoType_AISDynamic)->getListPBTargetPosInChannel());
-        while(iListTargetPos.hasNext())
-        {
-            PBTargetPosition pbTargePos= iListTargetPos.next();
-            if(!setTargetIDsObservedWithAIS.contains(pbTargePos.targetid())
-                    ||qrand()%100<transmissionQ.packetLossPercentage )
-                continue;
-
-            addTimeStampErrorInDynamicOfTargetPos(pbTargePos,transmissionQ);
-
-
-
-           }
-        if(pbTarget.listtargetpos_size()>0)
-        {
-
-
-        }
-
+        fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS);
     }
 
+    if(!setTargetIDsObservedWithBeidou.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou)
+            &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Beidou))
+    {
+        fetchDataFromAChannel(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou);
+    }
 
+    if(!setTargetIDsObservedWithHaijian.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian)
+            &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Haijian))
+    {
+        fetchDataFromAChannel(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian);
+    }
 
-
-
-
+    if(!setTargetIDsObservedWithArgosAndMarineSat.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite)
+            &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
+    {
+        fetchDataFromAChannel(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat);
+    }
     if(!listDataAndKey.isEmpty())
         emit sigSend2MQ(listDataAndKey);
 
+    return true;
+}
+
+bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
+                                       QSet <qint32> &setTargetIDObservedOfThisInfoType)
+{
+    Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(targetInfoType);
+
+    PBTarget pbTarget;
+    pbTarget.set_sequencenum(world->getPbCoderDecoder()->getSerialNumAndIncrement());
+    pbTarget.set_enum_sender_software(world->getPbCoderDecoder()->getPbEnumSenderSoftware());
+
+    QListIterator <PBTargetPosition> iListTargetPos(world->getMapInfoTypeDataChannels().value(targetInfoType)->getListPBTargetPosInChannel());
+    while(iListTargetPos.hasNext())
+    {
+        PBTargetPosition pbTargetPosInList= iListTargetPos.next();
+        if(!setTargetIDObservedOfThisInfoType.contains(pbTargetPosInList.targetid())
+                ||qrand()%100<transmissionQ.packetLossPercentage )
+            continue;
+
+        addTimeStampErrorInDynamicOfTargetPos(pbTargetPosInList,transmissionQ);
+        PBTargetPosition *pbTargetPosToAdd= pbTarget.add_listtargetpos();
+        pbTargetPosToAdd->CopyFrom(pbTargetPosInList);
+    }
+    if(pbTarget.listtargetpos_size()>0)
+    {
+        StructDataAndKey dataAndKey;
+        dataAndKey.data= world->getPbCoderDecoder()->serializePBTargetToArray(pbTarget);
+        dataAndKey.routingKey=ROUTING_KEY_ONLINE_PREPROCESSEDDATA;
+        listDataAndKey.append(dataAndKey);
+    }
     return true;
 }
 
