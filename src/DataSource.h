@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QHash>
 #include <QSet>
+#include <QDateTime>
 #include "CommonEnum.pb.h"
 #include "IOMessages.h"
 
@@ -44,6 +45,8 @@ signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 
 public slots:
+    void slotOutPutTargetsCountPerType();
+    void slotOutPutPosCountAndRate();
 
 private:
     bool fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
@@ -56,6 +59,9 @@ private:
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
                 setTargetIDsObservedWithHaijian;
     PB_Enum_TargetInfo_Source pbTargetInfoSource;
+
+    quint64 totalPosCountFetched, posCountOutputToLog;
+    QDateTime dtPosCountFetched, dtPosCountOutputToLog;
 };
 
 #endif // DATASOURCE_H

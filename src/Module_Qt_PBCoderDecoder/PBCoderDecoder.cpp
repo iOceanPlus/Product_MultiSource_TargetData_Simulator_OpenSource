@@ -19,6 +19,23 @@ PBCoderDecoder::~PBCoderDecoder()
 
 }
 
+static QString getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource)
+{
+
+
+
+
+}
+
+static QString getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName)
+{
+
+
+
+
+
+}
+
 
 quint32 PBCoderDecoder::getStartedTimeUTC() const
 {

@@ -10,6 +10,9 @@ DataSource::DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pb
     this->mapInfoTypeTransmitQuality=mapInfoTypeTransmitQuality;
     this->world=world;
     this->pbTargetInfoSource=pbTargetInfoSource;
+
+    totalPosCountFetched=posCountOutputToLog= 0;
+    dtPosCountFetched=dtPosCountOutputToLog= QDateTime::currentDateTime();
 }
 
 bool DataSource::addTargetIDObservedWithAIS(qint32 targetID)
@@ -108,6 +111,30 @@ void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTarge
     else
         pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
                                    qRound(transQ.meanTimestampErrorInMiliSeconds/1000.0) );
+}
+
+void DataSource::slotOutPutTargetsCountPerType()
+{
+
+
+
+
+
+
+
+}
+
+void DataSource::slotOutPutPosCountAndRate()
+{
+    qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
+    qint32 posCountPerMinute=qRound(newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60);
+    qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"<<
+
+
+
+
+    posCountOutputToLog=totalPosCountFetched;
+   dtPosCountOutputToLog=dtPosCountFetched;
 }
 
 QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> DataSource::getMapInfoTypeTransmitQuality() const
