@@ -43,25 +43,25 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
     if(!setTargetIDsObservedWithAIS.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS);
+        fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
     if(!setTargetIDsObservedWithBeidou.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Beidou))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou);
+        fetchDataFromAChannel(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou,ROUTING_KEY_ONLINE_PREPROCESSED_Beidou);
     }
 
     if(!setTargetIDsObservedWithHaijian.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Haijian))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian);
+        fetchDataFromAChannel(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian,ROUTING_KEY_ONLINE_PREPROCESSED_Haijian);
     }
 
     if(!setTargetIDsObservedWithArgosAndMarineSat.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat);
+        fetchDataFromAChannel(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat,ROUTING_KEY_ONLINE_PREPROCESSED_Argos);
     }
     if(!listDataAndKey.isEmpty())
         emit sigSend2MQ(listDataAndKey);
@@ -70,7 +70,7 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
 }
 
 bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
-                                       QSet <qint32> &setTargetIDObservedOfThisInfoType)
+                                       QSet <qint32> &setTargetIDObservedOfThisInfoType, const QString &routingKey)
 {
     Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(targetInfoType);
 
@@ -94,7 +94,7 @@ bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfo
     {
         StructDataAndKey dataAndKey;
         dataAndKey.data= world->getPbCoderDecoder()->serializePBTargetToArray(pbTarget);
-        dataAndKey.routingKey=ROUTING_KEY_ONLINE_PREPROCESSEDDATA;
+        dataAndKey.routingKey=routingKey;
         listDataAndKey.append(dataAndKey);
     }
     return true;

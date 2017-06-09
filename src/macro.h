@@ -29,7 +29,13 @@ const QString ROUTING_KEY_MONITOR_PROBEACK ="Monitor.ProbeAck";
 const QString ROUTING_KEY_MONITOR_ALIVETARGETCOUNT ="Monitor.AliveTargetCount";
 const QString ROUTING_KEY_FUSEDDATA_TARGETTRACKS = "OnLine.FusedData.TargetTracks";
 
-const QString ROUTING_KEY_ONLINE_PREPROCESSEDDATA ="OnLine.PreprocessedData.#";
+const QString ROUTING_KEY_ONLINE_PREPROCESSED_AIS ="OnLine.PreprocessedData.AIS";
+const QString ROUTING_KEY_ONLINE_PREPROCESSED_Beidou ="OnLine.PreprocessedData.BeiDou";
+const QString ROUTING_KEY_ONLINE_PREPROCESSED_LRIT ="OnLine.PreprocessedData.LRIT";
+const QString ROUTING_KEY_ONLINE_PREPROCESSED_Haijian ="OnLine.PreprocessedData.HaiJian";
+const QString ROUTING_KEY_ONLINE_PREPROCESSED_Argos ="OnLine.PreprocessedData.Argos";
+
+
 const QString ROUTING_KEY_MONITOR_RPOBE ="Monitor.Probe";
 
 /*******定时检查的相关参数**************/

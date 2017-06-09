@@ -45,6 +45,7 @@ public:
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
+    void sigPBMonitor(PBMonitor pbMonitor); //
 
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
