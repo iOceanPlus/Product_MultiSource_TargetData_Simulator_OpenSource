@@ -9,7 +9,7 @@ Linux, g++ 4.7 or above is needed.
 ## Libs needed  
 - libev  
 
-- protobu：Google's data interchange format  
+- protobuf：Google's data interchange format  
 https://github.com/google/protobuf  
 
 - AMQP-CPP：C++ library for asynchronous non-blocking communication with RabbitMQ  
