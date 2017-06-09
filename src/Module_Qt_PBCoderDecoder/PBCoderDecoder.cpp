@@ -47,3 +47,11 @@ quint32 PBCoderDecoder::getSerialNumAndIncrement()
     return result;
 }
 
+QByteArray PBCoderDecoder::serializePBTargetToArray(PBTarget pbTarget)
+{
+    QByteArray baResult;
+    baResult.resize(pbTarget.ByteSize());
+    pbTarget.SerializeToArray(baResult.data(),pbTarget.ByteSize());
+    return baResult;
+}
+

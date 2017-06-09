@@ -11,7 +11,7 @@ Target::Target(const PBTargetPosition &pbTargetPos,
                ParallelWorld *paramParallelWorld, const QDateTime &posDateTime)
 {
     this->hashTargetInfoTypePosDevice=hashTargetInfoTypePosDevice;
-    this->parallelWorld=paramParallelWorld;
+    this->world=paramParallelWorld;
 
     this->pbTargetPosOrig.CopyFrom(pbTargetPos);
     this->posOrigDateTime=posDateTime;
@@ -84,13 +84,21 @@ bool Target::addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev)
 
 bool Target::installPosDevices()
 {
-
-
-
-
-
-
-
+    QMapIterator <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> iMapInfoTypePosDeviceInfo(world->getMapInfoTypePosDeviceInfo());
+    while(iMapInfoTypePosDeviceInfo.hasNext())
+    {
+        iMapInfoTypePosDeviceInfo.next();
+        PB_Enum_TargetInfo_Type infoType= iMapInfoTypePosDeviceInfo.key();
+        Struct_PosDeviceInfo posDevInfo=iMapInfoTypePosDeviceInfo.value();
+        if(hashTargetInfoTypePosDevice.contains(infoType))
+        {
+            qDebug()<<"Warning: try to install already existed devices. Ignored.";
+            continue;
+        }
+        PosDevice *posDev=new PosDevice(QDateTime::currentDateTime().addMSecs(-1*qrand()%posDevInfo.sampleMilliSeconds),
+                                        this,infoType);
+        hashTargetInfoTypePosDevice.insert(infoType,posDev);
+    }
 }
 
 /***************data cleaning*******************/
@@ -208,7 +216,7 @@ PBTargetPosition Target::getReckonedPbTargetPos(const QDateTime &dtToReckon, boo
     pbTargetPosReckoned.mutable_aisdynamic()->set_intlatitudex60w(geoReckoned.latitude()*AISPosDivider);
     pbTargetPosReckoned.mutable_aisdynamic()->set_utctimestamp(dtToReckon.toTime_t());
 
-    if(parallelWorld->isInWater(geoReckoned.longitude(),geoReckoned.latitude()))
+    if(world->isInWater(geoReckoned.longitude(),geoReckoned.latitude()))
     {
         isOnLand=false;
     }
@@ -228,7 +236,7 @@ PosDevice* Target::getDevice(const PB_Enum_TargetInfo_Type &infoType)
 
 const Struct_PosDeviceInfo Target::getDeviceInfo(const PB_Enum_TargetInfo_Type &infoType) const
 {
-    return parallelWorld->getMapInfoTypePosDeviceInfo().value(infoType);
+    return world->getMapInfoTypePosDeviceInfo().value(infoType);
 }
 
 quint64 Target::getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig)

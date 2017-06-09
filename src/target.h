@@ -13,7 +13,7 @@ class ParallelWorld;
 class Target
 {
 public:
-    explicit Target(const PBTargetPosition &pbTargetPosOrig, ParallelWorld *parallelWorld, const QDateTime &posOrigDateTime);
+    explicit Target(const PBTargetPosition &pbTargetPosOrig, ParallelWorld *world, const QDateTime &posOrigDateTime);
     bool addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev);
     bool installPosDevices();
     ~Target();
@@ -37,6 +37,11 @@ public:
 
 
 private:
+    /********************************
+     * Assumption:
+     *  Each target is installed with all types of positioning devices.
+     *  But each data source can only observe part of these devices from part of all targets.
+     * ****************************/
     QHash <PB_Enum_TargetInfo_Type, PosDevice*> hashTargetInfoTypePosDevice;
 
     /*******
@@ -47,7 +52,7 @@ private:
     QDateTime posOrigDateTime, posCurrentDateTime;
 
     //PBCoderDecoder *pbCoderDecoder;
-    ParallelWorld *parallelWorld;
+    ParallelWorld *world;
 };
 
 #endif // TARGET_H
