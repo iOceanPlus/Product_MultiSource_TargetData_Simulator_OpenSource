@@ -22,7 +22,12 @@ Target::Target(const PBTargetPosition &pbTargetPos,
 
 Target::~Target()
 {
-
+    QHashIterator <PB_Enum_TargetInfo_Type, PosDevice*> iHashTargetInfoTypePosDevice(hashTargetInfoTypePosDevice);
+    while(iHashTargetInfoTypePosDevice.hasNext())
+    {
+        iHashTargetInfoTypePosDevice.next();
+        delete iHashTargetInfoTypePosDevice.value();
+    }
 }
 
 
@@ -99,6 +104,7 @@ bool Target::installPosDevices()
                                         this,infoType);
         hashTargetInfoTypePosDevice.insert(infoType,posDev);
     }
+    return true;
 }
 
 /***************data cleaning*******************/
