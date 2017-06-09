@@ -1,4 +1,4 @@
-QT       += core  network  positioning sql gui
+QT       += core   positioning
 CONFIG += c++11
 CONFIG += console
 CONFIG -= app_bundle
