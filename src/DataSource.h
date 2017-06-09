@@ -49,7 +49,7 @@ private:
     bool fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
                                QSet <qint32> &setTargetIDObservedOfThisInfoType);
 
-    void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, Struct_TransmissionQuality transQ) const;
+    void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const;
 
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
     ParallelWorld *world;

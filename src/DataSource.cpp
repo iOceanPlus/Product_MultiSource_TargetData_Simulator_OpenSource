@@ -1,6 +1,7 @@
 #include "DataSource.h"
 #include "ParallelWorld.h"
 #include "PBCoderDecoder.h"
+#include <QDebug>
 
 DataSource::DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
@@ -99,11 +100,14 @@ bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfo
     return true;
 }
 
-void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, Struct_TransmissionQuality transQ) const
+void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const
 {
-    pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
+    if(transQ.stdDevTimestampErrorInMiliSeconds>0)
+        pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
                                    qRound( (transQ.meanTimestampErrorInMiliSeconds+qrand()%transQ.stdDevTimestampErrorInMiliSeconds)/1000.0) );
-
+    else
+        pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
+                                   qRound(transQ.meanTimestampErrorInMiliSeconds/1000.0) );
 }
 
 QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> DataSource::getMapInfoTypeTransmitQuality() const

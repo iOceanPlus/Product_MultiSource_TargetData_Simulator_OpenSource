@@ -134,7 +134,7 @@ void ParallelWorld::parseParamFileAndInitMembers()
                if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
                {
                    DataSource *dataSource=new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this);
-                    connect(dataSource,SIGNAL(sigSend2MQ(QList<StructDataAndKey>)),this,SIGNAL(sigSend2MQ(QList<StructDataAndKey>)));
+                    connect(dataSource, &DataSource::sigSend2MQ,this,&ParallelWorld::sigSend2MQ);
                     mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,dataSource);
                }
             }
@@ -223,6 +223,7 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
          targetID++; //Start from 1
 
         PBTargetPosition pbTargetPosOrig;
+        pbTargetPosOrig.set_targetid(targetID);
         pbTargetPosOrig.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
         pbTargetPosOrig.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
         pbTargetPosOrig.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
