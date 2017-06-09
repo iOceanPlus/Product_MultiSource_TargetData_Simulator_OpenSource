@@ -1,6 +1,7 @@
 #include "DataChannel.h"
 #include "ParallelWorld.h"
 #include "target.h"
+#include <QDebug>
 
 DataChannel::DataChannel(ParallelWorld *world, const PB_Enum_TargetInfo_Type &targetInfoType, QObject *parent) : QObject(parent)
 {
@@ -15,7 +16,6 @@ bool DataChannel::fetchDataFromPosDevicesIntoChannel()
     {
         iHashTarget.next();
         Target *target=iHashTarget.value();
-
         bool isMeasured;
         PosDevice *posDevice= target->getDevice(targetInfoType);
         if(posDevice)

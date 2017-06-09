@@ -171,6 +171,7 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
     QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
     while(iMapInfoTypeDataChannels.hasNext())
     {
+        iMapInfoTypeDataChannels.next();
         iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel();
     }
 
