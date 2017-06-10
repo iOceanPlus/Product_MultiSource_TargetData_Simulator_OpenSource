@@ -20,7 +20,7 @@ bool DataChannel::fetchDataFromPosDevicesIntoChannel()
         PosDevice *posDevice= target->getDevice(targetInfoType);
         if(posDevice)
         {
-            PBTargetPosition pbTargetPosMeasured= target->getDevice(targetInfoType)->measurePBTargetPosAndUpdateTarget(isMeasured);
+            PBTargetPosition pbTargetPosMeasured= posDevice>measurePBTargetPosAndUpdateTarget(isMeasured);
             if(isMeasured)
                 listPBTargetPosInChannel.append(pbTargetPosMeasured);
         }
