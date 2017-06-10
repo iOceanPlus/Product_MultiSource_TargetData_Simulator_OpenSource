@@ -19,17 +19,42 @@ PBCoderDecoder::~PBCoderDecoder()
 
 }
 
-static QString getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource)
+QString PBCoderDecoder::getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource)
 {
-
-
-
-
+    switch (targetInfoSource) {
+    case EV_TargetInfoSource_AgricultureMinistry:
+        return "";
+    case EV_TargetInfoSource_MaritimeBureau:
+        return "";
+    case EV_TargetInfoSource_Haijian:
+        return "";
+    case EV_TargetInfoSource_SatAIS:
+        return "";
+    case EV_TargetInfoSource_SearchAndRescue:
+        return "";
+    default:
+        return "";
+    }
 }
 
-static QString getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName)
+QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName)
 {
-
+    switch (targetinfoTypeName) {
+    case EV_TargetInfoType_AISDynamic:
+        return "AIS";
+    case EV_TargetInfoType_AISStatic:
+        return "AIS";
+    case EV_TargetInfoType_ArgosAndMaritimeSatellite:
+        return "";
+    case EV_TargetInfoType_Beidou:
+        return "";
+    case EV_TargetInfoType_Haijian:
+        return "";
+    case EV_TargetInfoType_LRIT:
+        return "";
+    default:
+        return "";
+    }
 
 
 

@@ -37,14 +37,14 @@ SOURCES += main.cpp \
     ProtoCPP/CommonEnum.pb.cc \
     ProtoCPP/Target.pb.cc \
     macro.cpp \
-    ParallelWorld.cpp \
     target.cpp \
     ProtoCPP/Monitor.pb.cc \
     simulator.cpp \
     DataChannel.cpp \
     DataSource.cpp \
     PosDevice.cpp \
-    parallelworld_gridandmq.cpp
+    lWorld.cpp \
+    world_gridandmq.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -71,13 +71,13 @@ HEADERS += \
     ProtoCPP/CommonEnum.pb.h \
     ProtoCPP/Target.pb.h \
     macro.h \
-    ParallelWorld.h \
     target.h \
     ProtoCPP/Monitor.pb.h \
     simulator.h \
     DataChannel.h \
     DataSource.h \
-    PosDevice.h
+    PosDevice.h \
+    World.h
 
 DISTFILES += \
     BaseClass_IOMessages/param_mq.txt \

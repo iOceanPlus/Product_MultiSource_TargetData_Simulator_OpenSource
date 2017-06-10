@@ -1,9 +1,9 @@
 #include "DataSource.h"
-#include "ParallelWorld.h"
+#include "World.h"
 #include "PBCoderDecoder.h"
 #include <QDebug>
 
-DataSource::DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+DataSource::DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
                        QObject *parent ) : QObject(parent)
 {

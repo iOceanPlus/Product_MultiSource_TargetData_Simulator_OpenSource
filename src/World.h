@@ -27,12 +27,12 @@ struct GridIndex
     qint32 colIndex;
 };
 
-class ParallelWorld : public QObject
+class World : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParallelWorld( QMutex *mutex, QObject *parent = 0);
-    ~ParallelWorld();
+    explicit World( QMutex *mutex, QObject *parent = 0);
+    ~World();
     bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
 
     QHash<qint32, Target *> getHashIDTarget() const;

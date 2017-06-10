@@ -1,4 +1,4 @@
-#include "ParallelWorld.h"
+#include "World.h"
 #include <QMutex>
 #include <QDebug>
 #include <QTimer>
@@ -13,7 +13,7 @@
 #include "macro.h"
 #include "target.h"
 
-ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
+World::World(QMutex *mutex,  QObject *parent) :
                             QObject(parent)
 {
     //qsrand(QDateTime::currentDateTime().toTime_t());
@@ -29,11 +29,11 @@ ParallelWorld::ParallelWorld(QMutex *mutex,  QObject *parent) :
 
     parseParamFileAndInitMembers();
     timerMeasureAndUpdateTargetPos=new QTimer(this);
-    connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos);
+    connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &World::slotTimerEventMeasureAndUpdateTargetsPos);
     timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
 }
 
-void ParallelWorld::parseParamFileAndInitMembers()
+void World::parseParamFileAndInitMembers()
 {
     QFile paramJsonFile(QStringLiteral("param.json"));
     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
@@ -134,7 +134,7 @@ void ParallelWorld::parseParamFileAndInitMembers()
                if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
                {
                    DataSource *dataSource=new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this);
-                    connect(dataSource, &DataSource::sigSend2MQ,this,&ParallelWorld::sigSend2MQ);
+                    connect(dataSource, &DataSource::sigSend2MQ,this,&World::sigSend2MQ);
                     mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,dataSource);
                }
             }
@@ -153,7 +153,7 @@ void ParallelWorld::parseParamFileAndInitMembers()
 
 }
 
-ParallelWorld::~ParallelWorld()
+World::~World()
 {
     QHashIterator <qint32, Target*> iHashTargets(hashIDTarget);
     while (iHashTargets.hasNext())
@@ -165,7 +165,7 @@ ParallelWorld::~ParallelWorld()
     }
 }
 
-void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
+void World::slotTimerEventMeasureAndUpdateTargetsPos()
 {
     /**************************************** put data to channels*********************/
     QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
@@ -192,7 +192,7 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
     }
 }
 
- void  ParallelWorld::initTargetsAndAddToDataSources()
+ void  World::initTargetsAndAddToDataSources()
 {
      QFile paramJsonFile(ship_FileName);
      if (!paramJsonFile.open(QIODevice::ReadOnly)) {
@@ -278,7 +278,7 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
      qDebug()<<"Number of targets created: "<<targetID;
  }
 
- void ParallelWorld::initDataChannels()
+ void World::initDataChannels()
  {
      if(mapInfoTypeDataChannels.isEmpty())
      {
@@ -293,34 +293,35 @@ void ParallelWorld::slotTimerEventMeasureAndUpdateTargetsPos()
  }
 
 
- bool ParallelWorld::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key)
+ bool World::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key)
 {
      qDebug()<<endl<<"---------------Checking JsonObject key----------------------";
      if(jsonObject.contains(key))
      {
-         qDebug()<<key<<":"<<jsonObject.value(key);
+         if(!jsonObject.value(key).isObject()&&jsonObject.value(key).isArray())
+            qDebug()<<key<<":"<<jsonObject.value(key);
          return true;
      }
      else
          return false;
  }
  
- PBCoderDecoder *ParallelWorld::getPbCoderDecoder() const
+ PBCoderDecoder *World::getPbCoderDecoder() const
  {
      return pbCoderDecoder;
  }
  
- QMap<PB_Enum_TargetInfo_Type, DataChannel *> ParallelWorld::getMapInfoTypeDataChannels() const
+ QMap<PB_Enum_TargetInfo_Type, DataChannel *> World::getMapInfoTypeDataChannels() const
  {
      return mapInfoTypeDataChannels;
  }
  
- QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> ParallelWorld::getMapInfoTypePosDeviceInfo() const
+ QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> World::getMapInfoTypePosDeviceInfo() const
  {
      return mapInfoTypePosDeviceInfo;
  }
 
- QHash<qint32, Target *> ParallelWorld::getHashIDTarget() const
+ QHash<qint32, Target *> World::getHashIDTarget() const
  {
      return hashIDTarget;
  }

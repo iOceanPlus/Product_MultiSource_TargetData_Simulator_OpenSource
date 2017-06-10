@@ -1,9 +1,9 @@
 #include "DataChannel.h"
-#include "ParallelWorld.h"
+#include "World.h"
 #include "target.h"
 #include <QDebug>
 
-DataChannel::DataChannel(ParallelWorld *world, const PB_Enum_TargetInfo_Type &targetInfoType, QObject *parent) : QObject(parent)
+DataChannel::DataChannel(World *world, const PB_Enum_TargetInfo_Type &targetInfoType, QObject *parent) : QObject(parent)
 {
     this->targetInfoType=targetInfoType;
     this->world=world;

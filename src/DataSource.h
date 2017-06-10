@@ -9,7 +9,7 @@
 #include "CommonEnum.pb.h"
 #include "IOMessages.h"
 
-class ParallelWorld;
+class World;
 class Target;
 
 struct Struct_TransmissionQuality
@@ -28,7 +28,7 @@ class DataSource : public QObject
 {
     Q_OBJECT
 public:
-    explicit DataSource(ParallelWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+    explicit DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                         const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality, QObject *parent = 0);
 
     bool addTargetIDObservedWithAIS(qint32 targetID);
@@ -55,7 +55,7 @@ private:
     void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const;
 
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
-    ParallelWorld *world;
+    World *world;
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
                 setTargetIDsObservedWithHaijian;
     PB_Enum_TargetInfo_Source pbTargetInfoSource;

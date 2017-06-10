@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QDateTime>
 class Target;
-class ParallelWorld;
+class World;
 
 struct Struct_PosDeviceInfo
 {

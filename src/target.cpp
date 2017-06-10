@@ -2,16 +2,16 @@
 #include "target.h"
 #include "macro.h"
 #include "PBCoderDecoder.h"
-#include "ParallelWorld.h"
+#include "World.h"
 #include <QGeoCoordinate>
 #include <QDebug>
 #include <QtMath>
 
 Target::Target(const PBTargetPosition &pbTargetPos,
-               ParallelWorld *paramParallelWorld, const QDateTime &posDateTime)
+               World *paramWorld, const QDateTime &posDateTime)
 {
     this->hashTargetInfoTypePosDevice=hashTargetInfoTypePosDevice;
-    this->world=paramParallelWorld;
+    this->world=paramWorld;
 
     this->pbTargetPosOrig.CopyFrom(pbTargetPos);
     this->posOrigDateTime=posDateTime;

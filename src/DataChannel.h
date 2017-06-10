@@ -3,13 +3,13 @@
 
 #include <QObject>
 #include "Target.pb.h"
-class ParallelWorld;
+class World;
 
 class DataChannel : public QObject
 {
     Q_OBJECT
 public:
-    explicit DataChannel(ParallelWorld *world,  const PB_Enum_TargetInfo_Type   &targetInfoType,QObject *parent = 0);
+    explicit DataChannel(World *world,  const PB_Enum_TargetInfo_Type   &targetInfoType,QObject *parent = 0);
     bool fetchDataFromPosDevicesIntoChannel();
     bool clearListPBTargetPosInChannel();
 
@@ -23,7 +23,7 @@ public slots:
 
 private:
     PB_Enum_TargetInfo_Type targetInfoType;
-    ParallelWorld *world;
+    World *world;
     QList <PBTargetPosition> listPBTargetPosInChannel;
 };
 

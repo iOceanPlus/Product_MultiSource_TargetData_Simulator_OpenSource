@@ -8,12 +8,12 @@
 #include "PosDevice.h"
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
-class ParallelWorld;
+class World;
 
 class Target
 {
 public:
-    explicit Target(const PBTargetPosition &pbTargetPosOrig, ParallelWorld *world, const QDateTime &posOrigDateTime);
+    explicit Target(const PBTargetPosition &pbTargetPosOrig, World *world, const QDateTime &posOrigDateTime);
     bool addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev);
     bool installPosDevices();
     ~Target();
@@ -52,7 +52,7 @@ private:
     QDateTime posOrigDateTime, posCurrentDateTime;
 
     //PBCoderDecoder *pbCoderDecoder;
-    ParallelWorld *world;
+    World *world;
 };
 
 #endif // TARGET_H

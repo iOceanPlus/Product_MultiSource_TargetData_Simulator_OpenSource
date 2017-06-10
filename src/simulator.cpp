@@ -6,7 +6,7 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
     threadOfWorld=new QThread(this);
     this->thread()->setPriority(QThread::LowPriority);
 
-    world=new ParallelWorld(mutex);
+    world=new World(mutex);
     connect(threadOfWorld,&QThread::finished,world,&QObject::deleteLater);
     world->moveToThread(threadOfWorld);
     threadOfWorld->start(QThread::NormalPriority);

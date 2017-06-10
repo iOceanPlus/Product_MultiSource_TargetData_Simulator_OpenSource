@@ -5,7 +5,7 @@
 #include <QMutex>
 #include <QThread>
 #include "IOMessages.h"
-#include "ParallelWorld.h"
+#include "World.h"
 class Simulator : public QObject
 {
     Q_OBJECT
@@ -20,7 +20,7 @@ private:
     void connectIOMessageAndWorld();
 
     IOMessages *ioMessages;
-    ParallelWorld *world;
+    World *world;
     QMutex *mutex;
 
     QThread *threadOfWorld;

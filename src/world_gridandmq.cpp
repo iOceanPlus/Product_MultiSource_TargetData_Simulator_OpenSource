@@ -1,4 +1,4 @@
-#include "ParallelWorld.h"
+#include "World.h"
 #include <QMutex>
 #include <QDebug>
 #include <QTimer>
@@ -12,7 +12,7 @@
 #include "macro.h"
 #include "target.h"
 
-bool ParallelWorld::getLocation(quint32 rowIndex, quint32 colIndex,
+bool World::getLocation(quint32 rowIndex, quint32 colIndex,
                          double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree)
 {
     if(rowIndex>=rowCount||colIndex>=colCount) //超出范围
@@ -32,7 +32,7 @@ bool ParallelWorld::getLocation(quint32 rowIndex, quint32 colIndex,
     return true;
 }
 
-bool ParallelWorld::getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
+bool World::getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                                  qint32 &rowIndex, qint32 &colIndex) const
 {
     if(longitudeInDegree>180||longitudeInDegree<-180||
@@ -60,7 +60,7 @@ bool ParallelWorld::getGridIndex(const double &longitudeInDegree,const double &l
 
 
 /****reply to PBMoniitor***/
-void ParallelWorld::slotPBMonitor(PBMonitor pbMonitor)
+void World::slotPBMonitor(PBMonitor pbMonitor)
 {
 
     updateMonitorProbeAckWithOneMessageRcvd();
@@ -97,7 +97,7 @@ void ParallelWorld::slotPBMonitor(PBMonitor pbMonitor)
     }
 }
 
-void ParallelWorld::initWaterGrids()
+void World::initWaterGrids()
 {
     for(int rInd=0; rInd<(qint32)rowCount;rInd++)
     {
@@ -131,7 +131,7 @@ void ParallelWorld::initWaterGrids()
     }
 }
 
-bool ParallelWorld::isInWater(const double &longitudeInDegree,const double &latitudeInDegree)
+bool World::isInWater(const double &longitudeInDegree,const double &latitudeInDegree)
 {
    qint32 rowInd,colInd;
     if(getGridIndex(longitudeInDegree,latitudeInDegree,rowInd,colInd))
@@ -145,19 +145,19 @@ bool ParallelWorld::isInWater(const double &longitudeInDegree,const double &lati
         return false;
 }
 
-void ParallelWorld::updateMonitorProbeAckWithOneMessageRcvd()
+void World::updateMonitorProbeAckWithOneMessageRcvd()
 {
     monitor_ProbeAck.set_commandmessagesrcvd(monitor_ProbeAck.commandmessagesrcvd()+1);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
-void ParallelWorld::updateMonitorProbeAckWithOneMessageSent()
+void World::updateMonitorProbeAckWithOneMessageSent()
 {
     monitor_ProbeAck.set_commandmessagessent(monitor_ProbeAck.commandmessagessent()+1);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
-void ParallelWorld::updateMonitorProbeAckWithMessagesSent(qint32 messageCount)
+void World::updateMonitorProbeAckWithMessagesSent(qint32 messageCount)
 {
     monitor_ProbeAck.set_commandmessagessent(monitor_ProbeAck.commandmessagessent()+messageCount);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
