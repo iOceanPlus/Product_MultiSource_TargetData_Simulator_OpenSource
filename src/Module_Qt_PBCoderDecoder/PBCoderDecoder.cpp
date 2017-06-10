@@ -57,6 +57,49 @@ QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_
     }
 }
 
+PB_Enum_Aggregated_AIS_Ship_Type  PBCoderDecoder::getAggregatedAISShipType(qint16 shipTypeAIS)
+{
+    if(shipTypeAIS<20||shipTypeAIS>=90)
+        return EV_AggregatedAISShipType_Others;
+    else if(shipTypeAIS>=70&&shipTypeAIS<=79)
+        return EV_AggregatedAISShipType_CargoShip;
+    else if(shipTypeAIS==51)
+        return EV_AggregatedAISShipType_SARShip;
+    else if(shipTypeAIS>=80&&shipTypeAIS<=89)
+        return EV_AggregatedAISShipType_Tanker;
+    else if(shipTypeAIS==52)
+        return EV_AggregatedAISShipType_Tug;
+    else if(shipTypeAIS==30)
+        return EV_AggregatedAISShipType_FishingShip;
+    else if(shipTypeAIS==31||shipTypeAIS==32)
+        return EV_AggregatedAISShipType_TowingShip;
+    else if(shipTypeAIS>=60&&shipTypeAIS<=69)
+        return EV_AggregatedAISShipType_PassengerShip;
+    else if(shipTypeAIS==35)
+        return EV_AggregatedAISShipType_MilitaryShip;
+    else if(shipTypeAIS==55)
+        return EV_AggregatedAISShipType_LawEnforcementShip;
+    else if(shipTypeAIS>=20&&shipTypeAIS<=29)
+        return EV_AggregatedAISShipType_WIGShip;
+    else if(shipTypeAIS>=40&&shipTypeAIS<=49)
+        return EV_AggregatedAISShipType_HSCShip;
+    else if(shipTypeAIS==50)
+        return EV_AggregatedAISShipType_Pilot;
+    else if(shipTypeAIS==53)
+        return EV_AggregatedAISShipType_PortTender;
+    else if(shipTypeAIS==36)
+        return EV_AggregatedAISShipType_Sailing;
+    else if(shipTypeAIS==37)
+        return EV_AggregatedAISShipType_PleasureCraft;
+    else if(shipTypeAIS==33)
+        return EV_AggregatedAISShipType_UnderwaterOperation;
+    else if(shipTypeAIS==34)
+        return EV_AggregatedAISShipType_Diving;
+    else
+        return EV_AggregatedAISShipType_Others;
+
+}
+
 
 quint32 PBCoderDecoder::getStartedTimeUTC() const
 {

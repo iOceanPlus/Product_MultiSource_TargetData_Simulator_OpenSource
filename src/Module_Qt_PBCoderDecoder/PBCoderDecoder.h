@@ -15,6 +15,7 @@ public:
     static bool isCoordinatesValid(const PBTargetPosition &targetPos, bool is0Valid=false);
     static QString getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource);
     static QString getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName);
+    static PB_Enum_Aggregated_AIS_Ship_Type getAggregatedAISShipType(qint16 shipTypeAIS);
 
     /************************************************ Serializers *********************************************/
     QByteArray serializePBTargetToArray(PBTarget pbTarget);

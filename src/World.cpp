@@ -255,6 +255,9 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
         pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 
+        pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%100);
+        pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
+
         pbTargetPosOrig.set_beidouid(EV_TargetIDType_BeidouID*ExternV_TargetCount+targetID);
         pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
         pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
