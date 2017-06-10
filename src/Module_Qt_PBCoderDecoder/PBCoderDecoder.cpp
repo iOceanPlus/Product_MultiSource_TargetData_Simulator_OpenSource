@@ -23,17 +23,17 @@ QString PBCoderDecoder::getReadableTargetInfo_SourceName(const PB_Enum_TargetInf
 {
     switch (targetInfoSource) {
     case EV_TargetInfoSource_AgricultureMinistry:
-        return "";
+        return "农业部";
     case EV_TargetInfoSource_MaritimeBureau:
-        return "";
+        return "海事局";
     case EV_TargetInfoSource_Haijian:
-        return "";
+        return "Haijian";
     case EV_TargetInfoSource_SatAIS:
-        return "";
+        return "卫星AIS";
     case EV_TargetInfoSource_SearchAndRescue:
-        return "";
+        return "救捞局";
     default:
-        return "";
+        return "其他";
     }
 }
 
@@ -45,20 +45,16 @@ QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_
     case EV_TargetInfoType_AISStatic:
         return "AIS";
     case EV_TargetInfoType_ArgosAndMaritimeSatellite:
-        return "";
+        return "Arogs及海事卫星";
     case EV_TargetInfoType_Beidou:
-        return "";
+        return "北斗";
     case EV_TargetInfoType_Haijian:
-        return "";
+        return "船舶";
     case EV_TargetInfoType_LRIT:
-        return "";
+        return "LRIT";
     default:
-        return "";
+        return "其他";
     }
-
-
-
-
 }
 
 
