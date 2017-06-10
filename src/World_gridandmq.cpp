@@ -62,8 +62,7 @@ bool World::getGridIndex(const double &longitudeInDegree,const double &latitudeI
 /****reply to PBMoniitor***/
 void World::slotPBMonitor(PBMonitor pbMonitor)
 {
-
-    updateMonitorProbeAckWithOneMessageRcvd();
+    updateTotalMsgOfProbeAckWithOneMessageRcvd();
 
     //qDebug()<<QDateTime::currentDateTime()<< ":Monitor message recvd.\n"<<QString::fromStdString(pbMonitor.DebugString());
     QList<StructDataAndKey> listProtoData;
@@ -93,8 +92,15 @@ void World::slotPBMonitor(PBMonitor pbMonitor)
     if(!listProtoData.isEmpty())
     {
         emit sigSend2MQ(listProtoData);
-        updateMonitorProbeAckWithMessagesSent(listProtoData.size());
+        updateTotalMsgOfMonitorProbeAckWithMessagesSent(listProtoData.size());
     }
+}
+
+void World::addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent)
+{
+    monitor_ProbeAck.set_preprocessedtargetpositionssent(monitor_ProbeAck.preprocessedtargetpositionssent()+preprocessedMsgsSent);
+    monitor_ProbeAck.set_totalmessagessent(monitor_ProbeAck.totalmessagessent()+preprocessedMsgsSent);
+    monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
 void World::initWaterGrids()
@@ -145,20 +151,14 @@ bool World::isInWater(const double &longitudeInDegree,const double &latitudeInDe
         return false;
 }
 
-void World::updateMonitorProbeAckWithOneMessageRcvd()
+void World::updateTotalMsgOfProbeAckWithOneMessageRcvd()
 {
-    monitor_ProbeAck.set_commandmessagesrcvd(monitor_ProbeAck.commandmessagesrcvd()+1);
+    monitor_ProbeAck.set_totalmessagesrcvd(monitor_ProbeAck.totalmessagesrcvd()+1);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
-void World::updateMonitorProbeAckWithOneMessageSent()
+void World::updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount)
 {
-    monitor_ProbeAck.set_commandmessagessent(monitor_ProbeAck.commandmessagessent()+1);
-    monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
-}
-
-void World::updateMonitorProbeAckWithMessagesSent(qint32 messageCount)
-{
-    monitor_ProbeAck.set_commandmessagessent(monitor_ProbeAck.commandmessagessent()+messageCount);
+    monitor_ProbeAck.set_totalmessagessent(monitor_ProbeAck.totalmessagessent()+messageCount);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }

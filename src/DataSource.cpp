@@ -2,6 +2,7 @@
 #include "World.h"
 #include "PBCoderDecoder.h"
 #include <QDebug>
+#include <QTimer>
 
 DataSource::DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
@@ -13,6 +14,10 @@ DataSource::DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetIn
 
     totalPosCountFetched=posCountOutputToLog= 0;
     dtPosCountFetched=dtPosCountOutputToLog= QDateTime::currentDateTime();
+    timerOutPutInfo=new QTimer(this);
+    connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutTargetsCountPerType);
+    connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutPosCountAndRate);
+    timerOutPutInfo->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
 }
 
 bool DataSource::addTargetIDObservedWithAIS(qint32 targetID)
@@ -101,10 +106,14 @@ bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfo
     }
     if(pbTarget.listtargetpos_size()>0)
     {
+        totalPosCountFetched+=pbTarget.listtargetpos_size();
+        dtPosCountFetched=QDateTime::currentDateTime();
         StructDataAndKey dataAndKey;
         dataAndKey.data= world->getPbCoderDecoder()->serializePBTargetToArray(pbTarget);
         dataAndKey.routingKey=routingKey;
         listDataAndKey.append(dataAndKey);
+
+        world->addPreprocessedMsgsSendInMonitorProbeAck(pbTarget.listtargetpos_size());
     }
     return true;
 }
@@ -121,7 +130,7 @@ void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTarge
 
 void DataSource::slotOutPutTargetsCountPerType()
 {
-    qDebug()<< QDateTime::currentDateTime()
+    qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<< PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)
             <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic)<<"target count:"<<setTargetIDsSentWithAIS.size()
             <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou)<<"target count:"<<setTargetIDsSentWithBeidou.size()
            <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian)<<"target count:"<<setTargetIDsSentWithHaijian.size()
@@ -132,7 +141,7 @@ void DataSource::slotOutPutPosCountAndRate()
 {
     qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
     qint32 posCountPerMinute=qRound(newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60);
-    qDebug()<< QDateTime::currentDateTime()<<
+    qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<<
                PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"<<posCountPerMinute<<" messages/minute";
     posCountOutputToLog=totalPosCountFetched;
    dtPosCountOutputToLog=dtPosCountFetched;

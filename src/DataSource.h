@@ -11,6 +11,7 @@
 
 class World;
 class Target;
+class QTimer;
 
 struct Struct_TransmissionQuality
 {
@@ -65,6 +66,8 @@ private:
 
     quint64 totalPosCountFetched, posCountOutputToLog;
     QDateTime dtPosCountFetched, dtPosCountOutputToLog;
+
+    QTimer *timerOutPutInfo;
 };
 
 #endif // DATASOURCE_H

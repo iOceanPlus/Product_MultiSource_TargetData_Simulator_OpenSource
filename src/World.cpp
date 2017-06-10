@@ -295,16 +295,19 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
 
  bool World::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key)
 {
-     qDebug()<<endl<<"---------------Checking JsonObject key----------------------";
      if(jsonObject.contains(key))
      {
-         if(!jsonObject.value(key).isObject()&&jsonObject.value(key).isArray())
+         if(!jsonObject.value(key).isObject()&&!jsonObject.value(key).isArray())
+         {
+             qDebug()<<endl<<"---------------Checking JsonObject key----------------------";
             qDebug()<<key<<":"<<jsonObject.value(key);
+         }
          return true;
      }
      else
          return false;
  }
+
  
  PBCoderDecoder *World::getPbCoderDecoder() const
  {

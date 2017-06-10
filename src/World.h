@@ -42,6 +42,7 @@ public:
     QMap<PB_Enum_TargetInfo_Type, DataChannel *> getMapInfoTypeDataChannels() const;
 
     PBCoderDecoder *getPbCoderDecoder() const;
+    void addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent);
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
@@ -64,14 +65,14 @@ private:
     bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                       qint32 &rowIndex, qint32 &colIndex) const;
 
-    void updateMonitorProbeAckWithOneMessageRcvd();
-    void updateMonitorProbeAckWithOneMessageSent();
-    void updateMonitorProbeAckWithMessagesSent(qint32 messageCount);
+    void updateTotalMsgOfProbeAckWithOneMessageRcvd();
+    void updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount);
 
     void sendPBTargetToMQ(const PBTargetPosition &pbTargetPosToSend);
 
     QHash <qint32, Target*> hashIDTarget;
     QMap <PB_Enum_TargetInfo_Source,DataSource*> mapInfoSourceDataSources;
+
 
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
 
