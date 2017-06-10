@@ -50,14 +50,17 @@ public slots:
 
 private:
     bool fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
-                               QSet <qint32> &setTargetIDObservedOfThisInfoType, const QString &routingKey);
+                               QSet <qint32> &setTargetIDObservedOfThisInfoType,QSet <qint32> &setTargetIDSentOfThisInfoType, const QString &routingKey);
 
     void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const;
 
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
     World *world;
+
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
-                setTargetIDsObservedWithHaijian;
+                setTargetIDsObservedWithHaijian; //Which targets this data source is able to observe.
+    QSet <qint32> setTargetIDsSentWithAIS, setTargetIDsSentWithBeidou,setTargetIDsSentWithArgosAndMarineSat,
+                setTargetIDsSentWithHaijian;     //Which targets have been sent by this data source.
     PB_Enum_TargetInfo_Source pbTargetInfoSource;
 
     quint64 totalPosCountFetched, posCountOutputToLog;

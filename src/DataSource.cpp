@@ -46,25 +46,29 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
     if(!setTargetIDsObservedWithAIS.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
+        fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,setTargetIDsSentWithAIS,
+                              ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
     if(!setTargetIDsObservedWithBeidou.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Beidou))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou,ROUTING_KEY_ONLINE_PREPROCESSED_Beidou);
+        fetchDataFromAChannel(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou,setTargetIDsSentWithBeidou,
+                              ROUTING_KEY_ONLINE_PREPROCESSED_Beidou);
     }
 
     if(!setTargetIDsObservedWithHaijian.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Haijian))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian,ROUTING_KEY_ONLINE_PREPROCESSED_Haijian);
+        fetchDataFromAChannel(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian,setTargetIDsSentWithHaijian,
+                              ROUTING_KEY_ONLINE_PREPROCESSED_Haijian);
     }
 
     if(!setTargetIDsObservedWithArgosAndMarineSat.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat,ROUTING_KEY_ONLINE_PREPROCESSED_Argos);
+        fetchDataFromAChannel(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat,
+                              setTargetIDsSentWithArgosAndMarineSat,  ROUTING_KEY_ONLINE_PREPROCESSED_Argos);
     }
     if(!listDataAndKey.isEmpty())
         emit sigSend2MQ(listDataAndKey);
@@ -73,7 +77,7 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
 }
 
 bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
-                                       QSet <qint32> &setTargetIDObservedOfThisInfoType, const QString &routingKey)
+                                       QSet <qint32> &setTargetIDObservedOfThisInfoType,QSet <qint32> &setTargetIDSentOfThisInfoType, const QString &routingKey)
 {
     Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(targetInfoType);
 
@@ -88,6 +92,8 @@ bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfo
         if(!setTargetIDObservedOfThisInfoType.contains(pbTargetPosInList.targetid())
                 ||qrand()%100<transmissionQ.packetLossPercentage )
             continue;
+
+        setTargetIDSentOfThisInfoType.insert(pbTargetPosInList.targetid());
 
         addTimeStampErrorInDynamicOfTargetPos(pbTargetPosInList,transmissionQ);
         PBTargetPosition *pbTargetPosToAdd= pbTarget.add_listtargetpos();
@@ -115,24 +121,19 @@ void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTarge
 
 void DataSource::slotOutPutTargetsCountPerType()
 {
-
-
-
-
-
-
-
+    qDebug()<< QDateTime::currentDateTime()
+            <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic)<<"target count:"<<setTargetIDsSentWithAIS.size()
+            <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou)<<"target count:"<<setTargetIDsSentWithBeidou.size()
+           <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian)<<"target count:"<<setTargetIDsSentWithHaijian.size()
+          <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite)<<"target count:"<<setTargetIDsSentWithArgosAndMarineSat.size();
 }
 
 void DataSource::slotOutPutPosCountAndRate()
 {
     qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
     qint32 posCountPerMinute=qRound(newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60);
-    qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"<<
-
-
-
-
+    qDebug()<< QDateTime::currentDateTime()<<
+               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"<<posCountPerMinute<<" messages/minute";
     posCountOutputToLog=totalPosCountFetched;
    dtPosCountOutputToLog=dtPosCountFetched;
 }
