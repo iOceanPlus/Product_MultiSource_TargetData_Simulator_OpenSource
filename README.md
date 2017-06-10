@@ -1,3 +1,6 @@
+## 注意！Notice! 该项目为开源项目，请勿将账号、消息队列信息、敏感信息等传入代码或附件！ This project is open source, DO NOT PUSH personal or sensitive contents, such as accounts of rabbitmq.
+
+
 #Open_MultiSource_TargetData_Simulator
 ## Dataset used for initialization  
 - Dataset used for initialization - ais_ship_realtime_valid_anonymous_randOrder.csv：https://drive.google.com/open?id=0B01TUPO5dae2VTZGblI3a1pCazA  
