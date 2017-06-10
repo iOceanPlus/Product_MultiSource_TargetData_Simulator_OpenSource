@@ -12,6 +12,8 @@ DataSource::DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetIn
     this->world=world;
     this->pbTargetInfoSource=pbTargetInfoSource;
 
+    posCountPerMinute=0;
+
     totalPosCountFetched=posCountOutputToLog= 0;
     dtPosCountFetched=dtPosCountOutputToLog= QDateTime::currentDateTime();
     timerOutPutInfo=new QTimer(this);
@@ -140,11 +142,23 @@ void DataSource::slotOutPutTargetsCountPerType()
 void DataSource::slotOutPutPosCountAndRate()
 {
     qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
-    qint32 posCountPerMinute=qRound(newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60);
+    posCountPerMinute=newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60;
     qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<<
-               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"<<posCountPerMinute<<" messages/minute";
+               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"
+            <<QString::number(posCountPerMinute,'g',3)<<" messages/minute";
     posCountOutputToLog=totalPosCountFetched;
    dtPosCountOutputToLog=dtPosCountFetched;
+}
+
+qint32 DataSource::getTotalTargetCount()
+{
+    return setTargetIDsSentWithAIS.size()+setTargetIDsSentWithArgosAndMarineSat.size()+setTargetIDsSentWithBeidou.size()
+            +setTargetIDsSentWithHaijian.size();
+}
+
+float DataSource::getposCountPerMinute()
+{
+    return posCountPerMinute;
 }
 
 QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> DataSource::getMapInfoTypeTransmitQuality() const

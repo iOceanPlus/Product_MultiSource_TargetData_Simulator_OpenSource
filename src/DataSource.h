@@ -42,6 +42,9 @@ public:
     QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> getMapInfoTypeTransmitQuality() const;
     PB_Enum_TargetInfo_Source getPbTargetInfoSource() const;
 
+    qint32 getTotalTargetCount();
+    float getposCountPerMinute();
+
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 
@@ -66,6 +69,8 @@ private:
 
     quint64 totalPosCountFetched, posCountOutputToLog;
     QDateTime dtPosCountFetched, dtPosCountOutputToLog;
+
+    float posCountPerMinute;
 
     QTimer *timerOutPutInfo;
 };

@@ -31,6 +31,10 @@ World::World(QMutex *mutex,  QObject *parent) :
     timerMeasureAndUpdateTargetPos=new QTimer(this);
     connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &World::slotTimerEventMeasureAndUpdateTargetsPos);
     timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
+
+    timerOutputTargetCountAndMsgRate=new QTimer(this);
+    connect(timerOutputTargetCountAndMsgRate, &QTimer::timeout,this,&World::slotTimerEventOutPutTargetCountAndMsgRate);
+    timerOutputTargetCountAndMsgRate->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
 }
 
 void World::parseParamFileAndInitMembers()
@@ -190,6 +194,23 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
         iMapInfoTypeDataChannels.next();
         iMapInfoTypeDataChannels.value()->clearListPBTargetPosInChannel();
     }
+}
+
+void World::slotTimerEventOutPutTargetCountAndMsgRate()
+{
+    qint32 targetCountSum=0;
+    float msgCountPerMinuteCount=0;
+    QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
+    while(iMapInfoSourceDataSources.hasNext())
+    {
+        iMapInfoSourceDataSources.next();
+        targetCountSum+=iMapInfoSourceDataSources.value()->getTotalTargetCount();
+        msgCountPerMinuteCount+=iMapInfoSourceDataSources.value()->getposCountPerMinute();
+    }
+
+    qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<<"Sum of target count from each data source:"<<targetCountSum
+            <<"\tSum of msg rate from each data source:"<<QString::number(msgCountPerMinuteCount,'g',3)<<" per minute";
+
 }
 
  void  World::initTargetsAndAddToDataSources()

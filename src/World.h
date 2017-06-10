@@ -51,6 +51,7 @@ signals:
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
     void slotTimerEventMeasureAndUpdateTargetsPos();
+    void slotTimerEventOutPutTargetCountAndMsgRate();
 private:
     void parseParamFileAndInitMembers();
 
@@ -73,7 +74,6 @@ private:
     QHash <qint32, Target*> hashIDTarget;
     QMap <PB_Enum_TargetInfo_Source,DataSource*> mapInfoSourceDataSources;
 
-
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
 
     QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> mapInfoTypePosDeviceInfo;
@@ -85,6 +85,7 @@ private:
     QString waterGridsFileName,ship_FileName;
 
     QTimer *timerMeasureAndUpdateTargetPos;
+    QTimer *timerOutputTargetCountAndMsgRate;
 
     PBMonitor_ProbeAck monitor_ProbeAck;
     QMutex *mutex;
