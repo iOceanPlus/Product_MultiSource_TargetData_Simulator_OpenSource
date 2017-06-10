@@ -276,6 +276,12 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
                 if(qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithAIS(targetID);
              }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_LRIT);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithLRIT(targetID);
+             }
              if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
              {
                 Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);

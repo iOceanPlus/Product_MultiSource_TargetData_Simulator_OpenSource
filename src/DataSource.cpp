@@ -28,6 +28,12 @@ bool DataSource::addTargetIDObservedWithAIS(qint32 targetID)
     return true;
 }
 
+bool DataSource::addTargetIDObservedWithLRIT(qint32 targetID)
+{
+    setTargetIDsObservedWithLRIT.insert(targetID);
+    return true;
+}
+
 bool DataSource::addTargetIDObservedWithBeidou(qint32 targetID)
 {
     setTargetIDsObservedWithBeidou.insert(targetID);
@@ -54,6 +60,13 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
     {
         fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,setTargetIDsSentWithAIS,
+                              ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
+    }
+
+    if(!setTargetIDsObservedWithLRIT.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT)
+            &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_LRIT))
+    {
+        fetchDataFromAChannel(EV_TargetInfoType_LRIT,listDataAndKey,setTargetIDsObservedWithLRIT,setTargetIDsSentWithLRIT,
                               ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
@@ -134,6 +147,7 @@ void DataSource::slotOutPutTargetsCountPerType()
 {
     qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<< PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)
             <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic)<<"target count:"<<setTargetIDsSentWithAIS.size()
+           <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_LRIT)<<"target count:"<<setTargetIDsSentWithLRIT.size()
             <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou)<<"target count:"<<setTargetIDsSentWithBeidou.size()
            <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian)<<"target count:"<<setTargetIDsSentWithHaijian.size()
           <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite)<<"target count:"<<setTargetIDsSentWithArgosAndMarineSat.size();
@@ -152,7 +166,7 @@ void DataSource::slotOutPutPosCountAndRate()
 
 qint32 DataSource::getTotalTargetCount()
 {
-    return setTargetIDsSentWithAIS.size()+setTargetIDsSentWithArgosAndMarineSat.size()+setTargetIDsSentWithBeidou.size()
+    return setTargetIDsSentWithAIS.size()+ setTargetIDsSentWithLRIT.size()+ setTargetIDsSentWithArgosAndMarineSat.size()+setTargetIDsSentWithBeidou.size()
             +setTargetIDsSentWithHaijian.size();
 }
 

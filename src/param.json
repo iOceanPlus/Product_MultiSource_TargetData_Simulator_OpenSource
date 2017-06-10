@@ -79,7 +79,7 @@
             [
                 {
                     "TargetInfo_Type":4,
-                    "ObservePercentage":25,
+                    "ObservePercentage":20,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -104,7 +104,7 @@
             [
                 {
                     "TargetInfo_Type":7,
-                    "ObservePercentage":24,
+                    "ObservePercentage":20,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -120,7 +120,7 @@
             [
                 {
                     "TargetInfo_Type":4,
-                    "ObservePercentage":21,
+                    "ObservePercentage":20,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,

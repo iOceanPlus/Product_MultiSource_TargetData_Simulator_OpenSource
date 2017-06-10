@@ -33,6 +33,7 @@ public:
                         const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality, QObject *parent = 0);
 
     bool addTargetIDObservedWithAIS(qint32 targetID);
+    bool addTargetIDObservedWithLRIT(qint32 targetID);
     bool addTargetIDObservedWithBeidou(qint32 targetID);
     bool addTargetIDObservedWithArgosAndMarineSat(qint32 targetID);
     bool addTargetIDObservedWithHaijian(qint32 targetID);
@@ -61,9 +62,9 @@ private:
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
     World *world;
 
-    QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
+    QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithLRIT, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
                 setTargetIDsObservedWithHaijian; //Which targets this data source is able to observe.
-    QSet <qint32> setTargetIDsSentWithAIS, setTargetIDsSentWithBeidou,setTargetIDsSentWithArgosAndMarineSat,
+    QSet <qint32> setTargetIDsSentWithAIS,setTargetIDsSentWithLRIT, setTargetIDsSentWithBeidou,setTargetIDsSentWithArgosAndMarineSat,
                 setTargetIDsSentWithHaijian;     //Which targets have been sent by this data source.
     PB_Enum_TargetInfo_Source pbTargetInfoSource;
 
