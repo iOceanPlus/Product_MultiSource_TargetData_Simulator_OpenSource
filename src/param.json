@@ -53,7 +53,7 @@
                 },
                 {
                     "TargetInfo_Type":2,
-                    "ObservePercentage":10,
+                    "ObservePercentage":11,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
