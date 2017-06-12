@@ -134,7 +134,7 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
         emit sigSend2MQ(listDataAndKey);
     else if( !listDataAndKey.isEmpty())
         QTimer::singleShot(transmissionQ.meanTransmissionLatencyInMiliSeconds+qrand()%transmissionQ.stdDevTransmissionLatencyInMiliSeconds,
-                            [=] () { emit sigSend2MQ(listDataAndKey);}  );
+                            [this, &listDataAndKey] () { emit sigSend2MQ(listDataAndKey);}  );
 
     return true;
 }
