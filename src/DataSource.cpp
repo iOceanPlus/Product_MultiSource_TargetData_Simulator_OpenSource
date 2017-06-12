@@ -116,6 +116,7 @@ bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfo
         setTargetIDSentOfThisInfoType.insert(pbTargetPosInList.targetid());
 
         addTimeStampErrorInDynamicOfTargetPos(pbTargetPosInList,transmissionQ);
+        pbTargetPosInList.set_enum_targetinfosource(pbTargetInfoSource);
         PBTargetPosition *pbTargetPosToAdd= pbTarget.add_listtargetpos();
         pbTargetPosToAdd->CopyFrom(pbTargetPosInList);
     }
@@ -150,21 +151,29 @@ quint64 DataSource::getTotalPosCountFetched() const
 
 void DataSource::slotOutPutTargetsCountPerType()
 {
-    qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<< PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)
-            <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic)<<"target count:"<<setTargetIDsSentWithAIS.size()
-           <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_LRIT)<<"target count:"<<setTargetIDsSentWithLRIT.size()
-            <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou)<<"target count:"<<setTargetIDsSentWithBeidou.size()
-           <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian)<<"target count:"<<setTargetIDsSentWithHaijian.size()
-          <<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite)<<"target count:"<<setTargetIDsSentWithArgosAndMarineSat.size();
+    std::cout<<endl<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" "<<
+               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource).toStdString();
+    if(!setTargetIDsSentWithAIS.isEmpty())
+            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic).toStdString()<<"目标数:"<<setTargetIDsSentWithAIS.size();
+    if(!setTargetIDsSentWithLRIT.isEmpty())
+           std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_LRIT).toStdString()<<"目标数:"<<setTargetIDsSentWithLRIT.size();
+    if(!setTargetIDsObservedWithBeidou.isEmpty())
+            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou).toStdString()<<"目标数:"<<setTargetIDsSentWithBeidou.size();
+    if(!setTargetIDsSentWithHaijian.isEmpty())
+           std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian).toStdString()<<"目标数:"<<setTargetIDsSentWithHaijian.size();
+    if(!setTargetIDsSentWithArgosAndMarineSat.isEmpty())
+          std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite).toStdString()<<"目标数:"<<setTargetIDsSentWithArgosAndMarineSat.size();
+
+    std::cout<<endl;
 }
 
 void DataSource::slotOutPutPosCountAndRate()
 {
     qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
     posCountPerMinute=newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60;
-    qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<<
-               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)<<":"
-            <<QString::number(posCountPerMinute,'g',3)<<" messages/minute";
+    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" "<<
+               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource).toStdString()<<"总计:"
+            <<QString::number(posCountPerMinute,'g',3).toStdString()<<" 轨迹点/秒"<<"\t该数据源发送总点数:"<<totalPosCountFetched<<endl;
     posCountOutputToLog=totalPosCountFetched;
    dtPosCountOutputToLog=dtPosCountFetched;
 }

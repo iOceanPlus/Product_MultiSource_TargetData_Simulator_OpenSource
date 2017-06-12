@@ -49,29 +49,31 @@ void World::parseParamFileAndInitMembers()
     QJsonDocument jsonDoc( QJsonDocument::fromJson(jsonData));
     QJsonObject jsonObjcet=jsonDoc.object();
 
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"ISDebugMode"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"ISDebugMode",true))
         ExternV_IS_DEBUG_MODE=jsonObjcet.value("ISDebugMode").toBool(ExternV_IS_DEBUG_MODE);
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"TargetCount"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"TargetCount",true))
+    {
         ExternV_TargetCount=jsonObjcet.value("TargetCount").toInt(ExternV_TargetCount);
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_LOWER_THRESH"))
+    }
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_LOWER_THRESH",true))
         SOGX10_LOWER_THRESH=jsonObjcet.value("SOGX10_LOWER_THRESH").toInt(SOGX10_LOWER_THRESH);
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT",true))
         ExternV_SECONDS_CHECK_TARGET_COUNT=jsonObjcet.value("SECONDS_CHECK_TARGET_COUNT").toInt(ExternV_SECONDS_CHECK_TARGET_COUNT);
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"WaterGridsFileName"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"WaterGridsFileName",true))
         waterGridsFileName=jsonObjcet.value("WaterGridsFileName").toString();
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"Ship_FileName"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"Ship_FileName",true))
         ship_FileName=jsonObjcet.value("Ship_FileName").toString();
 
 
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice",false))
     {
         QJsonArray arrayDevices=jsonObjcet.value("PosDevice").toArray();
         for(QJsonArray::const_iterator iArray=arrayDevices.constBegin(); iArray!=arrayDevices.constEnd();iArray++)
         {
             QJsonObject jsonObjInArray= (*iArray).toObject();
-            if(checkJsonObjectAndOutPutValue(jsonObjInArray,"TargetInfo_Type")&&
-                    checkJsonObjectAndOutPutValue(jsonObjInArray,"PositioningDevInMeters")&&
-                    checkJsonObjectAndOutPutValue(jsonObjInArray,"SampleMilliSeconds"))
+            if(checkJsonObjectAndOutPutValue(jsonObjInArray,"TargetInfo_Type",false)&&
+                    checkJsonObjectAndOutPutValue(jsonObjInArray,"PositioningDevInMeters",false)&&
+                    checkJsonObjectAndOutPutValue(jsonObjInArray,"SampleMilliSeconds",false))
             {
                 PB_Enum_TargetInfo_Type infoType=(PB_Enum_TargetInfo_Type)jsonObjInArray.value("TargetInfo_Type").toInt(0);
                 Struct_PosDeviceInfo deviceInfo;
@@ -79,6 +81,8 @@ void World::parseParamFileAndInitMembers()
                 deviceInfo.positioningDevInMeters=jsonObjInArray.value("PositioningDevInMeters").toDouble(0);
                 deviceInfo.sampleMilliSeconds=jsonObjInArray.value("SampleMilliSeconds").toInt(10000);
                 mapInfoTypePosDeviceInfo.insert(infoType, deviceInfo);
+                qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType)<<" { "<<"定位误差:"<<deviceInfo.positioningDevInMeters<<
+                          "米\t采样间隔:"<<deviceInfo.sampleMilliSeconds/1000.0<<"秒"<<"}";
             }
             else
                 qDebug()<<"Fail to parse jsonObject:"<<jsonObjInArray;
@@ -88,7 +92,7 @@ void World::parseParamFileAndInitMembers()
     initDataChannels();
 
     /****************************** Start  the iteration  of all Data sources********************************/
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"DataSources"))
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"DataSources",false))
     {
         QJsonArray arrayDataSources=jsonObjcet.value("DataSources").toArray();
 
@@ -96,8 +100,8 @@ void World::parseParamFileAndInitMembers()
         for(QJsonArray::const_iterator iArray=arrayDataSources.constBegin(); iArray!=arrayDataSources.constEnd();iArray++)
         {
             QJsonObject jsonDataSourceObjInArray= (*iArray).toObject(); //One data source
-            if(checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"TargetInfo_Source")&&
-                    checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"SourceInfo"))
+            if(checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"TargetInfo_Source",false)&&
+                    checkJsonObjectAndOutPutValue(jsonDataSourceObjInArray,"SourceInfo",false))
             {
                 qint32 dataSourceID=jsonDataSourceObjInArray.value("TargetInfo_Source").toInt(0);
                 QJsonArray arraySourceInfo=jsonDataSourceObjInArray.value("SourceInfo").toArray();
@@ -107,18 +111,19 @@ void World::parseParamFileAndInitMembers()
                 for(QJsonArray::const_iterator iArraySourceInfo=arraySourceInfo.constBegin(); iArraySourceInfo!=arraySourceInfo.constEnd();iArraySourceInfo++)
                 {
                     QJsonObject jsonSourceInfoObjInArray= (*iArraySourceInfo).toObject(); //One  source info
-                    if(     checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"TargetInfo_Type")&&
-                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"ObservePercentage")&&
-                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"meanTransmissionLatencyInMiliSeconds")&&
-                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"stdDevTransmissionLatencyInMiliSeconds")&&
-                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"meanTimestampErrorInMiliSeconds")&&
-                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"stdDevTimestampErrorInMiliSeconds")&&
-                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"packetLossPercentage"))
+                    if(     checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"TargetInfo_Type",false)&&
+                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"ObservePercentage",false)&&
+                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"meanTransmissionLatencyInMiliSeconds",false)&&
+                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"stdDevTransmissionLatencyInMiliSeconds",false)&&
+                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"meanTimestampErrorInMiliSeconds",false)&&
+                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"stdDevTimestampErrorInMiliSeconds",false)&&
+                            checkJsonObjectAndOutPutValue(jsonSourceInfoObjInArray,"packetLossPercentage",false))
                     {
                         PB_Enum_TargetInfo_Type infoType=(PB_Enum_TargetInfo_Type)jsonSourceInfoObjInArray.value("TargetInfo_Type").toInt(0);
                         if(!mapInfoTypePosDeviceInfo.contains(infoType))
                         {
-                            qDebug()<<"This infoType is not configured in PosDevice of param.json, ignored: "<<infoType;
+                            qDebug()<<"This infoType is not configured in PosDevice of param.json, ignored: "<<
+                                      PBCoderDecoder::getReadableTargetInfo_TypeName(infoType);
                             continue;
                         }
                         Struct_TransmissionQuality transQuality;
@@ -130,6 +135,15 @@ void World::parseParamFileAndInitMembers()
                         transQuality.stdDevTimestampErrorInMiliSeconds=jsonSourceInfoObjInArray.value("stdDevTimestampErrorInMiliSeconds").toInt(0);
                         transQuality.packetLossPercentage=jsonSourceInfoObjInArray.value("packetLossPercentage").toInt(0);
                         mapInfoTypeTransmitQualityOfOneDataSource.insert(infoType, transQuality);
+
+                        qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName( (PB_Enum_TargetInfo_Source)dataSourceID)<<"{"<<
+                                  "数据类型:"<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType)<<
+                                  "观测到的目标百分比:"<<transQuality.percentageTargetsObserved<<
+                                  "平均传输延迟(毫秒):"<<transQuality.meanTransmissionLatencyInMiliSeconds<<
+                                  "传输延迟标准差(毫秒):"<<transQuality.stdDevTransmissionLatencyInMiliSeconds<<
+                                  "平均时间戳误差(毫秒):"<<transQuality.meanTimestampErrorInMiliSeconds<<
+                                  "时间戳误差的标准差(毫秒):"<<transQuality.stdDevTimestampErrorInMiliSeconds<<
+                                  "丢包率(百分比):"<<transQuality.packetLossPercentage<<"}";
                     }
                     else
                         qDebug()<<"Fail to parse jsonObject of SourceInfo in One Data Source.";
@@ -210,9 +224,9 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         messageCountSum+=iMapInfoSourceDataSources.value()->getTotalPosCountFetched();
     }
 
-    qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<<"Sum of target count from each data source:"<<targetCountSum
-            <<"\tSum of msg rate from each data source:"<<QString::number(msgCountPerMinuteCount,'g',3)<<" per minute\tTotal messages sent:"
-           <<messageCountSum;
+    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" 各数据源目标总数:"<<targetCountSum
+            <<"\t各数据源消息率总计:"<<QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/秒\t发送的总轨迹点数:"
+           <<messageCountSum<<endl;
 }
 
  void  World::initTargetsAndAddToDataSources()
@@ -325,13 +339,13 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
  }
 
 
- bool World::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key)
+ bool World::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key, const bool &outPutValue)
 {
      if(jsonObject.contains(key))
      {
-         if(!jsonObject.value(key).isObject()&&!jsonObject.value(key).isArray())
+         if(outPutValue&& !jsonObject.value(key).isObject()&&!jsonObject.value(key).isArray())
          {
-             qDebug()<<endl<<"---------------Checking JsonObject key----------------------";
+             //qDebug()<<endl<<"---------------Checking JsonObject key----------------------";
             qDebug()<<key<<":"<<jsonObject.value(key);
          }
          return true;
