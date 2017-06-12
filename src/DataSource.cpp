@@ -59,44 +59,42 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
     if(!setTargetIDsObservedWithAIS.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,setTargetIDsSentWithAIS,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,setTargetIDsSentWithAIS,
                               ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
     if(!setTargetIDsObservedWithLRIT.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_LRIT))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_LRIT,listDataAndKey,setTargetIDsObservedWithLRIT,setTargetIDsSentWithLRIT,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_LRIT,listDataAndKey,setTargetIDsObservedWithLRIT,setTargetIDsSentWithLRIT,
                               ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
     if(!setTargetIDsObservedWithBeidou.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Beidou))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou,setTargetIDsSentWithBeidou,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou,setTargetIDsSentWithBeidou,
                               ROUTING_KEY_ONLINE_PREPROCESSED_Beidou);
     }
 
     if(!setTargetIDsObservedWithHaijian.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Haijian))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian,setTargetIDsSentWithHaijian,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian,setTargetIDsSentWithHaijian,
                               ROUTING_KEY_ONLINE_PREPROCESSED_Haijian);
     }
 
     if(!setTargetIDsObservedWithArgosAndMarineSat.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
     {
-        fetchDataFromAChannel(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat,
                               setTargetIDsSentWithArgosAndMarineSat,  ROUTING_KEY_ONLINE_PREPROCESSED_Argos);
     }
-    if(!listDataAndKey.isEmpty())
-        emit sigSend2MQ(listDataAndKey);
 
     return true;
 }
 
-bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
+bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
                                        QSet <qint32> &setTargetIDObservedOfThisInfoType,QSet <qint32> &setTargetIDSentOfThisInfoType, const QString &routingKey)
 {
     Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(targetInfoType);
@@ -131,6 +129,13 @@ bool DataSource::fetchDataFromAChannel(const PB_Enum_TargetInfo_Type &targetInfo
 
         world->addPreprocessedMsgsSendInMonitorProbeAck(pbTarget.listtargetpos_size());
     }
+
+    if(  !listDataAndKey.isEmpty()&&transmissionQ.meanTransmissionLatencyInMiliSeconds<=0)
+        emit sigSend2MQ(listDataAndKey);
+    else if( !listDataAndKey.isEmpty())
+        QTimer::singleShot(transmissionQ.meanTransmissionLatencyInMiliSeconds+qrand()%transmissionQ.stdDevTransmissionLatencyInMiliSeconds,
+                            [=] () { emit sigSend2MQ(listDataAndKey);}  );
+
     return true;
 }
 
