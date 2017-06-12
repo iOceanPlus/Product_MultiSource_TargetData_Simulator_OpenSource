@@ -46,6 +46,8 @@ public:
     qint32 getTotalTargetCount();
     float getposCountPerMinute();
 
+    quint64 getTotalPosCountFetched() const;
+
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
 

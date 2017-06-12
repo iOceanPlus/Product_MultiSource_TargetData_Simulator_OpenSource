@@ -143,6 +143,11 @@ void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTarge
                                    qRound(transQ.meanTimestampErrorInMiliSeconds/1000.0) );
 }
 
+quint64 DataSource::getTotalPosCountFetched() const
+{
+    return totalPosCountFetched;
+}
+
 void DataSource::slotOutPutTargetsCountPerType()
 {
     qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<< PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource)

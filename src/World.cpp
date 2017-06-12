@@ -199,6 +199,7 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
 void World::slotTimerEventOutPutTargetCountAndMsgRate()
 {
     qint32 targetCountSum=0;
+    quint64 messageCountSum=0;
     float msgCountPerMinuteCount=0;
     QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
     while(iMapInfoSourceDataSources.hasNext())
@@ -206,11 +207,12 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         iMapInfoSourceDataSources.next();
         targetCountSum+=iMapInfoSourceDataSources.value()->getTotalTargetCount();
         msgCountPerMinuteCount+=iMapInfoSourceDataSources.value()->getposCountPerMinute();
+        messageCountSum+=iMapInfoSourceDataSources.value()->getTotalPosCountFetched();
     }
 
     qDebug()<< QDateTime::currentDateTime().toString("MMdd hh:mm:ss")<<"Sum of target count from each data source:"<<targetCountSum
-            <<"\tSum of msg rate from each data source:"<<QString::number(msgCountPerMinuteCount,'g',3)<<" per minute";
-
+            <<"\tSum of msg rate from each data source:"<<QString::number(msgCountPerMinuteCount,'g',3)<<" per minute\tTotal messages sent:"
+           <<messageCountSum;
 }
 
  void  World::initTargetsAndAddToDataSources()
