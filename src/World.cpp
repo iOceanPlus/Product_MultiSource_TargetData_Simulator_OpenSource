@@ -225,7 +225,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
     }
 
     std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" 各数据源目标总数:"<<targetCountSum
-            <<"\t各数据源消息率总计:"<<QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/秒\t发送的总轨迹点数:"
+            <<"\t各数据源消息率总计:"<<QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"
            <<messageCountSum<<endl;
 }
 
