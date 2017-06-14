@@ -9,7 +9,7 @@
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
 class World;
-const quint16 MIN_Sample_MSEC=1000;
+const quint16 MIN_Sample_MSEC=2000;
 
 class Target
 {
@@ -21,7 +21,7 @@ public:
 
 public:
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
-    PBTargetPosition getReckonedPbTargetPos(const QDateTime &dtToReckon, bool &isOnLand) const;
+    void reckonPbTargetPosCurrent(const QDateTime &dtToReckon, bool &isOnLand) ;
 
     PBTargetPosition updateAndGetPbTargetPosCurrent();
 
@@ -35,7 +35,6 @@ public:
     void setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet);
     void  clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetPos);
     void set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPosition &pbTargetPosToSet);
-
 
 private:
     /********************************
