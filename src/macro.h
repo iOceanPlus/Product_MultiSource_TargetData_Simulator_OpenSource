@@ -6,6 +6,9 @@
 
 extern uint ExternV_TargetCount;
 
+const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
+const quint16 MIN_Sample_MSEC=2000;
+
 extern uint ExternV_Milliseconds_FetchData;
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool ExternV_IS_DEBUG_MODE;
