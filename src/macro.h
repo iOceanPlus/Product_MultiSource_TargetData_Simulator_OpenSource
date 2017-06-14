@@ -18,7 +18,7 @@ const quint32 MAX_UINT32=4294967295;
 const int MIN_INT32= -2147483648;
 const int MAX_INT32= 2147483647;
 
-
+#define DEBUG_PERFORMANCE
 //AIS消息中的经纬度需要除以这个数得到度数
 const double AISPosDivider =600000.0;
 const double  NM_In_Meter= 1852.0 ;//一海里多少米

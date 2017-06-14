@@ -188,6 +188,10 @@ World::~World()
 
 void World::slotTimerEventMeasureAndUpdateTargetsPos()
 {
+#ifdef DEBUG_PERFORMANCE
+    QTime time;
+    time.start();
+#endif
 
     /**************************************** put data to channels*********************/
     QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
@@ -197,6 +201,11 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
         iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel();
     }
 
+#ifdef DEBUG_PERFORMANCE
+    qDebug()<<"Milliseconds to fetch data from pos devices:"<<  time.elapsed();
+    time.start();
+#endif
+
     /**********************************Data sources get data from channels****************/
     QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
     while(iMapInfoSourceDataSources.hasNext())
@@ -204,6 +213,11 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
         iMapInfoSourceDataSources.next();
         iMapInfoSourceDataSources.value()->fetchDataFromChannelsAndSendToMQ();
     }
+
+#ifdef DEBUG_PERFORMANCE
+    qDebug()<<"Milliseconds to fetch data from Channels:"<<  time.elapsed();
+    time.start();
+#endif
 
     /*************************Clear data in data channels*****************************/
     iMapInfoTypeDataChannels.toFront();
@@ -220,7 +234,11 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
     qint32 targetCountAll=0;
     quint64 messageCountSum=0;
     float msgCountPerMinuteCount=0;
-    QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
+
+#ifdef DEBUG_PERFORMANCE
+    QTime time;
+    time.start();
+#endif
 
     QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
     while(iMapInfoSourceDataSources.hasNext())
@@ -244,6 +262,11 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
     }
 
     std::cout<<"\t各数据源不同类型目标总数(去重):"<<targetCountSum<<"\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
+
+#ifdef DEBUG_PERFORMANCE
+    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
+    time.start();
+#endif
 }
 
  void  World::initTargetsAndAddToDataSources()
