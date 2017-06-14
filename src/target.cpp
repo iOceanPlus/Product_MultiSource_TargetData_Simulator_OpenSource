@@ -35,6 +35,11 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
 {
     bool isOnLand;
     QDateTime currentDateTime=QDateTime::currentDateTime();
+    if(posCurrentDateTime.msecsTo(currentDateTime)<MIN_Sample_MSEC)
+    {
+        return;
+    }
+
     PBTargetPosition pbTargetPosReckoned=getReckonedPbTargetPos(currentDateTime,isOnLand);
     if(pbTargetPosReckoned.aisdynamic().sogknotsx10()>0&& isOnLand)
     {

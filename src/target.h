@@ -9,6 +9,7 @@
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
 class World;
+const quint16 MIN_Sample_MSEC=1000;
 
 class Target
 {

@@ -188,6 +188,7 @@ World::~World()
 
 void World::slotTimerEventMeasureAndUpdateTargetsPos()
 {
+
     /**************************************** put data to channels*********************/
     QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
     while(iMapInfoTypeDataChannels.hasNext())
