@@ -63,7 +63,10 @@ void World::parseParamFileAndInitMembers()
         waterGridsFileName=jsonObjcet.value("WaterGridsFileName").toString();
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"Ship_FileName",true))
         ship_FileName=jsonObjcet.value("Ship_FileName").toString();
-
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"MC2_FileName",true))
+        mc2FileName=jsonObjcet.value("MC2_FileName").toString();
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"Language",true))
+        language=jsonObjcet.value("Language").toString();
 
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice",false))
     {
@@ -231,6 +234,28 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
 
  void  World::initTargetsAndAddToDataSources()
 {
+     QFile mc2File(mc2FileName);
+     if (!mc2File.open(QIODevice::ReadOnly)) {
+         qDebug()<<"Warning: Couldn't open "<<mc2File.fileName()<<mc2File.errorString()<<". Targets will not have country attributes.";
+         return ;
+     }
+
+     QList <QString> listCountryNames;
+     quint8 colInd=2;
+     if(language.toLower()=="cn")
+         colInd=1;
+
+     while (!mc2File.atEnd())
+     {
+         QList <QByteArray> listField = mc2File.readLine().trimmed().split(',');
+         if(listField.size()<3)
+         {
+             qDebug()<<"Critical: Column count of  file is not correct!";
+             break;
+         }
+         listCountryNames.append(listField.at(colInd));
+     }
+
      QFile paramJsonFile(ship_FileName);
      if (!paramJsonFile.open(QIODevice::ReadOnly)) {
          qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
@@ -238,6 +263,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          return ;
      }
 
+     qint16 countryCount=listCountryNames.size();
      qint32 targetID=0;
      while (!paramJsonFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
      {
@@ -270,6 +296,8 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         pbTargetPosOrig.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
         pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
         pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+
+        pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toStdString());
 
         pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%100);
         pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));

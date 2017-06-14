@@ -82,7 +82,7 @@ private:
 
     quint32 colCount,rowCount;
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;
-    QString waterGridsFileName,ship_FileName;
+    QString waterGridsFileName,ship_FileName, mc2FileName, language;
 
     QTimer *timerMeasureAndUpdateTargetPos;
     QTimer *timerOutputTargetCountAndMsgRate;
