@@ -46,7 +46,7 @@
             [
                 {
                     "TargetInfo_Type":1,
-                    "ObservePercentage":10,
+                    "ObservePercentage":20,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -55,7 +55,7 @@
                 },
                 {
                     "TargetInfo_Type":2,
-                    "ObservePercentage":11,
+                    "ObservePercentage":20,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -81,7 +81,7 @@
             [
                 {
                     "TargetInfo_Type":4,
-                    "ObservePercentage":20,
+                    "ObservePercentage":35,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -90,7 +90,7 @@
                 },
                 {
                     "TargetInfo_Type":5,
-                    "ObservePercentage":10,
+                    "ObservePercentage":20,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -122,7 +122,7 @@
             [
                 {
                     "TargetInfo_Type":4,
-                    "ObservePercentage":20,
+                    "ObservePercentage":25,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -138,7 +138,7 @@
             [
                 {
                     "TargetInfo_Type":7,
-                    "ObservePercentage":10,
+                    "ObservePercentage":26,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,

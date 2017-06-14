@@ -216,20 +216,33 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
 void World::slotTimerEventOutPutTargetCountAndMsgRate()
 {
     qint32 targetCountSum=0;
+    qint32 targetCountAll=0;
     quint64 messageCountSum=0;
     float msgCountPerMinuteCount=0;
+    QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
+
     QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
     while(iMapInfoSourceDataSources.hasNext())
     {
         iMapInfoSourceDataSources.next();
-        targetCountSum+=iMapInfoSourceDataSources.value()->getTotalTargetCount();
+        targetCountAll+=iMapInfoSourceDataSources.value()->getTotalTargetCount();
         msgCountPerMinuteCount+=iMapInfoSourceDataSources.value()->getposCountPerMinute();
         messageCountSum+=iMapInfoSourceDataSources.value()->getTotalPosCountFetched();
+        iMapInfoSourceDataSources.value()->uniteSetTargetID(mapInfoTypeSetTargetID);
+    }
+    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\t各数据源消息率总计:"<<
+                QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum;
+
+    QMapIterator <PB_Enum_TargetInfo_Type,QSet <qint32>> iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
+    while(iMapInfoTypeSetTargetID.hasNext())
+    {
+        iMapInfoTypeSetTargetID.next();
+        qint32 setSize=iMapInfoTypeSetTargetID.value().size();
+        targetCountSum+=setSize;
+        std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key()).toStdString()<<"目标总数:"<<setSize;
     }
 
-    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" 各数据源目标总数:"<<targetCountSum
-            <<"\t各数据源消息率总计:"<<QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"
-           <<messageCountSum<<endl;
+    std::cout<<"\t各数据源不同类型目标总数(去重):"<<targetCountSum<<"\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
 }
 
  void  World::initTargetsAndAddToDataSources()
@@ -250,8 +263,8 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          QList <QByteArray> listField = mc2File.readLine().trimmed().split(',');
          if(listField.size()<3)
          {
-             qDebug()<<"Critical: Column count of  file is not correct!";
-             break;
+             qDebug()<<"Warning: Column count of  file"<<mc2File.fileName()<<" is not correct! This Line is:"<<listField;
+             continue;
          }
          listCountryNames.append(listField.at(colInd));
      }

@@ -45,6 +45,7 @@ public:
 
     qint32 getTotalTargetCount();
     float getposCountPerMinute();
+    void uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > &mapInfoTypeSetTargetID) const;
 
     quint64 getTotalPosCountFetched() const;
 

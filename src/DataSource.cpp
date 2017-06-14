@@ -194,6 +194,50 @@ float DataSource::getposCountPerMinute()
     return posCountPerMinute;
 }
 
+void DataSource::uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > &mapInfoTypeSetTargetID) const
+{
+    if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_AISDynamic)&&!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_AISStatic))
+        mapInfoTypeSetTargetID.insert(EV_TargetInfoType_AISDynamic,QSet <qint32> ());
+
+    if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
+        mapInfoTypeSetTargetID.insert(EV_TargetInfoType_ArgosAndMaritimeSatellite,QSet <qint32> ());
+
+    if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_Beidou))
+        mapInfoTypeSetTargetID.insert(EV_TargetInfoType_Beidou,QSet <qint32> ());
+
+    if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_Haijian))
+        mapInfoTypeSetTargetID.insert(EV_TargetInfoType_Haijian,QSet <qint32> ());
+
+    if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_LRIT))
+        mapInfoTypeSetTargetID.insert(EV_TargetInfoType_LRIT,QSet <qint32> ());
+
+    QMutableMapIterator <PB_Enum_TargetInfo_Type, QSet <qint32> > iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
+    while(iMapInfoTypeSetTargetID.hasNext())
+    {
+        iMapInfoTypeSetTargetID.next();
+        switch (iMapInfoTypeSetTargetID.key()) {
+        case EV_TargetInfoType_AISDynamic:
+        case EV_TargetInfoType_AISStatic:
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithAIS);
+            break;
+        case EV_TargetInfoType_ArgosAndMaritimeSatellite:
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithArgosAndMarineSat);
+            break;
+        case EV_TargetInfoType_Beidou:
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithBeidou);
+            break;
+        case EV_TargetInfoType_Haijian:
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithHaijian);
+            break;
+        case EV_TargetInfoType_LRIT:
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithLRIT);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> DataSource::getMapInfoTypeTransmitQuality() const
 {
     return mapInfoTypeTransmitQuality;
