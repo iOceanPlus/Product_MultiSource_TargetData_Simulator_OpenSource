@@ -153,16 +153,16 @@ void Target::clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetP
 {
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
     {
-        pbTargetPos.mutable_aisdynamic()->set_mmsi(-1);
-        pbTargetPos.mutable_aisstatic()->set_mmsi(-1);
-        pbTargetPos.mutable_aisvoyage()->set_mmsi(-1);
+        pbTargetPos.mutable_aisdynamic()->set_mmsi(0);
+        pbTargetPos.mutable_aisstatic()->set_mmsi(0);
+        pbTargetPos.mutable_aisvoyage()->set_mmsi(0);
     }
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_BeidouID)
-        pbTargetPos.set_beidouid(-1);
+        pbTargetPos.set_beidouid(0);
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_HaijianID)
-        pbTargetPos.set_haijianid(-1);
+        pbTargetPos.set_haijianid(0);
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_ArgosAndMarineSatID)
-        pbTargetPos.set_argosandmarinesatid(-1);
+        pbTargetPos.set_argosandmarinesatid(0);
 }
 
 void  Target::set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPosition &pbTargetPosToSet)
