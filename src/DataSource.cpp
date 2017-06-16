@@ -162,7 +162,7 @@ void DataSource::slotOutPutTargetsCountPerType()
             std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic).toStdString()<<"目标数:"<<setTargetIDsSentWithAIS.size();
     if(!setTargetIDsSentWithLRIT.isEmpty())
            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_LRIT).toStdString()<<"目标数:"<<setTargetIDsSentWithLRIT.size();
-    if(!setTargetIDsObservedWithBeidou.isEmpty())
+    if(!setTargetIDsSentWithBeidou.isEmpty())
             std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou).toStdString()<<"目标数:"<<setTargetIDsSentWithBeidou.size();
     if(!setTargetIDsSentWithHaijian.isEmpty())
            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian).toStdString()<<"目标数:"<<setTargetIDsSentWithHaijian.size();
@@ -221,16 +221,16 @@ void DataSource::uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> >
             iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithAIS);
             break;
         case EV_TargetInfoType_ArgosAndMaritimeSatellite:
-            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithArgosAndMarineSat);
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithArgosAndMarineSat);
             break;
         case EV_TargetInfoType_Beidou:
-            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithBeidou);
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithBeidou);
             break;
         case EV_TargetInfoType_Haijian:
-            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithHaijian);
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithHaijian);
             break;
         case EV_TargetInfoType_LRIT:
-            iMapInfoTypeSetTargetID.value().unite(setTargetIDsObservedWithLRIT);
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithLRIT);
             break;
         default:
             break;
