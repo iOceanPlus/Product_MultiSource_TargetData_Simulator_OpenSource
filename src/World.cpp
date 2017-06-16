@@ -334,7 +334,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
         pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 
-        pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toStdString());
+        pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
 
         pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%100);
         pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
