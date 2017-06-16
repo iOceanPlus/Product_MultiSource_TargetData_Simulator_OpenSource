@@ -5,6 +5,7 @@
 #include "CommonEnum.pb.h"
 
 //#define DEBUG_PERFORMANCE
+//#define DEBUG_TargetCount
 
 extern uint ExternV_TargetCount;
 

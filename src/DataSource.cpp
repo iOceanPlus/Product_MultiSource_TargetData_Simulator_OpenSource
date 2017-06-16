@@ -112,6 +112,10 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
             continue;
 
         setTargetIDSentOfThisInfoType.insert(pbTargetPosInList.targetid());
+#ifdef DEBUG_TargetCount
+        if(!world->multiMapInfoTypeOrigTargetIDForDebug.contains(targetInfoType,pbTargetPosInList.targetidorig()))
+            world->multiMapInfoTypeOrigTargetIDForDebug.insert(targetInfoType,pbTargetPosInList.targetidorig());
+#endif
 
         addTimeStampErrorInDynamicOfTargetPos(pbTargetPosInList,transmissionQ);
         pbTargetPosInList.set_enum_targetinfosource(pbTargetInfoSource);

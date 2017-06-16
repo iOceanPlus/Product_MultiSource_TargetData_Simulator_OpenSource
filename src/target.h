@@ -17,7 +17,6 @@ public:
     bool installPosDevices();
     ~Target();
 
-public:
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
     void reckonPbTargetPosCurrent(const QDateTime &dtToReckon, bool &isOnLand) ;
 

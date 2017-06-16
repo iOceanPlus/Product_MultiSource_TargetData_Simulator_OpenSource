@@ -43,6 +43,9 @@ public:
 
     PBCoderDecoder *getPbCoderDecoder() const;
     void addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent);
+#ifdef DEBUG_TargetCount
+    QMultiMap <PB_Enum_TargetInfo_Type, qint32> multiMapInfoTypeOrigTargetIDForDebug;
+#endif
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);

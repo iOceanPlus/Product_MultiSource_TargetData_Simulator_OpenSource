@@ -257,11 +257,16 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
     {
         iMapInfoTypeSetTargetID.next();
         qint32 setSize=iMapInfoTypeSetTargetID.value().size();
+        //qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key())<<iMapInfoTypeSetTargetID.value();
         targetCountSum+=setSize;
         std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key()).toStdString()<<"目标总数:"<<setSize;
     }
 
     std::cout<<"\t各数据源不同类型目标总数(去重):"<<targetCountSum<<"\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
+
+#ifdef DEBUG_TargetCount
+    qDebug()<<"mapInfoTypeOrigTargetIDForDebug size is:"<<multiMapInfoTypeOrigTargetIDForDebug.size()<<". Contents are:"<<multiMapInfoTypeOrigTargetIDForDebug;
+#endif
 
 #ifdef DEBUG_PERFORMANCE
     qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
