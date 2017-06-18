@@ -84,6 +84,7 @@ private:
     bool isWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //栅格
 
     QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
+    QSet <qint32> setDistinctTargetIDOrig;
 
     quint32 colCount,rowCount;
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;

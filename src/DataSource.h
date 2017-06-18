@@ -46,6 +46,7 @@ public:
     qint32 getTotalTargetCount();
     float getposCountPerMinute();
     void uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > &mapInfoTypeSetTargetID) const;
+    void uniteSetDistinctOrigTargetID(QSet <qint32> &setDistinctOrigTargetID) const;
 
     quint64 getTotalPosCountFetched() const;
 
@@ -69,6 +70,8 @@ private:
                 setTargetIDsObservedWithHaijian; //Which targets this data source is able to observe.
     QSet <qint32> setTargetIDsSentWithAIS,setTargetIDsSentWithLRIT, setTargetIDsSentWithBeidou,setTargetIDsSentWithArgosAndMarineSat,
                 setTargetIDsSentWithHaijian;     //Which targets have been sent by this data source.
+
+    QSet <qint32> setOrigTargetIDs; //MMSIs, beidous, etc.
     PB_Enum_TargetInfo_Source pbTargetInfoSource;
 
     quint64 totalPosCountFetched, posCountOutputToLog;

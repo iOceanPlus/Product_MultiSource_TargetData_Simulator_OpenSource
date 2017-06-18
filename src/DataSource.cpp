@@ -111,6 +111,8 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
                 ||qrand()%100<transmissionQ.packetLossPercentage )
             continue;
 
+        setOrigTargetIDs.insert(pbTargetPosInList.targetidorig());
+
         setTargetIDSentOfThisInfoType.insert(pbTargetPosInList.targetid());
 #ifdef DEBUG_TargetCount
         if(!world->multiMapInfoTypeOrigTargetIDForDebug.contains(targetInfoType,pbTargetPosInList.targetidorig()))
@@ -242,6 +244,11 @@ void DataSource::uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> >
             break;
         }
     }
+}
+
+void DataSource::uniteSetDistinctOrigTargetID(QSet <qint32> &setDistinctOrigTargetID) const
+{
+    setDistinctOrigTargetID.unite(setOrigTargetIDs);
 }
 
 QMap<PB_Enum_TargetInfo_Type, Struct_TransmissionQuality> DataSource::getMapInfoTypeTransmitQuality() const
