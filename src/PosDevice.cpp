@@ -37,7 +37,7 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
 bool  PosDevice::addDevToPos(PBTargetPosition &pbTargetPos)
 {
     double distance=targetInstalled->getDeviceInfo(infoType).positioningDevInMeters*(qrand()%10000/10000.0);
-    double azimuth=qrand()%3600/3600.0;
+    double azimuth=qrand()%3600/10.0;
 
     QGeoCoordinate geo(pbTargetPos.aisdynamic().intlatitudex60w()/AISPosDivider,pbTargetPos.aisdynamic().intlongitudex60w()/AISPosDivider);
     QGeoCoordinate geoReckoned=geo.atDistanceAndAzimuth(distance,azimuth,0);
