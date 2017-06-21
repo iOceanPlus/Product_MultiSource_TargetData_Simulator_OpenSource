@@ -17,6 +17,7 @@ Target::Target(const PBTargetPosition &pbTargetPos,
     this->posOrigDateTime=posDateTime;
 
     this->pbTargetPosCurrent.CopyFrom(pbTargetPos);
+    this->pbTargetPosBeforeCurrent.CopyFrom(pbTargetPos);
     this->posCurrentDateTime=posDateTime;
 }
 
@@ -47,16 +48,18 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
          return;
     }
 
-    reckonPbTargetPosCurrent(currentDateTime,isOnLand);
+    reckonPbTargetPosCurrentAndCalibrateCOG(currentDateTime,isOnLand);
     if(pbTargetPosCurrent.aisdynamic().sogknotsx10()>0&& isOnLand)
     {
-        pbTargetPosOrig.CopyFrom(pbTargetPosCurrent);
-        posOrigDateTime=posCurrentDateTime;
+        pbTargetPosOrig.CopyFrom(pbTargetPosBeforeCurrent);
+        pbTargetPosCurrent.CopyFrom(pbTargetPosBeforeCurrent);
+        posOrigDateTime=QDateTime::fromTime_t(pbTargetPosOrig.aisdynamic().utctimestamp());
+        posCurrentDateTime=posOrigDateTime;
         bool turnRight=qrand()%2==0;
         bool newCOGGot=false;
         for(int i=1;i<=7;i++)
         {
-            qint32 newCOGX10=pbTargetPosOrig.aisdynamic().cogdegreex10()+turnRight*DegreesX10_ToTurn_WhenMeetLand;
+            qint32 newCOGX10=pbTargetPosCurrent.aisdynamic().cogdegreex10()+turnRight*DegreesX10_ToTurn_WhenMeetLand;
             if(newCOGX10<0)
                 newCOGX10+=3600;
             else
@@ -64,7 +67,7 @@ void Target::updateTargetPosCurrentAndOrigIfMeetLand()
 
             pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
             bool isNewPosOnLand;
-            reckonPbTargetPosCurrent(currentDateTime,isNewPosOnLand);
+            reckonPbTargetPosCurrentAndCalibrateCOG(currentDateTime,isNewPosOnLand);
             if(isNewPosOnLand)
                 continue;
             else
@@ -213,21 +216,34 @@ PBTargetPosition Target::updateAndGetPbTargetPosCurrent()
     return pbTargetPosCurrent;
 }
 
-void Target::reckonPbTargetPosCurrent(const QDateTime &dtToReckon, bool &isOnLand)
+void Target::reckonPbTargetPosCurrentAndCalibrateCOG(const QDateTime &dtToReckon, bool &isOnLand)
 {
     if(pbTargetPosOrig.aisdynamic().sogknotsx10()==0)
     {
         pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(dtToReckon.toTime_t());
+        isOnLand=false;
+        return;
     }
 
-    PBAISDynamic aisDynamicCurrent=pbTargetPosOrig.aisdynamic();
+    pbTargetPosBeforeCurrent.CopyFrom(pbTargetPosCurrent);
+    PBAISDynamic aisDynamicOrig=pbTargetPosOrig.aisdynamic();
     qint64 miliSecondsElapsed=posOrigDateTime.msecsTo(dtToReckon);
-    double distance=aisDynamicCurrent.sogknotsx10()/10.0*NM_In_Meter/3600.0*miliSecondsElapsed/1000.0;
-    QGeoCoordinate geo(aisDynamicCurrent.intlatitudex60w()/AISPosDivider,aisDynamicCurrent.intlongitudex60w()/AISPosDivider);
-    QGeoCoordinate geoReckoned=geo.atDistanceAndAzimuth(distance,aisDynamicCurrent.cogdegreex10()/10.0,0);
+    double distance=aisDynamicOrig.sogknotsx10()/10.0*NM_In_Meter/3600.0*miliSecondsElapsed/1000.0;
+    QGeoCoordinate geoOrig(aisDynamicOrig.intlatitudex60w()/AISPosDivider,aisDynamicOrig.intlongitudex60w()/AISPosDivider);
+    QGeoCoordinate geoReckoned=geoOrig.atDistanceAndAzimuth(distance,aisDynamicOrig.cogdegreex10()/10.0,0);
     pbTargetPosCurrent.mutable_aisdynamic()->set_intlongitudex60w(geoReckoned.longitude()*AISPosDivider);
     pbTargetPosCurrent.mutable_aisdynamic()->set_intlatitudex60w(geoReckoned.latitude()*AISPosDivider);
+
     pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(dtToReckon.toTime_t());
+
+    if(pbTargetPosBeforeCurrent.aisdynamic().utctimestamp()!=pbTargetPosCurrent.aisdynamic().utctimestamp())
+    {
+        QGeoCoordinate geoPosBeforeCurrent(pbTargetPosBeforeCurrent.aisdynamic().intlatitudex60w()/AISPosDivider,
+                                           pbTargetPosBeforeCurrent.aisdynamic().intlongitudex60w()/AISPosDivider);
+        float newCOGInDegree=geoPosBeforeCurrent.azimuthTo(geoReckoned);
+        pbTargetPosCurrent.mutable_aisdynamic()->set_cogdegreex10(qRound(newCOGInDegree*10));
+        pbTargetPosCurrent.mutable_aisdynamic()->set_headingdegree(qRound(newCOGInDegree));
+    }
 
     if(world->isInWater(geoReckoned.longitude(),geoReckoned.latitude()))
     {

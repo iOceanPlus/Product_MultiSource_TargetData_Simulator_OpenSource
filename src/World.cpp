@@ -336,6 +336,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         pbTargetPosOrig.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
         pbTargetPosOrig.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
         pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(cogX10);
+        pbTargetPosOrig.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
         pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(sogX10);
         pbTargetPosOrig.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
         pbTargetPosOrig.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);

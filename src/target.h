@@ -18,7 +18,7 @@ public:
     ~Target();
 
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
-    void reckonPbTargetPosCurrent(const QDateTime &dtToReckon, bool &isOnLand) ;
+    void reckonPbTargetPosCurrentAndCalibrateCOG(const QDateTime &dtToReckon, bool &isOnLand) ;
 
     PBTargetPosition updateAndGetPbTargetPosCurrent();
 
@@ -45,7 +45,7 @@ private:
      * Periodically update pbTargetPosCurrent, assuming Great Circle journey from pbTargetPosOrig.
      * When the target meets land, change the pbTargetPosOrig,  pbTargetPosCurrent and posTime.
 ********/
-    PBTargetPosition pbTargetPosOrig, pbTargetPosCurrent;
+    PBTargetPosition pbTargetPosOrig, pbTargetPosCurrent, pbTargetPosBeforeCurrent;
     QDateTime posOrigDateTime, posCurrentDateTime;
 
     //PBCoderDecoder *pbCoderDecoder;
