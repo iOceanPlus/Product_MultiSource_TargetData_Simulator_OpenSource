@@ -95,7 +95,7 @@ void  Target::setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet
 
 void Target::clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetPos)
 {
-    if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
+    if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_MMSI&& pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_IMO)
     {
         pbTargetPos.mutable_aisdynamic()->set_mmsi(0);
         pbTargetPos.mutable_aisstatic()->set_mmsi(0);
@@ -127,9 +127,12 @@ void  Target::set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPositio
         break;
     case EV_TargetInfoType_AISStatic:
     case EV_TargetInfoType_AISDynamic:
-    case EV_TargetInfoType_LRIT:
         pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
         pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.aisdynamic().mmsi());
+        break;
+    case EV_TargetInfoType_LRIT:
+        pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_IMO);
+        pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.aisstatic().imo());
         break;
     case EV_TargetInfoType_Haijian:
         pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_HaijianID);

@@ -121,10 +121,11 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
 
         addTimeStampErrorInDynamicOfTargetPos(pbTargetPosInList,transmissionQ);
         pbTargetPosInList.set_enum_targetinfosource(pbTargetInfoSource);
-        quint64 infoSourceInfotypeTargetIDOrig=pbTargetInfoSource;
-        infoSourceInfotypeTargetIDOrig=infoSourceInfotypeTargetIDOrig<<56;
-        infoSourceInfotypeTargetIDOrig+= (qint64)pbTargetPosInList.enum_targetinfosource()<<48;
-        infoSourceInfotypeTargetIDOrig+=pbTargetPosInList.targetidorig();
+        qint32 fooTargetID=pbTargetInfoSource;
+        fooTargetID=fooTargetID<<28;
+        fooTargetID+= (qint64)pbTargetPosInList.enum_targetinfotype()<<24;
+        fooTargetID+=pbTargetPosInList.targetidorig();
+        pbTargetPosInList.set_targetid(fooTargetID);
         PBTargetPosition *pbTargetPosToAdd= pbTarget.add_listtargetpos();
         pbTargetPosToAdd->CopyFrom(pbTargetPosInList);
 

@@ -1,6 +1,6 @@
 {
     "ISDebugMode":"TRUE",
-    "TargetCount": 40000,
+    "TargetCount": 400,
     "SECONDS_CHECK_TARGET_COUNT" : 15,
     "SOGX10_LOWER_THRESH":30,
     "WaterGridsFileName":"Waters_1_Degree_2014.csv",
@@ -90,7 +90,7 @@
                 },
                 {
                     "TargetInfo_Type":5,
-                    "ObservePercentage":20,
+                    "ObservePercentage":100,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -106,7 +106,7 @@
             [
                 {
                     "TargetInfo_Type":7,
-                    "ObservePercentage":20,
+                    "ObservePercentage":100,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -122,7 +122,7 @@
             [
                 {
                     "TargetInfo_Type":4,
-                    "ObservePercentage":25,
+                    "ObservePercentage":100,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
@@ -138,7 +138,7 @@
             [
                 {
                     "TargetInfo_Type":7,
-                    "ObservePercentage":26,
+                    "ObservePercentage":100,
                     "meanTransmissionLatencyInMiliSeconds":0,
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,

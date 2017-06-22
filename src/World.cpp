@@ -361,38 +361,43 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
         while(iMapInfoSourceDataSources.hasNext())
         {
+
             iMapInfoSourceDataSources.next();
             DataSource *dataSource=iMapInfoSourceDataSources.value();
              QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality=
                      dataSource->getMapInfoTypeTransmitQuality();
+
+             int minTargetID=((int)dataSource->getPbTargetInfoSource()-1)*ExternV_TargetCount/mapInfoSourceDataSources.size()+1;
+             int maxTargetID=((int)dataSource->getPbTargetInfoSource())*ExternV_TargetCount/mapInfoSourceDataSources.size();
+
              if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic))
              {
                 Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
-                if(qrand()%100<transQual.percentageTargetsObserved)
+                if( targetID>=minTargetID&&targetID<=maxTargetID  && qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithAIS(targetID);
              }
              if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT))
              {
                 Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_LRIT);
-                if(qrand()%100<transQual.percentageTargetsObserved)
+                if(targetID>=minTargetID&&targetID<=maxTargetID  &&qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithLRIT(targetID);
              }
              if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
              {
                 Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);
-                if(qrand()%100<transQual.percentageTargetsObserved)
+                if(targetID>=minTargetID&&targetID<=maxTargetID  &&qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithBeidou(targetID);
              }
              if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian))
              {
                 Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Haijian);
-                if(qrand()%100<transQual.percentageTargetsObserved)
+                if(targetID>=minTargetID&&targetID<=maxTargetID  &&qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithHaijian(targetID);
              }
              if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
              {
                 Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_ArgosAndMaritimeSatellite);
-                if(qrand()%100<transQual.percentageTargetsObserved)
+                if(targetID>=minTargetID&&targetID<=maxTargetID  &&qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
              }
         }
