@@ -178,7 +178,8 @@ PBTargetPosition Target::updateAndGetPbTargetPosCurrent()
         bool newCOGGot=false;
         for(int i=1;i<=7;i++)
         {
-            qint32 newCOGX10=pbTargetPosOrig.aisdynamic().cogdegreex10()+turnRight*DegreesX10_ToTurn_WhenMeetLand;
+            qint32 factor=turnRight?1:-1;
+            qint32 newCOGX10=(qint32)pbTargetPosOrig.aisdynamic().cogdegreex10()+(qint32)factor*i*DegreesX10_ToTurn_WhenMeetLand;
             if(newCOGX10<0)
                 newCOGX10+=3600;
             else
