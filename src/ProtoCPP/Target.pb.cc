@@ -56,7 +56,7 @@ void protobuf_AssignDesc_Target_2eproto() {
       sizeof(PBTarget),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTarget, _internal_metadata_));
   PBTargetPosition_descriptor_ = file->message_type(1);
-  static const int PBTargetPosition_offsets_[19] = {
+  static const int PBTargetPosition_offsets_[18] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, targetid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, aisdynamic_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, aisstatic_),
@@ -75,7 +75,6 @@ void protobuf_AssignDesc_Target_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, beidouid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, haijianid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, argosandmarinesatid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, infosource_infotype_targetidorig_),
   };
   PBTargetPosition_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -162,7 +161,7 @@ void protobuf_AddDesc_Target_2eproto_impl() {
     "m.proto\"z\n\010PBTarget\022\023\n\013sequenceNum\030\001 \001(\r"
     "\022/\n\024enum_Sender_Software\030\002 \001(\0162\021.PB_Enum"
     "_Software\022(\n\rlistTargetPos\030\003 \003(\0132\021.PBTar"
-    "getPosition\"\343\005\n\020PBTargetPosition\022\020\n\010targ"
+    "getPosition\"\271\005\n\020PBTargetPosition\022\020\n\010targ"
     "etID\030\001 \001(\005\022!\n\naisDynamic\030\002 \001(\0132\r.PBAISDy"
     "namic\022\037\n\taisStatic\030\003 \001(\0132\014.PBAISStatic\022\037"
     "\n\taisVoyage\030\004 \001(\0132\014.PBAISVoyage\0225\n\023enum_"
@@ -179,11 +178,10 @@ void protobuf_AddDesc_Target_2eproto_impl() {
     "Association_DS_Mass\022\024\n\014isDangerShip\030\016 \001("
     "\010\022*\n\"lastAssocUsingDSCombinationUTCTime\030"
     "\017 \001(\r\022\020\n\010beidouID\030\020 \001(\005\022\021\n\thaijianID\030\021 \001"
-    "(\005\022\033\n\023argosAndMarineSatID\030\022 \001(\005\022(\n infoS"
-    "ource_InfoType_targetIDOrig\030\037 \001(\004\"L\n\033PBT"
-    "argetAssociation_DS_Mass\022\024\n\014targetIDCand"
-    "\030\001 \001(\005\022\027\n\017associationMass\030\002 \001(\001B\024\n\022team."
-    "iOceanPlus.PBb\006proto3", 1021);
+    "(\005\022\033\n\023argosAndMarineSatID\030\022 \001(\005\"L\n\033PBTar"
+    "getAssociation_DS_Mass\022\024\n\014targetIDCand\030\001"
+    " \001(\005\022\027\n\017associationMass\030\002 \001(\001B\024\n\022team.iO"
+    "ceanPlus.PBb\006proto3", 979);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Target.proto", &protobuf_RegisterTypes);
   ::protobuf_AddDesc_AISData_2eproto();
@@ -627,7 +625,6 @@ const int PBTargetPosition::kLastAssocUsingDSCombinationUTCTimeFieldNumber;
 const int PBTargetPosition::kBeidouIDFieldNumber;
 const int PBTargetPosition::kHaijianIDFieldNumber;
 const int PBTargetPosition::kArgosAndMarineSatIDFieldNumber;
-const int PBTargetPosition::kInfoSourceInfoTypeTargetIDOrigFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 PBTargetPosition::PBTargetPosition()
@@ -1016,21 +1013,6 @@ bool PBTargetPosition::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(248)) goto parse_infoSource_InfoType_targetIDOrig;
-        break;
-      }
-
-      // optional uint64 infoSource_InfoType_targetIDOrig = 31;
-      case 31: {
-        if (tag == 248) {
-         parse_infoSource_InfoType_targetIDOrig:
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &infosource_infotype_targetidorig_)));
-        } else {
-          goto handle_unusual;
-        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -1163,11 +1145,6 @@ void PBTargetPosition::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(18, this->argosandmarinesatid(), output);
   }
 
-  // optional uint64 infoSource_InfoType_targetIDOrig = 31;
-  if (this->infosource_infotype_targetidorig() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(31, this->infosource_infotype_targetidorig(), output);
-  }
-
   // @@protoc_insertion_point(serialize_end:PBTargetPosition)
 }
 
@@ -1282,11 +1259,6 @@ void PBTargetPosition::SerializeWithCachedSizes(
   // optional int32 argosAndMarineSatID = 18;
   if (this->argosandmarinesatid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(18, this->argosandmarinesatid(), target);
-  }
-
-  // optional uint64 infoSource_InfoType_targetIDOrig = 31;
-  if (this->infosource_infotype_targetidorig() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(31, this->infosource_infotype_targetidorig(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:PBTargetPosition)
@@ -1409,13 +1381,6 @@ size_t PBTargetPosition::ByteSizeLong() const {
         this->argosandmarinesatid());
   }
 
-  // optional uint64 infoSource_InfoType_targetIDOrig = 31;
-  if (this->infosource_infotype_targetidorig() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->infosource_infotype_targetidorig());
-  }
-
   // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
   {
     unsigned int count = this->listtargetassociation_ds_mass_size();
@@ -1513,9 +1478,6 @@ void PBTargetPosition::UnsafeMergeFrom(const PBTargetPosition& from) {
   if (from.argosandmarinesatid() != 0) {
     set_argosandmarinesatid(from.argosandmarinesatid());
   }
-  if (from.infosource_infotype_targetidorig() != 0) {
-    set_infosource_infotype_targetidorig(from.infosource_infotype_targetidorig());
-  }
 }
 
 void PBTargetPosition::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1560,7 +1522,6 @@ void PBTargetPosition::InternalSwap(PBTargetPosition* other) {
   std::swap(beidouid_, other->beidouid_);
   std::swap(haijianid_, other->haijianid_);
   std::swap(argosandmarinesatid_, other->argosandmarinesatid_);
-  std::swap(infosource_infotype_targetidorig_, other->infosource_infotype_targetidorig_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1947,20 +1908,6 @@ void PBTargetPosition::set_argosandmarinesatid(::google::protobuf::int32 value) 
   
   argosandmarinesatid_ = value;
   // @@protoc_insertion_point(field_set:PBTargetPosition.argosAndMarineSatID)
-}
-
-// optional uint64 infoSource_InfoType_targetIDOrig = 31;
-void PBTargetPosition::clear_infosource_infotype_targetidorig() {
-  infosource_infotype_targetidorig_ = GOOGLE_ULONGLONG(0);
-}
-::google::protobuf::uint64 PBTargetPosition::infosource_infotype_targetidorig() const {
-  // @@protoc_insertion_point(field_get:PBTargetPosition.infoSource_InfoType_targetIDOrig)
-  return infosource_infotype_targetidorig_;
-}
-void PBTargetPosition::set_infosource_infotype_targetidorig(::google::protobuf::uint64 value) {
-  
-  infosource_infotype_targetidorig_ = value;
-  // @@protoc_insertion_point(field_set:PBTargetPosition.infoSource_InfoType_targetIDOrig)
 }
 
 inline const PBTargetPosition* PBTargetPosition::internal_default_instance() {

@@ -340,12 +340,6 @@ class PBTargetPosition : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::int32 argosandmarinesatid() const;
   void set_argosandmarinesatid(::google::protobuf::int32 value);
 
-  // optional uint64 infoSource_InfoType_targetIDOrig = 31;
-  void clear_infosource_infotype_targetidorig();
-  static const int kInfoSourceInfoTypeTargetIDOrigFieldNumber = 31;
-  ::google::protobuf::uint64 infosource_infotype_targetidorig() const;
-  void set_infosource_infotype_targetidorig(::google::protobuf::uint64 value);
-
   // @@protoc_insertion_point(class_scope:PBTargetPosition)
  private:
 
@@ -367,7 +361,6 @@ class PBTargetPosition : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::uint32 lastassocusingdscombinationutctime_;
   ::google::protobuf::int32 beidouid_;
   ::google::protobuf::int32 haijianid_;
-  ::google::protobuf::uint64 infosource_infotype_targetidorig_;
   ::google::protobuf::int32 argosandmarinesatid_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_Target_2eproto_impl();
@@ -916,20 +909,6 @@ inline void PBTargetPosition::set_argosandmarinesatid(::google::protobuf::int32 
   
   argosandmarinesatid_ = value;
   // @@protoc_insertion_point(field_set:PBTargetPosition.argosAndMarineSatID)
-}
-
-// optional uint64 infoSource_InfoType_targetIDOrig = 31;
-inline void PBTargetPosition::clear_infosource_infotype_targetidorig() {
-  infosource_infotype_targetidorig_ = GOOGLE_ULONGLONG(0);
-}
-inline ::google::protobuf::uint64 PBTargetPosition::infosource_infotype_targetidorig() const {
-  // @@protoc_insertion_point(field_get:PBTargetPosition.infoSource_InfoType_targetIDOrig)
-  return infosource_infotype_targetidorig_;
-}
-inline void PBTargetPosition::set_infosource_infotype_targetidorig(::google::protobuf::uint64 value) {
-  
-  infosource_infotype_targetidorig_ = value;
-  // @@protoc_insertion_point(field_set:PBTargetPosition.infoSource_InfoType_targetIDOrig)
 }
 
 inline const PBTargetPosition* PBTargetPosition::internal_default_instance() {
