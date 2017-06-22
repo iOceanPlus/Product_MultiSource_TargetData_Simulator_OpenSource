@@ -19,6 +19,10 @@ Target::Target(const PBTargetPosition &pbTargetPos,
     this->pbTargetPosCurrent.CopyFrom(pbTargetPos);
     this->pbTargetPosBeforeCurrent.CopyFrom(pbTargetPos);
     this->posCurrentDateTime=posDateTime;
+
+    geoCurrentHighPreci.setLatitude(pbTargetPos.aisdynamic().intlatitudex60w()/AISPosDivider);
+    geoCurrentHighPreci.setLongitude(pbTargetPos.aisdynamic().intlongitudex60w()/AISPosDivider);
+    geoOrigHighPreci=geoBeforeCurrentHighPreci=geoCurrentHighPreci;
 }
 
 Target::~Target()
@@ -28,69 +32,6 @@ Target::~Target()
     {
         iHashTargetInfoTypePosDevice.next();
         delete iHashTargetInfoTypePosDevice.value();
-    }
-}
-
-
-void Target::updateTargetPosCurrentAndOrigIfMeetLand()
-{
-    bool isOnLand;
-    QDateTime currentDateTime=QDateTime::currentDateTime();
-    if(posCurrentDateTime.msecsTo(currentDateTime)<MIN_Sample_MSEC)
-    {
-        return;
-    }
-
-    if(pbTargetPosCurrent.aisdynamic().sogknotsx10()<=0)
-    {
-         posCurrentDateTime=currentDateTime;
-         pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(currentDateTime.toTime_t());
-         return;
-    }
-
-    reckonPbTargetPosCurrentAndCalibrateCOG(currentDateTime,isOnLand);
-    if(pbTargetPosCurrent.aisdynamic().sogknotsx10()>0&& isOnLand)
-    {
-        pbTargetPosOrig.CopyFrom(pbTargetPosBeforeCurrent);
-        pbTargetPosCurrent.CopyFrom(pbTargetPosBeforeCurrent);
-        posOrigDateTime=QDateTime::fromTime_t(pbTargetPosOrig.aisdynamic().utctimestamp());
-        posCurrentDateTime=posOrigDateTime;
-        bool turnRight=qrand()%2==0;
-        bool newCOGGot=false;
-        for(int i=1;i<=7;i++)
-        {
-            qint32 newCOGX10=pbTargetPosCurrent.aisdynamic().cogdegreex10()+turnRight*DegreesX10_ToTurn_WhenMeetLand;
-            if(newCOGX10<0)
-                newCOGX10+=3600;
-            else
-                newCOGX10%=3600;
-
-            pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
-            bool isNewPosOnLand;
-            reckonPbTargetPosCurrentAndCalibrateCOG(currentDateTime,isNewPosOnLand);
-            if(isNewPosOnLand)
-                continue;
-            else
-            {
-                newCOGGot=true;
-                break;
-            }
-        }
-        if(newCOGGot)
-        {
-            pbTargetPosOrig.CopyFrom(pbTargetPosCurrent);
-            posOrigDateTime=currentDateTime;
-            posCurrentDateTime=currentDateTime;
-        }
-        else
-        {
-            pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(0);
-            pbTargetPosCurrent.mutable_aisdynamic()->set_sogknotsx10(0);
-        }
-    }
-    else if(!isOnLand)
-    {
-        posCurrentDateTime=currentDateTime;
     }
 }
 
@@ -212,38 +153,104 @@ QHash<PB_Enum_TargetInfo_Type, PosDevice*> Target::getHashTargetInfoTypePosDevic
 
 PBTargetPosition Target::updateAndGetPbTargetPosCurrent()
 {
-    updateTargetPosCurrentAndOrigIfMeetLand();
+    bool isOnLand;
+    QDateTime currentDateTime=QDateTime::currentDateTime();
+    if(posCurrentDateTime.msecsTo(currentDateTime)<MIN_Sample_MSEC)
+    {
+        return pbTargetPosCurrent;
+    }
+    if(pbTargetPosOrig.aisdynamic().sogknotsx10()<=0)
+    {
+         posCurrentDateTime=currentDateTime;
+         pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(currentDateTime.toTime_t());
+         return pbTargetPosCurrent;
+    }
+
+    QGeoCoordinate geoReckoned= getConstCurrentGeoPosHighPreciReckoned(geoOrigHighPreci,posOrigDateTime,pbTargetPosOrig.aisdynamic().sogknotsx10(),
+                                                                   pbTargetPosOrig.aisdynamic().cogdegreex10()/10.0, currentDateTime, isOnLand);
+    if(isOnLand) //find a new direction
+    {
+        pbTargetPosOrig=pbTargetPosBeforeCurrent=pbTargetPosCurrent ;
+         posOrigDateTime=posCurrentDateTime;
+        geoOrigHighPreci= geoBeforeCurrentHighPreci=geoCurrentHighPreci;
+
+        bool turnRight=qrand()%2==0;
+        bool newCOGGot=false;
+        for(int i=1;i<=7;i++)
+        {
+            qint32 newCOGX10=pbTargetPosOrig.aisdynamic().cogdegreex10()+turnRight*DegreesX10_ToTurn_WhenMeetLand;
+            if(newCOGX10<0)
+                newCOGX10+=3600;
+            else
+                newCOGX10%=3600;
+
+            bool isNewPosOnLand;
+            QGeoCoordinate geoReckonedTrial= getConstCurrentGeoPosHighPreciReckoned(geoOrigHighPreci,posOrigDateTime,pbTargetPosOrig.aisdynamic().sogknotsx10(),
+                                                                           newCOGX10/10.0, currentDateTime, isNewPosOnLand);
+            if(isNewPosOnLand)
+                continue;
+            else
+            {
+                newCOGGot=true;
+                pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
+                pbTargetPosBeforeCurrent.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
+                pbTargetPosCurrent.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
+                updatePosAndCOG(currentDateTime,geoReckonedTrial);
+                break;
+            }
+        }
+        if(!newCOGGot) //stop it
+        {
+            pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(0);
+            pbTargetPosBeforeCurrent.mutable_aisdynamic()->set_sogknotsx10(0);
+            pbTargetPosCurrent.mutable_aisdynamic()->set_sogknotsx10(0);
+            pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(currentDateTime.toTime_t());
+        }
+    }
+    else //not on land
+    {
+        updatePosAndCOG(currentDateTime,geoReckoned);
+    }
     return pbTargetPosCurrent;
 }
 
-void Target::reckonPbTargetPosCurrentAndCalibrateCOG(const QDateTime &dtToReckon, bool &isOnLand)
+void Target::updatePosAndCOG(const QDateTime &dtReckoned, const QGeoCoordinate &geoReckoned)
 {
-    if(pbTargetPosOrig.aisdynamic().sogknotsx10()==0)
-    {
-        pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(dtToReckon.toTime_t());
-        isOnLand=false;
-        return;
-    }
+    geoBeforeCurrentHighPreci=geoCurrentHighPreci;
+    geoCurrentHighPreci=geoReckoned;
 
     pbTargetPosBeforeCurrent.CopyFrom(pbTargetPosCurrent);
-    PBAISDynamic aisDynamicOrig=pbTargetPosOrig.aisdynamic();
-    qint64 miliSecondsElapsed=posOrigDateTime.msecsTo(dtToReckon);
-    double distance=aisDynamicOrig.sogknotsx10()/10.0*NM_In_Meter/3600.0*miliSecondsElapsed/1000.0;
-    QGeoCoordinate geoOrig(aisDynamicOrig.intlatitudex60w()/AISPosDivider,aisDynamicOrig.intlongitudex60w()/AISPosDivider);
-    QGeoCoordinate geoReckoned=geoOrig.atDistanceAndAzimuth(distance,aisDynamicOrig.cogdegreex10()/10.0,0);
-    pbTargetPosCurrent.mutable_aisdynamic()->set_intlongitudex60w(geoReckoned.longitude()*AISPosDivider);
-    pbTargetPosCurrent.mutable_aisdynamic()->set_intlatitudex60w(geoReckoned.latitude()*AISPosDivider);
+    posCurrentDateTime=dtReckoned;
 
-    pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(dtToReckon.toTime_t());
-
-    if(pbTargetPosBeforeCurrent.aisdynamic().utctimestamp()!=pbTargetPosCurrent.aisdynamic().utctimestamp())
+    if(geoBeforeCurrentHighPreci!=geoCurrentHighPreci)
     {
-        QGeoCoordinate geoPosBeforeCurrent(pbTargetPosBeforeCurrent.aisdynamic().intlatitudex60w()/AISPosDivider,
-                                           pbTargetPosBeforeCurrent.aisdynamic().intlongitudex60w()/AISPosDivider);
-        float newCOGInDegree=geoPosBeforeCurrent.azimuthTo(geoReckoned);
-        pbTargetPosCurrent.mutable_aisdynamic()->set_cogdegreex10(qRound(newCOGInDegree*10));
+        float newCOGInDegree=geoBeforeCurrentHighPreci.azimuthTo(geoReckoned);
         pbTargetPosCurrent.mutable_aisdynamic()->set_headingdegree(qRound(newCOGInDegree));
+        pbTargetPosCurrent.mutable_aisdynamic()->set_cogdegreex10(qRound(newCOGInDegree*10));
     }
+    pbTargetPosCurrent.mutable_aisdynamic()->set_intlongitudex60w(qRound(geoReckoned.longitude()*AISPosDivider));
+    pbTargetPosCurrent.mutable_aisdynamic()->set_intlatitudex60w( qRound(geoReckoned.latitude()*AISPosDivider));
+    pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(dtReckoned.toTime_t());
+}
+
+const QGeoCoordinate Target::getConstCurrentGeoPosHighPreciReckoned(const QGeoCoordinate &geoOrig, const QDateTime &dtOrig,
+                                             const double &sogKnotsX10,   const double &degreeAziumth, const QDateTime &dtToReckon, bool &isOnLand) const
+{
+    if(sogKnotsX10<=0)
+    {
+        isOnLand=false;
+        return geoOrig;
+    }
+
+    qint64 miliSecondsElapsed=dtOrig.msecsTo(dtToReckon);
+    QGeoCoordinate geoReckoned;
+    if(miliSecondsElapsed>0)
+    {
+        double distance=sogKnotsX10/10.0*NM_In_Meter/3600.0*miliSecondsElapsed/1000.0;
+        geoReckoned=geoOrig.atDistanceAndAzimuth(distance,degreeAziumth,0);
+    }
+    else
+        geoReckoned=geoOrig;
 
     if(world->isInWater(geoReckoned.longitude(),geoReckoned.latitude()))
     {
@@ -251,6 +258,8 @@ void Target::reckonPbTargetPosCurrentAndCalibrateCOG(const QDateTime &dtToReckon
     }
     else
         isOnLand=true;
+
+    return geoReckoned;
 }
 
 PosDevice* Target::getDevice(const PB_Enum_TargetInfo_Type &infoType)
