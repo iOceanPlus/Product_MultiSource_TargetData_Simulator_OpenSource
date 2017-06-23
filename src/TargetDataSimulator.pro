@@ -19,7 +19,7 @@ INCLUDEPATH += $$PWD/FuzzyToolbox
 INCLUDEPATH += $$PWD/Module_Qt_PBCoderDecoder
 INCLUDEPATH += $$PWD/Module_Qt_Geography
 
-TARGET = TargetDataSimulator
+TARGET = TargetDataSimulatorPack
 
 TEMPLATE = app
 
