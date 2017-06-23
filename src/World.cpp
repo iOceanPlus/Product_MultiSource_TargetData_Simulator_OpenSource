@@ -325,7 +325,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          qint32 cogX10=listField.at(3).toInt();
          qint32 sogX10=listField.at(4).toInt();
 
-         if(sogX10<(qint32)SOGX10_LOWER_THRESH)
+         if(sogX10<(qint32)SOGX10_LOWER_THRESH || sogX10>800)
              continue;
 
          targetID++; //Start from 1
