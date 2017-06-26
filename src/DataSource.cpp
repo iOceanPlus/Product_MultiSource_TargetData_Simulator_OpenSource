@@ -125,7 +125,12 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
         fooTargetID=fooTargetID<<28;
         fooTargetID+= (qint64)pbTargetPosInList.enum_targetinfotype()<<24;
         fooTargetID+=pbTargetPosInList.targetidorig();
-        pbTargetPosInList.set_targetid(fooTargetID);
+
+        /*********************Nanjing Pack************************/
+        pbTargetPosInList.set_targetid(pbTargetPosInList.targetidorig());
+        pbTargetPosInList.set_targetidorig(fooTargetID);
+        /*******************End of Nanjing Pack****************/
+
         PBTargetPosition *pbTargetPosToAdd= pbTarget.add_listtargetpos();
         pbTargetPosToAdd->CopyFrom(pbTargetPosInList);
 
