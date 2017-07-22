@@ -56,7 +56,10 @@ void World::parseParamFileAndInitMembers()
         ExternV_TargetCount=jsonObjcet.value("TargetCount").toInt(ExternV_TargetCount);
     }
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_LOWER_THRESH",true))
-        SOGX10_LOWER_THRESH=jsonObjcet.value("SOGX10_LOWER_THRESH").toInt(SOGX10_LOWER_THRESH);
+        ExternV_SOGX10_LOWER_THRESH=jsonObjcet.value("SOGX10_LOWER_THRESH").toInt(ExternV_SOGX10_LOWER_THRESH);
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_UPPER_THRESH",true))
+        ExternV_SOGX10_UPPER_THRESH=jsonObjcet.value("SOGX10_UPPER_THRESH").toInt(ExternV_SOGX10_UPPER_THRESH);
+
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT",true))
         ExternV_SECONDS_CHECK_TARGET_COUNT=jsonObjcet.value("SECONDS_CHECK_TARGET_COUNT").toInt(ExternV_SECONDS_CHECK_TARGET_COUNT);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"WaterGridsFileName",true))
@@ -325,7 +328,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          qint32 cogX10=listField.at(3).toInt();
          qint32 sogX10=listField.at(4).toInt();
 
-         if(sogX10<(qint32)SOGX10_LOWER_THRESH || sogX10>800)
+         if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
              continue;
 
          targetID++; //Start from 1

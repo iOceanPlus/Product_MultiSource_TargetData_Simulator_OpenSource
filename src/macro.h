@@ -15,7 +15,8 @@ const quint16 MIN_Sample_MSEC=2000;
 extern uint ExternV_Milliseconds_FetchData;
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool ExternV_IS_DEBUG_MODE;
-extern uint SOGX10_LOWER_THRESH;
+extern uint ExternV_SOGX10_LOWER_THRESH;
+extern uint ExternV_SOGX10_UPPER_THRESH;
 
 const PB_Enum_Software SOFTWARE_NAME=EV_Software_NA;
 const bool IS_INTLONGITUDE_0_VALID =false; //If 0 is a valid coordinate
