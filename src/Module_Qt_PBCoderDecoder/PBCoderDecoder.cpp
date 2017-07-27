@@ -57,7 +57,7 @@ QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_
     }
 }
 
-PB_Enum_Aggregated_AIS_Ship_Type  PBCoderDecoder::getAggregatedAISShipType(qint16 shipTypeAIS)
+PB_Enum_Aggregated_AIS_Ship_Type  PBCoderDecoder::getAggregatedAISShipType(const qint16 &shipTypeAIS)
 {
     if(shipTypeAIS<20||shipTypeAIS>=90)
         return EV_AggregatedAISShipType_Others;

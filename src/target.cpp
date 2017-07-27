@@ -66,29 +66,29 @@ void  Target::setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet
 {
     if(pbTargetPosToSet.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
     {
-        pbTargetPosToSet.mutable_aisdynamic()->set_mmsi(-1);
-        pbTargetPosToSet.mutable_aisstatic()->set_mmsi(-1);
-        pbTargetPosToSet.mutable_aisvoyage()->set_mmsi(-1);
+        pbTargetPosToSet.mutable_aisdynamic()->set_mmsi(0);
+        pbTargetPosToSet.mutable_aisstatic()->set_mmsi(0);
+        pbTargetPosToSet.mutable_aisvoyage()->set_mmsi(0);
     }
 
     if(pbTargetPosToSet.enum_targetidorig_type()==EV_TargetIDType_BeidouID)
     {
         pbTargetPosToSet.set_beidouid(pbTargetPosToSet.targetidorig());
-        pbTargetPosToSet.set_haijianid(-1);
-        pbTargetPosToSet.set_argosandmarinesatid(-1);
+        pbTargetPosToSet.set_haijianid(0);
+        pbTargetPosToSet.set_argosandmarinesatid(0);
     }
 
     if(pbTargetPosToSet.enum_targetidorig_type()==EV_TargetIDType_HaijianID)
     {
-        pbTargetPosToSet.set_beidouid(-1);
+        pbTargetPosToSet.set_beidouid(0);
         pbTargetPosToSet.set_haijianid(pbTargetPosToSet.targetidorig());
-        pbTargetPosToSet.set_argosandmarinesatid(-1);
+        pbTargetPosToSet.set_argosandmarinesatid(0);
     }
 
     if(pbTargetPosToSet.enum_targetidorig_type()==EV_TargetIDType_ArgosAndMarineSatID)
     {
-        pbTargetPosToSet.set_beidouid(-1);
-        pbTargetPosToSet.set_haijianid(-1);
+        pbTargetPosToSet.set_beidouid(0);
+        pbTargetPosToSet.set_haijianid(0);
         pbTargetPosToSet.set_argosandmarinesatid(pbTargetPosToSet.targetidorig());
     }
 }
