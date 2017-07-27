@@ -293,6 +293,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
      if(language.toLower()=="cn")
          colInd=1;
 
+     mc2File.readLine(); //skip first line
      while (!mc2File.atEnd())
      {
          QList <QByteArray> listField = mc2File.readLine().trimmed().split(',');
