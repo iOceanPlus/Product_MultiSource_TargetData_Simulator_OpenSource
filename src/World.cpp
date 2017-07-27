@@ -304,19 +304,21 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          listCountryNames.append(listField.at(colInd));
      }
 
-     QFile paramJsonFile(ship_FileName);
-     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
-         qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
+     QFile shipDataFile(ship_FileName);
+     if (!shipDataFile.open(QIODevice::ReadOnly)) {
+         qDebug()<<"Critical: Couldn't open "<<shipDataFile.fileName()<<shipDataFile.errorString()<<". Nothing will be done.";
          exit(3);
          return ;
      }
 
      qint16 countryCount=listCountryNames.size();
      qint32 targetID=0;
-     while (!paramJsonFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
+     shipDataFile.readLine(); //skip first line
+     while (!shipDataFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
      {
 
-         QList <QByteArray> listField = paramJsonFile.readLine().trimmed().split(',');
+         QList <QByteArray> listField = shipDataFile.readLine().trimmed().split(',');
+#ifdef SHIP_DATA_ANONYMOUS
          if(listField.size()!=6)
          {
              qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
@@ -327,6 +329,22 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          qint32 latitudeX60W=listField.at(2).toInt();
          qint32 cogX10=listField.at(3).toInt();
          qint32 sogX10=listField.at(4).toInt();
+#endif
+
+#ifndef SHIP_DATA_ANONYMOUS
+         if(listField.size()!=18)
+         {
+             qDebug()<<"Critical: Column count of ship file is not correct! Column count is: "<<listField.size()<<"  Exiting...."<<listField;
+             exit(4);
+             break;
+         }
+
+         qint32 longitudeX60W=listField.at(1).toInt();
+         qint32 latitudeX60W=listField.at(2).toInt();
+         qint32 cogX10=listField.at(3).toInt();
+         qint32 sogX10=listField.at(5).toInt();
+         QString shipName=listField.at(8);
+#endif
 
          if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
              continue;
@@ -349,6 +367,9 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
 
         pbTargetPosOrig.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+#ifndef SHIP_DATA_ANONYMOUS
+        pbTargetPosOrig.mutable_aisstatic()->set_shipname(shipName.toStdString());
+#endif
         pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%100);
         pbTargetPosOrig.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
         pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
