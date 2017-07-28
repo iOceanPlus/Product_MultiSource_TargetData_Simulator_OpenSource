@@ -7,6 +7,9 @@
 //#define DEBUG_PERFORMANCE
 //#define DEBUG_TargetCount
 
+/**Each data source may recode targetIDOrigs, for example: mmsi of a target in data from different sources may be different**/
+#define DATA_SOURCE_RECODE_TARGETIDORIG
+
 extern uint ExternV_TargetCount;
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
