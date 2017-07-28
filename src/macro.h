@@ -8,7 +8,7 @@
 //#define DEBUG_TargetCount
 
 /**Each data source may recode targetIDOrigs, for example: mmsi of a target in data from different sources may be different**/
-#define DATA_SOURCE_RECODE_TARGETIDORIG
+//#define DATA_SOURCE_RECODE_TARGETIDORIG  //not work, discard
 
 extern uint ExternV_TargetCount;
 
