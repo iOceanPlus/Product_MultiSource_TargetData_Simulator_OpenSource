@@ -60,6 +60,19 @@ void World::parseParamFileAndInitMembers()
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_UPPER_THRESH",true))
         ExternV_SOGX10_UPPER_THRESH=jsonObjcet.value("SOGX10_UPPER_THRESH").toInt(ExternV_SOGX10_UPPER_THRESH);
 
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LATITUDE_LOWER_THRESH_DEGREE",true))
+        ExternV_LATITUDE_LOWER_THRESH_DEGREE=jsonObjcet.value("LATITUDE_LOWER_THRESH_DEGREE").toDouble(ExternV_LATITUDE_LOWER_THRESH_DEGREE);
+
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LATITUDE_UPPER_THRESH_DEGREE",true))
+        ExternV_LATITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LATITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LATITUDE_UPPER_THRESH_DEGREE);
+
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_LOWER_THRESH_DEGREE",true))
+        ExternV_LONGITUDE_LOWER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_LOWER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_LOWER_THRESH_DEGREE);
+
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_UPPER_THRESH_DEGREE",true))
+        ExternV_LONGITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_UPPER_THRESH_DEGREE);
+
+
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT",true))
         ExternV_SECONDS_CHECK_TARGET_COUNT=jsonObjcet.value("SECONDS_CHECK_TARGET_COUNT").toInt(ExternV_SECONDS_CHECK_TARGET_COUNT);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"WaterGridsFileName",true))
@@ -348,6 +361,14 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
 #endif
 
          if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
+             continue;
+
+         if(latitudeX60W<(qint32)(ExternV_LATITUDE_LOWER_THRESH_DEGREE*AISPosDivider)
+                 || latitudeX60W>(qint32)(ExternV_LATITUDE_UPPER_THRESH_DEGREE*AISPosDivider) )
+             continue;
+
+         if(longitudeX60W<(qint32)(ExternV_LONGITUDE_LOWER_THRESH_DEGREE*AISPosDivider)
+                 || longitudeX60W>(qint32)(ExternV_LONGITUDE_UPPER_THRESH_DEGREE*AISPosDivider) )
              continue;
 
          targetID++; //Start from 1

@@ -6,6 +6,7 @@
 
 //#define DEBUG_PERFORMANCE
 //#define DEBUG_TargetCount
+#define DEBUG_TARGETTYPE_ANDNAME
 
 /**Each data source may recode targetIDOrigs, for example: mmsi of a target in data from different sources may be different**/
 //#define DATA_SOURCE_RECODE_TARGETIDORIG  //not work, discard
@@ -20,6 +21,11 @@ const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool ExternV_IS_DEBUG_MODE;
 extern uint ExternV_SOGX10_LOWER_THRESH;
 extern uint ExternV_SOGX10_UPPER_THRESH;
+
+extern double ExternV_LATITUDE_LOWER_THRESH_DEGREE;
+extern double ExternV_LATITUDE_UPPER_THRESH_DEGREE;
+extern double ExternV_LONGITUDE_LOWER_THRESH_DEGREE;
+extern double ExternV_LONGITUDE_UPPER_THRESH_DEGREE;
 
 const PB_Enum_Software SOFTWARE_NAME=EV_Software_NA;
 const bool IS_INTLONGITUDE_0_VALID =false; //If 0 is a valid coordinate

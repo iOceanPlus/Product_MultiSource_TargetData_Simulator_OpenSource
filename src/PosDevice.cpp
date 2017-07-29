@@ -28,6 +28,10 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
         PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent();
         pbTargetPos.set_enum_targetinfotype(infoType);
         targetInstalled->set_enum_targetidorigAndIDType_AccordingToInfoType(pbTargetPos);
+#ifdef DEBUG_TARGETTYPE_ANDNAME
+        qDebug()<<pbTargetPos.aisdynamic().mmsi()<<pbTargetPos.aisstatic().shiptype_ais()<<
+                  QString::fromStdString(pbTargetPos.aisstatic().shipname());
+#endif
         targetInstalled->clearInvalidFieldsInAnOriginalTargetPos(pbTargetPos);
 
         addDevToPos(pbTargetPos);
