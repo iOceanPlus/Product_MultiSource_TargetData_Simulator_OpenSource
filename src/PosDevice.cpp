@@ -29,7 +29,8 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
         pbTargetPos.set_enum_targetinfotype(infoType);
         targetInstalled->set_enum_targetidorigAndIDType_AccordingToInfoType(pbTargetPos);
 #ifdef DEBUG_TARGETTYPE_ANDNAME
-        qDebug()<<pbTargetPos.aisdynamic().mmsi()<<pbTargetPos.aisstatic().shiptype_ais()<<
+        qDebug()<<pbTargetPos.aisdynamic().mmsi()<<pbTargetPos.beidouid()<<pbTargetPos.haijianid()<<pbTargetPos.argosandmarinesatid()
+               <<":"<<pbTargetPos.aisstatic().shiptype_ais()<<pbTargetPos.aggregatedaisshiptype()<<
                   QString::fromStdString(pbTargetPos.aisstatic().shipname());
 #endif
         targetInstalled->clearInvalidFieldsInAnOriginalTargetPos(pbTargetPos);

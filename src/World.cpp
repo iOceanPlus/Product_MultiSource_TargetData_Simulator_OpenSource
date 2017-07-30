@@ -392,7 +392,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
 #ifndef SHIP_DATA_ANONYMOUS
         pbTargetPosOrig.mutable_aisstatic()->set_shipname(shipName.toStdString());
 #endif
-        pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%100);
+        pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
         pbTargetPosOrig.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
         pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
 
