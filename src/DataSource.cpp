@@ -136,10 +136,11 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
 
        // qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(pbTargetPosToAdd->enum_targetinfotype())<<pbTargetPosToAdd->targetidorig();
     }
+    totalPosCountFetched+=pbTarget.listtargetpos_size();
+    dtPosCountFetched=QDateTime::currentDateTime();
+    //qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName(this->getPbTargetInfoSource())<<  PBCoderDecoder::getReadableTargetInfo_TypeName(targetInfoType)<<pbTarget.listtargetpos_size();
     if(pbTarget.listtargetpos_size()>0)
     {
-        totalPosCountFetched+=pbTarget.listtargetpos_size();
-        dtPosCountFetched=QDateTime::currentDateTime();
         StructDataAndKey dataAndKey;
         dataAndKey.data= world->getPbCoderDecoder()->serializePBTargetToArray(pbTarget);
         dataAndKey.routingKey=routingKey;
