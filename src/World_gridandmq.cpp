@@ -137,13 +137,21 @@ void World::initWaterGrids()
     }
 }
 
-bool World::isInWater(const double &longitudeInDegree,const double &latitudeInDegree)
+bool World::isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree)
 {
    qint32 rowInd,colInd;
     if(getGridIndex(longitudeInDegree,latitudeInDegree,rowInd,colInd))
     {
         if(rowInd<(qint32)rowCount&&colInd<(qint32)colCount)
-            return isWater[rowInd][colCount];
+        {
+            bool inWater= isWater[rowInd][colCount];
+            bool inBoundingArea=true;
+            if(geoPolyGonBoundingRegion)
+            {
+                inBoundingArea=geoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeInDegree,longitudeInDegree));
+            }
+            return inWater&&inBoundingArea;
+        }
         else
             return false;
     }

@@ -10,6 +10,8 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QTimer>
+#include <QStringListIterator>
+#include <QStringList>
 #include "macro.h"
 #include "target.h"
 
@@ -21,6 +23,8 @@ World::World(QMutex *mutex,  QObject *parent) :
 
     colCount=GRID_ARRAY_ROW_COUNT*2;
     rowCount=GRID_ARRAY_ROW_COUNT;
+
+    geoPolyGonBoundingRegion=NULL;
 
     this->mutex=mutex;
 
@@ -55,22 +59,49 @@ void World::parseParamFileAndInitMembers()
     {
         ExternV_TargetCount=jsonObjcet.value("TargetCount").toInt(ExternV_TargetCount);
     }
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"Bounding_Region",true))
+    {
+        QVector<QPointF> vectPoints;
+        QStringList listStrPoings=jsonObjcet.value("Bounding_Region").toString().simplified().split(",");
+        if(listStrPoings.size()>=4)
+        {
+            QStringListIterator iStrPoints(listStrPoings);
+            while(iStrPoints.hasNext())
+            {
+                QStringList strPoint= iStrPoints.next().simplified().split(" ");
+                if(strPoint.size()!=2)
+                {
+                    qDebug()<<"ERROR: Fail to parse a point of Bounding_Region."<<strPoint<<" Exiting...";
+                    exit(6);
+                    return;
+                }
+                else
+                {
+                    QPointF pf(strPoint.at(1).toFloat(), strPoint.at(0).toFloat());
+                    vectPoints.append(pf);
+                }
+            }
+            bool ok;
+            geoPolyGonBoundingRegion=new MyQtGeoPolygon(vectPoints,&ok,1,"bounding",this);
+        }
+    }
+
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_LOWER_THRESH",true))
         ExternV_SOGX10_LOWER_THRESH=jsonObjcet.value("SOGX10_LOWER_THRESH").toInt(ExternV_SOGX10_LOWER_THRESH);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_UPPER_THRESH",true))
         ExternV_SOGX10_UPPER_THRESH=jsonObjcet.value("SOGX10_UPPER_THRESH").toInt(ExternV_SOGX10_UPPER_THRESH);
 
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LATITUDE_LOWER_THRESH_DEGREE",true))
-        ExternV_LATITUDE_LOWER_THRESH_DEGREE=jsonObjcet.value("LATITUDE_LOWER_THRESH_DEGREE").toDouble(ExternV_LATITUDE_LOWER_THRESH_DEGREE);
+//    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LATITUDE_LOWER_THRESH_DEGREE",true))
+//        ExternV_LATITUDE_LOWER_THRESH_DEGREE=jsonObjcet.value("LATITUDE_LOWER_THRESH_DEGREE").toDouble(ExternV_LATITUDE_LOWER_THRESH_DEGREE);
 
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LATITUDE_UPPER_THRESH_DEGREE",true))
-        ExternV_LATITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LATITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LATITUDE_UPPER_THRESH_DEGREE);
+//    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LATITUDE_UPPER_THRESH_DEGREE",true))
+//        ExternV_LATITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LATITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LATITUDE_UPPER_THRESH_DEGREE);
 
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_LOWER_THRESH_DEGREE",true))
-        ExternV_LONGITUDE_LOWER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_LOWER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_LOWER_THRESH_DEGREE);
+//    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_LOWER_THRESH_DEGREE",true))
+//        ExternV_LONGITUDE_LOWER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_LOWER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_LOWER_THRESH_DEGREE);
 
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_UPPER_THRESH_DEGREE",true))
-        ExternV_LONGITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_UPPER_THRESH_DEGREE);
+//    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_UPPER_THRESH_DEGREE",true))
+//        ExternV_LONGITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_UPPER_THRESH_DEGREE);
 
 
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT",true))
@@ -363,12 +394,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
              continue;
 
-         if(latitudeX60W<(qint32)(ExternV_LATITUDE_LOWER_THRESH_DEGREE*AISPosDivider)
-                 || latitudeX60W>(qint32)(ExternV_LATITUDE_UPPER_THRESH_DEGREE*AISPosDivider) )
-             continue;
-
-         if(longitudeX60W<(qint32)(ExternV_LONGITUDE_LOWER_THRESH_DEGREE*AISPosDivider)
-                 || longitudeX60W>(qint32)(ExternV_LONGITUDE_UPPER_THRESH_DEGREE*AISPosDivider) )
+         if(!geoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeX60W/AISPosDivider,longitudeX60W/AISPosDivider)))
              continue;
 
          targetID++; //Start from 1

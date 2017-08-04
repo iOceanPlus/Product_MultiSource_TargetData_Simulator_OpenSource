@@ -14,6 +14,7 @@
 #include "DataChannel.h"
 #include "DataSource.h"
 #include "PosDevice.h"
+#include "MyQtGeoPolygon.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ class World : public QObject
 public:
     explicit World( QMutex *mutex, QObject *parent = 0);
     ~World();
-    bool isInWater(const double &longitudeInDegree,const double &latitudeInDegree);
+    bool isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree);
 
     QHash<qint32, Target *> getHashIDTarget() const;
 
@@ -88,6 +89,7 @@ private:
 
     quint32 colCount,rowCount;
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;
+    MyQtGeoPolygon *geoPolyGonBoundingRegion; //
     QString waterGridsFileName,ship_FileName, mc2FileName, language;
 
     QTimer *timerMeasureAndUpdateTargetPos;

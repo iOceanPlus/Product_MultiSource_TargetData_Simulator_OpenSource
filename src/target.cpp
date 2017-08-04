@@ -253,7 +253,7 @@ const QGeoCoordinate Target::getConstCurrentGeoPosHighPreciReckoned(const QGeoCo
     else
         geoReckoned=geoOrig;
 
-    if(world->isInWater(geoReckoned.longitude(),geoReckoned.latitude()))
+    if(world->isInWaterAndBoudingArea(geoReckoned.longitude(),geoReckoned.latitude()))
     {
         isOnLand=false;
     }
