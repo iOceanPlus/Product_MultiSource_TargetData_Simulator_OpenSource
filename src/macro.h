@@ -17,7 +17,10 @@ const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
 const quint16 MIN_Sample_MSEC=2000;
 
 extern uint ExternV_Milliseconds_FetchData;
+
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
+extern bool externVIsWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //water grids
+
 extern bool ExternV_IS_DEBUG_MODE;
 extern uint ExternV_SOGX10_LOWER_THRESH;
 extern uint ExternV_SOGX10_UPPER_THRESH;

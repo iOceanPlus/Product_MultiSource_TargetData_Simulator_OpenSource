@@ -109,7 +109,7 @@ void World::initWaterGrids()
     {
         for(int cInd=0;cInd<(qint32)colCount;cInd++)
         {
-            isWater[rInd][cInd]=false;
+            externVIsWater[rInd][cInd]=false;
         }
     }
 
@@ -133,7 +133,7 @@ void World::initWaterGrids()
         getGridIndex( (listField.at(0).toInt()+listField.at(2).toInt())/AISPosDivider/2.0, (listField.at(1).toInt()+listField.at(3).toInt())/AISPosDivider/2.0,rowInd,colInd);
         if(rowInd>=0&&rowInd<(qint32)rowCount&&
                 colInd>=0&&colInd<(qint32)colCount)
-               isWater[rowInd][colInd]=true;
+               externVIsWater[rowInd][colInd]=true;
     }
 }
 
@@ -144,7 +144,7 @@ bool World::isInWaterAndBoudingArea(const double &longitudeInDegree,const double
     {
         if(rowInd<(qint32)rowCount&&colInd<(qint32)colCount)
         {
-            bool inWater= isWater[rowInd][colCount];
+            bool inWater= externVIsWater[rowInd][colCount];
             bool inBoundingArea=true;
             if(geoPolyGonBoundingRegion)
             {

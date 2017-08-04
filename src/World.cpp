@@ -394,7 +394,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
          if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
              continue;
 
-         if(!geoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeX60W/AISPosDivider,longitudeX60W/AISPosDivider)))
+         if(geoPolyGonBoundingRegion&&!geoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeX60W/AISPosDivider,longitudeX60W/AISPosDivider)))
              continue;
 
          targetID++; //Start from 1
