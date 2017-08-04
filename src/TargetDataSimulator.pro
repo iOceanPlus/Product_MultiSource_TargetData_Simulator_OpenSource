@@ -44,7 +44,12 @@ SOURCES += main.cpp \
     DataSource.cpp \
     PosDevice.cpp \
     World.cpp \
-    World_gridandmq.cpp
+    World_gridandmq.cpp \
+    Module_Qt_Geography/MyGeography.cpp \
+    Module_Qt_Geography/MyQtGeoCircle.cpp \
+    Module_Qt_Geography/MyQtGeoPolygon.cpp \
+    Module_Qt_Geography/MyQtGeoRectangle.cpp \
+    Module_Qt_Geography/MyQtGeoShapeBase.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -77,7 +82,12 @@ HEADERS += \
     DataChannel.h \
     DataSource.h \
     PosDevice.h \
-    World.h
+    World.h \
+    Module_Qt_Geography/MyGeography.h \
+    Module_Qt_Geography/MyQtGeoCircle.h \
+    Module_Qt_Geography/MyQtGeoPolygon.h \
+    Module_Qt_Geography/MyQtGeoRectangle.h \
+    Module_Qt_Geography/MyQtGeoShapeBase.h
 
 DISTFILES += \
     BaseClass_IOMessages/param_mq.txt \
