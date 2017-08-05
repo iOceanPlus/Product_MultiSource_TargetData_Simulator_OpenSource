@@ -8,12 +8,12 @@
 #include "PosDevice.h"
 #include <QGeoCoordinate>
 
-class World;
+class ThreadedWorld;
 
 class Target
 {
 public:
-    explicit Target(const PBTargetPosition &pbTargetPosOrig, World *world, const QDateTime &posOrigDateTime);
+    explicit Target(const PBTargetPosition &pbTargetPosOrig, ThreadedWorld *world, const QDateTime &posOrigDateTime);
     bool addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev);
     bool installPosDevices();
     ~Target();
@@ -51,7 +51,7 @@ private:
     QGeoCoordinate geoOrigHighPreci,  geoCurrentHighPreci, geoBeforeCurrentHighPreci;
 
     //PBCoderDecoder *pbCoderDecoder;
-    World *world;
+    ThreadedWorld *world;
 };
 
 #endif // TARGET_H

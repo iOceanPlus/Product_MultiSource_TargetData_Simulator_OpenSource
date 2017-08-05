@@ -1,10 +1,10 @@
 #include "DataSource.h"
-#include "World.h"
+#include "ThreadedWorld.h"
 #include "PBCoderDecoder.h"
 #include <QDebug>
 #include <QTimer>
 
-DataSource::DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+DataSource::DataSource(ThreadedWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
                        QObject *parent ) : QObject(parent)
 {

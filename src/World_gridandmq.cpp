@@ -1,4 +1,4 @@
-#include "World.h"
+#include "ThreadedWorld.h"
 #include <QMutex>
 #include <QDebug>
 #include <QTimer>
@@ -12,7 +12,7 @@
 #include "macro.h"
 #include "target.h"
 
-bool World::getLocation(quint32 rowIndex, quint32 colIndex,
+bool ThreadedWorld::getLocation(quint32 rowIndex, quint32 colIndex,
                          double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree)
 {
     if(rowIndex>=rowCount||colIndex>=colCount) //超出范围
@@ -32,7 +32,7 @@ bool World::getLocation(quint32 rowIndex, quint32 colIndex,
     return true;
 }
 
-bool World::getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
+bool ThreadedWorld::getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                                  qint32 &rowIndex, qint32 &colIndex) const
 {
     if(longitudeInDegree>180||longitudeInDegree<-180||
@@ -60,7 +60,7 @@ bool World::getGridIndex(const double &longitudeInDegree,const double &latitudeI
 
 
 /****reply to PBMoniitor***/
-void World::slotPBMonitor(PBMonitor pbMonitor)
+void ThreadedWorld::slotPBMonitor(PBMonitor pbMonitor)
 {
     updateTotalMsgOfProbeAckWithOneMessageRcvd();
 
@@ -96,14 +96,14 @@ void World::slotPBMonitor(PBMonitor pbMonitor)
     }
 }
 
-void World::addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent)
+void ThreadedWorld::addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent)
 {
     monitor_ProbeAck.set_preprocessedtargetpositionssent(monitor_ProbeAck.preprocessedtargetpositionssent()+preprocessedMsgsSent);
     monitor_ProbeAck.set_totalmessagessent(monitor_ProbeAck.totalmessagessent()+preprocessedMsgsSent);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
-void World::initWaterGrids()
+void ThreadedWorld::initWaterGrids()
 {
     for(int rInd=0; rInd<(qint32)rowCount;rInd++)
     {
@@ -137,7 +137,7 @@ void World::initWaterGrids()
     }
 }
 
-bool World::isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree)
+bool ThreadedWorld::isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree)
 {
    qint32 rowInd,colInd;
     if(getGridIndex(longitudeInDegree,latitudeInDegree,rowInd,colInd))
@@ -159,13 +159,13 @@ bool World::isInWaterAndBoudingArea(const double &longitudeInDegree,const double
         return false;
 }
 
-void World::updateTotalMsgOfProbeAckWithOneMessageRcvd()
+void ThreadedWorld::updateTotalMsgOfProbeAckWithOneMessageRcvd()
 {
     monitor_ProbeAck.set_totalmessagesrcvd(monitor_ProbeAck.totalmessagesrcvd()+1);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
-void World::updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount)
+void ThreadedWorld::updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount)
 {
     monitor_ProbeAck.set_totalmessagessent(monitor_ProbeAck.totalmessagessent()+messageCount);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());

@@ -1,9 +1,9 @@
 #include "DataChannel.h"
-#include "World.h"
+#include "ThreadedWorld.h"
 #include "target.h"
 #include <QDebug>
 
-DataChannel::DataChannel(World *world, const PB_Enum_TargetInfo_Type &targetInfoType, QObject *parent) : QObject(parent)
+DataChannel::DataChannel(ThreadedWorld *world, const PB_Enum_TargetInfo_Type &targetInfoType, QObject *parent) : QObject(parent)
 {
     this->targetInfoType=targetInfoType;
     this->world=world;

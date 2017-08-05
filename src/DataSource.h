@@ -9,7 +9,7 @@
 #include "CommonEnum.pb.h"
 #include "IOMessages.h"
 
-class World;
+class ThreadedWorld;
 class Target;
 class QTimer;
 
@@ -29,7 +29,7 @@ class DataSource : public QObject
 {
     Q_OBJECT
 public:
-    explicit DataSource(World *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+    explicit DataSource(ThreadedWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                         const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality, QObject *parent = 0);
 
     bool addTargetIDObservedWithAIS(qint32 targetID);
@@ -64,7 +64,7 @@ private:
     void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const;
 
     QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality;
-    World *world;
+    ThreadedWorld *world;
 
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithLRIT, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
                 setTargetIDsObservedWithHaijian; //Which targets this data source is able to observe.

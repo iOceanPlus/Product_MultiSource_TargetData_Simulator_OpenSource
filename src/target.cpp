@@ -2,13 +2,13 @@
 #include "target.h"
 #include "macro.h"
 #include "PBCoderDecoder.h"
-#include "World.h"
+#include "ThreadedWorld.h"
 #include <QGeoCoordinate>
 #include <QDebug>
 #include <QtMath>
 
 Target::Target(const PBTargetPosition &pbTargetPos,
-               World *paramWorld, const QDateTime &posDateTime)
+               ThreadedWorld *paramWorld, const QDateTime &posDateTime)
 {
     this->hashTargetInfoTypePosDevice=hashTargetInfoTypePosDevice;
     this->world=paramWorld;

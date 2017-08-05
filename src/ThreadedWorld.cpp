@@ -1,4 +1,4 @@
-#include "World.h"
+#include "ThreadedWorld.h"
 #include <QMutex>
 #include <QDebug>
 #include <QTimer>
@@ -15,7 +15,7 @@
 #include "macro.h"
 #include "target.h"
 
-World::World(QMutex *mutex,  QObject *parent) :
+ThreadedWorld::ThreadedWorld(QMutex *mutex,  QObject *parent) :
                             QObject(parent)
 {
     //qsrand(QDateTime::currentDateTime().toTime_t());
@@ -33,15 +33,15 @@ World::World(QMutex *mutex,  QObject *parent) :
 
     parseParamFileAndInitMembers();
     timerMeasureAndUpdateTargetPos=new QTimer(this);
-    connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &World::slotTimerEventMeasureAndUpdateTargetsPos);
+    connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos);
     timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
 
     timerOutputTargetCountAndMsgRate=new QTimer(this);
-    connect(timerOutputTargetCountAndMsgRate, &QTimer::timeout,this,&World::slotTimerEventOutPutTargetCountAndMsgRate);
+    connect(timerOutputTargetCountAndMsgRate, &QTimer::timeout,this,&ThreadedWorld::slotTimerEventOutPutTargetCountAndMsgRate);
     timerOutputTargetCountAndMsgRate->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
 }
 
-void World::parseParamFileAndInitMembers()
+void ThreadedWorld::parseParamFileAndInitMembers()
 {
     QFile paramJsonFile(QStringLiteral("param.json"));
     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
@@ -201,7 +201,7 @@ void World::parseParamFileAndInitMembers()
                if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
                {
                    DataSource *dataSource=new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this);
-                    connect(dataSource, &DataSource::sigSend2MQ,this,&World::sigSend2MQ);
+                    connect(dataSource, &DataSource::sigSend2MQ,this,&ThreadedWorld::sigSend2MQ);
                     mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,dataSource);
                }
             }
@@ -220,7 +220,7 @@ void World::parseParamFileAndInitMembers()
 
 }
 
-World::~World()
+ThreadedWorld::~ThreadedWorld()
 {
     QHashIterator <qint32, Target*> iHashTargets(hashIDTarget);
     while (iHashTargets.hasNext())
@@ -232,7 +232,7 @@ World::~World()
     }
 }
 
-void World::slotTimerEventMeasureAndUpdateTargetsPos()
+void ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 {
 #ifdef DEBUG_PERFORMANCE
     QTime time;
@@ -274,7 +274,7 @@ void World::slotTimerEventMeasureAndUpdateTargetsPos()
     }
 }
 
-void World::slotTimerEventOutPutTargetCountAndMsgRate()
+void ThreadedWorld::slotTimerEventOutPutTargetCountAndMsgRate()
 {
     qint32 targetCountSumAccordingToInfoTypeAndOrigTargetID=0;
     qint32 targetCountAll=0;
@@ -323,7 +323,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
 #endif
 }
 
- void  World::initTargetsAndAddToDataSources()
+ void  ThreadedWorld::initTargetsAndAddToDataSources()
 {
      QFile mc2File(mc2FileName);
      if (!mc2File.open(QIODevice::ReadOnly)) {
@@ -430,7 +430,7 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
      qDebug()<<"Number of targets created: "<<targetID;
  }
 
-bool World::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos, const QDateTime &posOrigDateTime)
+bool ThreadedWorld::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos, const QDateTime &posOrigDateTime)
 {
     Target *target=new Target(pbTargetPos,this,posOrigDateTime);
     target->installPosDevices();
@@ -477,7 +477,7 @@ bool World::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPo
     return true;
  }
 
- void World::initDataChannels()
+ void ThreadedWorld::initDataChannels()
  {
      if(mapInfoTypeDataChannels.isEmpty())
      {
@@ -492,7 +492,7 @@ bool World::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPo
  }
 
 
- bool World::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key, const bool &outPutValue)
+ bool ThreadedWorld::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key, const bool &outPutValue)
 {
      if(jsonObject.contains(key))
      {
@@ -507,22 +507,22 @@ bool World::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPo
  }
 
  
- PBCoderDecoder *World::getPbCoderDecoder() const
+ PBCoderDecoder *ThreadedWorld::getPbCoderDecoder() const
  {
      return pbCoderDecoder;
  }
  
- QMap<PB_Enum_TargetInfo_Type, DataChannel *> World::getMapInfoTypeDataChannels() const
+ QMap<PB_Enum_TargetInfo_Type, DataChannel *> ThreadedWorld::getMapInfoTypeDataChannels() const
  {
      return mapInfoTypeDataChannels;
  }
  
- QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> World::getMapInfoTypePosDeviceInfo() const
+ QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> ThreadedWorld::getMapInfoTypePosDeviceInfo() const
  {
      return mapInfoTypePosDeviceInfo;
  }
 
- QHash<qint32, Target *> World::getHashIDTarget() const
+ QHash<qint32, Target *> ThreadedWorld::getHashIDTarget() const
  {
      return hashIDTarget;
  }

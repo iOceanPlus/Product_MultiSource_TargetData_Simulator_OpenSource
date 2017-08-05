@@ -1,5 +1,5 @@
-#ifndef PARALLELWORLD_H
-#define PARALLELWORLD_H
+#ifndef THREADEDWORLD_H
+#define THREADEDWORLD_H
 
 #include <QObject>
 #include <string>
@@ -28,12 +28,12 @@ struct GridIndex
     qint32 colIndex;
 };
 
-class World : public QObject
+class ThreadedWorld : public QObject
 {
     Q_OBJECT
 public:
-    explicit World( QMutex *mutex, QObject *parent = 0);
-    ~World();
+    explicit ThreadedWorld( QMutex *mutex, QObject *parent = 0);
+    ~ThreadedWorld();
     bool isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree);
 
     QHash<qint32, Target *> getHashIDTarget() const;
@@ -99,4 +99,4 @@ private:
     QMutex *mutex;
 };
 
-#endif // PARALLELWORLD_H
+#endif // THREADEDWORLD_H
