@@ -103,7 +103,6 @@ void World::parseParamFileAndInitMembers()
 //    if(checkJsonObjectAndOutPutValue(jsonObjcet,"LONGITUDE_UPPER_THRESH_DEGREE",true))
 //        ExternV_LONGITUDE_UPPER_THRESH_DEGREE=jsonObjcet.value("LONGITUDE_UPPER_THRESH_DEGREE").toDouble(ExternV_LONGITUDE_UPPER_THRESH_DEGREE);
 
-
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SECONDS_CHECK_TARGET_COUNT",true))
         ExternV_SECONDS_CHECK_TARGET_COUNT=jsonObjcet.value("SECONDS_CHECK_TARGET_COUNT").toInt(ExternV_SECONDS_CHECK_TARGET_COUNT);
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"WaterGridsFileName",true))
@@ -426,50 +425,56 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
         pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
         pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
 
-        Target *target=new Target(pbTargetPosOrig,this,QDateTime::currentDateTime());
-        target->installPosDevices();
-        hashIDTarget.insert(targetID,target);
-
-        QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
-        while(iMapInfoSourceDataSources.hasNext())
-        {
-            iMapInfoSourceDataSources.next();
-            DataSource *dataSource=iMapInfoSourceDataSources.value();
-             QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality=
-                     dataSource->getMapInfoTypeTransmitQuality();
-             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic))
-             {
-                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
-                if(qrand()%100<transQual.percentageTargetsObserved)
-                    dataSource->addTargetIDObservedWithAIS(targetID);
-             }
-             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT))
-             {
-                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_LRIT);
-                if(qrand()%100<transQual.percentageTargetsObserved)
-                    dataSource->addTargetIDObservedWithLRIT(targetID);
-             }
-             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
-             {
-                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);
-                if(qrand()%100<transQual.percentageTargetsObserved)
-                    dataSource->addTargetIDObservedWithBeidou(targetID);
-             }
-             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian))
-             {
-                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Haijian);
-                if(qrand()%100<transQual.percentageTargetsObserved)
-                    dataSource->addTargetIDObservedWithHaijian(targetID);
-             }
-             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
-             {
-                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_ArgosAndMaritimeSatellite);
-                if(qrand()%100<transQual.percentageTargetsObserved)
-                    dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
-             }
-        }
+        createOneTarget(targetID, pbTargetPosOrig,QDateTime::currentDateTime());
      }
      qDebug()<<"Number of targets created: "<<targetID;
+ }
+
+bool World::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos, const QDateTime &posOrigDateTime)
+{
+    Target *target=new Target(pbTargetPos,this,posOrigDateTime);
+    target->installPosDevices();
+    hashIDTarget.insert(targetID,target);
+
+    QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
+    while(iMapInfoSourceDataSources.hasNext())
+    {
+        iMapInfoSourceDataSources.next();
+        DataSource *dataSource=iMapInfoSourceDataSources.value();
+         QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality=
+                 dataSource->getMapInfoTypeTransmitQuality();
+         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic))
+         {
+            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
+            if(qrand()%100<transQual.percentageTargetsObserved)
+                dataSource->addTargetIDObservedWithAIS(targetID);
+         }
+         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT))
+         {
+            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_LRIT);
+            if(qrand()%100<transQual.percentageTargetsObserved)
+                dataSource->addTargetIDObservedWithLRIT(targetID);
+         }
+         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
+         {
+            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);
+            if(qrand()%100<transQual.percentageTargetsObserved)
+                dataSource->addTargetIDObservedWithBeidou(targetID);
+         }
+         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian))
+         {
+            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Haijian);
+            if(qrand()%100<transQual.percentageTargetsObserved)
+                dataSource->addTargetIDObservedWithHaijian(targetID);
+         }
+         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
+         {
+            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_ArgosAndMaritimeSatellite);
+            if(qrand()%100<transQual.percentageTargetsObserved)
+                dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
+         }
+    }
+    return true;
  }
 
  void World::initDataChannels()
@@ -493,7 +498,6 @@ void World::slotTimerEventOutPutTargetCountAndMsgRate()
      {
          if(outPutValue&& !jsonObject.value(key).isObject()&&!jsonObject.value(key).isArray())
          {
-             //qDebug()<<endl<<"---------------Checking JsonObject key----------------------";
             qDebug()<<key<<":"<<jsonObject.value(key);
          }
          return true;

@@ -47,6 +47,7 @@ public:
 #ifdef DEBUG_TargetCount
     QMultiMap <PB_Enum_TargetInfo_Type, qint32> multiMapInfoTypeOrigTargetIDForDebug;
 #endif
+    bool createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos,  const QDateTime &posOrigDateTime);
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
