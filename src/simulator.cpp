@@ -32,6 +32,10 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
     listRoutingKeyToConsume.append(ROUTING_KEY_MONITOR_RPOBE);
     ioMessages=new IOMessages(SOFTWARE_NAME,listRoutingKeyToConsume,"param_mq.txt",this);
     connectIOMessageAndWorld();
+
+    timerOutputTargetCountAndMsgRate=new QTimer(this);
+    connect(timerOutputTargetCountAndMsgRate, &QTimer::timeout,this,&Simulator::slotTimerEventOutPutTargetCountAndMsgRate);
+    timerOutputTargetCountAndMsgRate->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
 }
 
 
@@ -408,6 +412,51 @@ bool Simulator::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  co
     else
         return false;
 }
+
+void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
+{
+    qint32 targetCountSumAccordingToInfoTypeAndOrigTargetID=0;
+    qint32 targetCountAll=0;
+    quint64 messageCountSum=0;
+    float msgCountPerMinuteCount=0;
+
+#ifdef DEBUG_PERFORMANCE
+    QTime time;
+    time.start();
+#endif
+
+    QListIterator <ThreadedWorld*> iListWorlds(listOfThreadedWorlds);
+    while(iListWorlds.hasNext())
+    {
+        iListWorlds.next()->updateTargetCountAndMsgRate(setDistinctTargetIDOrig,mapInfoTypeSetTargetID, targetCountAll, msgCountPerMinuteCount,messageCountSum);
+    }
+
+    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\t各数据源消息率总计:"<<
+                QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum;
+
+    QMapIterator <PB_Enum_TargetInfo_Type,QSet <qint32>> iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
+    while(iMapInfoTypeSetTargetID.hasNext())
+    {
+        iMapInfoTypeSetTargetID.next();
+        qint32 setSize=iMapInfoTypeSetTargetID.value().size();
+        targetCountSumAccordingToInfoTypeAndOrigTargetID+=setSize;
+        std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key()).toStdString()<<"目标总数:"<<setSize;
+    }
+
+    std::cout<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
+               "\t<信息类型-目标原始ID>组合数量："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
+               "\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
+
+#ifdef DEBUG_TargetCount
+    qDebug()<<"mapInfoTypeOrigTargetIDForDebug size is:"<<multiMapInfoTypeOrigTargetIDForDebug.size()<<". Contents are:"<<multiMapInfoTypeOrigTargetIDForDebug;
+#endif
+
+#ifdef DEBUG_PERFORMANCE
+    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
+    time.start();
+#endif
+}
+
 
 Simulator::~Simulator()
 {

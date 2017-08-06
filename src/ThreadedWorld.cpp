@@ -27,10 +27,6 @@ ThreadedWorld::ThreadedWorld(QMutex *mutex, MyQtGeoPolygon *geoPolyGonBoundingRe
     timerMeasureAndUpdateTargetPos=new QTimer(this);
     connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos);
     timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
-
-    timerOutputTargetCountAndMsgRate=new QTimer(this);
-    connect(timerOutputTargetCountAndMsgRate, &QTimer::timeout,this,&ThreadedWorld::slotTimerEventOutPutTargetCountAndMsgRate);
-    timerOutputTargetCountAndMsgRate->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
 }
 
 ThreadedWorld::~ThreadedWorld()
@@ -87,13 +83,10 @@ void ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos()
     }
 }
 
-void ThreadedWorld::slotTimerEventOutPutTargetCountAndMsgRate(QSet <qint32> &setDistinctTargetIDOrig)
+void ThreadedWorld::updateTargetCountAndMsgRate(QSet <qint32> &setDistinctTargetIDOrig,
+                               QMap <PB_Enum_TargetInfo_Type,  QSet <qint32> > &mapInfoTypeSetTargetID,qint32 &targetCountAll,
+                               float &msgCountPerMinuteCount, quint64 &messageCountSum)
 {
-    qint32 targetCountSumAccordingToInfoTypeAndOrigTargetID=0;
-    qint32 targetCountAll=0;
-    quint64 messageCountSum=0;
-    float msgCountPerMinuteCount=0;
-
 #ifdef DEBUG_PERFORMANCE
     QTime time;
     time.start();
@@ -109,35 +102,19 @@ void ThreadedWorld::slotTimerEventOutPutTargetCountAndMsgRate(QSet <qint32> &set
         iMapInfoSourceDataSources.value()->uniteSetTargetID(mapInfoTypeSetTargetID);
         iMapInfoSourceDataSources.value()->uniteSetDistinctOrigTargetID(setDistinctTargetIDOrig);
     }
-    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\t各数据源消息率总计:"<<
-                QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum;
-
-    QMapIterator <PB_Enum_TargetInfo_Type,QSet <qint32>> iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
-    while(iMapInfoTypeSetTargetID.hasNext())
-    {
-        iMapInfoTypeSetTargetID.next();
-        qint32 setSize=iMapInfoTypeSetTargetID.value().size();
-        //qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key())<<iMapInfoTypeSetTargetID.value();
-        targetCountSumAccordingToInfoTypeAndOrigTargetID+=setSize;
-        std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key()).toStdString()<<"目标总数:"<<setSize;
-    }
-
-    std::cout<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
-               "\t<信息类型-目标原始ID>组合数量："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
-               "\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
-
-#ifdef DEBUG_TargetCount
-    qDebug()<<"mapInfoTypeOrigTargetIDForDebug size is:"<<multiMapInfoTypeOrigTargetIDForDebug.size()<<". Contents are:"<<multiMapInfoTypeOrigTargetIDForDebug;
-#endif
-
 #ifdef DEBUG_PERFORMANCE
     qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
     time.start();
 #endif
 }
 
- bool ThreadedWorld::addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
-                              const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality)
+QMap<PB_Enum_TargetInfo_Source, DataSource *> ThreadedWorld::getMapInfoSourceDataSources() const
+{
+    return mapInfoSourceDataSources;
+}
+
+bool ThreadedWorld::addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                                            const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality)
  {
      if(!mapInfoSourceDataSources.contains(pbTargetInfoSource))
      {

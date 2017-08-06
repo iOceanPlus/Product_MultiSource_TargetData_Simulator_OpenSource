@@ -58,6 +58,11 @@ public:
     static bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
     static bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
                       qint32 &rowIndex, qint32 &colIndex);
+    QMap<PB_Enum_TargetInfo_Source, DataSource *> getMapInfoSourceDataSources() const;
+
+    void updateTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig, QMap<PB_Enum_TargetInfo_Type,
+                           QSet<qint32> > &mapInfoTypeSetTargetID, qint32 &targetCountAll,
+                                                   float &msgCountPerMinuteCount, quint64 &messageCountSum);
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
     void sigPBMonitor(PBMonitor pbMonitor); //
@@ -65,11 +70,8 @@ signals:
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
     void slotTimerEventMeasureAndUpdateTargetsPos();
-    void slotTimerEventOutPutTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig);
+
 private:
-
-
-
     void updateTotalMsgOfProbeAckWithOneMessageRcvd();
     void updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount);
 
@@ -83,9 +85,7 @@ private:
     MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion; //
 
     QTimer *timerMeasureAndUpdateTargetPos;
-    QTimer *timerOutputTargetCountAndMsgRate;
 
-    PBMonitor_ProbeAck monitor_ProbeAck;
     QMutex *sharedMutex;
     quint16 wordIndex;
 };

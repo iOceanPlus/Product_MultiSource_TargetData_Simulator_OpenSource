@@ -4,6 +4,7 @@
 #include "QObject"
 #include "CommonEnum.pb.h"
 #include "PosDevice.h"
+#include "Monitor.pb.h"
 
 //#define DEBUG_PERFORMANCE
 //#define DEBUG_TargetCount
@@ -22,6 +23,7 @@ extern uint ExternV_Milliseconds_FetchData;
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
 extern bool externVIsWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //water grids
 extern QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> mapInfoTypePosDeviceInfo;
+extern PBMonitor_ProbeAck monitor_ProbeAck;
 
 extern bool ExternV_IS_DEBUG_MODE;
 extern uint ExternV_SOGX10_LOWER_THRESH;

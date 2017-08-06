@@ -19,6 +19,7 @@ public:
 signals:
 
 public slots:
+    void slotTimerEventOutPutTargetCountAndMsgRate();
 
 private:
     void initWaterGrids();
@@ -43,6 +44,9 @@ private:
     QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
 
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoder
+
+    QTimer *timerOutputTargetCountAndMsgRate;
+
 };
 
 #endif // SIMULATOR_H

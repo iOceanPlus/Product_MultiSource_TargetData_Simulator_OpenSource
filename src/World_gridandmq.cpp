@@ -98,6 +98,7 @@ void ThreadedWorld::slotPBMonitor(PBMonitor pbMonitor)
 
 void ThreadedWorld::addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent)
 {
+    QMutexLocker locker(sharedMutex);
     monitor_ProbeAck.set_preprocessedtargetpositionssent(monitor_ProbeAck.preprocessedtargetpositionssent()+preprocessedMsgsSent);
     monitor_ProbeAck.set_totalmessagessent(monitor_ProbeAck.totalmessagessent()+preprocessedMsgsSent);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
@@ -128,12 +129,14 @@ bool ThreadedWorld::isInWaterAndBoudingArea(const double &longitudeInDegree,cons
 
 void ThreadedWorld::updateTotalMsgOfProbeAckWithOneMessageRcvd()
 {
+    QMutexLocker locker(sharedMutex);
     monitor_ProbeAck.set_totalmessagesrcvd(monitor_ProbeAck.totalmessagesrcvd()+1);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
 void ThreadedWorld::updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount)
 {
+    QMutexLocker locker(sharedMutex);
     monitor_ProbeAck.set_totalmessagessent(monitor_ProbeAck.totalmessagessent()+messageCount);
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }

@@ -195,9 +195,6 @@ void DataSource::slotOutPutPosCountAndRate()
 {
     qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
     posCountPerMinute=newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60;
-    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" "<<
-               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource).toStdString()<<"总计:"
-            <<QString::number(posCountPerMinute,'g',3).toStdString()<<" 轨迹点/分钟"<<"\t该数据源发送总点数:"<<totalPosCountFetched<<endl;
     posCountOutputToLog=totalPosCountFetched;
    dtPosCountOutputToLog=dtPosCountFetched;
 }
