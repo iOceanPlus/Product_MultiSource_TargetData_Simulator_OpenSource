@@ -17,7 +17,7 @@ DataSource::DataSource(ThreadedWorld *world, const PB_Enum_TargetInfo_Source &pb
     totalPosCountFetched=posCountOutputToLog= 0;
     dtPosCountFetched=dtPosCountOutputToLog= QDateTime::currentDateTime();
     timerOutPutInfo=new QTimer(this);
-    connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutTargetsCountPerType);
+    //connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutTargetsCountPerType);
     connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutPosCountAndRate);
     timerOutPutInfo->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
 }

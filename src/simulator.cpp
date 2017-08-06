@@ -28,14 +28,12 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
         world->moveToThread(thread);
         thread->start(QThread::NormalPriority);
     }
-
-    parseParamFileAndInitWorldMembers();
-
     QStringList listRoutingKeyToConsume;
     listRoutingKeyToConsume.append(ROUTING_KEY_MONITOR_RPOBE);
     ioMessages=new IOMessages(SOFTWARE_NAME,listRoutingKeyToConsume,"param_mq.txt",this);
     connectIOMessageAndWorld();
 
+    parseParamFileAndInitWorldMembers();
     timerOutputTargetCountAndMsgRate=new QTimer(this);
     connect(timerOutputTargetCountAndMsgRate, &QTimer::timeout,this,&Simulator::slotTimerEventOutPutTargetCountAndMsgRate);
     timerOutputTargetCountAndMsgRate->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
@@ -54,7 +52,7 @@ void Simulator::connectIOMessageAndWorld()
                 ioMessages,SLOT(slotPublishToMQ(QList<StructDataAndKey>)));
 
         connect(this,&Simulator::sigAddDataSourceIfNotExist,world,&ThreadedWorld::slotAddDataSourceIfNotExist);
-        connect(this,&Simulator::sigCreateTargets,world,&ThreadedWorld::slotCreateTargets);
+        connect(this,SIGNAL(sigCreateTargets(QList<PBTargetPosition>,quint16)),world,SLOT(slotCreateTargets(QList<PBTargetPosition>,quint16)));
         connect(this,&Simulator::sigInitDataChannels,world, &ThreadedWorld::slotInitDataChannels);
     }
 }
@@ -433,7 +431,7 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
     }
 
     std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\t各数据源消息率总计:"<<
-                QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum;
+                QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum<<endl;
 
     QMapIterator <PB_Enum_TargetInfo_Type,QSet <qint32>> iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
     while(iMapInfoTypeSetTargetID.hasNext())
@@ -444,7 +442,7 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
         std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key()).toStdString()<<"目标总数:"<<setSize;
     }
 
-    std::cout<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
+    std::cout<<endl<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
                "\t<信息类型-目标原始ID>组合数量："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
                "\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
 
