@@ -19,7 +19,7 @@ ThreadedWorld::ThreadedWorld(QMutex *mutex, MyQtGeoPolygon *geoPolyGonBoundingRe
                              quint16 worldIndex,  QObject *parent) :   QObject(parent)
 {
     this->sharedGeoPolyGonBoundingRegion=geoPolyGonBoundingRegion;
-    this->wordIndex=worldIndex;
+    this->worldIndex=worldIndex;
     this->sharedMutex=mutex;
 
     this->sharedPbCoderDecoder=pbCodDecoder;
@@ -113,7 +113,7 @@ QMap<PB_Enum_TargetInfo_Source, DataSource *> ThreadedWorld::getMapInfoSourceDat
     return mapInfoSourceDataSources;
 }
 
-bool ThreadedWorld::addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+bool ThreadedWorld::slotAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                                             const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality)
  {
      if(!mapInfoSourceDataSources.contains(pbTargetInfoSource))
@@ -127,50 +127,59 @@ bool ThreadedWorld::addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbT
         return false;
  }
 
-bool ThreadedWorld::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos, const QDateTime &posOrigDateTime)
+bool ThreadedWorld::slotCreateTargets(const QList<PBTargetPosition> &listPbTargetPos, const quint16 &worldCount)
 {
-    Target *target=new Target(pbTargetPos,this,posOrigDateTime);
-    target->installPosDevices();
-    hashIDTarget.insert(targetID,target);
-
-    QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
-    while(iMapInfoSourceDataSources.hasNext())
+    QListIterator <PBTargetPosition> iListTargetPos(listPbTargetPos);
+    while(iListTargetPos.hasNext())
     {
-        iMapInfoSourceDataSources.next();
-        DataSource *dataSource=iMapInfoSourceDataSources.value();
-         QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality=
-                 dataSource->getMapInfoTypeTransmitQuality();
-         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic))
-         {
-            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
-            if(qrand()%100<transQual.percentageTargetsObserved)
-                dataSource->addTargetIDObservedWithAIS(targetID);
-         }
-         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT))
-         {
-            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_LRIT);
-            if(qrand()%100<transQual.percentageTargetsObserved)
-                dataSource->addTargetIDObservedWithLRIT(targetID);
-         }
-         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
-         {
-            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);
-            if(qrand()%100<transQual.percentageTargetsObserved)
-                dataSource->addTargetIDObservedWithBeidou(targetID);
-         }
-         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian))
-         {
-            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Haijian);
-            if(qrand()%100<transQual.percentageTargetsObserved)
-                dataSource->addTargetIDObservedWithHaijian(targetID);
-         }
-         if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
-         {
-            Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_ArgosAndMaritimeSatellite);
-            if(qrand()%100<transQual.percentageTargetsObserved)
-                dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
-         }
+        PBTargetPosition pbTargetPos=iListTargetPos.next();
+        if(pbTargetPos.targetid()%worldCount!=worldIndex)
+            continue;
+
+        Target *target=new Target(pbTargetPos,this,posOrigDateTime);
+        target->installPosDevices();
+        hashIDTarget.insert(targetID,target);
+
+        QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
+        while(iMapInfoSourceDataSources.hasNext())
+        {
+            iMapInfoSourceDataSources.next();
+            DataSource *dataSource=iMapInfoSourceDataSources.value();
+             QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality> mapInfoTypeTransmitQuality=
+                     dataSource->getMapInfoTypeTransmitQuality();
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_AISDynamic);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithAIS(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_LRIT);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithLRIT(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Beidou);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithBeidou(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Haijian);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithHaijian(targetID);
+             }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_ArgosAndMaritimeSatellite);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
+             }
+        }
     }
+
     return true;
  }
 

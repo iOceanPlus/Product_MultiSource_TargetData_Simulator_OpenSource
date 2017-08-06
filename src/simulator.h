@@ -17,6 +17,9 @@ public:
     static bool checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key, const bool &outPutValue);
 
 signals:
+    bool sigAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                                 const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
+    bool sigCreateTargets(const QList<PBTargetPosition> &listPbTargetPos, const quint16 &worldCount);
 
 public slots:
     void slotTimerEventOutPutTargetCountAndMsgRate();

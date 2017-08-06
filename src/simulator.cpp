@@ -49,6 +49,9 @@ void Simulator::connectIOMessageAndWorld()
 
         connect(world,SIGNAL(sigSend2MQ(QList<StructDataAndKey>)),
                 ioMessages,SLOT(slotPublishToMQ(QList<StructDataAndKey>)));
+
+        connect(this,&Simulator::sigAddDataSourceIfNotExist,world,&ThreadedWorld::slotAddDataSourceIfNotExist);
+        connect(this,&Simulator::sigCreateTargets,world,&ThreadedWorld::slotCreateTargets);
     }
 }
 
@@ -237,11 +240,7 @@ void Simulator::parseParamFileAndInitWorldMembers()
                         qDebug()<<"Fail to parse jsonObject of SourceInfo in One Data Source.";
                 }
                 /****************************** end the iteration  of all sourceInfos of one Data source***************/
-               iListWorlds.toFront();
-               while(iListWorlds.hasNext())
-               {
-                   iListWorlds.next()->addDataSourceIfNotExist((PB_Enum_TargetInfo_Source)dataSourceID,mapInfoTypeTransmitQualityOfOneDataSource);
-               }
+              emit sigAddDataSourceIfNotExist((PB_Enum_TargetInfo_Source)dataSourceID,mapInfoTypeTransmitQualityOfOneDataSource);
             }
             else //
                 qDebug()<<"Fail to parse jsonObject of One Data Source:"<<jsonDataSourceObjInArray;
@@ -288,7 +287,7 @@ void  Simulator::initTargetsAndPutToWorlds()
         exit(3);
         return ;
     }
-
+    QList<PBTargetPosition> listPbTargetPos;
     qint16 countryCount=listCountryNames.size();
     qint32 targetID=0;
     shipDataFile.readLine(); //skip first line
@@ -332,35 +331,36 @@ void  Simulator::initTargetsAndPutToWorlds()
 
         targetID++; //Start from 1
 
-       PBTargetPosition pbTargetPosOrig;
-       pbTargetPosOrig.set_targetid(targetID);
-       pbTargetPosOrig.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
-       pbTargetPosOrig.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
-       pbTargetPosOrig.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
-       pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(cogX10);
-       pbTargetPosOrig.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
-       pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(sogX10);
-       pbTargetPosOrig.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
-       pbTargetPosOrig.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
-       pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
-       pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+       PBTargetPosition pbTargetPos;
+       pbTargetPos.set_targetid(targetID);
+       pbTargetPos.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+       pbTargetPos.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
+       pbTargetPos.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
+       pbTargetPos.mutable_aisdynamic()->set_cogdegreex10(cogX10);
+       pbTargetPos.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
+       pbTargetPos.mutable_aisdynamic()->set_sogknotsx10(sogX10);
+       pbTargetPos.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
+       pbTargetPos.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
+       pbTargetPos.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
+       pbTargetPos.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 
-       pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
+       pbTargetPos.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
 
-       pbTargetPosOrig.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+       pbTargetPos.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 #ifndef SHIP_DATA_ANONYMOUS
-       pbTargetPosOrig.mutable_aisstatic()->set_shipname(shipName.toStdString());
+       pbTargetPos.mutable_aisstatic()->set_shipname(shipName.toStdString());
 #endif
-       pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
-       pbTargetPosOrig.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
-       pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
+       pbTargetPos.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
+       pbTargetPos.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
+       pbTargetPos.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPos.aisstatic().shiptype_ais()));
 
-       pbTargetPosOrig.set_beidouid(EV_TargetIDType_BeidouID*ExternV_TargetCount+targetID);
-       pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
-       pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
+       pbTargetPos.set_beidouid(EV_TargetIDType_BeidouID*ExternV_TargetCount+targetID);
+       pbTargetPos.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
+       pbTargetPos.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
 
-       listOfThreadedWorlds.at(targetID%listOfThreadedWorlds.size())->createOneTarget(targetID, pbTargetPosOrig,QDateTime::currentDateTime());
+       listPbTargetPos.append(pbTargetPos);
     }
+    emit sigCreateTargets(listPbTargetPos, listOfWorldThreads.size());
     qDebug()<<"Number of targets created: "<<targetID;
 }
 

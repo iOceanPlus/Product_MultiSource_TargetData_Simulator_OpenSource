@@ -1,4 +1,4 @@
-#ifndef THREADEDWORLD_H
+﻿#ifndef THREADEDWORLD_H
 #define THREADEDWORLD_H
 
 #include <QObject>
@@ -44,14 +44,12 @@ public:
     QMap<PB_Enum_TargetInfo_Type, DataChannel *> getMapInfoTypeDataChannels() const;
 
     PBCoderDecoder *getPbCoderDecoder() const;
+
     void addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent);
 
-    bool addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
-                                 const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
 #ifdef DEBUG_TargetCount
     QMultiMap <PB_Enum_TargetInfo_Type, qint32> multiMapInfoTypeOrigTargetIDForDebug;
 #endif
-    bool createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos,  const QDateTime &posOrigDateTime);    
     void initDataChannels(const QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo);
 
     /****************************************Grids related methods***********************************/
@@ -66,6 +64,10 @@ public:
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
     void sigPBMonitor(PBMonitor pbMonitor); //
+public slots:
+    bool slotAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                                 const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
+    bool slotCreateTargets(const QList<PBTargetPosition> &listPbTargetPos, const quint16 &worldCount);
 
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
@@ -87,7 +89,7 @@ private:
     QTimer *timerMeasureAndUpdateTargetPos;
 
     QMutex *sharedMutex;
-    quint16 wordIndex;
+    quint16 worldIndex;
 };
 
 #endif // THREADEDWORLD_H
