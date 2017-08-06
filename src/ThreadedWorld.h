@@ -50,7 +50,6 @@ public:
 #ifdef DEBUG_TargetCount
     QMultiMap <PB_Enum_TargetInfo_Type, qint32> multiMapInfoTypeOrigTargetIDForDebug;
 #endif
-    void initDataChannels(const QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo);
 
     /****************************************Grids related methods***********************************/
     static bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
@@ -68,6 +67,7 @@ public slots:
     bool slotAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                                  const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
     bool slotCreateTargets(const QList<PBTargetPosition> &listPbTargetPos, const quint16 &worldCount);
+    void slotInitDataChannels(const QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo);
 
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //

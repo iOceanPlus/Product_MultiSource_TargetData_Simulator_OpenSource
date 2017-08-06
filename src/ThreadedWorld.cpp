@@ -136,8 +136,9 @@ bool ThreadedWorld::slotCreateTargets(const QList<PBTargetPosition> &listPbTarge
         if(pbTargetPos.targetid()%worldCount!=worldIndex)
             continue;
 
-        Target *target=new Target(pbTargetPos,this,posOrigDateTime);
+        Target *target=new Target(pbTargetPos,this,QDateTime::currentDateTime());
         target->installPosDevices();
+        qint32 targetID=pbTargetPos.targetid();
         hashIDTarget.insert(targetID,target);
 
         QMapIterator <PB_Enum_TargetInfo_Source,DataSource*> iMapInfoSourceDataSources(mapInfoSourceDataSources);
@@ -183,7 +184,7 @@ bool ThreadedWorld::slotCreateTargets(const QList<PBTargetPosition> &listPbTarge
     return true;
  }
 
- void ThreadedWorld::initDataChannels(const QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo)
+ void ThreadedWorld::slotInitDataChannels(const QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo)
  {
      if(mapInfoTypeDataChannels.isEmpty())
      {

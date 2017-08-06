@@ -20,6 +20,7 @@ signals:
     bool sigAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                                  const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
     bool sigCreateTargets(const QList<PBTargetPosition> &listPbTargetPos, const quint16 &worldCount);
+    void sigInitDataChannels(const QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo);
 
 public slots:
     void slotTimerEventOutPutTargetCountAndMsgRate();

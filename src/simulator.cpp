@@ -16,6 +16,7 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
 
     worldThreadCount=1; //default count
     setWorldThreadCountAndBoundingRegionFromParamJson();
+
     pbCoderDecoder=new PBCoderDecoder(SOFTWARE_NAME,mutex,this);
     for(int i=0;i<worldThreadCount;i++)
     {
@@ -27,7 +28,9 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
         world->moveToThread(thread);
         thread->start(QThread::NormalPriority);
     }
+
     parseParamFileAndInitWorldMembers();
+
     QStringList listRoutingKeyToConsume;
     listRoutingKeyToConsume.append(ROUTING_KEY_MONITOR_RPOBE);
     ioMessages=new IOMessages(SOFTWARE_NAME,listRoutingKeyToConsume,"param_mq.txt",this);
@@ -52,6 +55,7 @@ void Simulator::connectIOMessageAndWorld()
 
         connect(this,&Simulator::sigAddDataSourceIfNotExist,world,&ThreadedWorld::slotAddDataSourceIfNotExist);
         connect(this,&Simulator::sigCreateTargets,world,&ThreadedWorld::slotCreateTargets);
+        connect(this,&Simulator::sigInitDataChannels,world, &ThreadedWorld::slotInitDataChannels);
     }
 }
 
@@ -176,11 +180,8 @@ void Simulator::parseParamFileAndInitWorldMembers()
         }
     }
 
-    QListIterator <ThreadedWorld*> iListWorlds(listOfThreadedWorlds);
-    while(iListWorlds.hasNext())
-    {
-        iListWorlds.next()->initDataChannels(mapInfoTypePosDeviceInfo);
-    }
+    emit sigInitDataChannels(mapInfoTypePosDeviceInfo);
+
 
     /****************************** Start  the iteration  of all Data sources********************************/
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"DataSources",false))
