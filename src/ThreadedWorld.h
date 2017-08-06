@@ -32,7 +32,8 @@ class ThreadedWorld : public QObject
 {
     Q_OBJECT
 public:
-    explicit ThreadedWorld( QMutex *sharedMutex, MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion,PBCoderDecoder *pbCodDecoder,  QObject *parent = 0);
+    explicit ThreadedWorld( QMutex *sharedMutex, MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion,PBCoderDecoder *pbCodDecoder,
+                            quint16 worldIndex,  QObject *parent = 0);
     ~ThreadedWorld();
     bool isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree);
 
@@ -44,13 +45,19 @@ public:
 
     PBCoderDecoder *getPbCoderDecoder() const;
     void addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &preprocessedMsgsSent);
+
+    bool addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                                 const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
 #ifdef DEBUG_TargetCount
     QMultiMap <PB_Enum_TargetInfo_Type, qint32> multiMapInfoTypeOrigTargetIDForDebug;
 #endif
-    bool createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos,  const QDateTime &posOrigDateTime);
+    bool createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos,  const QDateTime &posOrigDateTime);    
+    void initDataChannels(const QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo);
 
-    QMap<PB_Enum_TargetInfo_Type, QSet<qint32> > & getRefMapInfoTypeSetTargetID() ;
-
+    /****************************************Grids related methods***********************************/
+    static bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
+    static bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
+                      qint32 &rowIndex, qint32 &colIndex);
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
     void sigPBMonitor(PBMonitor pbMonitor); //
@@ -61,14 +68,7 @@ private slots:
     void slotTimerEventOutPutTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig);
 private:
 
-    void initTargetsAndAddToDataSources();
-    void initDataChannels();
-    void initWaterGrids();
 
-    /****************************************Grids related methods***********************************/
-    bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
-    bool getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
-                      qint32 &rowIndex, qint32 &colIndex) const;
 
     void updateTotalMsgOfProbeAckWithOneMessageRcvd();
     void updateTotalMsgOfMonitorProbeAckWithMessagesSent(qint32 messageCount);
@@ -79,7 +79,6 @@ private:
     QMap <PB_Enum_TargetInfo_Source,DataSource*> mapInfoSourceDataSources;
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
 
-    quint32 colCount,rowCount;
     PBCoderDecoder *sharedPbCoderDecoder;  //*pbCoderDecoder
     MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion; //
 
@@ -88,6 +87,7 @@ private:
 
     PBMonitor_ProbeAck monitor_ProbeAck;
     QMutex *sharedMutex;
+    quint16 wordIndex;
 };
 
 #endif // THREADEDWORLD_H

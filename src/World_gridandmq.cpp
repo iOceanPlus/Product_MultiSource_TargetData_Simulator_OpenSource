@@ -15,7 +15,7 @@
 bool ThreadedWorld::getLocation(quint32 rowIndex, quint32 colIndex,
                          double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree)
 {
-    if(rowIndex>=rowCount||colIndex>=colCount) //超出范围
+    if(rowIndex>=GRID_ARRAY_ROW_COUNT||colIndex>=GRID_ARRAY_ROW_COUNT*2) //超出范围
     {
         qDebug()<<"rowIndex or colIndex is out of range in getLocation()";
         return false;
@@ -33,7 +33,7 @@ bool ThreadedWorld::getLocation(quint32 rowIndex, quint32 colIndex,
 }
 
 bool ThreadedWorld::getGridIndex(const double &longitudeInDegree,const double &latitudeInDegree,
-                                 qint32 &rowIndex, qint32 &colIndex) const
+                                 qint32 &rowIndex, qint32 &colIndex)
 {
     if(longitudeInDegree>180||longitudeInDegree<-180||
             latitudeInDegree>90||latitudeInDegree<-90)
@@ -50,10 +50,10 @@ bool ThreadedWorld::getGridIndex(const double &longitudeInDegree,const double &l
         //每个栅格的范围是左闭右开
         rowIndex=qFloor( (latitudeInDegree+90)*GRID_ARRAY_ROW_COUNT/180.0);
         colIndex=qFloor( (longitudeInDegree+180)*GRID_ARRAY_ROW_COUNT/180.0);
-        if(rowIndex>=(qint32)rowCount) //最大的一行和最大的一列特殊判断
-            rowIndex=rowCount-1;
-        if(colIndex>=(qint32)colCount)
-            colIndex=colCount-1;
+        if(rowIndex>=(qint32)GRID_ARRAY_ROW_COUNT) //最大的一行和最大的一列特殊判断
+            rowIndex=GRID_ARRAY_ROW_COUNT-1;
+        if(colIndex>=(qint32)GRID_ARRAY_ROW_COUNT*2)
+            colIndex=GRID_ARRAY_ROW_COUNT*2-1;
         return true;
     }
 }
@@ -103,48 +103,15 @@ void ThreadedWorld::addPreprocessedMsgsSendInMonitorProbeAck(const qint32 &prepr
     monitor_ProbeAck.set_recordutctime(QDateTime::currentDateTime().toTime_t());
 }
 
-void ThreadedWorld::initWaterGrids()
-{
-    for(int rInd=0; rInd<(qint32)rowCount;rInd++)
-    {
-        for(int cInd=0;cInd<(qint32)colCount;cInd++)
-        {
-            externVIsWater[rInd][cInd]=false;
-        }
-    }
-
-    QFile paramJsonFile(waterGridsFileName);
-    if (!paramJsonFile.open(QIODevice::ReadOnly)) {
-        qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
-        exit(1);
-        return ;
-    }
-
-    while (!paramJsonFile.atEnd())
-    {
-        QList <QByteArray> listField = paramJsonFile.readLine().trimmed().split(',');
-        if(listField.size()!=4)
-        {
-            qDebug()<<"Critical: Column count of water Grid file is not correct!";
-            exit(2);
-            break;
-        }
-        qint32 rowInd,colInd;
-        getGridIndex( (listField.at(0).toInt()+listField.at(2).toInt())/AISPosDivider/2.0, (listField.at(1).toInt()+listField.at(3).toInt())/AISPosDivider/2.0,rowInd,colInd);
-        if(rowInd>=0&&rowInd<(qint32)rowCount&&
-                colInd>=0&&colInd<(qint32)colCount)
-               externVIsWater[rowInd][colInd]=true;
-    }
-}
 
 bool ThreadedWorld::isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree)
 {
    qint32 rowInd,colInd;
     if(getGridIndex(longitudeInDegree,latitudeInDegree,rowInd,colInd))
     {
-        if(rowInd<(qint32)rowCount&&colInd<(qint32)colCount)
+        if(rowInd<(qint32)GRID_ARRAY_ROW_COUNT&&colInd<(qint32)GRID_ARRAY_ROW_COUNT*2)
         {
-            bool inWater= externVIsWater[rowInd][colCount];
+            bool inWater= externVIsWater[rowInd][colInd];
             bool inBoundingArea=true;
             if(sharedGeoPolyGonBoundingRegion)
             {

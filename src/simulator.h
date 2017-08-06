@@ -21,8 +21,11 @@ signals:
 public slots:
 
 private:
+    void initWaterGrids();
+    void initTargetsAndPutToWorlds();
+
     bool setWorldThreadCountAndBoundingRegionFromParamJson();
-    void parseParamFileAndInitMembers();
+    void parseParamFileAndInitWorldMembers();
 
     void connectIOMessageAndWorld();
 
@@ -33,14 +36,13 @@ private:
 
     QList <QThread *> listOfWorldThreads;
 
-    MyQtGeoPolygon *geoPolyGonBoundingRegion;
+    MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion;
     QString waterGridsFileName,ship_FileName, mc2FileName, language;
 
     QSet <qint32> setDistinctTargetIDOrig;
     QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
 
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoder
-
 };
 
 #endif // SIMULATOR_H

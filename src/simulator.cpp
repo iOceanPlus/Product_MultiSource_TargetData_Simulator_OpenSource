@@ -11,7 +11,7 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
 {
     this->thread()->setPriority(QThread::LowPriority);
     mutex=new QMutex();
-    geoPolyGonBoundingRegion=NULL;
+    sharedGeoPolyGonBoundingRegion=NULL;
     qsrand(0); //Make sure that every time the program started, the simulated scence is the same.
 
     worldThreadCount=1; //default count
@@ -21,13 +21,13 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
     {
         QThread *thread=new QThread(this);
         listOfWorldThreads.append(thread);
-        ThreadedWorld *world=new ThreadedWorld(mutex,geoPolyGonBoundingRegion,pbCoderDecoder);
+        ThreadedWorld *world=new ThreadedWorld(mutex,sharedGeoPolyGonBoundingRegion,pbCoderDecoder,i);
         listOfThreadedWorlds.append(world);
         connect(thread,&QThread::finished,world,&QObject::deleteLater);
         world->moveToThread(thread);
         thread->start(QThread::NormalPriority);
     }
-    parseParamFileAndInitMembers();
+    parseParamFileAndInitWorldMembers();
     QStringList listRoutingKeyToConsume;
     listRoutingKeyToConsume.append(ROUTING_KEY_MONITOR_RPOBE);
     ioMessages=new IOMessages(SOFTWARE_NAME,listRoutingKeyToConsume,"param_mq.txt",this);
@@ -82,7 +82,7 @@ bool Simulator::setWorldThreadCountAndBoundingRegionFromParamJson()
                 }
             }
             bool ok;
-            geoPolyGonBoundingRegion=new MyQtGeoPolygon(vectPoints,&ok,1,"bounding",this);
+            sharedGeoPolyGonBoundingRegion=new MyQtGeoPolygon(vectPoints,&ok,1,"bounding",this);
         }
     }
 
@@ -94,7 +94,7 @@ bool Simulator::setWorldThreadCountAndBoundingRegionFromParamJson()
     return false;
 }
 
-void Simulator::parseParamFileAndInitMembers()
+void Simulator::parseParamFileAndInitWorldMembers()
 {
     QFile paramJsonFile(QStringLiteral("param.json"));
     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
@@ -169,7 +169,11 @@ void Simulator::parseParamFileAndInitMembers()
         }
     }
 
-    initDataChannels();
+    QListIterator <ThreadedWorld*> iListWorlds(listOfThreadedWorlds);
+    while(iListWorlds.hasNext())
+    {
+        iListWorlds.next()->initDataChannels(mapInfoTypePosDeviceInfo);
+    }
 
     /****************************** Start  the iteration  of all Data sources********************************/
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"DataSources",false))
@@ -229,11 +233,10 @@ void Simulator::parseParamFileAndInitMembers()
                         qDebug()<<"Fail to parse jsonObject of SourceInfo in One Data Source.";
                 }
                 /****************************** end the iteration  of all sourceInfos of one Data source***************/
-               if(!mapInfoSourceDataSources.contains((PB_Enum_TargetInfo_Source)dataSourceID))
+               iListWorlds.toFront();
+               while(iListWorlds.hasNext())
                {
-                   DataSource *dataSource=new DataSource(this,(PB_Enum_TargetInfo_Source)dataSourceID, mapInfoTypeTransmitQualityOfOneDataSource,this);
-                    connect(dataSource, &DataSource::sigSend2MQ,this,&ThreadedWorld::sigSend2MQ);
-                    mapInfoSourceDataSources.insert( (PB_Enum_TargetInfo_Source)dataSourceID,dataSource);
+                   iListWorlds.next()->addDataSourceIfNotExist((PB_Enum_TargetInfo_Source)dataSourceID,mapInfoTypeTransmitQualityOfOneDataSource);
                }
             }
             else //
@@ -246,9 +249,150 @@ void Simulator::parseParamFileAndInitMembers()
     else
         qDebug()<<"Fail to parse jsonObject of Data Sources:"<<jsonObjcet; //No data sources in the json
 
-    initTargetsAndAddToDataSources();
+    initTargetsAndPutToWorlds();
     initWaterGrids();
+}
 
+void  Simulator::initTargetsAndPutToWorlds()
+{
+    QFile mc2File(mc2FileName);
+    if (!mc2File.open(QIODevice::ReadOnly)) {
+        qDebug()<<"Warning: Couldn't open "<<mc2File.fileName()<<mc2File.errorString()<<". Targets will not have country attributes.";
+        return ;
+    }
+
+    QList <QString> listCountryNames;
+    quint8 colInd=2;
+    if(language.toLower()=="cn")
+        colInd=1;
+
+    mc2File.readLine(); //skip first line
+    while (!mc2File.atEnd())
+    {
+        QList <QByteArray> listField = mc2File.readLine().trimmed().split(',');
+        if(listField.size()<3)
+        {
+            qDebug()<<"Warning: Column count of  file"<<mc2File.fileName()<<" is not correct! This Line is:"<<listField;
+            continue;
+        }
+        listCountryNames.append(listField.at(colInd));
+    }
+
+    QFile shipDataFile(ship_FileName);
+    if (!shipDataFile.open(QIODevice::ReadOnly)) {
+        qDebug()<<"Critical: Couldn't open "<<shipDataFile.fileName()<<shipDataFile.errorString()<<". Nothing will be done.";
+        exit(3);
+        return ;
+    }
+
+    qint16 countryCount=listCountryNames.size();
+    qint32 targetID=0;
+    shipDataFile.readLine(); //skip first line
+    while (!shipDataFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
+    {
+
+        QList <QByteArray> listField = shipDataFile.readLine().trimmed().split(',');
+#ifdef SHIP_DATA_ANONYMOUS
+        if(listField.size()!=6)
+        {
+            qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
+            exit(4);
+            break;
+        }
+        qint32 longitudeX60W=listField.at(1).toInt();
+        qint32 latitudeX60W=listField.at(2).toInt();
+        qint32 cogX10=listField.at(3).toInt();
+        qint32 sogX10=listField.at(4).toInt();
+#endif
+
+#ifndef SHIP_DATA_ANONYMOUS
+        if(listField.size()!=18)
+        {
+            qDebug()<<"Critical: Column count of ship file is not correct! Column count is: "<<listField.size()<<"  Exiting...."<<listField;
+            exit(4);
+            break;
+        }
+
+        qint32 longitudeX60W=listField.at(1).toInt();
+        qint32 latitudeX60W=listField.at(2).toInt();
+        qint32 cogX10=listField.at(3).toInt();
+        qint32 sogX10=listField.at(5).toInt();
+        QString shipName=listField.at(8);
+#endif
+
+        if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
+            continue;
+
+        if(sharedGeoPolyGonBoundingRegion&&!sharedGeoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeX60W/AISPosDivider,longitudeX60W/AISPosDivider)))
+            continue;
+
+        targetID++; //Start from 1
+
+       PBTargetPosition pbTargetPosOrig;
+       pbTargetPosOrig.set_targetid(targetID);
+       pbTargetPosOrig.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+       pbTargetPosOrig.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
+       pbTargetPosOrig.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
+       pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(cogX10);
+       pbTargetPosOrig.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
+       pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(sogX10);
+       pbTargetPosOrig.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
+       pbTargetPosOrig.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
+       pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
+       pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+
+       pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
+
+       pbTargetPosOrig.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
+#ifndef SHIP_DATA_ANONYMOUS
+       pbTargetPosOrig.mutable_aisstatic()->set_shipname(shipName.toStdString());
+#endif
+       pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
+       pbTargetPosOrig.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
+       pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
+
+       pbTargetPosOrig.set_beidouid(EV_TargetIDType_BeidouID*ExternV_TargetCount+targetID);
+       pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
+       pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
+
+       listOfThreadedWorlds.at(targetID%listOfThreadedWorlds.size())->createOneTarget(targetID, pbTargetPosOrig,QDateTime::currentDateTime());
+    }
+    qDebug()<<"Number of targets created: "<<targetID;
+}
+
+
+void Simulator::initWaterGrids()
+{
+    for(int rInd=0; rInd<(qint32)GRID_ARRAY_ROW_COUNT;rInd++)
+    {
+        for(int cInd=0;cInd<(qint32)(2*GRID_ARRAY_ROW_COUNT);cInd++)
+        {
+            externVIsWater[rInd][cInd]=false;
+        }
+    }
+
+    QFile paramJsonFile(waterGridsFileName);
+    if (!paramJsonFile.open(QIODevice::ReadOnly)) {
+        qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
+        exit(1);
+        return ;
+    }
+
+    while (!paramJsonFile.atEnd())
+    {
+        QList <QByteArray> listField = paramJsonFile.readLine().trimmed().split(',');
+        if(listField.size()!=4)
+        {
+            qDebug()<<"Critical: Column count of water Grid file is not correct!";
+            exit(2);
+            break;
+        }
+        qint32 rowInd,colInd;
+        ThreadedWorld::getGridIndex( (listField.at(0).toInt()+listField.at(2).toInt())/AISPosDivider/2.0, (listField.at(1).toInt()+listField.at(3).toInt())/AISPosDivider/2.0,rowInd,colInd);
+        if(rowInd>=0&&rowInd<(qint32)GRID_ARRAY_ROW_COUNT&&
+                colInd>=0&&colInd<(qint32)GRID_ARRAY_ROW_COUNT*2)
+               externVIsWater[rowInd][colInd]=true;
+    }
 }
 
 bool Simulator::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key, const bool &outPutValue)
@@ -267,14 +411,19 @@ bool Simulator::checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  co
 
 Simulator::~Simulator()
 {
-    if(listOfWorldThreads&&listOfWorldThreads->isRunning())
+    QListIterator <QThread*> iListThreads(listOfWorldThreads);
+    while(iListThreads.hasNext())
     {
-        listOfWorldThreads->quit();
-        listOfWorldThreads->wait(500);
-        listOfWorldThreads->deleteLater();
+        QThread *thread=iListThreads.next();
+        if(thread&&thread->isRunning())
+        {
+            thread->quit();
+            thread->wait(500);
+            thread->deleteLater();
+        }
+        else if(thread)
+            thread->deleteLater();
     }
-    else if(listOfWorldThreads)
-        listOfWorldThreads->deleteLater();
 
     // Optional:  Delete all global objects allocated by libprotobuf.
     google::protobuf::ShutdownProtobufLibrary();

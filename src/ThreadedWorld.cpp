@@ -15,19 +15,15 @@
 #include "macro.h"
 #include "target.h"
 
-ThreadedWorld::ThreadedWorld(QMutex *mutex, MyQtGeoPolygon *geoPolyGonBoundingRegion,PBCoderDecoder *pbCodDecoder,  QObject *parent) :
-                            QObject(parent)
+ThreadedWorld::ThreadedWorld(QMutex *mutex, MyQtGeoPolygon *geoPolyGonBoundingRegion, PBCoderDecoder *pbCodDecoder,
+                             quint16 worldIndex,  QObject *parent) :   QObject(parent)
 {
     this->sharedGeoPolyGonBoundingRegion=geoPolyGonBoundingRegion;
-
-    colCount=GRID_ARRAY_ROW_COUNT*2;
-    rowCount=GRID_ARRAY_ROW_COUNT;
-
+    this->wordIndex=worldIndex;
     this->sharedMutex=mutex;
 
     this->sharedPbCoderDecoder=pbCodDecoder;
 
-    parseParamFileAndInitMembers();
     timerMeasureAndUpdateTargetPos=new QTimer(this);
     connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos);
     timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
@@ -140,111 +136,18 @@ void ThreadedWorld::slotTimerEventOutPutTargetCountAndMsgRate(QSet <qint32> &set
 #endif
 }
 
- void  ThreadedWorld::initTargetsAndAddToDataSources()
-{
-     QFile mc2File(mc2FileName);
-     if (!mc2File.open(QIODevice::ReadOnly)) {
-         qDebug()<<"Warning: Couldn't open "<<mc2File.fileName()<<mc2File.errorString()<<". Targets will not have country attributes.";
-         return ;
-     }
-
-     QList <QString> listCountryNames;
-     quint8 colInd=2;
-     if(language.toLower()=="cn")
-         colInd=1;
-
-     mc2File.readLine(); //skip first line
-     while (!mc2File.atEnd())
+ bool ThreadedWorld::addDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
+                              const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality)
+ {
+     if(!mapInfoSourceDataSources.contains(pbTargetInfoSource))
      {
-         QList <QByteArray> listField = mc2File.readLine().trimmed().split(',');
-         if(listField.size()<3)
-         {
-             qDebug()<<"Warning: Column count of  file"<<mc2File.fileName()<<" is not correct! This Line is:"<<listField;
-             continue;
-         }
-         listCountryNames.append(listField.at(colInd));
+         DataSource *dataSource=new DataSource(this,pbTargetInfoSource, mapInfoTypeTransmitQuality,this);
+          connect(dataSource, &DataSource::sigSend2MQ,this,&ThreadedWorld::sigSend2MQ);
+          mapInfoSourceDataSources.insert(pbTargetInfoSource,dataSource);
+          return true;
      }
-
-     QFile shipDataFile(ship_FileName);
-     if (!shipDataFile.open(QIODevice::ReadOnly)) {
-         qDebug()<<"Critical: Couldn't open "<<shipDataFile.fileName()<<shipDataFile.errorString()<<". Nothing will be done.";
-         exit(3);
-         return ;
-     }
-
-     qint16 countryCount=listCountryNames.size();
-     qint32 targetID=0;
-     shipDataFile.readLine(); //skip first line
-     while (!shipDataFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
-     {
-
-         QList <QByteArray> listField = shipDataFile.readLine().trimmed().split(',');
-#ifdef SHIP_DATA_ANONYMOUS
-         if(listField.size()!=6)
-         {
-             qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
-             exit(4);
-             break;
-         }
-         qint32 longitudeX60W=listField.at(1).toInt();
-         qint32 latitudeX60W=listField.at(2).toInt();
-         qint32 cogX10=listField.at(3).toInt();
-         qint32 sogX10=listField.at(4).toInt();
-#endif
-
-#ifndef SHIP_DATA_ANONYMOUS
-         if(listField.size()!=18)
-         {
-             qDebug()<<"Critical: Column count of ship file is not correct! Column count is: "<<listField.size()<<"  Exiting...."<<listField;
-             exit(4);
-             break;
-         }
-
-         qint32 longitudeX60W=listField.at(1).toInt();
-         qint32 latitudeX60W=listField.at(2).toInt();
-         qint32 cogX10=listField.at(3).toInt();
-         qint32 sogX10=listField.at(5).toInt();
-         QString shipName=listField.at(8);
-#endif
-
-         if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
-             continue;
-
-         if(sharedGeoPolyGonBoundingRegion&&!sharedGeoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeX60W/AISPosDivider,longitudeX60W/AISPosDivider)))
-             continue;
-
-         targetID++; //Start from 1
-
-        PBTargetPosition pbTargetPosOrig;
-        pbTargetPosOrig.set_targetid(targetID);
-        pbTargetPosOrig.mutable_aisdynamic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
-        pbTargetPosOrig.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
-        pbTargetPosOrig.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
-        pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(cogX10);
-        pbTargetPosOrig.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
-        pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(sogX10);
-        pbTargetPosOrig.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
-        pbTargetPosOrig.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
-        pbTargetPosOrig.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
-        pbTargetPosOrig.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
-
-        pbTargetPosOrig.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
-
-        pbTargetPosOrig.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
-#ifndef SHIP_DATA_ANONYMOUS
-        pbTargetPosOrig.mutable_aisstatic()->set_shipname(shipName.toStdString());
-#endif
-        pbTargetPosOrig.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
-        pbTargetPosOrig.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
-        pbTargetPosOrig.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPosOrig.aisstatic().shiptype_ais()));
-
-        pbTargetPosOrig.set_beidouid(EV_TargetIDType_BeidouID*ExternV_TargetCount+targetID);
-        pbTargetPosOrig.set_haijianid(EV_TargetIDType_HaijianID*ExternV_TargetCount+targetID);
-        pbTargetPosOrig.set_argosandmarinesatid(EV_TargetIDType_ArgosAndMarineSatID*ExternV_TargetCount+targetID);
-
-        createOneTarget(targetID, pbTargetPosOrig,QDateTime::currentDateTime());
-     }
-     qDebug()<<"Number of targets created: "<<targetID;
+     else
+        return false;
  }
 
 bool ThreadedWorld::createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos, const QDateTime &posOrigDateTime)
@@ -294,7 +197,7 @@ bool ThreadedWorld::createOneTarget(qint32 &targetID, const PBTargetPosition &pb
     return true;
  }
 
- void ThreadedWorld::initDataChannels()
+ void ThreadedWorld::initDataChannels(const QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo)
  {
      if(mapInfoTypeDataChannels.isEmpty())
      {
@@ -307,12 +210,6 @@ bool ThreadedWorld::createOneTarget(qint32 &targetID, const PBTargetPosition &pb
          }
      }
  }
-
- QMap<PB_Enum_TargetInfo_Type, QSet<qint32> > &ThreadedWorld::getRefMapInfoTypeSetTargetID()
- {
-     return mapInfoTypeSetTargetID;
- }
-
  
  PBCoderDecoder *ThreadedWorld::getPbCoderDecoder() const
  {
