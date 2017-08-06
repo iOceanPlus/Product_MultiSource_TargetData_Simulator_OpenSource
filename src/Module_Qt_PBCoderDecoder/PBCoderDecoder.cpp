@@ -2,11 +2,13 @@
 #include <QDebug>
 #include <QDateTime>
 
+#include <QMutexLocker>
 //#include "macro.h"
-PBCoderDecoder::PBCoderDecoder(PB_Enum_Software enum_SoftwareName, QObject *parent) : QObject(parent)
+PBCoderDecoder::PBCoderDecoder(PB_Enum_Software enum_SoftwareName, QMutex *mutex, QObject *parent) : QObject(parent)
 {
     serialNum=0;
     this->pbEnumSenderSoftware = enum_SoftwareName;
+    this->mutex=mutex;
 
     startedTimeUTC=QDateTime::currentDateTime().toTime_t();
     // Verify that the version of the library that we linked against is
@@ -123,6 +125,8 @@ void PBCoderDecoder::setPbEnumSenderSoftware(const PB_Enum_Software &value)
 
 quint32 PBCoderDecoder::getSerialNumAndIncrement()
 {
+    QMutexLocker locker(mutex);
+
     quint32 result=serialNum;
     serialNum++;
     return result;

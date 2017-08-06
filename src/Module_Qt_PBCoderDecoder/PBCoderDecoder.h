@@ -5,11 +5,13 @@
 #include "ProtoCPP/Target.pb.h"
 #include "ProtoCPP/CommonEnum.pb.h"
 
+class QMutex;
+
 class PBCoderDecoder : public QObject
 {
     Q_OBJECT
 public:
-    explicit PBCoderDecoder(PB_Enum_Software enum_SoftwareName,  QObject *parent = 0);
+    explicit PBCoderDecoder(PB_Enum_Software enum_SoftwareName,QMutex *mutex,   QObject *parent = 0);
     ~PBCoderDecoder();
 
     static bool isCoordinatesValid(const PBTargetPosition &targetPos, bool is0Valid=false);
@@ -39,6 +41,7 @@ private:
     quint32 serialNum;
     PB_Enum_Software pbEnumSenderSoftware;
     quint32 startedTimeUTC;
+    QMutex *mutex;
 };
 
 #endif // PBCODERDECODER_H

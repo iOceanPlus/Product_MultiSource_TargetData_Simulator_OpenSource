@@ -32,7 +32,7 @@ class ThreadedWorld : public QObject
 {
     Q_OBJECT
 public:
-    explicit ThreadedWorld( QMutex *mutex, QObject *parent = 0);
+    explicit ThreadedWorld( QMutex *sharedMutex, MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion,PBCoderDecoder *pbCodDecoder,  QObject *parent = 0);
     ~ThreadedWorld();
     bool isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree);
 
@@ -49,6 +49,8 @@ public:
 #endif
     bool createOneTarget(qint32 &targetID, const PBTargetPosition &pbTargetPos,  const QDateTime &posOrigDateTime);
 
+    QMap<PB_Enum_TargetInfo_Type, QSet<qint32> > & getRefMapInfoTypeSetTargetID() ;
+
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
     void sigPBMonitor(PBMonitor pbMonitor); //
@@ -56,15 +58,12 @@ signals:
 private slots:
     void slotPBMonitor(PBMonitor pbMonitor); //
     void slotTimerEventMeasureAndUpdateTargetsPos();
-    void slotTimerEventOutPutTargetCountAndMsgRate();
+    void slotTimerEventOutPutTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig);
 private:
-    void parseParamFileAndInitMembers();
 
     void initTargetsAndAddToDataSources();
     void initDataChannels();
     void initWaterGrids();
-
-    bool checkJsonObjectAndOutPutValue(const QJsonObject &jsonObject,  const QString &key, const bool &outPutValue);
 
     /****************************************Grids related methods***********************************/
     bool getLocation(quint32 rowIndex, quint32 colIndex,double &lowerLeftLongitudeInDegree, double &lowerLeftLatidueInDegree);
@@ -78,25 +77,17 @@ private:
 
     QHash <qint32, Target*> hashIDTarget;
     QMap <PB_Enum_TargetInfo_Source,DataSource*> mapInfoSourceDataSources;
-
     QMap <PB_Enum_TargetInfo_Type,DataChannel*> mapInfoTypeDataChannels;
 
-    QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> mapInfoTypePosDeviceInfo;
-
-
-    QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
-    QSet <qint32> setDistinctTargetIDOrig;
-
     quint32 colCount,rowCount;
-    PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoderForAggregatedPBToSend;
-    MyQtGeoPolygon *geoPolyGonBoundingRegion; //
-    QString waterGridsFileName,ship_FileName, mc2FileName, language;
+    PBCoderDecoder *sharedPbCoderDecoder;  //*pbCoderDecoder
+    MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion; //
 
     QTimer *timerMeasureAndUpdateTargetPos;
     QTimer *timerOutputTargetCountAndMsgRate;
 
     PBMonitor_ProbeAck monitor_ProbeAck;
-    QMutex *mutex;
+    QMutex *sharedMutex;
 };
 
 #endif // THREADEDWORLD_H

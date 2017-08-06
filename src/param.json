@@ -2,6 +2,7 @@
     "ISDebugMode":"TRUE",
     "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
     "TargetCount": 20000,
+    "World_Threads_Count":8,
     "SECONDS_CHECK_TARGET_COUNT" : 15,
     "SOGX10_LOWER_THRESH":30,
     "SOGX10_UPPER_THRESH":800,

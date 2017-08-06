@@ -18,3 +18,5 @@ uint ExternV_SOGX10_UPPER_THRESH; //Only simulate targets with SOGX10 no larger 
 //double ExternV_LONGITUDE_UPPER_THRESH_DEGREE;//see param.json
 
 bool externVIsWater[GRID_ARRAY_ROW_COUNT][2*GRID_ARRAY_ROW_COUNT]; //water grids
+QMap <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> mapInfoTypePosDeviceInfo;
+

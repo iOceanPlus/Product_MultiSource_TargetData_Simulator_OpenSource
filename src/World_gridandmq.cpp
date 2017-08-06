@@ -70,9 +70,9 @@ void ThreadedWorld::slotPBMonitor(PBMonitor pbMonitor)
     {
         PBMonitor pbMonitorToSend;
         pbMonitorToSend.set_recordutctime(QDateTime::currentDateTime().toTime_t());
-        pbMonitorToSend.set_sequencenum(pbCoderDecoder->getSerialNumAndIncrement());
-        pbMonitorToSend.set_enum_sender_software(pbCoderDecoder->getPbEnumSenderSoftware());
-        pbMonitorToSend.set_softwarestartedutctime(pbCoderDecoder->getStartedTimeUTC());
+        pbMonitorToSend.set_sequencenum(sharedPbCoderDecoder->getSerialNumAndIncrement());
+        pbMonitorToSend.set_enum_sender_software(sharedPbCoderDecoder->getPbEnumSenderSoftware());
+        pbMonitorToSend.set_softwarestartedutctime(sharedPbCoderDecoder->getStartedTimeUTC());
 
         PBMonitor_ProbeAck *probeAck=new PBMonitor_ProbeAck();
         probeAck->CopyFrom(monitor_ProbeAck);
@@ -146,9 +146,9 @@ bool ThreadedWorld::isInWaterAndBoudingArea(const double &longitudeInDegree,cons
         {
             bool inWater= externVIsWater[rowInd][colCount];
             bool inBoundingArea=true;
-            if(geoPolyGonBoundingRegion)
+            if(sharedGeoPolyGonBoundingRegion)
             {
-                inBoundingArea=geoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeInDegree,longitudeInDegree));
+                inBoundingArea=sharedGeoPolyGonBoundingRegion->containsPoint(QGeoCoordinate(latitudeInDegree,longitudeInDegree));
             }
             return inWater&&inBoundingArea;
         }
