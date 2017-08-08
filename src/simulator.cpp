@@ -451,8 +451,8 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
 #endif
 
 #ifdef DEBUG_PERFORMANCE
-    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
-    time.start();
+//    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
+//    time.start();
 #endif
 }
 

@@ -103,8 +103,8 @@ void ThreadedWorld::updateTargetCountAndMsgRate(QSet <qint32> &setDistinctTarget
         iMapInfoSourceDataSources.value()->uniteSetDistinctOrigTargetID(setDistinctTargetIDOrig);
     }
 #ifdef DEBUG_PERFORMANCE
-    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
-    time.start();
+//    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();
+//    time.start();
 #endif
 }
 

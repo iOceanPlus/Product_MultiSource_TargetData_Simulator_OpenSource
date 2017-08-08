@@ -6,7 +6,7 @@
 #include "PosDevice.h"
 #include "Monitor.pb.h"
 
-//#define DEBUG_PERFORMANCE
+#define DEBUG_PERFORMANCE
 //#define DEBUG_TargetCount
 //#define DEBUG_TARGETTYPE_ANDNAME
 
