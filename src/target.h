@@ -21,7 +21,7 @@ public:
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
 
     /************Update the pbTargetPosOrig when the target meet land **************/
-    PBTargetPosition updateAndGetPbTargetPosCurrent();
+    PBTargetPosition updateAndGetPbTargetPosCurrent(const QDateTime &currentDatetime);
 
     QHash<PB_Enum_TargetInfo_Type, PosDevice *> getHashTargetInfoTypePosDevice() const;
     PosDevice* getDevice(const PB_Enum_TargetInfo_Type &infoType);

@@ -9,7 +9,7 @@ DataChannel::DataChannel(ThreadedWorld *world, const PB_Enum_TargetInfo_Type &ta
     this->world=world;
 }
 
-bool DataChannel::fetchDataFromPosDevicesIntoChannel()
+bool DataChannel::fetchDataFromPosDevicesIntoChannel(const QDateTime &currentDateTime)
 {
     QHashIterator <qint32, Target*> iHashTarget(world->getHashIDTarget());
     while(iHashTarget.hasNext())
@@ -20,7 +20,7 @@ bool DataChannel::fetchDataFromPosDevicesIntoChannel()
         PosDevice *posDevice= target->getDevice(targetInfoType);
         if(posDevice)
         {
-            PBTargetPosition pbTargetPosMeasured= posDevice->measurePBTargetPosAndUpdateTarget(isMeasured);
+            PBTargetPosition pbTargetPosMeasured= posDevice->measurePBTargetPosAndUpdateTarget(isMeasured,currentDateTime);
             if(isMeasured)
                 listPBTargetPosInChannel.append(pbTargetPosMeasured);
         }

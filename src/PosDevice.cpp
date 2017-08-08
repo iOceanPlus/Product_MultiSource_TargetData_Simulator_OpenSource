@@ -12,10 +12,9 @@ PosDevice::PosDevice(const QDateTime &lastDeviceSampleTime, Target * const targe
     this->infoType=infoType;
 }
 
-PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful)
+PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const QDateTime &currentDateTime)
 {
-    QDateTime currentTime=QDateTime::currentDateTime();
-    qint64 msecondsElapsed=lastSampleTime.msecsTo(currentTime);
+    qint64 msecondsElapsed=lastSampleTime.msecsTo(currentDateTime);
     if(msecondsElapsed<targetInstalled->getDeviceInfo(infoType).sampleMilliSeconds)
     {
         isMeasureSuccessful=false;
@@ -24,8 +23,8 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
     else
     {
         isMeasureSuccessful=true;
-        lastSampleTime=currentTime;
-        PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent();
+        lastSampleTime=currentDateTime;
+        PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent(currentDateTime);
         pbTargetPos.set_enum_targetinfotype(infoType);
         targetInstalled->set_enum_targetidorigAndIDType_AccordingToInfoType(pbTargetPos);
 #ifdef DEBUG_TARGETTYPE_ANDNAME

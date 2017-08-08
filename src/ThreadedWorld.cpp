@@ -49,11 +49,12 @@ void ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 #endif
 
     /**************************************** put data to channels*********************/
+    QDateTime currentDateTime=QDateTime::currentDateTime();
     QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
     while(iMapInfoTypeDataChannels.hasNext())
     {
         iMapInfoTypeDataChannels.next();
-        iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel();
+        iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel(currentDateTime);
     }
 
 #ifdef DEBUG_PERFORMANCE

@@ -21,7 +21,7 @@ class PosDevice
 public:
     PosDevice(const QDateTime &lastDeviceSampleTime, Target * const target, const PB_Enum_TargetInfo_Type &infoType);
     /*** If the time since last measurement is no less than sampling interval, the measure will be successful*****/
-    PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful);
+    PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const QDateTime &currentDateTime);
     bool addDevToPos(PBTargetPosition &pbTargetPos);
 
 private:    

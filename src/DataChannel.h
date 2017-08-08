@@ -10,7 +10,7 @@ class DataChannel : public QObject
     Q_OBJECT
 public:
     explicit DataChannel(ThreadedWorld *world,  const PB_Enum_TargetInfo_Type   &targetInfoType,QObject *parent = 0);
-    bool fetchDataFromPosDevicesIntoChannel();
+    bool fetchDataFromPosDevicesIntoChannel(const QDateTime &currentDateTime);
     bool clearListPBTargetPosInChannel();
 
     QList<PBTargetPosition> getListPBTargetPosInChannel() const;
