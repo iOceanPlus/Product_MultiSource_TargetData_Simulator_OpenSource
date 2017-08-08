@@ -3,6 +3,7 @@
 #include "PBCoderDecoder.h"
 #include <QDebug>
 #include <QTimer>
+#include <QThread>
 
 DataSource::DataSource(ThreadedWorld *world, const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                        const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality,
@@ -193,6 +194,7 @@ void DataSource::slotOutPutTargetsCountPerType()
 
 void DataSource::slotOutPutPosCountAndRate()
 {
+    //qDebug()<<thread()<<thread()->isRunning()<<thread()->priority();
     qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
     posCountPerMinute=newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60;
     posCountOutputToLog=totalPosCountFetched;

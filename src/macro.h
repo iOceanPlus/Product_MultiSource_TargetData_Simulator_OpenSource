@@ -16,7 +16,7 @@
 extern uint ExternV_TargetCount;
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
-const quint16 MIN_Sample_MSEC=2000;
+const quint16 MIN_Sample_MSEC=1110;
 
 extern uint ExternV_Milliseconds_FetchData;
 
