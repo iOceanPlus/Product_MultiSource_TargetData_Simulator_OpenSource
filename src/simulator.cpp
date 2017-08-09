@@ -268,7 +268,6 @@ void  Simulator::initTargetsAndPutToWorlds()
     QFile mc2File(mc2FileName);
     if (!mc2File.open(QIODevice::ReadOnly)) {
         qDebug()<<"Warning: Couldn't open "<<mc2File.fileName()<<mc2File.errorString()<<". Targets will not have country attributes.";
-        return ;
     }
 
     QList <QString> listCountryNames;
@@ -352,7 +351,8 @@ void  Simulator::initTargetsAndPutToWorlds()
        pbTargetPos.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
        pbTargetPos.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 
-       pbTargetPos.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
+       if(countryCount>0)
+        pbTargetPos.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
 
        pbTargetPos.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 #ifndef SHIP_DATA_ANONYMOUS
