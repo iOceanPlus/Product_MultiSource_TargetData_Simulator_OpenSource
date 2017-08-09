@@ -13,7 +13,7 @@ class ThreadedWorld;
 class Target
 {
 public:
-    explicit Target(const PBTargetPosition &pbTargetPosOrig, ThreadedWorld *world, const QDateTime &posOrigDateTime);
+    explicit Target(const PBTargetPosition &pbTargetPosOrig, ThreadedWorld *world, const qint64 &posDateTimeMSecs);
     bool addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev);
     bool installPosDevices();
     ~Target();
@@ -21,7 +21,7 @@ public:
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);
 
     /************Update the pbTargetPosOrig when the target meet land **************/
-    PBTargetPosition updateAndGetPbTargetPosCurrent(const QDateTime &currentDatetime);
+    PBTargetPosition updateAndGetPbTargetPosCurrent(const qint64 &currentDateTimeMSecs);
 
     QHash<PB_Enum_TargetInfo_Type, PosDevice *> getHashTargetInfoTypePosDevice() const;
     PosDevice* getDevice(const PB_Enum_TargetInfo_Type &infoType);
@@ -32,9 +32,9 @@ public:
     void set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPosition &pbTargetPosToSet);
 
 private:
-    void updatePosAndCOG(const QDateTime &dtReckoned, const QGeoCoordinate &geoReckoned) ;
-    const QGeoCoordinate getConstCurrentGeoPosHighPreciReckoned(const QGeoCoordinate &geoOrig, const  QDateTime &dtOrig, const double &sogKnotsX10,
-                                                                       const double &degreeAziumth,  const QDateTime &dtToReckon, bool &isOnLand) const;
+    void updatePosAndCOG(const qint64 &dtMSecsReckoned, const QGeoCoordinate &geoReckoned) ;
+    const QGeoCoordinate getConstCurrentGeoPosHighPreciReckoned(const QGeoCoordinate &geoOrig, const  qint64 &dtOrigMSecs, const double &sogKnotsX10,
+                                                                       const double &degreeAziumth,  const qint64 &dtToReckonMSecs, bool &isOnLand) const;
     /********************************
      * Assumption:
      *  Each target is installed with all types of positioning devices.
@@ -47,7 +47,7 @@ private:
      * When the target meets land, change the pbTargetPosOrig,  pbTargetPosCurrent and posTime.
 ********/
     PBTargetPosition pbTargetPosOrig, pbTargetPosCurrent, pbTargetPosBeforeCurrent;
-    QDateTime posOrigDateTime, posCurrentDateTime;
+    qint64 posOrigDateTimeMSecs, posCurrentDateTimeMSecs;
     QGeoCoordinate geoOrigHighPreci,  geoCurrentHighPreci, geoBeforeCurrentHighPreci;
 
     //PBCoderDecoder *pbCoderDecoder;

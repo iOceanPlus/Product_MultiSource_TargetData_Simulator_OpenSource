@@ -1,20 +1,19 @@
-#include <QDateTime>
 #include <QGeoCoordinate>
 #include <QDebug>
 #include "PosDevice.h"
 #include "target.h"
 #include "macro.h"
 
-PosDevice::PosDevice(const QDateTime &lastDeviceSampleTime, Target * const target, const PB_Enum_TargetInfo_Type &infoType)
+PosDevice::PosDevice(const qint64 &lastDeviceSampleTimeAsMSecsSinceEpoch, Target * const target, const PB_Enum_TargetInfo_Type &infoType)
 {
     this->targetInstalled=target;
-    this->lastSampleTime= lastDeviceSampleTime;
+    this->msecsSinceEpochLastSampleTime= lastDeviceSampleTimeAsMSecsSinceEpoch;
     this->infoType=infoType;
 }
 
-PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const QDateTime &currentDateTime)
+PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const qint64 &currentDTAsMSecsSinceEpoch)
 {
-    qint64 msecondsElapsed=lastSampleTime.msecsTo(currentDateTime);
+    qint64 msecondsElapsed=currentDTAsMSecsSinceEpoch-msecsSinceEpochLastSampleTime;
     if(msecondsElapsed<targetInstalled->getDeviceInfo(infoType).sampleMilliSeconds)
     {
         isMeasureSuccessful=false;
@@ -23,8 +22,8 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
     else
     {
         isMeasureSuccessful=true;
-        lastSampleTime=currentDateTime;
-        PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent(currentDateTime);
+        msecsSinceEpochLastSampleTime=currentDTAsMSecsSinceEpoch;
+        PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent(currentDTAsMSecsSinceEpoch);
         pbTargetPos.set_enum_targetinfotype(infoType);
         targetInstalled->set_enum_targetidorigAndIDType_AccordingToInfoType(pbTargetPos);
 #ifdef DEBUG_TARGETTYPE_ANDNAME

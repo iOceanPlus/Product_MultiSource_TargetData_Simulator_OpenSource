@@ -49,12 +49,12 @@ void ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos()
 #endif
 
     /**************************************** put data to channels*********************/
-    QDateTime currentDateTime=QDateTime::currentDateTime();
+    qint64 currentDateTimeMSecs=QDateTime::currentDateTime().toMSecsSinceEpoch();
     QMapIterator <PB_Enum_TargetInfo_Type,DataChannel*> iMapInfoTypeDataChannels(mapInfoTypeDataChannels);
     while(iMapInfoTypeDataChannels.hasNext())
     {
         iMapInfoTypeDataChannels.next();
-        iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel(currentDateTime);
+        iMapInfoTypeDataChannels.value()->fetchDataFromPosDevicesIntoChannel(currentDateTimeMSecs);
     }
 
 #ifdef DEBUG_PERFORMANCE
@@ -137,7 +137,7 @@ bool ThreadedWorld::slotCreateTargets(const QList<PBTargetPosition> &listPbTarge
         if(pbTargetPos.targetid()%worldCount!=worldIndex)
             continue;
 
-        Target *target=new Target(pbTargetPos,this,QDateTime::currentDateTime());
+        Target *target=new Target(pbTargetPos,this,QDateTime::currentDateTime().toMSecsSinceEpoch());
         target->installPosDevices();
         qint32 targetID=pbTargetPos.targetid();
         hashIDTarget.insert(targetID,target);

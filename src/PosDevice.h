@@ -19,15 +19,15 @@ struct Struct_PosDeviceInfo
 class PosDevice
 {
 public:
-    PosDevice(const QDateTime &lastDeviceSampleTime, Target * const target, const PB_Enum_TargetInfo_Type &infoType);
+    PosDevice(const qint64 &lastDeviceSampleTimeAsMSecsSinceEpoch, Target * const target, const PB_Enum_TargetInfo_Type &infoType);
     /*** If the time since last measurement is no less than sampling interval, the measure will be successful*****/
-    PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const QDateTime &currentDateTime);
+    PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const qint64 &currentDTAsMSecsSinceEpoch);
     bool addDevToPos(PBTargetPosition &pbTargetPos);
 
 private:    
     PB_Enum_TargetInfo_Type infoType;
     Target *targetInstalled;
-    QDateTime lastSampleTime;
+    qint64 msecsSinceEpochLastSampleTime;
 };
 
 #endif // POSDEVICE_H
