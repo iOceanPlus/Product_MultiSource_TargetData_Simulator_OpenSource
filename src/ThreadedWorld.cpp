@@ -131,14 +131,15 @@ bool ThreadedWorld::slotAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source 
 bool ThreadedWorld::slotCreateTargets(const QList<PBTargetPosition> &listPbTargetPos, const quint16 &worldCount)
 {
     QListIterator <PBTargetPosition> iListTargetPos(listPbTargetPos);
+    qint64 timeInt64=QDateTime::currentDateTime().toMSecsSinceEpoch();
     while(iListTargetPos.hasNext())
     {
         PBTargetPosition pbTargetPos=iListTargetPos.next();
         if(pbTargetPos.targetid()%worldCount!=worldIndex)
             continue;
 
-        Target *target=new Target(pbTargetPos,this,QDateTime::currentDateTime().toMSecsSinceEpoch());
-        target->installPosDevices();
+        Target *target=new Target(pbTargetPos,this,timeInt64);
+        target->installPosDevices(timeInt64);
         qint32 targetID=pbTargetPos.targetid();
         hashIDTarget.insert(targetID,target);
 

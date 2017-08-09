@@ -40,7 +40,7 @@ bool Target::addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev)
     return true;
 }
 
-bool Target::installPosDevices()
+bool Target::installPosDevices(qint64 timeMSecsSinceEpoch)
 {
     QMapIterator <PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> iMapInfoTypePosDeviceInfo(world->getMapInfoTypePosDeviceInfo());
     while(iMapInfoTypePosDeviceInfo.hasNext())
@@ -53,8 +53,7 @@ bool Target::installPosDevices()
             qDebug()<<"Warning: try to install already existed devices. Ignored.";
             continue;
         }
-        PosDevice *posDev=new PosDevice(QDateTime::currentDateTime().addMSecs(-1*qrand()%posDevInfo.sampleMilliSeconds).toMSecsSinceEpoch(),
-                                        this,infoType);
+        PosDevice *posDev=new PosDevice(timeMSecsSinceEpoch-qrand()%posDevInfo.sampleMilliSeconds,this,infoType);
         hashTargetInfoTypePosDevice.insert(infoType,posDev);
     }
     return true;

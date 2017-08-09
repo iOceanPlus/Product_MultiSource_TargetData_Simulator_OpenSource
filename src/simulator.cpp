@@ -298,6 +298,7 @@ void  Simulator::initTargetsAndPutToWorlds()
     qint16 countryCount=listCountryNames.size();
     qint32 targetID=0;
     shipDataFile.readLine(); //skip first line
+    quint32 timeInt32= QDateTime::currentDateTime().toTime_t();
     while (!shipDataFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
     {
 
@@ -346,7 +347,7 @@ void  Simulator::initTargetsAndPutToWorlds()
        pbTargetPos.mutable_aisdynamic()->set_cogdegreex10(cogX10);
        pbTargetPos.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
        pbTargetPos.mutable_aisdynamic()->set_sogknotsx10(sogX10);
-       pbTargetPos.mutable_aisdynamic()->set_utctimestamp(QDateTime::currentDateTime().toTime_t());
+       pbTargetPos.mutable_aisdynamic()->set_utctimestamp(timeInt32);
        pbTargetPos.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
        pbTargetPos.set_enum_targetidorig_type(EV_TargetIDType_MMSI);
        pbTargetPos.set_targetidorig(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
