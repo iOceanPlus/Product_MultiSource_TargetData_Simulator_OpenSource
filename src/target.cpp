@@ -153,7 +153,7 @@ QHash<PB_Enum_TargetInfo_Type, PosDevice*> Target::getHashTargetInfoTypePosDevic
 PBTargetPosition Target::updateAndGetPbTargetPosCurrent(const qint64 &currentDateTimeMSecs)
 {
     bool isOnLand;
-    if((currentDateTimeMSecs-posCurrentDateTimeMSecs)<MIN_Sample_MSEC)
+    if((currentDateTimeMSecs-posCurrentDateTimeMSecs)<ExternV_MIN_Sample_MSEC)
     {
         return pbTargetPosCurrent;
     }

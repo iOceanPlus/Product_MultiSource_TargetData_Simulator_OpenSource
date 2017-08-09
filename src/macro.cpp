@@ -7,7 +7,8 @@ bool  ExternV_IS_DEBUG_MODE; //see param.json
 uint ExternV_TargetCount; //see param.json
 
 uint ExternV_SECONDS_CHECK_TARGET_COUNT; //Output target count periodically, see param.json
-uint ExternV_Milliseconds_FetchData = 1110;
+uint ExternV_Milliseconds_FetchData = 1000; //overwriten by param.json, interval to fetch data from channels
+quint16 ExternV_MIN_Sample_MSEC=1000; // Min interval of targets' update of positions, overwriten by param.json
 
 uint ExternV_SOGX10_LOWER_THRESH; //Only simulate targets with SOGX10 no less than this.see param.json
 uint ExternV_SOGX10_UPPER_THRESH; //Only simulate targets with SOGX10 no larger than this. see param.json

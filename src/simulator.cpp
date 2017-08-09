@@ -125,6 +125,14 @@ void Simulator::parseParamFileAndInitWorldMembers()
     {
         worldThreadCount=jsonObjcet.value("World_Threads_Count").toInt(worldThreadCount);
     }
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"ExternV_MIN_Sample_MSEC",true))
+    {
+        ExternV_MIN_Sample_MSEC=jsonObjcet.value("ExternV_MIN_Sample_MSEC").toInt(ExternV_MIN_Sample_MSEC);
+    }
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"ExternV_Milliseconds_FetchData",true))
+    {
+        ExternV_Milliseconds_FetchData=jsonObjcet.value("ExternV_Milliseconds_FetchData").toInt(ExternV_Milliseconds_FetchData);
+    }
 
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"SOGX10_LOWER_THRESH",true))
         ExternV_SOGX10_LOWER_THRESH=jsonObjcet.value("SOGX10_LOWER_THRESH").toInt(ExternV_SOGX10_LOWER_THRESH);

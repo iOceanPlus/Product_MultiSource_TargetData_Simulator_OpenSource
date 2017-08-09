@@ -16,8 +16,7 @@
 extern uint ExternV_TargetCount;
 
 const quint32 DegreesX10_ToTurn_WhenMeetLand=450;
-const quint16 MIN_Sample_MSEC=1110;
-
+extern quint16 ExternV_MIN_Sample_MSEC; // Min interval of targets' update of positions, overwriten by param.json
 extern uint ExternV_Milliseconds_FetchData;
 
 const quint32 GRID_ARRAY_ROW_COUNT = 180; //How many rows the grid array has
