@@ -93,7 +93,6 @@ void  Target::setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet
 
 void Target::clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetPos)
 {
-    pbTargetPos.set_targetid(0);
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
     {
         pbTargetPos.mutable_aisdynamic()->set_mmsi(0);
