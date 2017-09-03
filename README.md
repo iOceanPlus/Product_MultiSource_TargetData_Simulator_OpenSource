@@ -19,6 +19,9 @@ If your program do not support rabbitmq (such as MatLab), use a MQ-UDP adapter a
 
 ![How to interact with simulator](https://git.oschina.net/uploads/images/2017/0903/173330_065b65ed_854788.jpeg "system.JPG")
 
+The architecture of Data Simulator is in the figure below.
+![Data Simulator Architecture](https://git.oschina.net/uploads/images/2017/0903/212545_48d9216f_854788.jpeg "Simulator.JPG")
+
 
 ## Dataset used for initialization  
 - Dataset used for initialization  
