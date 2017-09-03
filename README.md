@@ -22,6 +22,25 @@ If your program do not support rabbitmq (such as MatLab), use a MQ-UDP adapter a
 The architecture of Data Simulator is in the figure below.
 ![Data Smulator Architecture](https://git.oschina.net/uploads/images/2017/0903/212725_101dcebf_854788.jpeg "Simulator.JPG")
 
+## Messages  
+Message trasmitted: PBTarget encoded by protobuf. See the Protobuf_Files directory.  
+Use the topic mode of rabbitmq (see http://www.rabbitmq.com/tutorials/tutorial-five-python.html). The routing keys published are:  
+OnLine.PreprocessedData.AIS  
+OnLine.PreprocessedData.BeiDou  
+OnLine.PreprocessedData.LRIT  
+OnLine.PreprocessedData.HaiJian  
+OnLine.PreprocessedData.Argos  
+
+You can subscribe OnLine.PreprocessedData.# to receive all of them.
+
+The settings of queue:  
+```
+arguments["x-message-ttl"]:300000
+arguments["x-expires"]:300000
+channel->declareQueue(AMQP::durable,arguments)
+channel->consume(name,AMQP::exclusive+AMQP::noack+AMQP::nolocal)
+```
+
 
 ## Dataset used for initialization  
 - Dataset used for initialization  
