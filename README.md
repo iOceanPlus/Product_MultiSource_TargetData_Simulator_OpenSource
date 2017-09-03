@@ -17,6 +17,7 @@ http://git.oschina.net/iOceanPlus/PythonProtobufDemo
 
 If your program do not support rabbitmq (such as MatLab), use a MQ-UDP adapter as a bridge.  
 
+The architecture of fusion systems based on rabbitmq is in the following figure.
 ![How to interact with simulator](https://git.oschina.net/uploads/images/2017/0903/173330_065b65ed_854788.jpeg "system.JPG")
 
 The architecture of Data Simulator is in the figure below.
