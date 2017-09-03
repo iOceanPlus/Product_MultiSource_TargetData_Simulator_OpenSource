@@ -41,5 +41,5 @@ Create a directory sqldrivers under the directory that contains the executable f
 - check if the software is already runing:```ps -ef |grep Simu```  
 - Run the software： ```nohup ./TargetDataSimulator &```  
 - check the status  
-```top```，see the resource consumed by TargetDataSimulator
+```top```，see the resource consumed by TargetDataSimulator  
 ```vi nohup.txt```，inspect the output log
