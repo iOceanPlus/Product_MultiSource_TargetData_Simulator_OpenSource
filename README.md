@@ -15,7 +15,7 @@ http://git.oschina.net/iOceanPlus/JavaProtoBufDemo
 http://git.oschina.net/iOceanPlus/PythonRabbitMQDemo  
 http://git.oschina.net/iOceanPlus/PythonProtobufDemo  
 
-If the program do not support rabbitmq (such as MatLab), use a MQ-UDP adapter as a bridge.  
+If your program do not support rabbitmq (such as MatLab), use a MQ-UDP adapter as a bridge.  
 
 ![How to interact with simulator](https://git.oschina.net/uploads/images/2017/0903/173330_065b65ed_854788.jpeg "system.JPG")
 
