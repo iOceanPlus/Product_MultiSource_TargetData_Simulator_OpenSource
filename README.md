@@ -15,6 +15,8 @@ http://git.oschina.net/iOceanPlus/JavaProtoBufDemo
 http://git.oschina.net/iOceanPlus/PythonRabbitMQDemo  
 http://git.oschina.net/iOceanPlus/PythonProtobufDemo  
 
+![How to interact with simulator](https://git.oschina.net/uploads/images/2017/0903/173330_065b65ed_854788.jpeg "system.JPG")
+
 
 ## Dataset used for initialization  
 - Dataset used for initialization  
