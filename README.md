@@ -36,10 +36,10 @@ You can subscribe OnLine.PreprocessedData.# to receive all of them.
 
 The settings of queue:  
 ```
-arguments["x-message-ttl"]:300000
-arguments["x-expires"]:300000
-channel->declareQueue(AMQP::durable,arguments)
-channel->consume(name,AMQP::exclusive+AMQP::noack+AMQP::nolocal)
+arguments["x-message-ttl"]=300000;
+arguments["x-expires"]=300000;
+channel->declareQueue(AMQP::durable,arguments);
+channel->consume(name,AMQP::exclusive+AMQP::noack+AMQP::nolocal);
 ```
 
 
