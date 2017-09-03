@@ -1,0 +1,167 @@
+syntax = "proto3";  
+option java_package = "team.iOceanPlus.PB";
+import "CommonEnum.proto";
+
+//该文件定义了对系统中各个软件的监测信息
+message PBMonitor
+{
+	uint32 recordUTCTime = 1 ;
+	uint32 sequenceNum = 2;
+	PB_Enum_Software enum_Sender_Software = 3; //哪一个软件发送了该条消息
+	uint32 softwareStartedUTCTime = 4; //该软件启动时间
+
+	//ProbeAck是对Probe的回复，通过回复的时延可以判断软件的负载状况
+	PBMonitor_Probe monitorProbe = 5;
+	PBMonitor_ProbeAck monitorProbeAck = 6;
+	
+	//以下的各个统计信息由相关的软件定时发送，暂定5秒一次
+	repeated PBMonitor_TargetDistribution listMonitor_TargetDistribution = 7;//目标分发信息统计结果的列表
+	repeated PBMonitor_AliveTargetCount listMonitor_AliveTargetCount= 8;//目标数量统计。
+	
+	//各数据源各数据类型消息接收统计，由接入预处理分发程序发送
+	repeated PBMonitor_MessagesRcvdPerTargetInfoSourceAndType listMessagesRcvdPerTargetInfoSourceAndType= 9; 
+	
+	//系统监控程序定时将该消息发给消息队列，接入预处理转发程序收到后重新编码发送给XGS
+	repeated PBMonitor_ToXGS_SoftwareStatus listToXGSSoftwareStatus = 10;
+	
+}
+
+//探询消息
+message PBMonitor_Probe
+{
+	uint32 recordUTCTime = 1 ;
+	uint32 monitorProbeSequenceNum = 2; //探询包序号。
+	string strMsg = 3; //字符串消息内容
+}
+
+message PBMonitor_ProbeAck
+{
+	uint32 recordUTCTime = 1 ;
+	PB_Enum_Software enum_ProbeSender_Software = 2; //回复的是哪一个软件发送的Probe消息
+	uint32 monitorProbeSequenceNumAcked = 3; //表明回复的是哪一个监测消息。
+	
+	uint64 totalMessagesRcvd = 4;
+	uint64 origTargetPositionsRcvd = 5; //收到的原始消息（目标轨迹数据）数量，统计收到了多少个轨迹点
+	uint64 validOrigTargetPositionsRcvd = 6; //收到的有效原始消息（目标轨迹数据）数量
+	uint64 preprocessedTargetPositionsRcvd = 7; //收到的预处理后的消息（目标轨迹数据）数量
+	uint64 fusedTargetPositionsRcvd = 8; //收到的融合后的消息（目标轨迹数据）的数量
+	uint64 anomalyMessagesRcvd = 9; //收到多少个异常消息(一个PB中包含多个异常数据时，计做多个)
+	uint32 configMessagesRcvd = 10; //收到的配置消息数量
+	uint32 requestMessagesRcvd =11; //收到多少个计算请求
+	uint32 commandMessagesRcvd =12; //收到多少个控制命令
+	
+	uint64 totalMessagesSent = 13;//发送的总消息数
+	uint64 validOrigTargetPositionsSent = 14; 
+	uint64 preprocessedTargetPositionsSent = 15; 
+	uint64 fusedTargetPositionsSent = 16;
+	uint64 anomalyMessagesSent = 17; 
+	uint32 configMessagesSent = 18;
+	uint32 requestMessagesSent =19; 
+	uint32 commandMessagesSent =20; 
+}
+
+//XGS项目中特有的消息
+//系统监控软件定时向消息队列发送各子系统的状态，由接入预处理分发软件接收后发送给XGS的软件
+//其中使用的程序名、子系统名采用需求任务书等正式文档中的名称
+message PBMonitor_ToXGS_SoftwareStatus
+{
+	uint32 recordUTCTime = 1 ;
+	enum PB_Enum_XGS_SoftwareStatus
+	{
+		EV_XGS_SoftwareStatus_NA =0 ;
+		EV_XGS_SoftwareStatus_Normal =1 ; //正常
+		EV_XGS_SoftwareStatus_Error =2 ; //故障	
+	}
+	
+	//xgs汇集分发系统的状态。由接入预处理负责监控;故障：超过一段时间没有收到数据；
+	PB_Enum_XGS_SoftwareStatus Subsys_XGS_HJFF_Status = 2; 
+	//正常：信息综合处理模块、信息管理模块、信息分发模块全都正常；
+	//故障：信息综合处理模块、信息管理模块、信息分发模块至少一个故障
+	PB_Enum_XGS_SoftwareStatus Subsys_ZHCL_Status = 3; //综合处理子系统的状态
+	//正常：监控统计模块、挖掘分析模块、异常告警分析模块全都正常；
+	//故障：监控统计模块、挖掘分析模块、异常告警分析模块至少一个故障
+	PB_Enum_XGS_SoftwareStatus Subsys_XXFenXi_Status = 4; //信息分析子系统的状态
+	//正常：系统监控模块、系统用户权限管理模块全都正常；
+	//故障：系统监控模块、系统用户权限管理模块至少一个故障
+	PB_Enum_XGS_SoftwareStatus Subsys_YWGL_Status = 5; //运维管理子系统的状态
+	//正常：数据应用与管理维护模块、数据库运行状态监控模块、数据备份与恢复模块全都正常；
+	//故障：数据应用与管理维护模块、数据库运行状态监控模块、数据备份与恢复模块至少一个故障
+	PB_Enum_XGS_SoftwareStatus Subsys_SJGL_Status = 6; //数据管理子系统的状态
+	
+	//数据融合程序EV_Software_DataAssoc
+	PB_Enum_XGS_SoftwareStatus Module_XXZHCL_Status = 7; //信息综合处理模块
+	//存储管理程序EV_Software_StorageManagement 
+	PB_Enum_XGS_SoftwareStatus Module_XXGL_Status = 8; //信息管理模块
+	//数据分发程序EV_Software_TargetDistribution
+	PB_Enum_XGS_SoftwareStatus Module_XXFenFa_Status = 9; //信息分发模块
+	//监控统计程序EV_Software_XGSWeb ,  EV_Software_XGSDestop_2D  ?
+	PB_Enum_XGS_SoftwareStatus Module_JKTJ_Status = 10; //监控统计模块
+	//挖掘分析程序
+	PB_Enum_XGS_SoftwareStatus Module_WJFX_Status = 11; //挖掘分析模块
+
+	//异常告警分析程序EV_Software_MaritimeSA
+	PB_Enum_XGS_SoftwareStatus Module_YCGJ_Status = 12; //异常告警分析模块
+	//运行监测程序 EV_Software_SoftwareMonitor
+	PB_Enum_XGS_SoftwareStatus Module_XTJK_Status = 13; //系统监控模块
+	//web后端 EV_Software_XGSWeb
+	PB_Enum_XGS_SoftwareStatus Module_YHQXGL_Status = 14; //系统用户权限管理模块
+	//web后端  EV_Software_XGSWeb
+	PB_Enum_XGS_SoftwareStatus Module_SJYYGLWH_Status = 15; //数据应用与管理维护模块
+	//web后端  EV_Software_XGSWeb
+	PB_Enum_XGS_SoftwareStatus Module_SJKYXZTJK_Status = 16; //数据库运行状态监控模块
+	
+	//web后端  EV_Software_XGSWeb
+	PB_Enum_XGS_SoftwareStatus Module_SJBFHF_Status = 17; //数据备份与恢复模块
+	//接入预处理程序  EV_Software_OnLinePreprocess 
+	PB_Enum_XGS_SoftwareStatus Module_JRYCL_Status = 18; //接入预处理模块
+	//GBK编码？
+	string errorDescription = 19; //故障信息描述
+}
+
+//目标分发信息统计，一条message中包含对一个分发规则(数据项中列出的目的地址、信息类型、目标列表等)
+//的分发统计结果. 暂定每5秒定时发送一次。
+message PBMonitor_TargetDistribution
+{
+	uint32 recordUTCTime = 1 ;
+	int32 distribution_id = 2; 
+	
+	uint32 distributionStartUTCTime = 3; //开始分发信息时间
+	PB_Enum_TargetDistributionStatus  enum_DistributionState = 4; //分发状态。
+	uint64 message_Count_Sent = 5;
+	uint32 target_Count_Sent = 6; //一共分发过多少个不同的目标
+}
+
+//未消批的目标数量统计（融合后的目标,由融合软件定时发送该消息）
+message PBMonitor_AliveTargetCount
+{
+	uint32 recordUTCTime = 1 ;
+	PB_Enum_TargetID_Type enum_targetID_Type =2;
+	int32 aliveTargetcount =3; //该类型目标的数量
+}
+
+
+
+//各数据源各数据类型消息接收统计
+message PBMonitor_MessagesRcvdPerTargetInfoSourceAndType
+{
+	uint32 recordUTCTime = 1 ;
+	PB_Enum_TargetInfo_Source enum_targetInfo_Source =2;
+	PB_Enum_TargetInfo_Type enum_targetInfo_Type =3;
+	int64 messagesRcvd =4; //收到的消息数量
+	int32 targetsRcvd =5; //收到的目标数量
+	enum PB_Enum_MessagesRcvdStatus
+	{
+		EV_MessagesRcvdStatus_NA =0 ;
+		EV_MessagesRcvdStatus_Normal =1 ; //正常
+		EV_MessagesRcvdStatus_Error =2 ; //故障	
+	}
+	PB_Enum_MessagesRcvdStatus messagesRcvdStatus =6; //消息接收状态
+}
+
+enum PB_Enum_TargetDistributionStatus //枚举，包含了哪些目标信息分发状态
+{
+	EV_TargetDistributionStatus_NA = 0;//Not available，缺省值
+	EV_TargetDistributionStatus_OnGoing  = 1; //分发中
+	EV_TargetDistributionStatus_Paused = 2; //暂停
+	EV_TargetDistributionStatus_Stopped =3; //已停止
+}

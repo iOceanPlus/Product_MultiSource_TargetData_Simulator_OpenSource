@@ -1,0 +1,53 @@
+syntax = "proto3";  
+option java_package = "team.iOceanPlus.PB";
+import  "AISData.proto";
+import "CommonEnum.proto";
+
+//该文件定义了目标信息. "syntax=" must be in the first line
+
+//多个目标多条Position组成的航迹
+message PBTarget
+{
+	uint32 sequenceNum = 1; //包序号。各种类型的包都共用同一个序列来编号。
+	PB_Enum_Software enum_Sender_Software = 2; //哪一个软件发送了该条消息
+	repeated PBTargetPosition listTargetPos = 3;
+}
+
+//融合目标的一个位置。非融合目标与融合目标的数据格式兼容，也使用该消息发送。
+message PBTargetPosition
+{
+	int32 targetID=1 ; //融合目标的ID，如果不是融合目标，该字段使用0表示。若该字段大于0，则表示是条融合后的数据
+	PBAISDynamic aisDynamic = 2;//见AISData.proto
+	PBAISStatic  aisStatic = 3;//见AISData.proto
+	PBAISVoyage	aisVoyage =4; //ais数据中的航程信息，见AISData.proto
+
+	PB_Enum_TargetInfo_Type enum_targetInfoType = 5;  //接收到的原始数据中的信息类型
+	PB_Enum_TargetInfo_Source enum_targetInfoSource = 6;  //接收到的原始数据的来源
+	PB_Enum_TargetID_Type	enum_TargetIDOrig_Type = 7 ; //原始数据中目标ID的类型
+	int32 targetIDOrig = 8 ; //原始目标中的目标ID
+	string countryName = 9; //default is empty
+	
+	PB_Enum_Aggregated_AIS_Ship_Type aggregatedAISShipType = 10;
+	int32 cargoType = 11; //货物类型，对应AIS标准中船舶类型编号的第二位数字。没有该数据时，填写为-1
+	PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12; //目标威胁等级
+	
+	//DS证据理论中的mass值，记录可能关联上的各个目标的情况。各个目标（包括空集和全集）的mass值的和为1
+	//该条弃用，字段保留：改为分别记录各类目标的关联情况。
+	repeated PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13; //obsolete
+
+	bool isDangerShip =14; //Dangerous Goods, Hazard Substance, Marine Pollutant,etc. If this is not set, default value will be false.
+	uint32 lastAssocUsingDSCombinationUTCTime = 15; //Last time that performing association using D-S theory.
+	
+	int32 beidouID =16; //targetID in Beidou data, default is 0
+	int32 haijianID =17; // default is 0
+	int32 argosAndMarineSatID =18; // default is 0
+}
+
+//DS证据理论中的mass值，记录可能关联上的目标的情况。当没有相关信息时，可以将大小为1的mass赋值给全集Ω
+message PBTargetAssociation_DS_Mass 
+{
+	int32 targetIDCand = 1; //候选目标ID，-2表示全集合Ω (All the targets in the world, including 'Others'), -3: Others (targets other than those already stored in memory, may be new detected target)
+	double associationMass = 2; //mass值，范围是0到1。
+}
+
+

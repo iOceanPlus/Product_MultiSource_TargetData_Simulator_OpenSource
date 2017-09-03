@@ -1,0 +1,111 @@
+syntax = "proto3";  
+option java_package = "team.iOceanPlus.PB";
+//AIS动态数据
+message PBAISDynamic
+{
+	uint32	utcTimeStamp = 1;
+	int32	MMSI =2; // default is 0
+	int32	intLongitudeX60W = 3;//经度乘以600000后的值
+	int32	intLatitudeX60W = 4; //纬度乘以600000后的值
+	uint32	COGDegreeX10 = 5 ; //航向COG，以1/10°为单位（0-3599）。3600 = 不可用 = 默认值。 超出为非法
+	uint32	headingDegree = 6; //范围是0-359以及511，511表明不可用=默认值,512：非法
+	//对地航速，除以10得节。范围0-1023，1024：非法， 1023=不可用，1022=102.2节或更快
+	uint32	SOGKnotsX10 = 7 ; 
+	//船状态。范围0-15. 16：非法。
+	//0=机动船在航（under way using engine），1=锚泊，2=船舶失控（主机舵失灵，或者恶劣天气造成船舶无法正常行驶,由于某种情况，不能按本规则各条的要求进行操纵，因而不能给他船让路的船舶。），
+	//3=船舶操作受限（如航道挖泥船在港区作业，指由于工作性质，使其按本规则要求进行操纵的能力受到限制，因而不能给他船让路的船舶），
+	//4=受吃水限制，船舶行动受限（由于吃水与可航水域的水深和宽度的关系，致使其偏离所驶航向的能力严重地受到限制的机动船），5=系泊，6=搁浅，
+	//7=从事捕捞（engaged in fishing,指使用网具、绳钓、拖网或其他使其操纵性能受到限制的渔具捕鱼的任何船舶，但不包括使用曳绳钓或其他并不使其操纵性能受到限制的渔具捕鱼的船舶），
+	//8=船舶在航（under way sailing,驶帆，包括装有推进器而没有使用的船舶），
+	//9=留做将来修正导航状态，用于载运危险品（DG）、有害物质（HS）或海洋污染物（MP）的船舶，或载运IMO的C类危险品或污染物、高速船（HSC），
+	//10=留做将来修正导航状态，用于载运DG、HS或MP，或载运IMO的A类危险品或污染物的船舶，WIG，11-13=留做将来用，14=AIS-SART（现行的），15=未规定=默认值（也用于测试中的AIS-SART）
+	uint32 	Status = 8; 
+	//！！注意：AIS消息中带的字段为ROT_AIS，需要经过计算后才能得到ROT_Sensor，放到该消息中。
+	//传感器输出的转向率。正常范围-708到708表示右转708°/min到左转708°/min之间
+	//值为正负709时，分别表示右转和左转速度大于5°/30s,没装转向传感器Rate of Turn Indicator
+	//值为-710时，表示没有转向信息(默认值)
+	//值为-711时，表示转向信息非法
+	int32	ROT_Sensor_DegreePerMinute = 9;
+	PB_Enum_AIS_Pos_Accuracy	enum_PosAccuracy = 10 ; //定位精度
+	PB_Enum_AIS_Commum_State	enum_CommunState = 11; //通信状态(调制方式)
+}
+
+//身份等静态信息
+message	PBAISStatic  
+{
+	int32	MMSI =1 ; // default is 0
+	uint32	utcTimeStamp = 2;
+
+	//按照AIS标准的船类型编码
+	//不同消息中ShipType的编码和ais标准有所不同。
+	//当信息类型为北斗或Hai Jian时，原始数据中的消息编码如下：
+	//0：渔船 	1：渔政船	2：救援船	9：其他
+	// 此时，将他们分别转为ais中对应船类型的编码，渔政船使用执法船的编码
+	int32	shipType_AIS =3 ; 
+	//IMO号：IMO编号。范围0-999999999，1000000000为无效,0=不可用=默认值 – 不适用于SAR航空器。
+	uint32	IMO = 4; 
+	string	shipName = 5; //
+	string	callSign = 6; //呼号
+	uint32	breadthMeters = 7; //船长
+	uint32	lenghMeters = 8;//船宽
+	PB_Enum_AIS_Fixing_Device	fixingDevice = 9; //定位设备类型
+}
+
+//目的地、吃水等航程相关信息
+message PBAISVoyage
+{
+	int32	MMSI = 1; // default is 0
+	uint32	utcTimeStamp = 2;
+
+	string	destination =3 ; //目的地
+	string	ETA = 4; //预计到达时间
+	uint32	draftMetersX10 = 5 ; //吃水，范围0-255，以1/10 m为单位，255=吃水25.5 m或更大
+}
+
+enum PB_Enum_AIS_Device_Class_Type
+{
+	EV_AISDeviceClassType_ClassA = 0;
+	EV_AISDeviceClassType_ClassB = 1;
+}
+
+//AIS设备的通信状态
+//AIS标准中， 1：SOTDMA  2：SOTDMA  3：ITDMA
+//XGS项目中， 0:未知 1：SOTDMA 2：ITDMA
+//PB中统一使用枚举类型传递
+enum PB_Enum_AIS_Commum_State
+{
+	EV_AISCommumState_NA = 0;
+	EV_AISCommumState_SOTDMA = 1;
+	EV_AISCommumState_ITDMA = 2;
+}
+
+//AIS_Source设备的定位误差
+enum PB_Enum_AIS_Pos_Accuracy
+{
+	EV_AISPosAccuracy_NA = 0;
+	EV_AISPosAccuracy_Low = 1; //定位误差大于10米
+	EV_AISPosAccuracy_High = 2; //定位误差小于等于10米
+}
+
+//AIS设备的定位设备
+//定位设备类型。在ais标准中，0=未规定（默认值）1=GPS  2=GLONASS  3=GPS/GLONASS组合  4=Loran-C
+//5=Chayka  6=综合导航系统  7=正在研究  8=Galileo  9-14=未使用  15=内部 GNSS
+//在xgs项目中，-1:非法  0=未规定（默认值） 1=GPS  2=GLONASS  3=GPS/GLONASS组合  4=Loran-C
+//5=Chayka  6=综合导航系统  7=观测  8=北斗  9-14=未使用  15=内部 GNSS
+//PB中统一使用枚举类型
+enum PB_Enum_AIS_Fixing_Device
+{
+	EV_AISFixingDevice_NA = 0;
+	EV_AISFixingDevice_GPS = 1;
+	EV_AISFixingDevice_GLONASS = 2;
+	EV_AISFixingDevice_CombinedGPSGLONASS = 3;
+	EV_AISFixingDevice_Loran_C = 4;
+	EV_AISFixingDevice_Chayka = 5;
+	EV_AISFixingDevice_IntegratedNavSys = 6; //综合导航系统
+	EV_AISFixingDevice_Surveyed = 7;
+	EV_AISFixingDevice_Galileo = 8;
+	EV_AISFixingDevice_Beidou = 9;
+	EV_AISFixingDevice_Observation = 10; //观测
+	EV_AISFixingDevice_InternalGNSS = 15;
+}
+

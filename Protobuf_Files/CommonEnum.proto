@@ -1,0 +1,143 @@
+syntax = "proto3";  
+option java_package = "team.iOceanPlus.PB";
+
+enum PB_Enum_Aggregated_AIS_Ship_Type //枚举，聚合后的ais船类型。各类型的消息中的船类型统一转换为该枚举中的船类型编码
+{
+	EV_AggregatedAISShipType_NA = 0;//Not available，缺省值
+	EV_AggregatedAISShipType_CargoShip  = 1; //货船
+	EV_AggregatedAISShipType_SARShip = 2; //Search And Rescue船，搜救船
+	EV_AggregatedAISShipType_Tanker = 3; //油轮
+	EV_AggregatedAISShipType_Tug = 4; //拖轮
+	EV_AggregatedAISShipType_FishingShip = 5; //渔船
+	EV_AggregatedAISShipType_TowingShip = 6; //拖船（拖网作业）
+	EV_AggregatedAISShipType_PassengerShip = 7; //客船
+	EV_AggregatedAISShipType_MilitaryShip = 8; //军事行动船
+	EV_AggregatedAISShipType_LawEnforcementShip = 9; //渔政等执法船
+	EV_AggregatedAISShipType_WIGShip = 10; //风效应船
+	EV_AggregatedAISShipType_HSCShip = 11; //high speed craft,高速船
+
+	EV_AggregatedAISShipType_Pilot = 12;
+	EV_AggregatedAISShipType_PortTender = 13;
+	EV_AggregatedAISShipType_Sailing = 14;
+	EV_AggregatedAISShipType_PleasureCraft = 15;
+
+	EV_AggregatedAISShipType_UnderwaterOperation = 16;//Engaged in dredging or underwater operations
+	EV_AggregatedAISShipType_Diving = 17;//Engaged in diving operations
+	EV_AggregatedAISShipType_Others = 100; //其他类型船
+	EV_AggregatedAISShipType_Any = 101; //任意类型船
+}
+
+//信息类型。1： Argos及海事卫星 2：北斗 3：AIS静态 4： AIS动态 
+//5：LRIT 7：Hai Jian 15：综合信息(应该不会出现这一类型) 
+enum PB_Enum_TargetInfo_Type
+{
+	EV_TargetInfoType_NA =0;
+	EV_TargetInfoType_ArgosAndMaritimeSatellite =1;
+	EV_TargetInfoType_Beidou =2;
+	EV_TargetInfoType_AISStatic =3;
+	EV_TargetInfoType_AISDynamic =4;
+	EV_TargetInfoType_LRIT =5;
+	EV_TargetInfoType_Haijian =7;
+	EV_TargetInfoType_Fusion =15;
+	EV_TargetInfoType_Any =16; //任意信息类型
+	EV_TargetInfoType_Others =17; //others
+}
+
+//信息来源。1：农业部 2：海事局 3：Hai Jian  15：综合(fusion software)
+enum PB_Enum_TargetInfo_Source
+{
+	EV_TargetInfoSource_NA =0;
+	EV_TargetInfoSource_AgricultureMinistry =1;
+	EV_TargetInfoSource_MaritimeBureau =2;
+	EV_TargetInfoSource_Haijian =3; 
+	EV_TargetInfoSource_SatAIS =4; //卫星AIS
+	EV_TargetInfoSource_SearchAndRescue = 5; //救捞局
+	EV_TargetInfoSource_CivilMarineSituationSystem = 6; //民用海情
+	EV_TargetInfoSource_ShipSecurity = 7; //船舶安全保障
+
+	
+	EV_TargetInfoSource_Fusion =15;
+	EV_TargetInfoSource_Any = 16; //任意信息来源
+	EV_TargetInfoSource_Others = 17; //others
+}
+
+//目标编号类型
+enum PB_Enum_TargetID_Type
+{
+	EV_TargetIDType_NA =0;
+	EV_TargetIDType_MMSI =1;
+	EV_TargetIDType_IMO =2;
+	EV_TargetIDType_BeidouID =3;
+	EV_TargetIDType_HaijianID =4;
+	EV_TargetIDType_ArgosAndMarineSatID =5; // ID from messages by Argos and Marine satellites
+
+	EV_TargetIDType_Fusion =15;
+	EV_TargetIDType_Others =16;
+	EV_TargetIDType_Any =17;
+
+}
+
+//目标消息的处理层次
+enum PB_Enum_TargetInfo_ProcessLevel
+{
+	EV_TargetInfoProcessLevel_NA = 0;
+	EV_TargetInfoProcessLevel_Raw = 1;
+	EV_TargetInfoProcessLevel_Preprocessed = 2;//xgs项目中，原始模式时接收的数据
+	EV_TargetInfoProcessLevel_Fused = 3; //xgs项目中，融合模式时接收的数据
+	
+	EV_TargetInfoProcessLevel_Any = 15;
+	EV_TargetInfoProcessLevel_Others = 16;
+}
+
+enum PB_Enum_Software //枚举，包含了哪些软件
+{
+	EV_Software_NA = 0;//Not available，缺省值
+	
+	//数据综合处理系列软件
+	EV_Software_OnLinePreprocess  = 1; //接入预处理,xgs项目中是综合处理子系统的一部分
+	EV_Software_TargetDistribution  = 2; //目标信息分发软件,xgs项目中是综合处理子系统的一部分
+	EV_Software_OnLineFusion = 3; //Obsolete! 融合软件,xgs项目中是综合处理子系统以及信息分析子系统的一部分. 
+	EV_Software_StorageManagement =4; //数据存储管理,xgs项目中是综合处理子系统的一部分
+	
+	EV_Software_SoftwareMonitor =5; //程序状态监控,xgs项目中是运维管理软件的一部分
+	
+	EV_Software_XGSWeb = 6; //xgs定制版web
+	EV_Software_XGSDestop_2D =7;//xgs定制版桌面2D
+	EV_Software_XGSDesktop_3D =8; //xgs定制版桌面3D
+
+	//数据综合处理系列软件
+	EV_Software_DataAssoc = 9;// data association
+	EV_Software_MaritimeSA = 10 ;//maritime situational assessement.  Anomaly detection etc.
+	
+	EV_Software_XGSDesktop_Others =15; //其他软件
+}
+
+enum PB_Enum_Target_ThreatLevel //枚举，目标威胁等级有哪些
+{
+	EV_TargetThreatLevel_NA = 0;//Not available，缺省值
+	EV_TargetThreatLevel_Level1 = 1;//1级威胁，最高等级威胁
+	EV_TargetThreatLevel_Level2 = 2;//2级威胁
+	EV_TargetThreatLevel_Level3 = 3;//3级威胁
+	EV_TargetThreatLevel_Level4 = 4;//4级威胁
+	EV_TargetThreatLevel_Level5 = 5;//5级威胁
+	EV_TargetThreatLevel_Level6 = 6;//6级威胁
+	EV_TargetThreatLevel_Level7 = 7;//7级威胁
+	EV_TargetThreatLevel_Level8 = 8;//8级威胁
+	EV_TargetThreatLevel_Level9 = 9;//9级威胁
+	EV_TargetThreatLevel_Level10 = 10;//10级威胁
+	
+	EV_TargetThreatLevel_Non = 15;//无威胁
+}
+
+enum PB_Enum_Region_Shape //枚举，区域形状有哪些
+{
+	EV_RegionType_NA = 0;//Not available，缺省值
+	EV_RegionType_Circle = 1;//圆形
+	EV_RegionType_Rectangle = 2;//矩形
+	EV_RegionType_Polygon = 3;//多边形
+	EV_RegionType_GeoPoint = 4;//点
+	
+	EV_RegionType_Others = 15;//其他
+}
+
+
