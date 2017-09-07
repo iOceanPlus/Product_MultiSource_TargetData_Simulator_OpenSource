@@ -71,7 +71,7 @@ Module: core  positioning
 
 ## How to install libs and run the software  
 - Install libs needed  
-Download libs needed from http://pan.baidu.com/share/link?shareid=1523880373&uk=3506494889   
+Download libs needed from https://www.jianguoyun.com/p/DWhKo_YQwZOqBhi1ojQ   
 cd the CentOSLibs directory  
 cd each directory under CentOSLibs and run the scripts: ```sudo sh ./DeployLibs.sh ```  
 If error occured, modify DeployLibs.sh according to comments in the file.  
