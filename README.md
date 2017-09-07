@@ -56,6 +56,7 @@ Put these datasets with the executable file.
 
 ## Environment  
 Linux, g++ 4.7 or above is needed.  
+The program needs to connect to a rabbitmq server, make sure that rabbitmq is installed in a server that this program can connect to.
 
 ## Libs needed  
 - libev  
