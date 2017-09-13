@@ -298,37 +298,41 @@ void  Simulator::initTargetsAndPutToWorlds()
     qint32 targetID=0;
     shipDataFile.readLine(); //skip first line
     quint32 timeInt32= QDateTime::currentDateTime().toTime_t();
+    bool isAnomynous=ship_FileName.contains("anony",Qt::CaseInsensitive);
+
+    qint32 longitudeX60W,latitudeX60W,cogX10,sogX10;
+    QString shipName;
+
     while (!shipDataFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
     {
-
         QList <QByteArray> listField = shipDataFile.readLine().trimmed().split(',');
-#ifdef SHIP_DATA_ANONYMOUS
-        if(listField.size()!=6)
+        if(isAnomynous)
         {
-            qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
-            exit(4);
-            break;
+            if(listField.size()!=6)
+            {
+                qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
+                exit(4);
+                break;
+            }
+            longitudeX60W=listField.at(1).toInt();
+            latitudeX60W=listField.at(2).toInt();
+            cogX10=listField.at(3).toInt();
+            sogX10=listField.at(4).toInt();
         }
-        qint32 longitudeX60W=listField.at(1).toInt();
-        qint32 latitudeX60W=listField.at(2).toInt();
-        qint32 cogX10=listField.at(3).toInt();
-        qint32 sogX10=listField.at(4).toInt();
-#endif
-
-#ifndef SHIP_DATA_ANONYMOUS
-        if(listField.size()!=18)
+        else
         {
-            qDebug()<<"Critical: Column count of ship file is not correct! Column count is: "<<listField.size()<<"  Exiting...."<<listField;
-            exit(4);
-            break;
+            if(listField.size()!=18)
+            {
+                qDebug()<<"Critical: Column count of ship file is not correct! Column count is: "<<listField.size()<<"  Exiting...."<<listField;
+                exit(4);
+                break;
+            }
+            longitudeX60W=listField.at(1).toInt();
+            latitudeX60W=listField.at(2).toInt();
+            cogX10=listField.at(3).toInt();
+            sogX10=listField.at(5).toInt();
+            shipName=listField.at(8);
         }
-
-        qint32 longitudeX60W=listField.at(1).toInt();
-        qint32 latitudeX60W=listField.at(2).toInt();
-        qint32 cogX10=listField.at(3).toInt();
-        qint32 sogX10=listField.at(5).toInt();
-        QString shipName=listField.at(8);
-#endif
 
         if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
             continue;
@@ -355,9 +359,10 @@ void  Simulator::initTargetsAndPutToWorlds()
         pbTargetPos.set_countryname(listCountryNames.at(qrand()%countryCount).toUtf8().toStdString());
 
        pbTargetPos.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
-#ifndef SHIP_DATA_ANONYMOUS
-       pbTargetPos.mutable_aisstatic()->set_shipname(shipName.toStdString());
-#endif
+
+       if(!isAnomynous)
+           pbTargetPos.mutable_aisstatic()->set_shipname(shipName.toStdString());
+
        pbTargetPos.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
        pbTargetPos.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
        pbTargetPos.set_aggregatedaisshiptype(PBCoderDecoder::getAggregatedAISShipType(pbTargetPos.aisstatic().shiptype_ais()));

@@ -12,6 +12,7 @@
     "Example of Bounding_Region(near shanghai)":"31.19 121.43,31.48 121.43, 31.48 121.75,31.19 121.75, 31.19 121.43",
     "Bounding_Region":"31.19 121.43,31.48 121.43, 31.48 121.75,31.19 121.75, 31.19 121.43",
     "WaterGridsFileName":"Waters_1_Degree_2014.csv",
+    "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
     "Ship_FileName":"ais_ship_realtime_valid_randomOrder.csv",
     "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
     "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
