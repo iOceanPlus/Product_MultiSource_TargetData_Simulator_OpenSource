@@ -3,7 +3,7 @@ option java_package = "team.iOceanPlus.PB";
 //AIS动态数据
 message PBAISDynamic
 {
-	uint32	utcTimeStamp = 1;
+	uint32	utcTimeStamp = 1;//UTC时间戳，1970年以来的秒数
 	int32	MMSI =2; // default is 0
 	int32	intLongitudeX60W = 3;//经度乘以600000后的值
 	int32	intLatitudeX60W = 4; //纬度乘以600000后的值
@@ -44,7 +44,7 @@ message	PBAISStatic
 	int32	shipType_AIS =3 ; 
 	//IMO号：IMO编号。范围0-999999999，1000000000为无效,0=不可用=默认值 – 不适用于SAR航空器。
 	uint32	IMO = 4; 
-	string	shipName = 5; //
+	string	shipName = 5; //船名
 	string	callSign = 6; //呼号
 	uint32	breadthMeters = 7; //船长
 	uint32	lenghMeters = 8;//船宽
@@ -64,8 +64,8 @@ message PBAISVoyage
 
 enum PB_Enum_AIS_Device_Class_Type
 {
-	EV_AISDeviceClassType_ClassA = 0;
-	EV_AISDeviceClassType_ClassB = 1;
+	EV_AISDeviceClassType_ClassA = 0; //A类AIS设备
+	EV_AISDeviceClassType_ClassB = 1;  //B类AIS设备
 }
 
 //AIS设备的通信状态

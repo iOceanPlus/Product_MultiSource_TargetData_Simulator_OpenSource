@@ -16,10 +16,10 @@ enum PB_Enum_Aggregated_AIS_Ship_Type //枚举，聚合后的ais船类型。各�
 	EV_AggregatedAISShipType_WIGShip = 10; //风效应船
 	EV_AggregatedAISShipType_HSCShip = 11; //high speed craft,高速船
 
-	EV_AggregatedAISShipType_Pilot = 12;
-	EV_AggregatedAISShipType_PortTender = 13;
-	EV_AggregatedAISShipType_Sailing = 14;
-	EV_AggregatedAISShipType_PleasureCraft = 15;
+	EV_AggregatedAISShipType_Pilot = 12; //引航船
+	EV_AggregatedAISShipType_PortTender = 13; //港口补给船
+	EV_AggregatedAISShipType_Sailing = 14; //帆船
+	EV_AggregatedAISShipType_PleasureCraft = 15; //游艇
 
 	EV_AggregatedAISShipType_UnderwaterOperation = 16;//Engaged in dredging or underwater operations
 	EV_AggregatedAISShipType_Diving = 17;//Engaged in diving operations
@@ -82,8 +82,8 @@ enum PB_Enum_TargetInfo_ProcessLevel
 {
 	EV_TargetInfoProcessLevel_NA = 0;
 	EV_TargetInfoProcessLevel_Raw = 1;
-	EV_TargetInfoProcessLevel_Preprocessed = 2;//xgs项目中，原始模式时接收的数据
-	EV_TargetInfoProcessLevel_Fused = 3; //xgs项目中，融合模式时接收的数据
+	EV_TargetInfoProcessLevel_Preprocessed = 2;//原始模式时接收的数据
+	EV_TargetInfoProcessLevel_Fused = 3; //融合模式时接收的数据
 	
 	EV_TargetInfoProcessLevel_Any = 15;
 	EV_TargetInfoProcessLevel_Others = 16;
@@ -94,16 +94,16 @@ enum PB_Enum_Software //枚举，包含了哪些软件
 	EV_Software_NA = 0;//Not available，缺省值
 	
 	//数据综合处理系列软件
-	EV_Software_OnLinePreprocess  = 1; //接入预处理,xgs项目中是综合处理子系统的一部分
-	EV_Software_TargetDistribution  = 2; //目标信息分发软件,xgs项目中是综合处理子系统的一部分
-	EV_Software_OnLineFusion = 3; //Obsolete! 融合软件,xgs项目中是综合处理子系统以及信息分析子系统的一部分. 
-	EV_Software_StorageManagement =4; //数据存储管理,xgs项目中是综合处理子系统的一部分
+	EV_Software_OnLinePreprocess  = 1; //接入预处理
+	EV_Software_TargetDistribution  = 2; //目标信息分发软件
+	EV_Software_OnLineFusion = 3; //Obsolete! 融合软件
+	EV_Software_StorageManagement =4; //数据存储管理
 	
-	EV_Software_SoftwareMonitor =5; //程序状态监控,xgs项目中是运维管理软件的一部分
+	EV_Software_SoftwareMonitor =5; //程序状态监控
 	
-	EV_Software_XGSWeb = 6; //xgs定制版web
-	EV_Software_XGSDestop_2D =7;//xgs定制版桌面2D
-	EV_Software_XGSDesktop_3D =8; //xgs定制版桌面3D
+	EV_Software_XGSWeb = 6; //web
+	EV_Software_XGSDestop_2D =7;//桌面2D
+	EV_Software_XGSDesktop_3D =8; //桌面3D
 
 	//数据综合处理系列软件
 	EV_Software_DataAssoc = 9;// data association
