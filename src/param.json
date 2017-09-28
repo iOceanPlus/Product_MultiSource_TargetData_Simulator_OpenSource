@@ -3,8 +3,13 @@
     "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
     "TargetCount": 20000,
     "World_Threads_Count":8,
+
+    "Comment of ExternV_MIN_Sample_MSEC":"A target will not update its kinematic states if time elapsed since last update is less than this value",
     "ExternV_MIN_Sample_MSEC":1000,
+
+    "Comment of ExternV_Milliseconds_FetchData":"How often positioning devices fetch data from targets.",
     "ExternV_Milliseconds_FetchData":1000,
+
     "SECONDS_CHECK_TARGET_COUNT" : 15,
     "SOGX10_LOWER_THRESH":30,
     "SOGX10_UPPER_THRESH":800,
@@ -17,32 +22,48 @@
     "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
     "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
     "Language":"CN",
+    "Comment of PosDevice":"Define features of devices like AIS, Beidou, etc.",
     "PosDevice":
     [
         {
             "TargetInfo_Type":1,
-            "PositioningDevInMeters":5.0,
-            "SampleMilliSeconds":32000
+            "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
+            "PositioningDevInMeters":20.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":20000
         },
         {
             "TargetInfo_Type":2,
+            "PositioningDevInMeters":20.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
             "PositioningDevInMeters":5.0,
             "SampleMilliSeconds":21000
         },
         {
             "TargetInfo_Type":4,
+            "PositioningDevInMeters":20.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
             "PositioningDevInMeters":5.0,
-            "SampleMilliSeconds":17000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":5,
+            "PositioningDevInMeters":20.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
             "PositioningDevInMeters":5.0,
             "SampleMilliSeconds":13000
         },
         {
             "TargetInfo_Type":7,
+            "PositioningDevInMeters":30.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
             "PositioningDevInMeters":5.0,
-            "SampleMilliSeconds":23000
+            "SampleMilliSeconds":11000
         }
     ],
 
@@ -61,7 +82,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 },
                 {
                     "TargetInfo_Type":2,
@@ -70,7 +91,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 },
                 {
                     "TargetInfo_Type":4,
@@ -79,7 +100,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 }
             ]
         },
@@ -96,7 +117,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 },
                 {
                     "TargetInfo_Type":5,
@@ -105,7 +126,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 }
             ]
         },
@@ -121,7 +142,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 }
             ]
         },
@@ -137,7 +158,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 }
             ]
         },
@@ -153,7 +174,7 @@
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":50
                 }
             ]
         }
