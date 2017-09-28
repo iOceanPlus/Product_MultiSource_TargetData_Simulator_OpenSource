@@ -14,6 +14,7 @@ DataSource::DataSource(ThreadedWorld *world, const PB_Enum_TargetInfo_Source &pb
     this->pbTargetInfoSource=pbTargetInfoSource;
 
     posCountPerMinute=0;
+    randomEngine=new std::default_random_engine(0);
 
     totalPosCountFetched=posCountOutputToLog= 0;
     dtPosCountFetched=dtPosCountOutputToLog= QDateTime::currentDateTime();
@@ -151,23 +152,27 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
         world->addPreprocessedMsgsSendInMonitorProbeAck(pbTarget.listtargetpos_size());
     }
 
-    if(  !listDataAndKey.isEmpty()&&transmissionQ.meanTransmissionLatencyInMiliSeconds<=0)
+    if(  !listDataAndKey.isEmpty()&&transmissionQ.meanTransmissionLatencyInMiliSeconds<=0&&transmissionQ.stdDevTransmissionLatencyInMiliSeconds<=0)
         emit sigSend2MQ(listDataAndKey);
     else if( !listDataAndKey.isEmpty())
-        QTimer::singleShot(transmissionQ.meanTransmissionLatencyInMiliSeconds+qrand()%transmissionQ.stdDevTransmissionLatencyInMiliSeconds,
+    {
+        std::normal_distribution<double> normalDist(transmissionQ.meanTransmissionLatencyInMiliSeconds, transmissionQ.stdDevTransmissionLatencyInMiliSeconds);
+        qint32 milliSecLatency=qRound(normalDist(*randomEngine));
+        if(milliSecLatency<0)
+            milliSecLatency=0;
+
+        QTimer::singleShot(milliSecLatency,
                             [this, &listDataAndKey] () { emit sigSend2MQ(listDataAndKey);}  );
+    }
 
     return true;
 }
 
 void DataSource::addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const
 {
-    if(transQ.stdDevTimestampErrorInMiliSeconds>0)
-        pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
-                                   qRound( (transQ.meanTimestampErrorInMiliSeconds+qrand()%transQ.stdDevTimestampErrorInMiliSeconds)/1000.0) );
-    else
-        pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
-                                   qRound(transQ.meanTimestampErrorInMiliSeconds/1000.0) );
+    std::normal_distribution<double> normalDist(transQ.meanTimestampErrorInMiliSeconds, transQ.stdDevTimestampErrorInMiliSeconds);
+    pbTargetPos.mutable_aisdynamic()->set_utctimestamp(pbTargetPos.aisdynamic().utctimestamp()+
+                                   qRound( normalDist(*randomEngine)/1000.0) );
 }
 
 quint64 DataSource::getTotalPosCountFetched() const

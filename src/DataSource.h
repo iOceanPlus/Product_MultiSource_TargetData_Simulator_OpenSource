@@ -80,6 +80,8 @@ private:
     float posCountPerMinute;
 
     QTimer *timerOutPutInfo;
+
+    std::default_random_engine *randomEngine;
 };
 
 #endif // DATASOURCE_H

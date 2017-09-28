@@ -310,7 +310,7 @@ void  Simulator::initTargetsAndPutToWorlds()
         {
             if(listField.size()!=6)
             {
-                qDebug()<<"Critical: Column count of ship file is not correct! Exiting....";
+                qDebug()<<"Critical: Column count of ship file is not correct!  Column count is: "<<listField.size()<<"Exiting....";
                 exit(4);
                 break;
             }

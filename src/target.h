@@ -16,6 +16,7 @@ public:
     explicit Target(const PBTargetPosition &pbTargetPosOrig, ThreadedWorld *world, const qint64 &posDateTimeMSecs);
     bool addPosDevice(PB_Enum_TargetInfo_Type infoType, PosDevice* posDev);
     bool installPosDevices(qint64 timeMSecsSinceEpoch);
+    std::default_random_engine *getRandEngineOfThisWorld() const;
     ~Target();
 
     quint64 getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type, const quint32 &targetIDOrig);

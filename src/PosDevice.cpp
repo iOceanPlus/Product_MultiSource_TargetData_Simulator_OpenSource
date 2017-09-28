@@ -40,11 +40,13 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
 
 bool  PosDevice::addDevToPos(PBTargetPosition &pbTargetPos)
 {
-    double distance=targetInstalled->getDeviceInfo(infoType).positioningDevInMeters*(qrand()%10000/10000.0);
+    std::normal_distribution<double> normalDist(0.0, targetInstalled->getDeviceInfo(infoType).positioningDevInMeters);
+
+    double distanceInMeters=normalDist( *(targetInstalled->getRandEngineOfThisWorld()) );
     double azimuth=qrand()%3600/10.0;
 
     QGeoCoordinate geo(pbTargetPos.aisdynamic().intlatitudex60w()/AISPosDivider,pbTargetPos.aisdynamic().intlongitudex60w()/AISPosDivider);
-    QGeoCoordinate geoReckoned=geo.atDistanceAndAzimuth(distance,azimuth,0);
+    QGeoCoordinate geoReckoned=geo.atDistanceAndAzimuth(distanceInMeters,azimuth,0);
     pbTargetPos.mutable_aisdynamic()->set_intlongitudex60w(qRound(geoReckoned.longitude()*AISPosDivider));
     pbTargetPos.mutable_aisdynamic()->set_intlatitudex60w(qRound(geoReckoned.latitude()*AISPosDivider));
     return true;

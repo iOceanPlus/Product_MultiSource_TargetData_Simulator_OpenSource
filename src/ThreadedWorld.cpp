@@ -24,6 +24,9 @@ ThreadedWorld::ThreadedWorld(QMutex *mutex, MyQtGeoPolygon *geoPolyGonBoundingRe
 
     this->sharedPbCoderDecoder=pbCodDecoder;
 
+    qsrand(worldIndex+1);
+    randomEngine=new std::default_random_engine(worldIndex);
+
     timerMeasureAndUpdateTargetPos=new QTimer(this);
     connect(timerMeasureAndUpdateTargetPos,&QTimer::timeout,this, &ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos);
     timerMeasureAndUpdateTargetPos->start(ExternV_Milliseconds_FetchData);
@@ -84,8 +87,13 @@ void ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos()
     }
 }
 
+std::default_random_engine *ThreadedWorld::getRandomEngine() const
+{
+    return randomEngine;
+}
+
 void ThreadedWorld::updateTargetCountAndMsgRate(QSet <qint32> &setDistinctTargetIDOrig,
-                               QMap <PB_Enum_TargetInfo_Type,  QSet <qint32> > &mapInfoTypeSetTargetID,qint32 &targetCountAll,
+                                                QMap <PB_Enum_TargetInfo_Type,  QSet <qint32> > &mapInfoTypeSetTargetID,qint32 &targetCountAll,
                                float &msgCountPerMinuteCount, quint64 &messageCountSum)
 {
 #ifdef DEBUG_PERFORMANCE

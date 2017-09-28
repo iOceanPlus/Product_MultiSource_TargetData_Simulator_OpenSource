@@ -60,6 +60,8 @@ public:
     void updateTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig, QMap<PB_Enum_TargetInfo_Type,
                            QSet<qint32> > &mapInfoTypeSetTargetID, qint32 &targetCountAll,
                                                    float &msgCountPerMinuteCount, quint64 &messageCountSum);
+    std::default_random_engine *getRandomEngine() const;
+
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
     void sigPBMonitor(PBMonitor pbMonitor); //
@@ -90,6 +92,8 @@ private:
 
     QMutex *sharedMutex;
     quint16 worldIndex;
+
+    std::default_random_engine *randomEngine;
 };
 
 #endif // THREADEDWORLD_H

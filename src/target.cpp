@@ -279,3 +279,8 @@ quint64 Target::getTargetIDOrigAggregatedWithIDType(const quint8 &targetID_Type,
     targetIDToReturn=(targetIDToReturn<<56)+targetIDOrig;
     return targetIDToReturn;
 }
+
+std::default_random_engine *Target::getRandEngineOfThisWorld() const
+{
+    return world->getRandomEngine();
+}

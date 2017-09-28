@@ -2,6 +2,7 @@
 #include "Target.pb.h"
 #include "Monitor.pb.h"
 #include "simulator.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QList<PBTargetPosition> >("QList<PBTargetPosition>");
     qRegisterMetaType<QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> >("QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo>");
 
+    qDebug()<<"Update date: "<<"20170928";
 
     // Verify that the version of the library that we linked against is
     // compatible with the version of the headers we compiled against.
