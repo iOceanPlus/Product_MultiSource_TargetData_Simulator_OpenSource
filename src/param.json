@@ -38,7 +38,6 @@
             "PositioningDevInMeters":20.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "PositioningDevInMeters":5.0,
             "SampleMilliSeconds":21000
         },
         {
@@ -46,7 +45,6 @@
             "PositioningDevInMeters":20.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "PositioningDevInMeters":5.0,
             "SampleMilliSeconds":12000
         },
         {
@@ -54,7 +52,6 @@
             "PositioningDevInMeters":20.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "PositioningDevInMeters":5.0,
             "SampleMilliSeconds":13000
         },
         {
@@ -62,7 +59,6 @@
             "PositioningDevInMeters":30.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "PositioningDevInMeters":5.0,
             "SampleMilliSeconds":11000
         }
     ],

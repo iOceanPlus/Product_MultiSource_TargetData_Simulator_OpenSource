@@ -33,21 +33,30 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
 #endif
         targetInstalled->clearInvalidFieldsInAnOriginalTargetPos(pbTargetPos);
 
-        addDevToPos(pbTargetPos);
+        addDevToDynamicData(pbTargetPos);
         return pbTargetPos;
     }
 }
 
-bool  PosDevice::addDevToPos(PBTargetPosition &pbTargetPos)
+bool  PosDevice::addDevToDynamicData(PBTargetPosition &pbTargetPos)
 {
-    std::normal_distribution<double> normalDist(0.0, targetInstalled->getDeviceInfo(infoType).positioningDevInMeters);
-
-    double distanceInMeters=normalDist( *(targetInstalled->getRandEngineOfThisWorld()) );
+    std::normal_distribution<double> normalDistDistance(0.0, targetInstalled->getDeviceInfo(infoType).positioningDevInMeters);
+    double distanceInMeters=normalDistDistance( *(targetInstalled->getRandEngineOfThisWorld()) );
     double azimuth=qrand()%3600/10.0;
-
     QGeoCoordinate geo(pbTargetPos.aisdynamic().intlatitudex60w()/AISPosDivider,pbTargetPos.aisdynamic().intlongitudex60w()/AISPosDivider);
-    QGeoCoordinate geoReckoned=geo.atDistanceAndAzimuth(distanceInMeters,azimuth,0);
+    QGeoCoordinate geoReckoned=geo.atDistanceAndAzimuth(qAbs(distanceInMeters),azimuth,0);
     pbTargetPos.mutable_aisdynamic()->set_intlongitudex60w(qRound(geoReckoned.longitude()*AISPosDivider));
     pbTargetPos.mutable_aisdynamic()->set_intlatitudex60w(qRound(geoReckoned.latitude()*AISPosDivider));
+
+    std::normal_distribution<double> normalDistSOG(0.0, targetInstalled->getDeviceInfo(infoType).SOGDevInKnots);
+    double sogX10=pbTargetPos.aisdynamic().sogknotsx10()+10*normalDistSOG(* (targetInstalled->getRandEngineOfThisWorld()));
+    sogX10=sogX10<0?0:sogX10;
+    pbTargetPos.mutable_aisdynamic()->set_sogknotsx10(qRound(sogX10) );
+
+    std::normal_distribution<double> normalDistCOG(0.0, targetInstalled->getDeviceInfo(infoType).COGDevInDegrees);
+    double cogX10=pbTargetPos.aisdynamic().cogdegreex10()+10*normalDistCOG(* (targetInstalled->getRandEngineOfThisWorld()));
+    cogX10=cogX10<0?cogX10+3600:cogX10;
+    pbTargetPos.mutable_aisdynamic()->set_cogdegreex10(qRound(cogX10)%3600);
+
     return true;
 }

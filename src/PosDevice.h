@@ -12,7 +12,9 @@ struct Struct_PosDeviceInfo
 {
     PB_Enum_TargetInfo_Type infoType;
     qint64 sampleMilliSeconds;
-    double positioningDevInMeters;
+    double positioningDevInMeters; //定位的标准差
+    double SOGDevInKnots;//SOG的标准差
+    double COGDevInDegrees; //COG的标准差
 };
 
 /****** Positioning devices like AIS, radar, beidou, etc. *******/
@@ -22,7 +24,7 @@ public:
     PosDevice(const qint64 &lastDeviceSampleTimeAsMSecsSinceEpoch, Target * const target, const PB_Enum_TargetInfo_Type &infoType);
     /*** If the time since last measurement is no less than sampling interval, the measure will be successful*****/
     PBTargetPosition measurePBTargetPosAndUpdateTarget(bool &isMeasureSuccessful, const qint64 &currentDTAsMSecsSinceEpoch);
-    bool addDevToPos(PBTargetPosition &pbTargetPos);
+    bool addDevToDynamicData(PBTargetPosition &pbTargetPos);
 
 private:    
     PB_Enum_TargetInfo_Type infoType;

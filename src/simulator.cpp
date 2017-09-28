@@ -168,6 +168,7 @@ void Simulator::parseParamFileAndInitWorldMembers()
         for(QJsonArray::const_iterator iArray=arrayDevices.constBegin(); iArray!=arrayDevices.constEnd();iArray++)
         {
             QJsonObject jsonObjInArray= (*iArray).toObject();
+            //Check necessary fields
             if(checkJsonObjectAndOutPutValue(jsonObjInArray,"TargetInfo_Type",false)&&
                     checkJsonObjectAndOutPutValue(jsonObjInArray,"PositioningDevInMeters",false)&&
                     checkJsonObjectAndOutPutValue(jsonObjInArray,"SampleMilliSeconds",false))
@@ -176,10 +177,13 @@ void Simulator::parseParamFileAndInitWorldMembers()
                 Struct_PosDeviceInfo deviceInfo;
                 deviceInfo.infoType=infoType;
                 deviceInfo.positioningDevInMeters=jsonObjInArray.value("PositioningDevInMeters").toDouble(0);
+                deviceInfo.SOGDevInKnots=jsonObjInArray.value("SOGDevInKnots").toDouble(0);
+                deviceInfo.COGDevInDegrees=jsonObjInArray.value("COGDevInDegrees").toDouble(0);
                 deviceInfo.sampleMilliSeconds=jsonObjInArray.value("SampleMilliSeconds").toInt(10000);
                 mapInfoTypePosDeviceInfo.insert(infoType, deviceInfo);
-                qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType)<<" { "<<"定位误差:"<<deviceInfo.positioningDevInMeters<<
-                          "米\t采样间隔:"<<deviceInfo.sampleMilliSeconds/1000.0<<"秒"<<"}";
+                qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType)<<" { "<<"定位标准差:"<<deviceInfo.positioningDevInMeters<<
+                          "米\t测速误差:"<<deviceInfo.SOGDevInKnots<<"节\t测航向误差:"<<deviceInfo.COGDevInDegrees<<"度\t"
+                               <<"采样间隔:"<<deviceInfo.sampleMilliSeconds/1000.0<<"秒"<<"}";
             }
             else
                 qDebug()<<"Fail to parse jsonObject:"<<jsonObjInArray;
