@@ -89,8 +89,10 @@ Create a directory sqldrivers under the directory that contains the executable f
 ```vi nohup.txt```，inspect the output log  
 
 ## Typical Scenes  
+Under these scences, only ships with SOG from 3 knots to 80 knots are present.  
+
 ### DenseShip42: HuangPu River in Shanghai, China  
-This is one of the busiest water ways in the world, we filter ships with SOG from 3 knots to 80 knots, see the figure below:  
+This is one of the busiest water ways in the world,  see the figure below:  
 ![Huangpu river](https://git.oschina.net/uploads/images/2017/0929/114421_a5e15049_854788.png "屏幕截图.png")  
 
 We focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,121.5067], see below:  
@@ -99,5 +101,14 @@ We focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,1
 
 This section is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.
 
+### RegulShip45: Outside Shanghai, China  
+A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
+![regular scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
+
+This section is 120 kilometers long and 92 kilometers wide. There are one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
+
+### GlobalShip110K: Global ships  
+110415 ships are under this scene.  
+![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")
 
 
