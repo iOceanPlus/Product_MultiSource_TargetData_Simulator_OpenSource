@@ -105,17 +105,18 @@ This section is 1.3 kilometers long and about 200 meters wide on average. It can
 A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
 ![spare scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
 
-This section is 120 kilometers long and 92 kilometers wide. There are one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
+This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
 
 
 ### RegularShip32:  TangShan, China
 
+32 Ships are under this scence.The region is latitude [38.92,38.9633] and longitude [118.3367,118.4183].
+
 ![RegularShip32](https://git.oschina.net/uploads/images/2017/0929/123032_c1f1fa4b_854788.png "屏幕截图.png")
 
-32 Ships.
 
+This scene is 7.07 kilometer long and 4.82 kilometers wide. There is one target on every 1.06 square kilometers, average distance between ships is 1 kilometer.
 
 ### GlobalShip110K: Global ships  
 110415 ships are under this scene.  
 ![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")
-
