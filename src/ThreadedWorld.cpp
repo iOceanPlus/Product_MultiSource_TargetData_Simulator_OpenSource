@@ -16,13 +16,14 @@
 #include "target.h"
 
 ThreadedWorld::ThreadedWorld(QMutex *mutex, MyQtGeoPolygon *geoPolyGonBoundingRegion, PBCoderDecoder *pbCodDecoder,
-                             quint16 worldIndex,  QObject *parent) :   QObject(parent)
+                             quint16 worldIndex, const QString &language,  QObject *parent) :   QObject(parent)
 {
     this->sharedGeoPolyGonBoundingRegion=geoPolyGonBoundingRegion;
     this->worldIndex=worldIndex;
     this->sharedMutex=mutex;
 
     this->sharedPbCoderDecoder=pbCodDecoder;
+    this->language=language;
 
     qsrand(worldIndex+1);
     randomEngine=new std::default_random_engine(worldIndex);
@@ -85,6 +86,11 @@ void ThreadedWorld::slotTimerEventMeasureAndUpdateTargetsPos()
         iMapInfoTypeDataChannels.next();
         iMapInfoTypeDataChannels.value()->clearListPBTargetPosInChannel();
     }
+}
+
+QString ThreadedWorld::getLanguage() const
+{
+    return language;
 }
 
 std::default_random_engine *ThreadedWorld::getRandomEngine() const

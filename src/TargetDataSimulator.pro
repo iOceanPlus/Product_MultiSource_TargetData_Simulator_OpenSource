@@ -16,7 +16,7 @@ INCLUDEPATH += $$PWD/Module_AISCommon
 INCLUDEPATH += $$PWD/Module_MyFixedSizeQueue
 INCLUDEPATH += $$PWD/Module_EvidenceTheory
 INCLUDEPATH += $$PWD/FuzzyToolbox
-INCLUDEPATH += $$PWD/Module_Qt_PBCoderDecoder
+INCLUDEPATH += $$PWD/TailoredModule_Qt_PBCoderDecoder
 INCLUDEPATH += $$PWD/Module_Qt_Geography
 
 TARGET = TargetDataSimulator
@@ -25,7 +25,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     BaseClass_IOMessages/IOMessages.cpp \
-    Module_Qt_PBCoderDecoder/PBCoderDecoder.cpp \
     Module_Qt_RabbitMQ/ContainerOfThreadedMQTopicConsume.cpp \
     Module_Qt_RabbitMQ/ContainerOfThreadMQTopicPublish.cpp \
     Module_Qt_RabbitMQ/ContainerOfUnthreadedMQTopicConsume.cpp \
@@ -49,7 +48,8 @@ SOURCES += main.cpp \
     Module_Qt_Geography/MyQtGeoPolygon.cpp \
     Module_Qt_Geography/MyQtGeoRectangle.cpp \
     Module_Qt_Geography/MyQtGeoShapeBase.cpp \
-    ThreadedWorld.cpp
+    ThreadedWorld.cpp \
+    TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -64,7 +64,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     BaseClass_IOMessages/IOMessages.h \
-    Module_Qt_PBCoderDecoder/PBCoderDecoder.h \
     Module_Qt_RabbitMQ/ContainerOfThreadedMQTopicConsume.h \
     Module_Qt_RabbitMQ/ContainerOfThreadMQTopicPublish.h \
     Module_Qt_RabbitMQ/ContainerOfUnThreadedMQTopicpublish.h \
@@ -87,7 +86,8 @@ HEADERS += \
     Module_Qt_Geography/MyQtGeoPolygon.h \
     Module_Qt_Geography/MyQtGeoRectangle.h \
     Module_Qt_Geography/MyQtGeoShapeBase.h \
-    ThreadedWorld.h
+    ThreadedWorld.h \
+    TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.h
 
 DISTFILES += \
     BaseClass_IOMessages/param_mq.txt \

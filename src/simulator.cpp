@@ -15,14 +15,14 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
     qsrand(0); //Make sure that every time the program started, the simulated scence is the same.
 
     worldThreadCount=1; //default count
-    setWorldThreadCountAndBoundingRegionFromParamJson();
+    setWorldThreadCount_BoundingRegion_LanguageFromParamJson();
 
     pbCoderDecoder=new PBCoderDecoder(SOFTWARE_NAME,mutex,this);
     for(int i=0;i<worldThreadCount;i++)
     {
         QThread *thread=new QThread(this);
         listOfWorldThreads.append(thread);
-        ThreadedWorld *world=new ThreadedWorld(mutex,sharedGeoPolyGonBoundingRegion,pbCoderDecoder,i);
+        ThreadedWorld *world=new ThreadedWorld(mutex,sharedGeoPolyGonBoundingRegion,pbCoderDecoder,i,language);
         listOfThreadedWorlds.append(world);
         connect(thread,&QThread::finished,world,&QObject::deleteLater);
         world->moveToThread(thread);
@@ -57,7 +57,7 @@ void Simulator::connectIOMessageAndWorld()
     }
 }
 
-bool Simulator::setWorldThreadCountAndBoundingRegionFromParamJson()
+bool Simulator::setWorldThreadCount_BoundingRegion_LanguageFromParamJson()
 {
     QFile paramJsonFile(QStringLiteral("param.json"));
     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
@@ -96,10 +96,14 @@ bool Simulator::setWorldThreadCountAndBoundingRegionFromParamJson()
     }
 
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"World_Threads_Count",true))
-    {
         worldThreadCount=jsonObjcet.value("World_Threads_Count").toInt(worldThreadCount);
+
+    if(checkJsonObjectAndOutPutValue(jsonObjcet,"Language",true))
+    {
+        language=jsonObjcet.value("Language").toString();
         return true;
     }
+
     return false;
 }
 
@@ -159,8 +163,6 @@ void Simulator::parseParamFileAndInitWorldMembers()
         ship_FileName=jsonObjcet.value("Ship_FileName").toString();
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"MC2_FileName",true))
         mc2FileName=jsonObjcet.value("MC2_FileName").toString();
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"Language",true))
-        language=jsonObjcet.value("Language").toString();
 
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"PosDevice",false))
     {
@@ -181,7 +183,7 @@ void Simulator::parseParamFileAndInitWorldMembers()
                 deviceInfo.COGDevInDegrees=jsonObjInArray.value("COGDevInDegrees").toDouble(0);
                 deviceInfo.sampleMilliSeconds=jsonObjInArray.value("SampleMilliSeconds").toInt(10000);
                 mapInfoTypePosDeviceInfo.insert(infoType, deviceInfo);
-                qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType)<<" { "<<"定位标准差:"<<deviceInfo.positioningDevInMeters<<
+                qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<" { "<<"定位标准差:"<<deviceInfo.positioningDevInMeters<<
                           "米\t测速误差:"<<deviceInfo.SOGDevInKnots<<"节\t测航向误差:"<<deviceInfo.COGDevInDegrees<<"度\t"
                                <<"采样间隔:"<<deviceInfo.sampleMilliSeconds/1000.0<<"秒"<<"}";
             }
@@ -225,7 +227,7 @@ void Simulator::parseParamFileAndInitWorldMembers()
                         if(!mapInfoTypePosDeviceInfo.contains(infoType))
                         {
                             qDebug()<<"This infoType is not configured in PosDevice of param.json, ignored: "<<
-                                      PBCoderDecoder::getReadableTargetInfo_TypeName(infoType);
+                                      PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language);
                             continue;
                         }
                         Struct_TransmissionQuality transQuality;
@@ -238,8 +240,8 @@ void Simulator::parseParamFileAndInitWorldMembers()
                         transQuality.packetLossPercentage=jsonSourceInfoObjInArray.value("packetLossPercentage").toInt(0);
                         mapInfoTypeTransmitQualityOfOneDataSource.insert(infoType, transQuality);
 
-                        qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName( (PB_Enum_TargetInfo_Source)dataSourceID)<<"{"<<
-                                  "数据类型:"<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType)<<
+                        qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName( (PB_Enum_TargetInfo_Source)dataSourceID,language)<<"{"<<
+                                  "数据类型:"<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<
                                   "观测到的目标百分比:"<<transQuality.percentageTargetsObserved<<
                                   "平均传输延迟(毫秒):"<<transQuality.meanTransmissionLatencyInMiliSeconds<<
                                   "传输延迟标准差(毫秒):"<<transQuality.stdDevTransmissionLatencyInMiliSeconds<<
@@ -457,7 +459,7 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
         iMapInfoTypeSetTargetID.next();
         qint32 setSize=iMapInfoTypeSetTargetID.value().size();
         targetCountSumAccordingToInfoTypeAndOrigTargetID+=setSize;
-        std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key()).toStdString()<<"目标总数:"<<setSize;
+        std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key(),language).toStdString()<<"目标总数:"<<setSize;
     }
 
     std::cout<<endl<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<

@@ -183,17 +183,17 @@ quint64 DataSource::getTotalPosCountFetched() const
 void DataSource::slotOutPutTargetsCountPerType()
 {
     std::cout<<endl<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<" "<<
-               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource).toStdString();
+               PBCoderDecoder::getReadableTargetInfo_SourceName(pbTargetInfoSource,world->getLanguage()).toStdString();
     if(!setTargetIDsSentWithAIS.isEmpty())
-            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic).toStdString()<<"目标数:"<<setTargetIDsSentWithAIS.size();
+            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_AISDynamic,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithAIS.size();
     if(!setTargetIDsSentWithLRIT.isEmpty())
-           std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_LRIT).toStdString()<<"目标数:"<<setTargetIDsSentWithLRIT.size();
+           std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_LRIT,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithLRIT.size();
     if(!setTargetIDsSentWithBeidou.isEmpty())
-            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou).toStdString()<<"目标数:"<<setTargetIDsSentWithBeidou.size();
+            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Beidou,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithBeidou.size();
     if(!setTargetIDsSentWithHaijian.isEmpty())
-           std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian).toStdString()<<"目标数:"<<setTargetIDsSentWithHaijian.size();
+           std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithHaijian.size();
     if(!setTargetIDsSentWithArgosAndMarineSat.isEmpty())
-          std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite).toStdString()<<"目标数:"<<setTargetIDsSentWithArgosAndMarineSat.size();
+          std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithArgosAndMarineSat.size();
 
     std::cout<<endl;
 }

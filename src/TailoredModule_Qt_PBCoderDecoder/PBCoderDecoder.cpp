@@ -21,25 +21,43 @@ PBCoderDecoder::~PBCoderDecoder()
 
 }
 
-QString PBCoderDecoder::getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource)
+QString PBCoderDecoder::getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource, const QString &language)
 {
     switch (targetInfoSource) {
     case EV_TargetInfoSource_AgricultureMinistry:
-        return "农业部";
+        if(language.toLower()=="cn")
+            return "农业部";
+        else
+            return "Agriculture Ministry";
     case EV_TargetInfoSource_MaritimeBureau:
-        return "海事局";
+        if(language.toLower()=="cn")
+            return "海事局";
+        else
+            return  "Maritime Administration";
     case EV_TargetInfoSource_Haijian:
-        return "Haijian";
+        if(language.toLower()=="cn")
+            return "Haijian";
+        else
+            return "Radar networks";
     case EV_TargetInfoSource_SatAIS:
-        return "卫星AIS";
+        if(language.toLower()=="cn")
+            return "卫星AIS";
+        else
+            return "Satellite-Based AIS";
     case EV_TargetInfoSource_SearchAndRescue:
-        return "救捞局";
+        if(language.toLower()=="cn")
+            return "救捞局";
+        else
+            return "SearchAndRescue";
     default:
-        return "其他";
+        if(language.toLower()=="cn")
+            return "其他";
+        else
+            return "Others";
     }
 }
 
-QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName)
+QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName, const QString &language)
 {
     switch (targetinfoTypeName) {
     case EV_TargetInfoType_AISDynamic:
@@ -47,15 +65,27 @@ QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_
     case EV_TargetInfoType_AISStatic:
         return "AIS";
     case EV_TargetInfoType_ArgosAndMaritimeSatellite:
-        return "Arogs及海事卫星";
+        if(language.toLower()=="cn")
+            return "Arogs及海事卫星";
+        else
+            return "Argos and Marine Satellites";
     case EV_TargetInfoType_Beidou:
-        return "北斗";
+        if(language.toLower()=="cn")
+            return "北斗";
+        else
+            return "Beidou";
     case EV_TargetInfoType_Haijian:
-        return "船舶";
+        if(language.toLower()=="cn")
+            return "船舶";
+        else
+            return "Radar";
     case EV_TargetInfoType_LRIT:
         return "LRIT";
     default:
-        return "其他";
+        if(language.toLower()=="cn")
+            return "其他";
+        else
+            return "Others";
     }
 }
 

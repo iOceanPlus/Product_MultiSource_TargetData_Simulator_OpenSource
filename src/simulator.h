@@ -29,7 +29,7 @@ private:
     void initWaterGrids();
     void initTargetsAndPutToWorlds();
 
-    bool setWorldThreadCountAndBoundingRegionFromParamJson();
+    bool setWorldThreadCount_BoundingRegion_LanguageFromParamJson();
     void parseParamFileAndInitWorldMembers();
 
     void connectIOMessageAndWorld();

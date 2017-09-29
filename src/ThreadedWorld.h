@@ -33,7 +33,7 @@ class ThreadedWorld : public QObject
     Q_OBJECT
 public:
     explicit ThreadedWorld( QMutex *sharedMutex, MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion,PBCoderDecoder *pbCodDecoder,
-                            quint16 worldIndex,  QObject *parent = 0);
+                            quint16 worldIndex,const QString& language,  QObject *parent = 0);
     ~ThreadedWorld();
     bool isInWaterAndBoudingArea(const double &longitudeInDegree,const double &latitudeInDegree);
 
@@ -61,6 +61,8 @@ public:
                            QSet<qint32> > &mapInfoTypeSetTargetID, qint32 &targetCountAll,
                                                    float &msgCountPerMinuteCount, quint64 &messageCountSum);
     std::default_random_engine *getRandomEngine() const;
+
+    QString getLanguage() const;
 
 signals:
     void sigSend2MQ(QList <StructDataAndKey> listProtoData);
@@ -93,6 +95,7 @@ private:
     QMutex *sharedMutex;
     quint16 worldIndex;
 
+    QString language;
     std::default_random_engine *randomEngine;
 };
 
