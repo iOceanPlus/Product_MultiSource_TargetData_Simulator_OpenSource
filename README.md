@@ -96,7 +96,7 @@ This is one of the busiest water ways in the world,  we focus on the region with
 
 ![42 targets in Huangpu river](https://git.oschina.net/uploads/images/2017/0929/115344_4942a03c_854788.png "屏幕截图.png")
 
-Ships are in a polygon: (31.3842 121.5065,31.3730 121.5007,31.3715 121.5042,31.3832 121.5103,31.3842 121.5065)
+Ships are in a polygon: (31.3869 121.5025,31.3744 121.4963,31.3733 121.5003,31.3855 121.5062,31.3869 121.5025)
 This polygon is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.
 
 ### SpareShip45: Outside Shanghai, China  
