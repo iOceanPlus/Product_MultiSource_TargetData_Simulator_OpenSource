@@ -103,7 +103,8 @@ This polygon is 1.3 kilometers long and about 200 meters wide on average. It can
 A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
 ![spare scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
 
-This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
+Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
+ This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
 
 
 ### RegularShip32:  TangShan, China
@@ -112,7 +113,7 @@ This section is 120 kilometers long and 92 kilometers wide. There is one target 
 
 ![RegularShip32](https://git.oschina.net/uploads/images/2017/0929/123032_c1f1fa4b_854788.png "屏幕截图.png")
 
-
+Ships are in a polygon: (38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367)
 This scene is 7.07 kilometer long and 4.82 kilometers wide. There is one target on every 1.06 square kilometers, average distance between ships is 1 kilometer.
 
 ### GlobalShip110K: Global ships  
