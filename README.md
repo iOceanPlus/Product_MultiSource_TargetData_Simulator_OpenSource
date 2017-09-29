@@ -87,3 +87,35 @@ Create a directory sqldrivers under the directory that contains the executable f
 - check the status  
 ```top```，see the resource consumed by TargetDataSimulator  
 ```vi nohup.txt```，inspect the output log  
+
+## Typical Scenes  
+Under these scences, only ships with SOG from 3 knots to 80 knots are present.  
+
+### DenseShip42: HuangPu River in Shanghai, China  
+This is one of the busiest water ways in the world,  we focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,121.5067], see below:  
+
+![42 targets in Huangpu river](https://git.oschina.net/uploads/images/2017/0929/115344_4942a03c_854788.png "屏幕截图.png")
+
+Ships are in a polygon: (31.3870 121.5021,31.3742 121.4960,31.3733 121.5005,31.3857 121.5065,31.3870 121.5021)
+This polygon is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.
+
+### SpareShip45: Outside Shanghai, China  
+A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
+![spare scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
+
+Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
+ This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
+
+
+### RegularShip32:  TangShan, China
+
+32 Ships are under this scence.The region is latitude [38.92,38.9633] and longitude [118.3367,118.4183].
+
+![RegularShip32](https://git.oschina.net/uploads/images/2017/0929/123032_c1f1fa4b_854788.png "屏幕截图.png")
+
+Ships are in a polygon: (38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367)
+This scene is 7.07 kilometer long and 4.82 kilometers wide. There is one target on every 1.06 square kilometers, average distance between ships is 1 kilometer.
+
+### GlobalShip110K: Global ships  
+110415 ships are under this scene.  
+![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")
