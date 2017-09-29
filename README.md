@@ -97,8 +97,7 @@ We focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,1
 
 ![42 targets in Huangpu river](https://git.oschina.net/uploads/images/2017/0929/115344_4942a03c_854788.png "屏幕截图.png")
 
-
-
+This section is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.
 
 
 
