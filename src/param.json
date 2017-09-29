@@ -14,8 +14,10 @@
     "SOGX10_LOWER_THRESH":30,
     "SOGX10_UPPER_THRESH":800,
     "Comment of Bounding_Region":"Bound all the targets in this polygon region, format is: lat1 lng1, lat2 lng2, lat3 lng3, ..., latk lngk, lat1 lng1. If Bounding is not required, delete Bounding_Region",
-    "Example of Bounding_Region(near shanghai)":"31.19 121.43,31.48 121.43, 31.48 121.75,31.19 121.75, 31.19 121.43",
-    "Bounding_Region":"31.19 121.43,31.48 121.43, 31.48 121.75,31.19 121.75, 31.19 121.43",
+    "Example: Bounding_Region DenseShip42":"31.3870 121.5021,31.3742 121.4960,31.3733 121.5005,31.3857 121.5065,31.3870 121.5021",
+    "Example: Bounding_Region SpareShip45":"31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317",
+    "Example: Bounding_Region RegularShip32":"38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367",
+    "Bounding_Region":"31.3870 121.5021,31.3742 121.4960,31.3733 121.5005,31.3857 121.5065,31.3870 121.5021",
     "WaterGridsFileName":"Waters_1_Degree_2014.csv",
     "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
     "Ship_FileName":"ais_ship_realtime_valid_randomOrder.csv",
@@ -28,28 +30,28 @@
         {
             "TargetInfo_Type":1,
             "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
-            "PositioningDevInMeters":20.0,
+            "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
             "SampleMilliSeconds":20000
         },
         {
             "TargetInfo_Type":2,
-            "PositioningDevInMeters":20.0,
+            "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
             "SampleMilliSeconds":21000
         },
         {
             "TargetInfo_Type":4,
-            "PositioningDevInMeters":20.0,
+            "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
             "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":5,
-            "PositioningDevInMeters":20.0,
+            "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
             "SampleMilliSeconds":13000
@@ -59,7 +61,7 @@
             "PositioningDevInMeters":30.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":11000
+            "SampleMilliSeconds":5000
         }
     ],
 
