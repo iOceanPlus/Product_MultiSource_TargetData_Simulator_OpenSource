@@ -23,7 +23,7 @@
     "Ship_FileName":"ais_ship_realtime_valid_randomOrder.csv",
     "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
     "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
-    "Language":"CN",
+    "Language":"EN",
     "Comment of PosDevice":"Define features of devices like AIS, Beidou, etc.",
     "PosDevice":
     [

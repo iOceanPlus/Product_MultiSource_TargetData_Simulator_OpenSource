@@ -183,9 +183,14 @@ void Simulator::parseParamFileAndInitWorldMembers()
                 deviceInfo.COGDevInDegrees=jsonObjInArray.value("COGDevInDegrees").toDouble(0);
                 deviceInfo.sampleMilliSeconds=jsonObjInArray.value("SampleMilliSeconds").toInt(10000);
                 mapInfoTypePosDeviceInfo.insert(infoType, deviceInfo);
-                qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<" { "<<"定位标准差:"<<deviceInfo.positioningDevInMeters<<
-                          "米\t测速误差:"<<deviceInfo.SOGDevInKnots<<"节\t测航向误差:"<<deviceInfo.COGDevInDegrees<<"度\t"
-                               <<"采样间隔:"<<deviceInfo.sampleMilliSeconds/1000.0<<"秒"<<"}";
+                if(language.toLower()=="cn")
+                    qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<" { "<<"定位标准差:"<<deviceInfo.positioningDevInMeters<<
+                              "米\t测速误差:"<<deviceInfo.SOGDevInKnots<<"节\t测航向误差:"<<deviceInfo.COGDevInDegrees<<"度\t"
+                                   <<"采样间隔:"<<deviceInfo.sampleMilliSeconds/1000.0<<"秒"<<"}";
+                else
+                    qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<" { "<<"Std dev of positioning:"<<deviceInfo.positioningDevInMeters<<
+                              "meters\tStd dev of SOG measuring:"<<deviceInfo.SOGDevInKnots<<"knots\tStd dev of COG measuring:"<<deviceInfo.COGDevInDegrees<<"degrees\t"
+                                   <<"Update interval:"<<deviceInfo.sampleMilliSeconds/1000.0<<"seconds"<<"}";
             }
             else
                 qDebug()<<"Fail to parse jsonObject:"<<jsonObjInArray;
@@ -240,14 +245,24 @@ void Simulator::parseParamFileAndInitWorldMembers()
                         transQuality.packetLossPercentage=jsonSourceInfoObjInArray.value("packetLossPercentage").toInt(0);
                         mapInfoTypeTransmitQualityOfOneDataSource.insert(infoType, transQuality);
 
-                        qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName( (PB_Enum_TargetInfo_Source)dataSourceID,language)<<"{"<<
-                                  "数据类型:"<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<
-                                  "观测到的目标百分比:"<<transQuality.percentageTargetsObserved<<
-                                  "平均传输延迟(毫秒):"<<transQuality.meanTransmissionLatencyInMiliSeconds<<
-                                  "传输延迟标准差(毫秒):"<<transQuality.stdDevTransmissionLatencyInMiliSeconds<<
-                                  "平均时间戳误差(毫秒):"<<transQuality.meanTimestampErrorInMiliSeconds<<
-                                  "时间戳误差的标准差(毫秒):"<<transQuality.stdDevTimestampErrorInMiliSeconds<<
-                                  "丢包率(百分比):"<<transQuality.packetLossPercentage<<"}";
+                        if(language.toLower()=="cn")
+                            qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName( (PB_Enum_TargetInfo_Source)dataSourceID,language)<<"{"<<
+                                      "数据类型:"<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<
+                                      "观测到的目标百分比:"<<transQuality.percentageTargetsObserved<<
+                                      "平均传输延迟(毫秒):"<<transQuality.meanTransmissionLatencyInMiliSeconds<<
+                                      "传输延迟标准差(毫秒):"<<transQuality.stdDevTransmissionLatencyInMiliSeconds<<
+                                      "平均时间戳误差(毫秒):"<<transQuality.meanTimestampErrorInMiliSeconds<<
+                                      "时间戳误差的标准差(毫秒):"<<transQuality.stdDevTimestampErrorInMiliSeconds<<
+                                      "丢包率(百分比):"<<transQuality.packetLossPercentage<<"}";
+                        else
+                            qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName( (PB_Enum_TargetInfo_Source)dataSourceID,language)<<"{"<<
+                                      "Data type:"<<PBCoderDecoder::getReadableTargetInfo_TypeName(infoType,language)<<
+                                      "Percentage of targets observed:"<<transQuality.percentageTargetsObserved<<
+                                      "Mean transimission latency (ms):"<<transQuality.meanTransmissionLatencyInMiliSeconds<<
+                                      "Std dev of transmission latency (ms):"<<transQuality.stdDevTransmissionLatencyInMiliSeconds<<
+                                      "Mean timestamp bias (ms):"<<transQuality.meanTimestampErrorInMiliSeconds<<
+                                      "Std dev of timestamp bias (ms):"<<transQuality.stdDevTimestampErrorInMiliSeconds<<
+                                      "Packet loss percentage:"<<transQuality.packetLossPercentage<<"}";
                     }
                     else
                         qDebug()<<"Fail to parse jsonObject of SourceInfo in One Data Source.";
@@ -450,8 +465,12 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
         iListWorlds.next()->updateTargetCountAndMsgRate(setDistinctTargetIDOrig,mapInfoTypeSetTargetID, targetCountAll, msgCountPerMinuteCount,messageCountSum);
     }
 
-    std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\t各数据源消息率总计:"<<
-                QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum<<endl;
+    if(language.toLower()=="cn")
+        std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\t各数据源消息率总计:"<<
+                    QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/分钟\t发送的总轨迹点数:"<<messageCountSum<<endl;
+    else
+        std::cout<< QDateTime::currentDateTime().toString("MM/dd hh:mm:ss").toStdString()<<"\tMessage rate:"<<
+                    QString::number(msgCountPerMinuteCount,'g',3).toStdString()<<"/minute\tTotal positions sent:"<<messageCountSum<<endl;
 
     QMapIterator <PB_Enum_TargetInfo_Type,QSet <qint32>> iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
     while(iMapInfoTypeSetTargetID.hasNext())
@@ -459,12 +478,19 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
         iMapInfoTypeSetTargetID.next();
         qint32 setSize=iMapInfoTypeSetTargetID.value().size();
         targetCountSumAccordingToInfoTypeAndOrigTargetID+=setSize;
-        std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key(),language).toStdString()<<"目标总数:"<<setSize;
+        if(language.toLower()=="cn")
+            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key(),language).toStdString()<<"目标总数:"<<setSize;
+        else
+            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(iMapInfoTypeSetTargetID.key(),language).toStdString()<<" target count:"<<setSize;
     }
 
-    std::cout<<endl<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
-               "\t<信息类型-目标原始ID>组合数量："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
-               "\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
+    if(language.toLower()=="cn")
+        std::cout<<endl<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
+                   "\t<信息类型-目标原始ID>组合数量："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
+                   "\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
+    else
+        std::cout<<endl<<"\tCount(<InfoType-OriginTargetID> pair)："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
+                   "\tSum(target count from each data source):"<<targetCountAll<<endl;
 
 #ifdef DEBUG_TargetCount
     qDebug()<<"mapInfoTypeOrigTargetIDForDebug size is:"<<multiMapInfoTypeOrigTargetIDForDebug.size()<<". Contents are:"<<multiMapInfoTypeOrigTargetIDForDebug;
