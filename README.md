@@ -105,6 +105,7 @@ This is one of the busiest water ways in the world,  we focus on the region with
 
 Ships are in a polygon: (31.3870 121.5021,31.3742 121.4960,31.3733 121.5005,31.3857 121.5065,31.3870 121.5021)
 This polygon is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.  
+
 To configure DenseShip42, copy below to param.json:  
 ```JSON
 {
@@ -221,6 +222,114 @@ A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See t
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
  This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
 
+To configure SpareShip45, copy below to param.json:  
+```JSON
+{
+    "ISDebugMode":"TRUE",
+    "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
+    "TargetCount": 20000,
+    "World_Threads_Count":1,
+
+    "Comment of ExternV_MIN_Sample_MSEC":"A target will not update its kinematic states if time elapsed since last update is less than this value",
+    "ExternV_MIN_Sample_MSEC":1000,
+
+    "Comment of ExternV_Milliseconds_FetchData":"How often positioning devices fetch data from targets.",
+    "ExternV_Milliseconds_FetchData":1000,
+
+    "SECONDS_CHECK_TARGET_COUNT" : 15,
+    "SOGX10_LOWER_THRESH":30,
+    "SOGX10_UPPER_THRESH":800,
+    "Comment of Bounding_Region":"Bound all the targets in this polygon region, format is: lat1 lng1, lat2 lng2, lat3 lng3, ..., latk lngk, lat1 lng1. If Bounding is not required, delete Bounding_Region",
+    "Bounding_Region":"31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317",
+    "WaterGridsFileName":"Waters_1_Degree_2014.csv",
+    "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
+    "Ship_FileName":"ais_ship_realtime_valid_anonymous_randOrder.csv",
+    "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
+    "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
+    "Language":"EN",
+    "Comment of PosDevice":"Define features of devices like AIS, Beidou, etc.",
+    "PosDevice":
+    [
+        {
+            "TargetInfo_Type":2,
+            "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":20000
+        },
+        {
+            "TargetInfo_Type":4,
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":21000
+        },
+        {
+            "TargetInfo_Type":7,
+            "PositioningDevInMeters":200,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":12000
+        }
+    ],
+
+    "Comment":"One data source may contain multiple data channels, each channel fetch data from one type of data.",
+    "CommentOfSourceAndInfoType":"Refer to CommonEnum for the encoding",
+    "DataSources":
+    [
+        {
+            "TargetInfo_Source":2,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":4,
+                    "ObservePercentage":90,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+
+        {
+            "TargetInfo_Source":1,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":2,
+                    "ObservePercentage":55,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+        {
+            "TargetInfo_Source":3,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":7,
+                    "ObservePercentage":100,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 ### RegularShip32:  TangShan, China
 
@@ -229,8 +338,225 @@ Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.
 ![RegularShip32](https://git.oschina.net/uploads/images/2017/0929/123032_c1f1fa4b_854788.png "屏幕截图.png")
 
 Ships are in a polygon: (38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367)
-This scene is 7.07 kilometer long and 4.82 kilometers wide. There is one target on every 1.06 square kilometers, average distance between ships is 1 kilometer.
+This scene is 7.07 kilometer long and 4.82 kilometers wide. There is one target on every 1.06 square kilometers, average distance between ships is 1 kilometer.  
+
+To configure RegularShip32, copy below to param.json:  
+```JSON
+{
+    "ISDebugMode":"TRUE",
+    "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
+    "TargetCount": 20000,
+    "World_Threads_Count":1,
+
+    "Comment of ExternV_MIN_Sample_MSEC":"A target will not update its kinematic states if time elapsed since last update is less than this value",
+    "ExternV_MIN_Sample_MSEC":1000,
+
+    "Comment of ExternV_Milliseconds_FetchData":"How often positioning devices fetch data from targets.",
+    "ExternV_Milliseconds_FetchData":1000,
+
+    "SECONDS_CHECK_TARGET_COUNT" : 15,
+    "SOGX10_LOWER_THRESH":30,
+    "SOGX10_UPPER_THRESH":800,
+    "Comment of Bounding_Region":"Bound all the targets in this polygon region, format is: lat1 lng1, lat2 lng2, lat3 lng3, ..., latk lngk, lat1 lng1. If Bounding is not required, delete Bounding_Region",
+    "Bounding_Region":"38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367",
+    "WaterGridsFileName":"Waters_1_Degree_2014.csv",
+    "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
+    "Ship_FileName":"ais_ship_realtime_valid_anonymous_randOrder.csv",
+    "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
+    "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
+    "Language":"EN",
+    "Comment of PosDevice":"Define features of devices like AIS, Beidou, etc.",
+    "PosDevice":
+    [
+        {
+            "TargetInfo_Type":2,
+            "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":20000
+        },
+        {
+            "TargetInfo_Type":4,
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":21000
+        },
+        {
+            "TargetInfo_Type":7,
+            "PositioningDevInMeters":30,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":12000
+        }
+    ],
+
+    "Comment":"One data source may contain multiple data channels, each channel fetch data from one type of data.",
+    "CommentOfSourceAndInfoType":"Refer to CommonEnum for the encoding",
+    "DataSources":
+    [
+        {
+            "TargetInfo_Source":2,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":4,
+                    "ObservePercentage":90,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+
+        {
+            "TargetInfo_Source":1,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":2,
+                    "ObservePercentage":55,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+        {
+            "TargetInfo_Source":3,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":7,
+                    "ObservePercentage":100,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 ### GlobalShip110K: Global ships  
 110415 ships are under this scene.  
-![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")
+![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")  
+
+To configure GlobalShip110K, copy below to param.json:  
+```JSON
+{
+    "ISDebugMode":"TRUE",
+    "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
+    "TargetCount": 20000,
+    "World_Threads_Count":8,
+
+    "Comment of ExternV_MIN_Sample_MSEC":"A target will not update its kinematic states if time elapsed since last update is less than this value",
+    "ExternV_MIN_Sample_MSEC":1000,
+
+    "Comment of ExternV_Milliseconds_FetchData":"How often positioning devices fetch data from targets.",
+    "ExternV_Milliseconds_FetchData":1000,
+
+    "SECONDS_CHECK_TARGET_COUNT" : 15,
+    "SOGX10_LOWER_THRESH":30,
+    "SOGX10_UPPER_THRESH":800,
+    "Comment of Bounding_Region":"Bound all the targets in this polygon region, format is: lat1 lng1, lat2 lng2, lat3 lng3, ..., latk lngk, lat1 lng1. If Bounding is not required, delete Bounding_Region",
+    "Bounding_Region":"38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367",
+    "WaterGridsFileName":"Waters_1_Degree_2014.csv",
+    "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
+    "Ship_FileName":"ais_ship_realtime_valid_anonymous_randOrder.csv",
+    "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
+    "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
+    "Language":"EN",
+    "Comment of PosDevice":"Define features of devices like AIS, Beidou, etc.",
+    "PosDevice":
+    [
+        {
+            "TargetInfo_Type":2,
+            "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":20000
+        },
+        {
+            "TargetInfo_Type":4,
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":21000
+        },
+        {
+            "TargetInfo_Type":7,
+            "PositioningDevInMeters":200,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":12000
+        }
+    ],
+
+    "Comment":"One data source may contain multiple data channels, each channel fetch data from one type of data.",
+    "CommentOfSourceAndInfoType":"Refer to CommonEnum for the encoding",
+    "DataSources":
+    [
+        {
+            "TargetInfo_Source":2,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":4,
+                    "ObservePercentage":90,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+
+        {
+            "TargetInfo_Source":1,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":2,
+                    "ObservePercentage":55,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+        {
+            "TargetInfo_Source":3,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":7,
+                    "ObservePercentage":100,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        }
+    ]
+}
+```
