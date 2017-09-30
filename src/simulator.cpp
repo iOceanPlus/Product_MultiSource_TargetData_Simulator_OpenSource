@@ -329,7 +329,7 @@ void  Simulator::initTargetsAndPutToWorlds()
         QList <QByteArray> listField = shipDataFile.readLine().trimmed().split(',');
         if(isAnomynous)
         {
-            if(listField.size()!=6)
+            if(listField.size()<=6)
             {
                 qDebug()<<"Critical: Column count of ship file is not correct!  Column count is: "<<listField.size()<<"Exiting....";
                 exit(4);
