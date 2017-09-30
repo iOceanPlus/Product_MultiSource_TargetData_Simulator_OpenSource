@@ -90,6 +90,13 @@ Create a directory sqldrivers under the directory that contains the executable f
 
 ## Typical Scenes  
 Under these scences, only ships with SOG from 3 knots to 80 knots are present.  
+Three types of data from three sources are used:  
+- AIS from Maritime Administration  
+TargetInfo_Type id is 4, targetInfo_Source id is 2  
+- Beidou from Agriculture Ministry   
+TargetInfo_Type id is 2, targetInfo_Source id is 1  
+- Radar from Radar networks    
+TargetInfo_Type id is 7, targetInfo_Source id is 3  
 
 ### DenseShip42: HuangPu River in Shanghai, China  
 This is one of the busiest water ways in the world,  we focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,121.5067], see below:  
@@ -97,7 +104,115 @@ This is one of the busiest water ways in the world,  we focus on the region with
 ![42 targets in Huangpu river](https://git.oschina.net/uploads/images/2017/0929/115344_4942a03c_854788.png "屏幕截图.png")
 
 Ships are in a polygon: (31.3870 121.5021,31.3742 121.4960,31.3733 121.5005,31.3857 121.5065,31.3870 121.5021)
-This polygon is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.
+This polygon is 1.3 kilometers long and about 200 meters wide on average. It can be calculated that there are one target on every 6190 square meters, average distance between ships is 78.7 meters on average.  
+To configure DenseShip42, copy below to param.json:  
+```JSON
+{
+    "ISDebugMode":"TRUE",
+    "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
+    "TargetCount": 20000,
+    "World_Threads_Count":1,
+
+    "Comment of ExternV_MIN_Sample_MSEC":"A target will not update its kinematic states if time elapsed since last update is less than this value",
+    "ExternV_MIN_Sample_MSEC":1000,
+
+    "Comment of ExternV_Milliseconds_FetchData":"How often positioning devices fetch data from targets.",
+    "ExternV_Milliseconds_FetchData":1000,
+
+    "SECONDS_CHECK_TARGET_COUNT" : 15,
+    "SOGX10_LOWER_THRESH":30,
+    "SOGX10_UPPER_THRESH":800,
+    "Comment of Bounding_Region":"Bound all the targets in this polygon region, format is: lat1 lng1, lat2 lng2, lat3 lng3, ..., latk lngk, lat1 lng1. If Bounding is not required, delete Bounding_Region",
+    "Bounding_Region":"31.3870 121.5021,31.3742 121.4960,31.3733 121.5005,31.3857 121.5065,31.3870 121.5021",
+    "WaterGridsFileName":"Waters_1_Degree_2014.csv",
+    "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
+    "Ship_FileName":"ais_ship_realtime_valid_anonymous_randOrder.csv",
+    "Comment of MC2_FileName":"If no file exits, delete the MC2_FileName Line.",
+    "MC2_FileName":"mc2_mmsiToCountryCNENAndCode.csv",
+    "Language":"EN",
+    "Comment of PosDevice":"Define features of devices like AIS, Beidou, etc.",
+    "PosDevice":
+    [
+        {
+            "TargetInfo_Type":2,
+            "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":20000
+        },
+        {
+            "TargetInfo_Type":4,
+            "PositioningDevInMeters":5.0,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":21000
+        },
+        {
+            "TargetInfo_Type":7,
+            "PositioningDevInMeters":30,
+            "SOGDevInKnots":0.2,
+            "COGDevInDegrees":3.0,
+            "SampleMilliSeconds":12000
+        }
+    ],
+
+    "Comment":"One data source may contain multiple data channels, each channel fetch data from one type of data.",
+    "CommentOfSourceAndInfoType":"Refer to CommonEnum for the encoding",
+    "DataSources":
+    [
+        {
+            "TargetInfo_Source":2,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":4,
+                    "ObservePercentage":90,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+
+        {
+            "TargetInfo_Source":1,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":2,
+                    "ObservePercentage":55,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        },
+
+        {
+            "TargetInfo_Source":3,
+            "SourceInfo":
+            [
+                {
+                    "TargetInfo_Type":7,
+                    "ObservePercentage":100,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":10
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 ### SpareShip45: Outside Shanghai, China  
 A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
