@@ -458,7 +458,7 @@ To configure GlobalShip110K, copy below to param.json:
 {
     "ISDebugMode":"TRUE",
     "Comment of TargetCount":"The count of targets trying to simulate, if there are not so many targets in the region, the number actually created will be less than this, see the output log to check target count",
-    "TargetCount": 20000,
+    "TargetCount": 200000,
     "World_Threads_Count":8,
 
     "Comment of ExternV_MIN_Sample_MSEC":"A target will not update its kinematic states if time elapsed since last update is less than this value",
@@ -471,7 +471,6 @@ To configure GlobalShip110K, copy below to param.json:
     "SOGX10_LOWER_THRESH":30,
     "SOGX10_UPPER_THRESH":800,
     "Comment of Bounding_Region":"Bound all the targets in this polygon region, format is: lat1 lng1, lat2 lng2, lat3 lng3, ..., latk lngk, lat1 lng1. If Bounding is not required, delete Bounding_Region",
-    "Bounding_Region":"38.92 118.3367,38.92 118.4183,38.9633 118.4183,38.9633 118.3367,38.92 118.3367",
     "WaterGridsFileName":"Waters_1_Degree_2014.csv",
     "Comment of Ship_FileName":"Alternative of Ship_FileName is ais_ship_realtime_valid_anonymous_randOrder.csv: ",
     "Ship_FileName":"ais_ship_realtime_valid_anonymous_randomOrder.csv",
