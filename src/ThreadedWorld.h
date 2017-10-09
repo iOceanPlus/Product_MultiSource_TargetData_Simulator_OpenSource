@@ -57,7 +57,7 @@ public:
                       qint32 &rowIndex, qint32 &colIndex);
     QMap<PB_Enum_TargetInfo_Source, DataSource *> getMapInfoSourceDataSources() const;
 
-    void updateTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig, QMap<PB_Enum_TargetInfo_Type,
+    void updateTargetCountAndMsgRate(QSet<qint32> &setDistinctTargetIDOrig, QSet<qint32> &setDistinctTargetID, QMap<PB_Enum_TargetInfo_Type,
                            QSet<qint32> > &mapInfoTypeSetTargetID, qint32 &targetCountAll,
                                                    float &msgCountPerMinuteCount, quint64 &messageCountSum);
     std::default_random_engine *getRandomEngine() const;

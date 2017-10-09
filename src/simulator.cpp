@@ -462,7 +462,8 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
     QListIterator <ThreadedWorld*> iListWorlds(listOfThreadedWorlds);
     while(iListWorlds.hasNext())
     {
-        iListWorlds.next()->updateTargetCountAndMsgRate(setDistinctTargetIDOrig,mapInfoTypeSetTargetID, targetCountAll, msgCountPerMinuteCount,messageCountSum);
+        iListWorlds.next()->updateTargetCountAndMsgRate(setDistinctTargetIDOrig,setDistinctTargetIDs, mapInfoTypeSetTargetID, targetCountAll,
+                                                        msgCountPerMinuteCount,messageCountSum);
     }
 
     if(language.toLower()=="cn")
@@ -485,11 +486,14 @@ void Simulator::slotTimerEventOutPutTargetCountAndMsgRate()
     }
 
     if(language.toLower()=="cn")
-        std::cout<<endl<<"\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
+        std::cout<<endl<<"\t各数据源目标总数(去重):"<<setDistinctTargetIDs.size()<<
+                "\t各数据源不同原始编号目标总数(去重):"<<setDistinctTargetIDOrig.size()<<
                    "\t<信息类型-目标原始ID>组合数量："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
                    "\t各数据源目标数的和(不去重):"<<targetCountAll<<endl;
     else
-        std::cout<<endl<<"\tCount(<InfoType-OriginTargetID> pair)："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
+        std::cout<<endl<<"\tCount(Target)："<<setDistinctTargetIDs.size()<<
+                   "\tCount(OriginTargetID)："<<setDistinctTargetIDOrig.size()<<
+                   "\tCount(<InfoType-OriginTargetID> pair)："<<targetCountSumAccordingToInfoTypeAndOrigTargetID<<
                    "\tSum(target count from each data source):"<<targetCountAll<<endl;
 
 #ifdef DEBUG_TargetCount

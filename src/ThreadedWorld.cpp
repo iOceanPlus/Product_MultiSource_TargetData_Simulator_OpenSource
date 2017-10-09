@@ -98,7 +98,7 @@ std::default_random_engine *ThreadedWorld::getRandomEngine() const
     return randomEngine;
 }
 
-void ThreadedWorld::updateTargetCountAndMsgRate(QSet <qint32> &setDistinctTargetIDOrig,
+void ThreadedWorld::updateTargetCountAndMsgRate(QSet <qint32> &setDistinctTargetIDOrig,QSet <qint32> &setDistinctTargetID,
                                                 QMap <PB_Enum_TargetInfo_Type,  QSet <qint32> > &mapInfoTypeSetTargetID,qint32 &targetCountAll,
                                float &msgCountPerMinuteCount, quint64 &messageCountSum)
 {
@@ -115,7 +115,7 @@ void ThreadedWorld::updateTargetCountAndMsgRate(QSet <qint32> &setDistinctTarget
         msgCountPerMinuteCount+=iMapInfoSourceDataSources.value()->getposCountPerMinute();
         messageCountSum+=iMapInfoSourceDataSources.value()->getTotalPosCountFetched();
         iMapInfoSourceDataSources.value()->uniteSetTargetID(mapInfoTypeSetTargetID);
-        iMapInfoSourceDataSources.value()->uniteSetDistinctOrigTargetID(setDistinctTargetIDOrig);
+        iMapInfoSourceDataSources.value()->uniteSetDistinctOrigTargetID(setDistinctTargetIDOrig,setDistinctTargetID);
     }
 #ifdef DEBUG_PERFORMANCE
 //    qDebug()<<"Milliseconds to output target count:"<<  time.elapsed();

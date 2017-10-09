@@ -44,7 +44,7 @@ private:
     MyQtGeoPolygon *sharedGeoPolyGonBoundingRegion;
     QString waterGridsFileName,ship_FileName, mc2FileName, language;
 
-    QSet <qint32> setDistinctTargetIDOrig;
+    QSet <qint32> setDistinctTargetIDOrig, setDistinctTargetIDs;
     QMap <PB_Enum_TargetInfo_Type, QSet <qint32> > mapInfoTypeSetTargetID;
 
     PBCoderDecoder *pbCoderDecoder;  //*pbCoderDecoder
