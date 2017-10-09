@@ -486,7 +486,7 @@ To configure GlobalShip110K, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":20000
+            "SampleMilliSeconds":30000
         },
         {
             "TargetInfo_Type":4,
@@ -500,7 +500,7 @@ To configure GlobalShip110K, copy below to param.json:
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":2000
+            "SampleMilliSeconds":20000
         }
     ],
 
@@ -519,7 +519,7 @@ To configure GlobalShip110K, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":60
                 }
             ]
         },
@@ -536,7 +536,7 @@ To configure GlobalShip110K, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":30
                 }
             ]
         },
@@ -552,10 +552,11 @@ To configure GlobalShip110K, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":0
+                    "packetLossPercentage":10
                 }
             ]
         }
     ]
 }
+
 ```
