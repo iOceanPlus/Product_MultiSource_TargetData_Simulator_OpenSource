@@ -450,7 +450,7 @@ To configure RegularShip32, copy below to param.json:
 
 
 ### GlobalShip110K: Global ships  
-110415 ships are under this scene.  
+There are 110415 ships in total under this scene, 102231 of them are observed by sensors.    
 ![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")  
 
 To configure GlobalShip110K, copy below to param.json:  
