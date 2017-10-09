@@ -147,14 +147,14 @@ To configure DenseShip42, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -206,7 +206,7 @@ To configure DenseShip42, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
@@ -263,14 +263,14 @@ To configure SpareShip45, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":200,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -322,7 +322,7 @@ To configure SpareShip45, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
@@ -381,14 +381,14 @@ To configure RegularShip32, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -440,7 +440,7 @@ To configure RegularShip32, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
@@ -493,14 +493,14 @@ To configure GlobalShip110K, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -552,7 +552,7 @@ To configure GlobalShip110K, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
