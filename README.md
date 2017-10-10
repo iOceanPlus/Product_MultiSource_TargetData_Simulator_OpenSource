@@ -221,6 +221,7 @@ A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See t
 
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
  This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
+The std dev of positioning from radars is configured as 200 meters.
 
 To configure SpareShip45, copy below to param.json:  
 ```JSON
