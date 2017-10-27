@@ -1,7 +1,7 @@
 #include "PBCoderDecoder.h"
 #include <QDebug>
 #include <QDateTime>
-
+#include <QMutex>
 #include <QMutexLocker>
 //#include "macro.h"
 PBCoderDecoder::PBCoderDecoder(PB_Enum_Software enum_SoftwareName, QMutex *mutex, QObject *parent) : QObject(parent)
@@ -132,7 +132,6 @@ PB_Enum_Aggregated_AIS_Ship_Type  PBCoderDecoder::getAggregatedAISShipType(const
 
 }
 
-
 quint32 PBCoderDecoder::getStartedTimeUTC() const
 {
     return startedTimeUTC;
@@ -156,13 +155,12 @@ void PBCoderDecoder::setPbEnumSenderSoftware(const PB_Enum_Software &value)
 quint32 PBCoderDecoder::getSerialNumAndIncrement()
 {
     QMutexLocker locker(mutex);
-
     quint32 result=serialNum;
     serialNum++;
     return result;
 }
 
-QByteArray PBCoderDecoder::serializePBTargetToArray(PBTarget pbTarget)
+QByteArray PBCoderDecoder::serializePBTargetToArray(PBTarget pbTarget) const
 {
     QByteArray baResult;
     baResult.resize(pbTarget.ByteSize());

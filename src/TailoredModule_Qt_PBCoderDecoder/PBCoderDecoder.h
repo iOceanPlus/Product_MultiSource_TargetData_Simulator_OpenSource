@@ -17,15 +17,14 @@ public:
     static bool isCoordinatesValid(const PBTargetPosition &targetPos, bool is0Valid=false);
     static QString getReadableTargetInfo_SourceName(const PB_Enum_TargetInfo_Source &targetInfoSource,const QString &language);
     static QString getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_Type &targetinfoTypeName, const QString &language);
-    static PB_Enum_Aggregated_AIS_Ship_Type getAggregatedAISShipType(const qint16 &shipTypeAIS);
 
+    static PB_Enum_Aggregated_AIS_Ship_Type getAggregatedAISShipType(const qint16 &shipTypeAIS);
     /************************************************ Serializers *********************************************/
-    QByteArray serializePBTargetToArray(PBTarget pbTarget);
+    QByteArray serializePBTargetToArray(PBTarget pbTarget) const;
+
 
     /*********************************************** getters and setters *******************************************/
     quint32 getSerialNumAndIncrement();
-    quint32 getSerialNumCommandAndIncrement();
-    quint32 getSerialNumConfigAndIncrement();
 
     PB_Enum_Software getPbEnumSenderSoftware() const;
     void setPbEnumSenderSoftware(const PB_Enum_Software &value);
@@ -40,6 +39,7 @@ public slots:
 private:
     quint32 serialNum;
     PB_Enum_Software pbEnumSenderSoftware;
+
     quint32 startedTimeUTC;
     QMutex *mutex;
 };

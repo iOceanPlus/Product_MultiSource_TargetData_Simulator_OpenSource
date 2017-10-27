@@ -110,7 +110,7 @@ bool IOMessages::parseMQParamFile(QString mqParamFIleName)
 }
 void IOMessages::startWork()
 {
-    containerUnThreadedMQTopicPublish = new ContainerOfUnThreadedMQTopicPublish(mqIP,exchangeNameOut,this,300000,60);
+    containerUnThreadedMQTopicPublish = new ContainerOfUnThreadedMQTopicPublish(mqIP,exchangeNameOut,this,300000,6);
     containerUnThreadedMQTopicConsume = new ContainerOfUnThreadedMQTopicConsume(mqIP,exchangeNameIn,listRoutingKeyToConsume,consumerTag,
                                                         this,mqQueueName,300000,600000,"SimuHeartBeat",true,60);
     connect(containerUnThreadedMQTopicConsume,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
@@ -123,6 +123,8 @@ void IOMessages::slotMsgRcvdFromMQ(QByteArray baData, QString exchangeName,
 {
     if(routingKey.startsWith("Monitor."))
     {
+       // qDebug()<<"Monitor";
+
         PBMonitor monitor;
         if(!monitor.ParseFromArray(baData,baData.size()))
         {
