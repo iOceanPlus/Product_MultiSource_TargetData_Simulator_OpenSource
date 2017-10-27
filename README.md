@@ -1,7 +1,7 @@
 ### 注意！该项目为开源项目，请勿将账号、消息队列信息、敏感信息等传入代码或附件！   
 Notice! This project is open source, DO NOT PUSH personal or sensitive contents, such as accounts of rabbitmq.
   
-# Product_MultiSource_TargetData_Simulator_OpenSource  
+# ICTShips
 
 ## Introduction  
 This project simulates targets in a specified area, several devices are installed in each target. These devices get kinematic information about targets and send to channels. Data sources fetech data from channels periodically.  
@@ -147,14 +147,14 @@ To configure DenseShip42, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -206,7 +206,7 @@ To configure DenseShip42, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
@@ -221,6 +221,7 @@ A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See t
 
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
  This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
+The std dev of positioning from radars is configured as 200 meters.
 
 To configure SpareShip45, copy below to param.json:  
 ```JSON
@@ -263,14 +264,14 @@ To configure SpareShip45, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":200,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -322,7 +323,7 @@ To configure SpareShip45, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
@@ -381,14 +382,14 @@ To configure RegularShip32, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -440,7 +441,7 @@ To configure RegularShip32, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":0
                 }
             ]
         }
@@ -450,7 +451,7 @@ To configure RegularShip32, copy below to param.json:
 
 
 ### GlobalShip110K: Global ships  
-110415 ships are under this scene.  
+There are 110415 ships in total under this scene, 102231 of them are observed by sensors.    
 ![GlobalShip110K](https://git.oschina.net/uploads/images/2017/0929/122329_e3b9dec1_854788.png "屏幕截图.png")  
 
 To configure GlobalShip110K, copy below to param.json:  
@@ -486,21 +487,21 @@ To configure GlobalShip110K, copy below to param.json:
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":20000
+            "SampleMilliSeconds":30000
         },
         {
             "TargetInfo_Type":4,
             "PositioningDevInMeters":5.0,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":21000
+            "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":30,
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
-            "SampleMilliSeconds":12000
+            "SampleMilliSeconds":20000
         }
     ],
 
@@ -519,7 +520,7 @@ To configure GlobalShip110K, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":60
                 }
             ]
         },
@@ -536,7 +537,7 @@ To configure GlobalShip110K, copy below to param.json:
                     "stdDevTransmissionLatencyInMiliSeconds":0,
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
-                    "packetLossPercentage":10
+                    "packetLossPercentage":30
                 }
             ]
         },
@@ -558,4 +559,5 @@ To configure GlobalShip110K, copy below to param.json:
         }
     ]
 }
+
 ```
