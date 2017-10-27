@@ -41,6 +41,7 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetDistributionStatus_descriptor_ = NULL;
 
 }  // namespace
@@ -194,11 +195,13 @@ void protobuf_AssignDesc_Monitor_2eproto() {
       sizeof(PBMonitor_AliveTargetCount),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_AliveTargetCount, _internal_metadata_));
   PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_descriptor_ = file->message_type(6);
-  static const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_offsets_[4] = {
+  static const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, recordutctime_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, enum_targetinfo_source_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, enum_targetinfo_type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, messagesrcvd_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, targetsrcvd_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, messagesrcvdstatus_),
   };
   PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -210,6 +213,7 @@ void protobuf_AssignDesc_Monitor_2eproto() {
       -1,
       sizeof(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType, _internal_metadata_));
+  PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor_ = PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_descriptor_->enum_type(0);
   PB_Enum_TargetDistributionStatus_descriptor_ = file->enum_type(0);
 }
 
@@ -377,17 +381,24 @@ void protobuf_AddDesc_Monitor_2eproto_impl() {
     "r_AliveTargetCount\022\025\n\rrecordUTCTime\030\001 \001("
     "\r\0222\n\022enum_targetID_Type\030\002 \001(\0162\026.PB_Enum_"
     "TargetID_Type\022\030\n\020aliveTargetcount\030\003 \001(\005\""
-    "\323\001\n0PBMonitor_MessagesRcvdPerTargetInfoS"
+    "\321\003\n0PBMonitor_MessagesRcvdPerTargetInfoS"
     "ourceAndType\022\025\n\rrecordUTCTime\030\001 \001(\r\022:\n\026e"
     "num_targetInfo_Source\030\002 \001(\0162\032.PB_Enum_Ta"
     "rgetInfo_Source\0226\n\024enum_targetInfo_Type\030"
     "\003 \001(\0162\030.PB_Enum_TargetInfo_Type\022\024\n\014messa"
-    "gesRcvd\030\004 \001(\003*\300\001\n PB_Enum_TargetDistribu"
-    "tionStatus\022\"\n\036EV_TargetDistributionStatu"
-    "s_NA\020\000\022\'\n#EV_TargetDistributionStatus_On"
-    "Going\020\001\022&\n\"EV_TargetDistributionStatus_P"
-    "aused\020\002\022\'\n#EV_TargetDistributionStatus_S"
-    "topped\020\003B\024\n\022team.iOceanPlus.PBb\006proto3", 3878);
+    "gesRcvd\030\004 \001(\003\022\023\n\013targetsRcvd\030\005 \001(\005\022h\n\022me"
+    "ssagesRcvdStatus\030\006 \001(\0162L.PBMonitor_Messa"
+    "gesRcvdPerTargetInfoSourceAndType.PB_Enu"
+    "m_MessagesRcvdStatus\"}\n\032PB_Enum_Messages"
+    "RcvdStatus\022\034\n\030EV_MessagesRcvdStatus_NA\020\000"
+    "\022 \n\034EV_MessagesRcvdStatus_Normal\020\001\022\037\n\033EV"
+    "_MessagesRcvdStatus_Error\020\002*\300\001\n PB_Enum_"
+    "TargetDistributionStatus\022\"\n\036EV_TargetDis"
+    "tributionStatus_NA\020\000\022\'\n#EV_TargetDistrib"
+    "utionStatus_OnGoing\020\001\022&\n\"EV_TargetDistri"
+    "butionStatus_Paused\020\002\022\'\n#EV_TargetDistri"
+    "butionStatus_Stopped\020\003B\024\n\022team.iOceanPlu"
+    "s.PBb\006proto3", 4132);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Monitor.proto", &protobuf_RegisterTypes);
   ::protobuf_AddDesc_CommonEnum_2eproto();
@@ -5153,11 +5164,36 @@ inline const PBMonitor_AliveTargetCount* PBMonitor_AliveTargetCount::internal_de
 
 // ===================================================================
 
+const ::google::protobuf::EnumDescriptor* PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor_;
+}
+bool PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::EV_MessagesRcvdStatus_NA;
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::EV_MessagesRcvdStatus_Normal;
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::EV_MessagesRcvdStatus_Error;
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::PB_Enum_MessagesRcvdStatus_MIN;
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::PB_Enum_MessagesRcvdStatus_MAX;
+const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::PB_Enum_MessagesRcvdStatus_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::kRecordUTCTimeFieldNumber;
 const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::kEnumTargetInfoSourceFieldNumber;
 const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::kEnumTargetInfoTypeFieldNumber;
 const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::kMessagesRcvdFieldNumber;
+const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::kTargetsRcvdFieldNumber;
+const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::kMessagesRcvdStatusFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType()
@@ -5179,8 +5215,8 @@ PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::PBMonitor_MessagesRcvdPerTarge
 }
 
 void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::SharedCtor() {
-  ::memset(&recordutctime_, 0, reinterpret_cast<char*>(&enum_targetinfo_type_) -
-    reinterpret_cast<char*>(&recordutctime_) + sizeof(enum_targetinfo_type_));
+  ::memset(&recordutctime_, 0, reinterpret_cast<char*>(&messagesrcvdstatus_) -
+    reinterpret_cast<char*>(&recordutctime_) + sizeof(messagesrcvdstatus_));
   _cached_size_ = 0;
 }
 
@@ -5235,7 +5271,7 @@ void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::Clear() {
            ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
 } while (0)
 
-  ZR_(recordutctime_, enum_targetinfo_type_);
+  ZR_(recordutctime_, messagesrcvdstatus_);
 
 #undef ZR_HELPER_
 #undef ZR_
@@ -5309,6 +5345,37 @@ bool PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::MergePartialFromCodedStre
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(40)) goto parse_targetsRcvd;
+        break;
+      }
+
+      // optional int32 targetsRcvd = 5;
+      case 5: {
+        if (tag == 40) {
+         parse_targetsRcvd:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &targetsrcvd_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(48)) goto parse_messagesRcvdStatus;
+        break;
+      }
+
+      // optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+      case 6: {
+        if (tag == 48) {
+         parse_messagesRcvdStatus:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_messagesrcvdstatus(static_cast< ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus >(value));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -5359,6 +5426,17 @@ void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->messagesrcvd(), output);
   }
 
+  // optional int32 targetsRcvd = 5;
+  if (this->targetsrcvd() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->targetsrcvd(), output);
+  }
+
+  // optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+  if (this->messagesrcvdstatus() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      6, this->messagesrcvdstatus(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType)
 }
 
@@ -5386,6 +5464,17 @@ void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::SerializeWithCachedSizes(
   // optional int64 messagesRcvd = 4;
   if (this->messagesrcvd() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->messagesrcvd(), target);
+  }
+
+  // optional int32 targetsRcvd = 5;
+  if (this->targetsrcvd() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->targetsrcvd(), target);
+  }
+
+  // optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+  if (this->messagesrcvdstatus() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      6, this->messagesrcvdstatus(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType)
@@ -5420,6 +5509,19 @@ size_t PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int64Size(
         this->messagesrcvd());
+  }
+
+  // optional int32 targetsRcvd = 5;
+  if (this->targetsrcvd() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->targetsrcvd());
+  }
+
+  // optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+  if (this->messagesrcvdstatus() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->messagesrcvdstatus());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -5467,6 +5569,12 @@ void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::UnsafeMergeFrom(const PBM
   if (from.messagesrcvd() != 0) {
     set_messagesrcvd(from.messagesrcvd());
   }
+  if (from.targetsrcvd() != 0) {
+    set_targetsrcvd(from.targetsrcvd());
+  }
+  if (from.messagesrcvdstatus() != 0) {
+    set_messagesrcvdstatus(from.messagesrcvdstatus());
+  }
 }
 
 void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::CopyFrom(const ::google::protobuf::Message& from) {
@@ -5497,6 +5605,8 @@ void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::InternalSwap(PBMonitor_Me
   std::swap(enum_targetinfo_source_, other->enum_targetinfo_source_);
   std::swap(enum_targetinfo_type_, other->enum_targetinfo_type_);
   std::swap(messagesrcvd_, other->messagesrcvd_);
+  std::swap(targetsrcvd_, other->targetsrcvd_);
+  std::swap(messagesrcvdstatus_, other->messagesrcvdstatus_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -5566,6 +5676,34 @@ void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::set_messagesrcvd(::google
   
   messagesrcvd_ = value;
   // @@protoc_insertion_point(field_set:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.messagesRcvd)
+}
+
+// optional int32 targetsRcvd = 5;
+void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::clear_targetsrcvd() {
+  targetsrcvd_ = 0;
+}
+::google::protobuf::int32 PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::targetsrcvd() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.targetsRcvd)
+  return targetsrcvd_;
+}
+void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::set_targetsrcvd(::google::protobuf::int32 value) {
+  
+  targetsrcvd_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.targetsRcvd)
+}
+
+// optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::clear_messagesrcvdstatus() {
+  messagesrcvdstatus_ = 0;
+}
+::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::messagesrcvdstatus() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.messagesRcvdStatus)
+  return static_cast< ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus >(messagesrcvdstatus_);
+}
+void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::set_messagesrcvdstatus(::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus value) {
+  
+  messagesrcvdstatus_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.messagesRcvdStatus)
 }
 
 inline const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType* PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::internal_default_instance() {

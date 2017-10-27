@@ -292,16 +292,10 @@ class PBTargetPosition : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::int32 cargotype() const;
   void set_cargotype(::google::protobuf::int32 value);
 
-  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
-  void clear_enum_targetthreadlevel();
-  static const int kEnumTargetThreadLevelFieldNumber = 12;
-  ::PB_Enum_Target_ThreatLevel enum_targetthreadlevel() const;
-  void set_enum_targetthreadlevel(::PB_Enum_Target_ThreatLevel value);
-
-  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
+  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
   int listtargetassociation_ds_mass_size() const;
   void clear_listtargetassociation_ds_mass();
-  static const int kListTargetAssociationDSMassFieldNumber = 13;
+  static const int kListTargetAssociationDSMassFieldNumber = 12;
   const ::PBTargetAssociation_DS_Mass& listtargetassociation_ds_mass(int index) const;
   ::PBTargetAssociation_DS_Mass* mutable_listtargetassociation_ds_mass(int index);
   ::PBTargetAssociation_DS_Mass* add_listtargetassociation_ds_mass();
@@ -310,41 +304,112 @@ class PBTargetPosition : public ::google::protobuf::Message /* @@protoc_insertio
   const ::google::protobuf::RepeatedPtrField< ::PBTargetAssociation_DS_Mass >&
       listtargetassociation_ds_mass() const;
 
-  // optional bool isDangerShip = 14;
+  // optional bool isDangerShip = 13;
   void clear_isdangership();
-  static const int kIsDangerShipFieldNumber = 14;
+  static const int kIsDangerShipFieldNumber = 13;
   bool isdangership() const;
   void set_isdangership(bool value);
 
-  // optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
+  // optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
   void clear_lastassocusingdscombinationutctime();
-  static const int kLastAssocUsingDSCombinationUTCTimeFieldNumber = 15;
+  static const int kLastAssocUsingDSCombinationUTCTimeFieldNumber = 14;
   ::google::protobuf::uint32 lastassocusingdscombinationutctime() const;
   void set_lastassocusingdscombinationutctime(::google::protobuf::uint32 value);
 
-  // optional int32 beidouID = 16;
+  // optional int32 beidouID = 15;
   void clear_beidouid();
-  static const int kBeidouIDFieldNumber = 16;
+  static const int kBeidouIDFieldNumber = 15;
   ::google::protobuf::int32 beidouid() const;
   void set_beidouid(::google::protobuf::int32 value);
 
-  // optional int32 haijianID = 17;
+  // optional int32 haijianID = 16;
   void clear_haijianid();
-  static const int kHaijianIDFieldNumber = 17;
+  static const int kHaijianIDFieldNumber = 16;
   ::google::protobuf::int32 haijianid() const;
   void set_haijianid(::google::protobuf::int32 value);
 
-  // optional int32 argosAndMarineSatID = 18;
+  // optional int32 argosAndMarineSatID = 17;
   void clear_argosandmarinesatid();
-  static const int kArgosAndMarineSatIDFieldNumber = 18;
+  static const int kArgosAndMarineSatIDFieldNumber = 17;
   ::google::protobuf::int32 argosandmarinesatid() const;
   void set_argosandmarinesatid(::google::protobuf::int32 value);
+
+  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+  void clear_enum_targetthreadlevel();
+  static const int kEnumTargetThreadLevelFieldNumber = 31;
+  ::PB_Enum_Target_ThreatLevel enum_targetthreadlevel() const;
+  void set_enum_targetthreadlevel(::PB_Enum_Target_ThreatLevel value);
+
+  // optional bool isInterestTarget = 32;
+  void clear_isinteresttarget();
+  static const int kIsInterestTargetFieldNumber = 32;
+  bool isinteresttarget() const;
+  void set_isinteresttarget(bool value);
+
+  // optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+  void clear_enum_xgscustomizedtargetthreadlevel();
+  static const int kEnumXGSCustomizedTargetThreadLevelFieldNumber = 33;
+  ::PB_Enum_Target_XGSCustomizedThreatLevel enum_xgscustomizedtargetthreadlevel() const;
+  void set_enum_xgscustomizedtargetthreadlevel(::PB_Enum_Target_XGSCustomizedThreatLevel value);
+
+  // optional bool isWarShip = 34;
+  void clear_iswarship();
+  static const int kIsWarShipFieldNumber = 34;
+  bool iswarship() const;
+  void set_iswarship(bool value);
+
+  // optional bool isLawEnforceShip = 35;
+  void clear_islawenforceship();
+  static const int kIsLawEnforceShipFieldNumber = 35;
+  bool islawenforceship() const;
+  void set_islawenforceship(bool value);
+
+  // optional bool isChinese = 36;
+  void clear_ischinese();
+  static const int kIsChineseFieldNumber = 36;
+  bool ischinese() const;
+  void set_ischinese(bool value);
+
+  // optional uint32 zoneEntryTimes = 37;
+  void clear_zoneentrytimes();
+  static const int kZoneEntryTimesFieldNumber = 37;
+  ::google::protobuf::uint32 zoneentrytimes() const;
+  void set_zoneentrytimes(::google::protobuf::uint32 value);
+
+  // repeated string listIllegalEventTypes = 38;
+  int listillegaleventtypes_size() const;
+  void clear_listillegaleventtypes();
+  static const int kListIllegalEventTypesFieldNumber = 38;
+  const ::std::string& listillegaleventtypes(int index) const;
+  ::std::string* mutable_listillegaleventtypes(int index);
+  void set_listillegaleventtypes(int index, const ::std::string& value);
+  void set_listillegaleventtypes(int index, const char* value);
+  void set_listillegaleventtypes(int index, const char* value, size_t size);
+  ::std::string* add_listillegaleventtypes();
+  void add_listillegaleventtypes(const ::std::string& value);
+  void add_listillegaleventtypes(const char* value);
+  void add_listillegaleventtypes(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& listillegaleventtypes() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_listillegaleventtypes();
+
+  // repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+  int listanomalytypes_size() const;
+  void clear_listanomalytypes();
+  static const int kListAnomalyTypesFieldNumber = 39;
+  ::PB_Enum_ShipAnomalyType listanomalytypes(int index) const;
+  void set_listanomalytypes(int index, ::PB_Enum_ShipAnomalyType value);
+  void add_listanomalytypes(::PB_Enum_ShipAnomalyType value);
+  const ::google::protobuf::RepeatedField<int>& listanomalytypes() const;
+  ::google::protobuf::RepeatedField<int>* mutable_listanomalytypes();
 
   // @@protoc_insertion_point(class_scope:PBTargetPosition)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::PBTargetAssociation_DS_Mass > listtargetassociation_ds_mass_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> listillegaleventtypes_;
+  ::google::protobuf::RepeatedField<int> listanomalytypes_;
+  mutable int _listanomalytypes_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr countryname_;
   ::PBAISDynamic* aisdynamic_;
   ::PBAISStatic* aisstatic_;
@@ -356,12 +421,18 @@ class PBTargetPosition : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::int32 targetidorig_;
   int aggregatedaisshiptype_;
   ::google::protobuf::int32 cargotype_;
-  int enum_targetthreadlevel_;
-  bool isdangership_;
   ::google::protobuf::uint32 lastassocusingdscombinationutctime_;
   ::google::protobuf::int32 beidouid_;
   ::google::protobuf::int32 haijianid_;
   ::google::protobuf::int32 argosandmarinesatid_;
+  int enum_targetthreadlevel_;
+  bool isdangership_;
+  bool isinteresttarget_;
+  bool iswarship_;
+  bool islawenforceship_;
+  int enum_xgscustomizedtargetthreadlevel_;
+  bool ischinese_;
+  ::google::protobuf::uint32 zoneentrytimes_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_Target_2eproto_impl();
   friend void  protobuf_AddDesc_Target_2eproto_impl();
@@ -797,21 +868,7 @@ inline void PBTargetPosition::set_cargotype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.cargoType)
 }
 
-// optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
-inline void PBTargetPosition::clear_enum_targetthreadlevel() {
-  enum_targetthreadlevel_ = 0;
-}
-inline ::PB_Enum_Target_ThreatLevel PBTargetPosition::enum_targetthreadlevel() const {
-  // @@protoc_insertion_point(field_get:PBTargetPosition.enum_TargetThreadLevel)
-  return static_cast< ::PB_Enum_Target_ThreatLevel >(enum_targetthreadlevel_);
-}
-inline void PBTargetPosition::set_enum_targetthreadlevel(::PB_Enum_Target_ThreatLevel value) {
-  
-  enum_targetthreadlevel_ = value;
-  // @@protoc_insertion_point(field_set:PBTargetPosition.enum_TargetThreadLevel)
-}
-
-// repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
+// repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
 inline int PBTargetPosition::listtargetassociation_ds_mass_size() const {
   return listtargetassociation_ds_mass_.size();
 }
@@ -841,7 +898,7 @@ PBTargetPosition::listtargetassociation_ds_mass() const {
   return listtargetassociation_ds_mass_;
 }
 
-// optional bool isDangerShip = 14;
+// optional bool isDangerShip = 13;
 inline void PBTargetPosition::clear_isdangership() {
   isdangership_ = false;
 }
@@ -855,7 +912,7 @@ inline void PBTargetPosition::set_isdangership(bool value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.isDangerShip)
 }
 
-// optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
+// optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
 inline void PBTargetPosition::clear_lastassocusingdscombinationutctime() {
   lastassocusingdscombinationutctime_ = 0u;
 }
@@ -869,7 +926,7 @@ inline void PBTargetPosition::set_lastassocusingdscombinationutctime(::google::p
   // @@protoc_insertion_point(field_set:PBTargetPosition.lastAssocUsingDSCombinationUTCTime)
 }
 
-// optional int32 beidouID = 16;
+// optional int32 beidouID = 15;
 inline void PBTargetPosition::clear_beidouid() {
   beidouid_ = 0;
 }
@@ -883,7 +940,7 @@ inline void PBTargetPosition::set_beidouid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.beidouID)
 }
 
-// optional int32 haijianID = 17;
+// optional int32 haijianID = 16;
 inline void PBTargetPosition::clear_haijianid() {
   haijianid_ = 0;
 }
@@ -897,7 +954,7 @@ inline void PBTargetPosition::set_haijianid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.haijianID)
 }
 
-// optional int32 argosAndMarineSatID = 18;
+// optional int32 argosAndMarineSatID = 17;
 inline void PBTargetPosition::clear_argosandmarinesatid() {
   argosandmarinesatid_ = 0;
 }
@@ -909,6 +966,189 @@ inline void PBTargetPosition::set_argosandmarinesatid(::google::protobuf::int32 
   
   argosandmarinesatid_ = value;
   // @@protoc_insertion_point(field_set:PBTargetPosition.argosAndMarineSatID)
+}
+
+// optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+inline void PBTargetPosition::clear_enum_targetthreadlevel() {
+  enum_targetthreadlevel_ = 0;
+}
+inline ::PB_Enum_Target_ThreatLevel PBTargetPosition::enum_targetthreadlevel() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.enum_TargetThreadLevel)
+  return static_cast< ::PB_Enum_Target_ThreatLevel >(enum_targetthreadlevel_);
+}
+inline void PBTargetPosition::set_enum_targetthreadlevel(::PB_Enum_Target_ThreatLevel value) {
+  
+  enum_targetthreadlevel_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.enum_TargetThreadLevel)
+}
+
+// optional bool isInterestTarget = 32;
+inline void PBTargetPosition::clear_isinteresttarget() {
+  isinteresttarget_ = false;
+}
+inline bool PBTargetPosition::isinteresttarget() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isInterestTarget)
+  return isinteresttarget_;
+}
+inline void PBTargetPosition::set_isinteresttarget(bool value) {
+  
+  isinteresttarget_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isInterestTarget)
+}
+
+// optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+inline void PBTargetPosition::clear_enum_xgscustomizedtargetthreadlevel() {
+  enum_xgscustomizedtargetthreadlevel_ = 0;
+}
+inline ::PB_Enum_Target_XGSCustomizedThreatLevel PBTargetPosition::enum_xgscustomizedtargetthreadlevel() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.enum_XGSCustomizedTargetThreadLevel)
+  return static_cast< ::PB_Enum_Target_XGSCustomizedThreatLevel >(enum_xgscustomizedtargetthreadlevel_);
+}
+inline void PBTargetPosition::set_enum_xgscustomizedtargetthreadlevel(::PB_Enum_Target_XGSCustomizedThreatLevel value) {
+  
+  enum_xgscustomizedtargetthreadlevel_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.enum_XGSCustomizedTargetThreadLevel)
+}
+
+// optional bool isWarShip = 34;
+inline void PBTargetPosition::clear_iswarship() {
+  iswarship_ = false;
+}
+inline bool PBTargetPosition::iswarship() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isWarShip)
+  return iswarship_;
+}
+inline void PBTargetPosition::set_iswarship(bool value) {
+  
+  iswarship_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isWarShip)
+}
+
+// optional bool isLawEnforceShip = 35;
+inline void PBTargetPosition::clear_islawenforceship() {
+  islawenforceship_ = false;
+}
+inline bool PBTargetPosition::islawenforceship() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isLawEnforceShip)
+  return islawenforceship_;
+}
+inline void PBTargetPosition::set_islawenforceship(bool value) {
+  
+  islawenforceship_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isLawEnforceShip)
+}
+
+// optional bool isChinese = 36;
+inline void PBTargetPosition::clear_ischinese() {
+  ischinese_ = false;
+}
+inline bool PBTargetPosition::ischinese() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isChinese)
+  return ischinese_;
+}
+inline void PBTargetPosition::set_ischinese(bool value) {
+  
+  ischinese_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isChinese)
+}
+
+// optional uint32 zoneEntryTimes = 37;
+inline void PBTargetPosition::clear_zoneentrytimes() {
+  zoneentrytimes_ = 0u;
+}
+inline ::google::protobuf::uint32 PBTargetPosition::zoneentrytimes() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.zoneEntryTimes)
+  return zoneentrytimes_;
+}
+inline void PBTargetPosition::set_zoneentrytimes(::google::protobuf::uint32 value) {
+  
+  zoneentrytimes_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.zoneEntryTimes)
+}
+
+// repeated string listIllegalEventTypes = 38;
+inline int PBTargetPosition::listillegaleventtypes_size() const {
+  return listillegaleventtypes_.size();
+}
+inline void PBTargetPosition::clear_listillegaleventtypes() {
+  listillegaleventtypes_.Clear();
+}
+inline const ::std::string& PBTargetPosition::listillegaleventtypes(int index) const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_.Get(index);
+}
+inline ::std::string* PBTargetPosition::mutable_listillegaleventtypes(int index) {
+  // @@protoc_insertion_point(field_mutable:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_.Mutable(index);
+}
+inline void PBTargetPosition::set_listillegaleventtypes(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:PBTargetPosition.listIllegalEventTypes)
+  listillegaleventtypes_.Mutable(index)->assign(value);
+}
+inline void PBTargetPosition::set_listillegaleventtypes(int index, const char* value) {
+  listillegaleventtypes_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:PBTargetPosition.listIllegalEventTypes)
+}
+inline void PBTargetPosition::set_listillegaleventtypes(int index, const char* value, size_t size) {
+  listillegaleventtypes_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:PBTargetPosition.listIllegalEventTypes)
+}
+inline ::std::string* PBTargetPosition::add_listillegaleventtypes() {
+  // @@protoc_insertion_point(field_add_mutable:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_.Add();
+}
+inline void PBTargetPosition::add_listillegaleventtypes(const ::std::string& value) {
+  listillegaleventtypes_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:PBTargetPosition.listIllegalEventTypes)
+}
+inline void PBTargetPosition::add_listillegaleventtypes(const char* value) {
+  listillegaleventtypes_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:PBTargetPosition.listIllegalEventTypes)
+}
+inline void PBTargetPosition::add_listillegaleventtypes(const char* value, size_t size) {
+  listillegaleventtypes_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:PBTargetPosition.listIllegalEventTypes)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+PBTargetPosition::listillegaleventtypes() const {
+  // @@protoc_insertion_point(field_list:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+PBTargetPosition::mutable_listillegaleventtypes() {
+  // @@protoc_insertion_point(field_mutable_list:PBTargetPosition.listIllegalEventTypes)
+  return &listillegaleventtypes_;
+}
+
+// repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+inline int PBTargetPosition::listanomalytypes_size() const {
+  return listanomalytypes_.size();
+}
+inline void PBTargetPosition::clear_listanomalytypes() {
+  listanomalytypes_.Clear();
+}
+inline ::PB_Enum_ShipAnomalyType PBTargetPosition::listanomalytypes(int index) const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.listAnomalyTypes)
+  return static_cast< ::PB_Enum_ShipAnomalyType >(listanomalytypes_.Get(index));
+}
+inline void PBTargetPosition::set_listanomalytypes(int index, ::PB_Enum_ShipAnomalyType value) {
+  listanomalytypes_.Set(index, value);
+  // @@protoc_insertion_point(field_set:PBTargetPosition.listAnomalyTypes)
+}
+inline void PBTargetPosition::add_listanomalytypes(::PB_Enum_ShipAnomalyType value) {
+  listanomalytypes_.Add(value);
+  // @@protoc_insertion_point(field_add:PBTargetPosition.listAnomalyTypes)
+}
+inline const ::google::protobuf::RepeatedField<int>&
+PBTargetPosition::listanomalytypes() const {
+  // @@protoc_insertion_point(field_list:PBTargetPosition.listAnomalyTypes)
+  return listanomalytypes_;
+}
+inline ::google::protobuf::RepeatedField<int>*
+PBTargetPosition::mutable_listanomalytypes() {
+  // @@protoc_insertion_point(field_mutable_list:PBTargetPosition.listAnomalyTypes)
+  return &listanomalytypes_;
 }
 
 inline const PBTargetPosition* PBTargetPosition::internal_default_instance() {

@@ -74,6 +74,37 @@ inline bool PB_Enum_Aggregated_AIS_Ship_Type_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<PB_Enum_Aggregated_AIS_Ship_Type>(
     PB_Enum_Aggregated_AIS_Ship_Type_descriptor(), name, value);
 }
+enum PB_Enum_ShipAnomalyType {
+  EV_ShipAnomalyType_NORMAL = 0,
+  EV_ShipAnomalyType_SUSPICIOUS_TRACK = 1,
+  EV_ShipAnomalyType_HIGH_SPEED = 2,
+  EV_ShipAnomalyType_HIGH_ROT_Sensor = 3,
+  EV_ShipAnomalyType_NOT_UNDER_COMMAND = 4,
+  EV_ShipAnomalyType_AGROUND = 5,
+  EV_ShipAnomalyType_RESTRICTED_Manoeuvrability = 6,
+  EV_ShipAnomalyType_MilitaryShip = 7,
+  EV_ShipAnomalyType_LawEnforcementShip = 8,
+  EV_ShipAnomalyType_AISOffLine = 9,
+  EV_ShipAnomalyType_ZoneEntry = 10,
+  EV_ShipAnomalyType_NA = 99,
+  PB_Enum_ShipAnomalyType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  PB_Enum_ShipAnomalyType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool PB_Enum_ShipAnomalyType_IsValid(int value);
+const PB_Enum_ShipAnomalyType PB_Enum_ShipAnomalyType_MIN = EV_ShipAnomalyType_NORMAL;
+const PB_Enum_ShipAnomalyType PB_Enum_ShipAnomalyType_MAX = EV_ShipAnomalyType_NA;
+const int PB_Enum_ShipAnomalyType_ARRAYSIZE = PB_Enum_ShipAnomalyType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PB_Enum_ShipAnomalyType_descriptor();
+inline const ::std::string& PB_Enum_ShipAnomalyType_Name(PB_Enum_ShipAnomalyType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PB_Enum_ShipAnomalyType_descriptor(), value);
+}
+inline bool PB_Enum_ShipAnomalyType_Parse(
+    const ::std::string& name, PB_Enum_ShipAnomalyType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PB_Enum_ShipAnomalyType>(
+    PB_Enum_ShipAnomalyType_descriptor(), name, value);
+}
 enum PB_Enum_TargetInfo_Type {
   EV_TargetInfoType_NA = 0,
   EV_TargetInfoType_ArgosAndMaritimeSatellite = 1,
@@ -111,6 +142,7 @@ enum PB_Enum_TargetInfo_Source {
   EV_TargetInfoSource_SatAIS = 4,
   EV_TargetInfoSource_SearchAndRescue = 5,
   EV_TargetInfoSource_CivilMarineSituationSystem = 6,
+  EV_TargetInfoSource_ShipSecurity = 7,
   EV_TargetInfoSource_Fusion = 15,
   EV_TargetInfoSource_Any = 16,
   EV_TargetInfoSource_Others = 17,
@@ -223,6 +255,11 @@ enum PB_Enum_Target_ThreatLevel {
   EV_TargetThreatLevel_Level3 = 3,
   EV_TargetThreatLevel_Level4 = 4,
   EV_TargetThreatLevel_Level5 = 5,
+  EV_TargetThreatLevel_Level6 = 6,
+  EV_TargetThreatLevel_Level7 = 7,
+  EV_TargetThreatLevel_Level8 = 8,
+  EV_TargetThreatLevel_Level9 = 9,
+  EV_TargetThreatLevel_Level10 = 10,
   EV_TargetThreatLevel_Non = 15,
   PB_Enum_Target_ThreatLevel_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   PB_Enum_Target_ThreatLevel_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
@@ -242,12 +279,39 @@ inline bool PB_Enum_Target_ThreatLevel_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<PB_Enum_Target_ThreatLevel>(
     PB_Enum_Target_ThreatLevel_descriptor(), name, value);
 }
+enum PB_Enum_Target_XGSCustomizedThreatLevel {
+  EV_XGSCustomizedTargetThreatLevel_NA = 0,
+  EV_XGSCustomizedTargetThreatLevel_Level1 = 1,
+  EV_XGSCustomizedTargetThreatLevel_Level2 = 2,
+  EV_XGSCustomizedTargetThreatLevel_Level3 = 3,
+  EV_XGSCustomizedTargetThreatLevel_Level4 = 4,
+  EV_XGSCustomizedTargetThreatLevel_Non = 15,
+  PB_Enum_Target_XGSCustomizedThreatLevel_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  PB_Enum_Target_XGSCustomizedThreatLevel_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool PB_Enum_Target_XGSCustomizedThreatLevel_IsValid(int value);
+const PB_Enum_Target_XGSCustomizedThreatLevel PB_Enum_Target_XGSCustomizedThreatLevel_MIN = EV_XGSCustomizedTargetThreatLevel_NA;
+const PB_Enum_Target_XGSCustomizedThreatLevel PB_Enum_Target_XGSCustomizedThreatLevel_MAX = EV_XGSCustomizedTargetThreatLevel_Non;
+const int PB_Enum_Target_XGSCustomizedThreatLevel_ARRAYSIZE = PB_Enum_Target_XGSCustomizedThreatLevel_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PB_Enum_Target_XGSCustomizedThreatLevel_descriptor();
+inline const ::std::string& PB_Enum_Target_XGSCustomizedThreatLevel_Name(PB_Enum_Target_XGSCustomizedThreatLevel value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PB_Enum_Target_XGSCustomizedThreatLevel_descriptor(), value);
+}
+inline bool PB_Enum_Target_XGSCustomizedThreatLevel_Parse(
+    const ::std::string& name, PB_Enum_Target_XGSCustomizedThreatLevel* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PB_Enum_Target_XGSCustomizedThreatLevel>(
+    PB_Enum_Target_XGSCustomizedThreatLevel_descriptor(), name, value);
+}
 enum PB_Enum_Region_Shape {
   EV_RegionType_NA = 0,
   EV_RegionType_Circle = 1,
   EV_RegionType_Rectangle = 2,
   EV_RegionType_Polygon = 3,
   EV_RegionType_GeoPoint = 4,
+  EV_RegionType_GeoCircularSector = 5,
+  EV_RegionType_GeoAnnularSector = 6,
   EV_RegionType_Others = 15,
   PB_Enum_Region_Shape_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   PB_Enum_Region_Shape_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
@@ -289,6 +353,11 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::PB_Enum_Aggregated_AIS_Ship_Type>() {
   return ::PB_Enum_Aggregated_AIS_Ship_Type_descriptor();
 }
+template <> struct is_proto_enum< ::PB_Enum_ShipAnomalyType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::PB_Enum_ShipAnomalyType>() {
+  return ::PB_Enum_ShipAnomalyType_descriptor();
+}
 template <> struct is_proto_enum< ::PB_Enum_TargetInfo_Type> : ::google::protobuf::internal::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::PB_Enum_TargetInfo_Type>() {
@@ -318,6 +387,11 @@ template <> struct is_proto_enum< ::PB_Enum_Target_ThreatLevel> : ::google::prot
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::PB_Enum_Target_ThreatLevel>() {
   return ::PB_Enum_Target_ThreatLevel_descriptor();
+}
+template <> struct is_proto_enum< ::PB_Enum_Target_XGSCustomizedThreatLevel> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::PB_Enum_Target_XGSCustomizedThreatLevel>() {
+  return ::PB_Enum_Target_XGSCustomizedThreatLevel_descriptor();
 }
 template <> struct is_proto_enum< ::PB_Enum_Region_Shape> : ::google::protobuf::internal::true_type {};
 template <>

@@ -176,7 +176,7 @@ void protobuf_AddDesc_AISData_2eproto_impl() {
     "s_Accuracy\0223\n\020enum_CommunState\030\013 \001(\0162\031.P"
     "B_Enum_AIS_Commum_State\"\326\001\n\013PBAISStatic\022"
     "\014\n\004MMSI\030\001 \001(\005\022\024\n\014utcTimeStamp\030\002 \001(\r\022\024\n\014s"
-    "hipType_AIS\030\003 \001(\005\022\013\n\003IMO\030\004 \001(\r\022\020\n\010shipNa"
+    "hipType_AIS\030\003 \001(\005\022\013\n\003IMO\030\004 \001(\005\022\020\n\010shipNa"
     "me\030\005 \001(\t\022\020\n\010callSign\030\006 \001(\t\022\025\n\rbreadthMet"
     "ers\030\007 \001(\r\022\023\n\013lenghMeters\030\010 \001(\r\0220\n\014fixing"
     "Device\030\t \001(\0162\032.PB_Enum_AIS_Fixing_Device"
@@ -1235,13 +1235,13 @@ bool PBAISStatic::MergePartialFromCodedStream(
         break;
       }
 
-      // optional uint32 IMO = 4;
+      // optional int32 IMO = 4;
       case 4: {
         if (tag == 32) {
          parse_IMO:
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &imo_)));
         } else {
           goto handle_unusual;
@@ -1369,9 +1369,9 @@ void PBAISStatic::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->shiptype_ais(), output);
   }
 
-  // optional uint32 IMO = 4;
+  // optional int32 IMO = 4;
   if (this->imo() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->imo(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->imo(), output);
   }
 
   // optional string shipName = 5;
@@ -1432,9 +1432,9 @@ void PBAISStatic::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->shiptype_ais(), target);
   }
 
-  // optional uint32 IMO = 4;
+  // optional int32 IMO = 4;
   if (this->imo() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->imo(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->imo(), target);
   }
 
   // optional string shipName = 5;
@@ -1504,10 +1504,10 @@ size_t PBAISStatic::ByteSizeLong() const {
         this->shiptype_ais());
   }
 
-  // optional uint32 IMO = 4;
+  // optional int32 IMO = 4;
   if (this->imo() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->imo());
   }
 
@@ -1699,15 +1699,15 @@ void PBAISStatic::set_shiptype_ais(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBAISStatic.shipType_AIS)
 }
 
-// optional uint32 IMO = 4;
+// optional int32 IMO = 4;
 void PBAISStatic::clear_imo() {
-  imo_ = 0u;
+  imo_ = 0;
 }
-::google::protobuf::uint32 PBAISStatic::imo() const {
+::google::protobuf::int32 PBAISStatic::imo() const {
   // @@protoc_insertion_point(field_get:PBAISStatic.IMO)
   return imo_;
 }
-void PBAISStatic::set_imo(::google::protobuf::uint32 value) {
+void PBAISStatic::set_imo(::google::protobuf::int32 value) {
   
   imo_ = value;
   // @@protoc_insertion_point(field_set:PBAISStatic.IMO)

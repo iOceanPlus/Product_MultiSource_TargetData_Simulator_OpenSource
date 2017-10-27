@@ -5,14 +5,13 @@ import "CommonEnum.proto";
 //该文件定义了对系统中各个软件的监测信息
 message PBMonitor
 {
-	uint32 recordUTCTime = 1 ;
-	uint32 sequenceNum = 2;
+	uint32 recordUTCTime = 1 ; //unix时间戳
+	uint32 sequenceNum = 2; //序列号
 	PB_Enum_Software enum_Sender_Software = 3; //哪一个软件发送了该条消息
 	uint32 softwareStartedUTCTime = 4; //该软件启动时间
 
-	//ProbeAck是对Probe的回复，通过回复的时延可以判断软件的负载状况
-	PBMonitor_Probe monitorProbe = 5;
-	PBMonitor_ProbeAck monitorProbeAck = 6;
+	PBMonitor_Probe monitorProbe = 5; //探询消息
+	PBMonitor_ProbeAck monitorProbeAck = 6; //对Probe的回复，通过回复的时延可以判断软件的负载状况
 	
 	//以下的各个统计信息由相关的软件定时发送，暂定5秒一次
 	repeated PBMonitor_TargetDistribution listMonitor_TargetDistribution = 7;//目标分发信息统计结果的列表
@@ -23,7 +22,6 @@ message PBMonitor
 	
 	//系统监控程序定时将该消息发给消息队列，接入预处理转发程序收到后重新编码发送给XGS
 	repeated PBMonitor_ToXGS_SoftwareStatus listToXGSSoftwareStatus = 10;
-	
 }
 
 //探询消息
@@ -36,11 +34,11 @@ message PBMonitor_Probe
 
 message PBMonitor_ProbeAck
 {
-	uint32 recordUTCTime = 1 ;
+	uint32 recordUTCTime = 1 ; //Unix时间戳
 	PB_Enum_Software enum_ProbeSender_Software = 2; //回复的是哪一个软件发送的Probe消息
 	uint32 monitorProbeSequenceNumAcked = 3; //表明回复的是哪一个监测消息。
 	
-	uint64 totalMessagesRcvd = 4;
+	uint64 totalMessagesRcvd = 4; //接收到的消息总数
 	uint64 origTargetPositionsRcvd = 5; //收到的原始消息（目标轨迹数据）数量，统计收到了多少个轨迹点
 	uint64 validOrigTargetPositionsRcvd = 6; //收到的有效原始消息（目标轨迹数据）数量
 	uint64 preprocessedTargetPositionsRcvd = 7; //收到的预处理后的消息（目标轨迹数据）数量
@@ -51,13 +49,13 @@ message PBMonitor_ProbeAck
 	uint32 commandMessagesRcvd =12; //收到多少个控制命令
 	
 	uint64 totalMessagesSent = 13;//发送的总消息数
-	uint64 validOrigTargetPositionsSent = 14; 
-	uint64 preprocessedTargetPositionsSent = 15; 
-	uint64 fusedTargetPositionsSent = 16;
-	uint64 anomalyMessagesSent = 17; 
-	uint32 configMessagesSent = 18;
-	uint32 requestMessagesSent =19; 
-	uint32 commandMessagesSent =20; 
+	uint64 validOrigTargetPositionsSent = 14; //发送的有效位置点数量
+	uint64 preprocessedTargetPositionsSent = 15; //发送的预处理后的位置点数量
+	uint64 fusedTargetPositionsSent = 16;//发送的融合后位置点数量
+	uint64 anomalyMessagesSent = 17; //发送的异常告警消息数量
+	uint32 configMessagesSent = 18; //发送的配置消息数量
+	uint32 requestMessagesSent =19; //发送的请求消息数量
+	uint32 commandMessagesSent =20; //发送的命令消息数量
 }
 
 //XGS项目中特有的消息

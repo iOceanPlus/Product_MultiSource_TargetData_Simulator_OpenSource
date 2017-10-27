@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QStringList>
-#include "Target.pb.h"
-#include "Monitor.pb.h"
+#include "ProtoCPP/Target.pb.h"
+#include "ProtoCPP/Monitor.pb.h"
 #include "ContainerOfUnThreadedMQTopicpublish.h"
 class QMutex;
 class ContainerOfUnThreadedMQTopicConsume;

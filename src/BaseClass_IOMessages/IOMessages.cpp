@@ -123,8 +123,6 @@ void IOMessages::slotMsgRcvdFromMQ(QByteArray baData, QString exchangeName,
 {
     if(routingKey.startsWith("Monitor."))
     {
-       // qDebug()<<"Monitor";
-
         PBMonitor monitor;
         if(!monitor.ParseFromArray(baData,baData.size()))
         {

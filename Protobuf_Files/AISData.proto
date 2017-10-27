@@ -43,7 +43,7 @@ message	PBAISStatic
 	// 此时，将他们分别转为ais中对应船类型的编码，渔政船使用执法船的编码
 	int32	shipType_AIS =3 ; 
 	//IMO号：IMO编号。范围0-999999999，1000000000为无效,0=不可用=默认值 – 不适用于SAR航空器。
-	uint32	IMO = 4; 
+	int32	IMO = 4; 
 	string	shipName = 5; //船名
 	string	callSign = 6; //呼号
 	uint32	breadthMeters = 7; //船长

@@ -56,7 +56,7 @@ void protobuf_AssignDesc_Target_2eproto() {
       sizeof(PBTarget),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTarget, _internal_metadata_));
   PBTargetPosition_descriptor_ = file->message_type(1);
-  static const int PBTargetPosition_offsets_[18] = {
+  static const int PBTargetPosition_offsets_[26] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, targetid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, aisdynamic_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, aisstatic_),
@@ -68,13 +68,21 @@ void protobuf_AssignDesc_Target_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, countryname_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, aggregatedaisshiptype_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, cargotype_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, enum_targetthreadlevel_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, listtargetassociation_ds_mass_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, isdangership_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, lastassocusingdscombinationutctime_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, beidouid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, haijianid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, argosandmarinesatid_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, enum_targetthreadlevel_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, isinteresttarget_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, enum_xgscustomizedtargetthreadlevel_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, iswarship_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, islawenforceship_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, ischinese_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, zoneentrytimes_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, listillegaleventtypes_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBTargetPosition, listanomalytypes_),
   };
   PBTargetPosition_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -161,7 +169,7 @@ void protobuf_AddDesc_Target_2eproto_impl() {
     "m.proto\"z\n\010PBTarget\022\023\n\013sequenceNum\030\001 \001(\r"
     "\022/\n\024enum_Sender_Software\030\002 \001(\0162\021.PB_Enum"
     "_Software\022(\n\rlistTargetPos\030\003 \003(\0132\021.PBTar"
-    "getPosition\"\271\005\n\020PBTargetPosition\022\020\n\010targ"
+    "getPosition\"\325\007\n\020PBTargetPosition\022\020\n\010targ"
     "etID\030\001 \001(\005\022!\n\naisDynamic\030\002 \001(\0132\r.PBAISDy"
     "namic\022\037\n\taisStatic\030\003 \001(\0132\014.PBAISStatic\022\037"
     "\n\taisVoyage\030\004 \001(\0132\014.PBAISVoyage\0225\n\023enum_"
@@ -172,16 +180,23 @@ void protobuf_AddDesc_Target_2eproto_impl() {
     "e\022\024\n\014targetIDOrig\030\010 \001(\005\022\023\n\013countryName\030\t"
     " \001(\t\022@\n\025aggregatedAISShipType\030\n \001(\0162!.PB"
     "_Enum_Aggregated_AIS_Ship_Type\022\021\n\tcargoT"
-    "ype\030\013 \001(\005\022;\n\026enum_TargetThreadLevel\030\014 \001("
-    "\0162\033.PB_Enum_Target_ThreatLevel\022C\n\035listTa"
-    "rgetAssociation_DS_Mass\030\r \003(\0132\034.PBTarget"
-    "Association_DS_Mass\022\024\n\014isDangerShip\030\016 \001("
-    "\010\022*\n\"lastAssocUsingDSCombinationUTCTime\030"
-    "\017 \001(\r\022\020\n\010beidouID\030\020 \001(\005\022\021\n\thaijianID\030\021 \001"
-    "(\005\022\033\n\023argosAndMarineSatID\030\022 \001(\005\"L\n\033PBTar"
-    "getAssociation_DS_Mass\022\024\n\014targetIDCand\030\001"
-    " \001(\005\022\027\n\017associationMass\030\002 \001(\001B\024\n\022team.iO"
-    "ceanPlus.PBb\006proto3", 979);
+    "ype\030\013 \001(\005\022C\n\035listTargetAssociation_DS_Ma"
+    "ss\030\014 \003(\0132\034.PBTargetAssociation_DS_Mass\022\024"
+    "\n\014isDangerShip\030\r \001(\010\022*\n\"lastAssocUsingDS"
+    "CombinationUTCTime\030\016 \001(\r\022\020\n\010beidouID\030\017 \001"
+    "(\005\022\021\n\thaijianID\030\020 \001(\005\022\033\n\023argosAndMarineS"
+    "atID\030\021 \001(\005\022;\n\026enum_TargetThreadLevel\030\037 \001"
+    "(\0162\033.PB_Enum_Target_ThreatLevel\022\030\n\020isInt"
+    "erestTarget\030  \001(\010\022U\n#enum_XGSCustomizedT"
+    "argetThreadLevel\030! \001(\0162(.PB_Enum_Target_"
+    "XGSCustomizedThreatLevel\022\021\n\tisWarShip\030\" "
+    "\001(\010\022\030\n\020isLawEnforceShip\030# \001(\010\022\021\n\tisChine"
+    "se\030$ \001(\010\022\026\n\016zoneEntryTimes\030% \001(\r\022\035\n\025list"
+    "IllegalEventTypes\030& \003(\t\0222\n\020listAnomalyTy"
+    "pes\030\' \003(\0162\030.PB_Enum_ShipAnomalyType\"L\n\033P"
+    "BTargetAssociation_DS_Mass\022\024\n\014targetIDCa"
+    "nd\030\001 \001(\005\022\027\n\017associationMass\030\002 \001(\001B\024\n\022tea"
+    "m.iOceanPlus.PBb\006proto3", 1263);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Target.proto", &protobuf_RegisterTypes);
   ::protobuf_AddDesc_AISData_2eproto();
@@ -618,13 +633,21 @@ const int PBTargetPosition::kTargetIDOrigFieldNumber;
 const int PBTargetPosition::kCountryNameFieldNumber;
 const int PBTargetPosition::kAggregatedAISShipTypeFieldNumber;
 const int PBTargetPosition::kCargoTypeFieldNumber;
-const int PBTargetPosition::kEnumTargetThreadLevelFieldNumber;
 const int PBTargetPosition::kListTargetAssociationDSMassFieldNumber;
 const int PBTargetPosition::kIsDangerShipFieldNumber;
 const int PBTargetPosition::kLastAssocUsingDSCombinationUTCTimeFieldNumber;
 const int PBTargetPosition::kBeidouIDFieldNumber;
 const int PBTargetPosition::kHaijianIDFieldNumber;
 const int PBTargetPosition::kArgosAndMarineSatIDFieldNumber;
+const int PBTargetPosition::kEnumTargetThreadLevelFieldNumber;
+const int PBTargetPosition::kIsInterestTargetFieldNumber;
+const int PBTargetPosition::kEnumXGSCustomizedTargetThreadLevelFieldNumber;
+const int PBTargetPosition::kIsWarShipFieldNumber;
+const int PBTargetPosition::kIsLawEnforceShipFieldNumber;
+const int PBTargetPosition::kIsChineseFieldNumber;
+const int PBTargetPosition::kZoneEntryTimesFieldNumber;
+const int PBTargetPosition::kListIllegalEventTypesFieldNumber;
+const int PBTargetPosition::kListAnomalyTypesFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 PBTargetPosition::PBTargetPosition()
@@ -656,8 +679,8 @@ void PBTargetPosition::SharedCtor() {
   aisdynamic_ = NULL;
   aisstatic_ = NULL;
   aisvoyage_ = NULL;
-  ::memset(&targetid_, 0, reinterpret_cast<char*>(&argosandmarinesatid_) -
-    reinterpret_cast<char*>(&targetid_) + sizeof(argosandmarinesatid_));
+  ::memset(&targetid_, 0, reinterpret_cast<char*>(&zoneentrytimes_) -
+    reinterpret_cast<char*>(&targetid_) + sizeof(zoneentrytimes_));
   _cached_size_ = 0;
 }
 
@@ -725,14 +748,18 @@ void PBTargetPosition::Clear() {
   aisstatic_ = NULL;
   if (GetArenaNoVirtual() == NULL && aisvoyage_ != NULL) delete aisvoyage_;
   aisvoyage_ = NULL;
-  ZR_(aggregatedaisshiptype_, beidouid_);
+  ZR_(aggregatedaisshiptype_, haijianid_);
   countryname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ZR_(haijianid_, argosandmarinesatid_);
+  isdangership_ = false;
+  ZR_(argosandmarinesatid_, enum_targetthreadlevel_);
+  ZR_(isinteresttarget_, zoneentrytimes_);
 
 #undef ZR_HELPER_
 #undef ZR_
 
   listtargetassociation_ds_mass_.Clear();
+  listillegaleventtypes_.Clear();
+  listanomalytypes_.Clear();
 }
 
 bool PBTargetPosition::MergePartialFromCodedStream(
@@ -905,13 +932,105 @@ bool PBTargetPosition::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(96)) goto parse_enum_TargetThreadLevel;
+        if (input->ExpectTag(98)) goto parse_listTargetAssociation_DS_Mass;
         break;
       }
 
-      // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
+      // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
       case 12: {
-        if (tag == 96) {
+        if (tag == 98) {
+         parse_listTargetAssociation_DS_Mass:
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_listTargetAssociation_DS_Mass:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
+                input, add_listtargetassociation_ds_mass()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(98)) goto parse_loop_listTargetAssociation_DS_Mass;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectTag(104)) goto parse_isDangerShip;
+        break;
+      }
+
+      // optional bool isDangerShip = 13;
+      case 13: {
+        if (tag == 104) {
+         parse_isDangerShip:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &isdangership_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(112)) goto parse_lastAssocUsingDSCombinationUTCTime;
+        break;
+      }
+
+      // optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
+      case 14: {
+        if (tag == 112) {
+         parse_lastAssocUsingDSCombinationUTCTime:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &lastassocusingdscombinationutctime_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(120)) goto parse_beidouID;
+        break;
+      }
+
+      // optional int32 beidouID = 15;
+      case 15: {
+        if (tag == 120) {
+         parse_beidouID:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &beidouid_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(128)) goto parse_haijianID;
+        break;
+      }
+
+      // optional int32 haijianID = 16;
+      case 16: {
+        if (tag == 128) {
+         parse_haijianID:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &haijianid_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(136)) goto parse_argosAndMarineSatID;
+        break;
+      }
+
+      // optional int32 argosAndMarineSatID = 17;
+      case 17: {
+        if (tag == 136) {
+         parse_argosAndMarineSatID:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &argosandmarinesatid_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(248)) goto parse_enum_TargetThreadLevel;
+        break;
+      }
+
+      // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+      case 31: {
+        if (tag == 248) {
          parse_enum_TargetThreadLevel:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -921,95 +1040,141 @@ bool PBTargetPosition::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(106)) goto parse_listTargetAssociation_DS_Mass;
+        if (input->ExpectTag(256)) goto parse_isInterestTarget;
         break;
       }
 
-      // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
-      case 13: {
-        if (tag == 106) {
-         parse_listTargetAssociation_DS_Mass:
-          DO_(input->IncrementRecursionDepth());
-         parse_loop_listTargetAssociation_DS_Mass:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_listtargetassociation_ds_mass()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(106)) goto parse_loop_listTargetAssociation_DS_Mass;
-        input->UnsafeDecrementRecursionDepth();
-        if (input->ExpectTag(112)) goto parse_isDangerShip;
-        break;
-      }
-
-      // optional bool isDangerShip = 14;
-      case 14: {
-        if (tag == 112) {
-         parse_isDangerShip:
+      // optional bool isInterestTarget = 32;
+      case 32: {
+        if (tag == 256) {
+         parse_isInterestTarget:
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &isdangership_)));
+                 input, &isinteresttarget_)));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(120)) goto parse_lastAssocUsingDSCombinationUTCTime;
+        if (input->ExpectTag(264)) goto parse_enum_XGSCustomizedTargetThreadLevel;
         break;
       }
 
-      // optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
-      case 15: {
-        if (tag == 120) {
-         parse_lastAssocUsingDSCombinationUTCTime:
+      // optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+      case 33: {
+        if (tag == 264) {
+         parse_enum_XGSCustomizedTargetThreadLevel:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_enum_xgscustomizedtargetthreadlevel(static_cast< ::PB_Enum_Target_XGSCustomizedThreatLevel >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(272)) goto parse_isWarShip;
+        break;
+      }
+
+      // optional bool isWarShip = 34;
+      case 34: {
+        if (tag == 272) {
+         parse_isWarShip:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &iswarship_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(280)) goto parse_isLawEnforceShip;
+        break;
+      }
+
+      // optional bool isLawEnforceShip = 35;
+      case 35: {
+        if (tag == 280) {
+         parse_isLawEnforceShip:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &islawenforceship_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(288)) goto parse_isChinese;
+        break;
+      }
+
+      // optional bool isChinese = 36;
+      case 36: {
+        if (tag == 288) {
+         parse_isChinese:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &ischinese_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(296)) goto parse_zoneEntryTimes;
+        break;
+      }
+
+      // optional uint32 zoneEntryTimes = 37;
+      case 37: {
+        if (tag == 296) {
+         parse_zoneEntryTimes:
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &lastassocusingdscombinationutctime_)));
+                 input, &zoneentrytimes_)));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(128)) goto parse_beidouID;
+        if (input->ExpectTag(306)) goto parse_listIllegalEventTypes;
         break;
       }
 
-      // optional int32 beidouID = 16;
-      case 16: {
-        if (tag == 128) {
-         parse_beidouID:
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &beidouid_)));
+      // repeated string listIllegalEventTypes = 38;
+      case 38: {
+        if (tag == 306) {
+         parse_listIllegalEventTypes:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->add_listillegaleventtypes()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->listillegaleventtypes(this->listillegaleventtypes_size() - 1).data(),
+            this->listillegaleventtypes(this->listillegaleventtypes_size() - 1).length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "PBTargetPosition.listIllegalEventTypes"));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(136)) goto parse_haijianID;
+        if (input->ExpectTag(306)) goto parse_listIllegalEventTypes;
+        if (input->ExpectTag(314)) goto parse_listAnomalyTypes;
         break;
       }
 
-      // optional int32 haijianID = 17;
-      case 17: {
-        if (tag == 136) {
-         parse_haijianID:
-
+      // repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+      case 39: {
+        if (tag == 314) {
+         parse_listAnomalyTypes:
+          ::google::protobuf::uint32 length;
+          DO_(input->ReadVarint32(&length));
+          ::google::protobuf::io::CodedInputStream::Limit limit = input->PushLimit(length);
+          while (input->BytesUntilLimit() > 0) {
+            int value;
+            DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+            add_listanomalytypes(static_cast< ::PB_Enum_ShipAnomalyType >(value));
+          }
+          input->PopLimit(limit);
+        } else if (tag == 312) {
+          int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &haijianid_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(144)) goto parse_argosAndMarineSatID;
-        break;
-      }
-
-      // optional int32 argosAndMarineSatID = 18;
-      case 18: {
-        if (tag == 144) {
-         parse_argosAndMarineSatID:
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &argosandmarinesatid_)));
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          add_listanomalytypes(static_cast< ::PB_Enum_ShipAnomalyType >(value));
         } else {
           goto handle_unusual;
         }
@@ -1108,41 +1273,95 @@ void PBTargetPosition::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->cargotype(), output);
   }
 
-  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
-  if (this->enum_targetthreadlevel() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      12, this->enum_targetthreadlevel(), output);
-  }
-
-  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
+  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
   for (unsigned int i = 0, n = this->listtargetassociation_ds_mass_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      13, this->listtargetassociation_ds_mass(i), output);
+      12, this->listtargetassociation_ds_mass(i), output);
   }
 
-  // optional bool isDangerShip = 14;
+  // optional bool isDangerShip = 13;
   if (this->isdangership() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(14, this->isdangership(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(13, this->isdangership(), output);
   }
 
-  // optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
+  // optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
   if (this->lastassocusingdscombinationutctime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(15, this->lastassocusingdscombinationutctime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(14, this->lastassocusingdscombinationutctime(), output);
   }
 
-  // optional int32 beidouID = 16;
+  // optional int32 beidouID = 15;
   if (this->beidouid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(16, this->beidouid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(15, this->beidouid(), output);
   }
 
-  // optional int32 haijianID = 17;
+  // optional int32 haijianID = 16;
   if (this->haijianid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(17, this->haijianid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(16, this->haijianid(), output);
   }
 
-  // optional int32 argosAndMarineSatID = 18;
+  // optional int32 argosAndMarineSatID = 17;
   if (this->argosandmarinesatid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(18, this->argosandmarinesatid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(17, this->argosandmarinesatid(), output);
+  }
+
+  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+  if (this->enum_targetthreadlevel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      31, this->enum_targetthreadlevel(), output);
+  }
+
+  // optional bool isInterestTarget = 32;
+  if (this->isinteresttarget() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(32, this->isinteresttarget(), output);
+  }
+
+  // optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+  if (this->enum_xgscustomizedtargetthreadlevel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      33, this->enum_xgscustomizedtargetthreadlevel(), output);
+  }
+
+  // optional bool isWarShip = 34;
+  if (this->iswarship() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(34, this->iswarship(), output);
+  }
+
+  // optional bool isLawEnforceShip = 35;
+  if (this->islawenforceship() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(35, this->islawenforceship(), output);
+  }
+
+  // optional bool isChinese = 36;
+  if (this->ischinese() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(36, this->ischinese(), output);
+  }
+
+  // optional uint32 zoneEntryTimes = 37;
+  if (this->zoneentrytimes() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(37, this->zoneentrytimes(), output);
+  }
+
+  // repeated string listIllegalEventTypes = 38;
+  for (int i = 0; i < this->listillegaleventtypes_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->listillegaleventtypes(i).data(), this->listillegaleventtypes(i).length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "PBTargetPosition.listIllegalEventTypes");
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      38, this->listillegaleventtypes(i), output);
+  }
+
+  // repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+  if (this->listanomalytypes_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(
+      39,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      output);
+    output->WriteVarint32(_listanomalytypes_cached_byte_size_);
+  }
+  for (int i = 0; i < this->listanomalytypes_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnumNoTag(
+      this->listanomalytypes(i), output);
   }
 
   // @@protoc_insertion_point(serialize_end:PBTargetPosition)
@@ -1223,42 +1442,96 @@ void PBTargetPosition::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->cargotype(), target);
   }
 
-  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
-  if (this->enum_targetthreadlevel() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      12, this->enum_targetthreadlevel(), target);
-  }
-
-  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
+  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
   for (unsigned int i = 0, n = this->listtargetassociation_ds_mass_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        13, this->listtargetassociation_ds_mass(i), false, target);
+        12, this->listtargetassociation_ds_mass(i), false, target);
   }
 
-  // optional bool isDangerShip = 14;
+  // optional bool isDangerShip = 13;
   if (this->isdangership() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(14, this->isdangership(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(13, this->isdangership(), target);
   }
 
-  // optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
+  // optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
   if (this->lastassocusingdscombinationutctime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(15, this->lastassocusingdscombinationutctime(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(14, this->lastassocusingdscombinationutctime(), target);
   }
 
-  // optional int32 beidouID = 16;
+  // optional int32 beidouID = 15;
   if (this->beidouid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(16, this->beidouid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(15, this->beidouid(), target);
   }
 
-  // optional int32 haijianID = 17;
+  // optional int32 haijianID = 16;
   if (this->haijianid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(17, this->haijianid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(16, this->haijianid(), target);
   }
 
-  // optional int32 argosAndMarineSatID = 18;
+  // optional int32 argosAndMarineSatID = 17;
   if (this->argosandmarinesatid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(18, this->argosandmarinesatid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(17, this->argosandmarinesatid(), target);
+  }
+
+  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+  if (this->enum_targetthreadlevel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      31, this->enum_targetthreadlevel(), target);
+  }
+
+  // optional bool isInterestTarget = 32;
+  if (this->isinteresttarget() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(32, this->isinteresttarget(), target);
+  }
+
+  // optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+  if (this->enum_xgscustomizedtargetthreadlevel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      33, this->enum_xgscustomizedtargetthreadlevel(), target);
+  }
+
+  // optional bool isWarShip = 34;
+  if (this->iswarship() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(34, this->iswarship(), target);
+  }
+
+  // optional bool isLawEnforceShip = 35;
+  if (this->islawenforceship() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(35, this->islawenforceship(), target);
+  }
+
+  // optional bool isChinese = 36;
+  if (this->ischinese() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(36, this->ischinese(), target);
+  }
+
+  // optional uint32 zoneEntryTimes = 37;
+  if (this->zoneentrytimes() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(37, this->zoneentrytimes(), target);
+  }
+
+  // repeated string listIllegalEventTypes = 38;
+  for (int i = 0; i < this->listillegaleventtypes_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->listillegaleventtypes(i).data(), this->listillegaleventtypes(i).length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "PBTargetPosition.listIllegalEventTypes");
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteStringToArray(38, this->listillegaleventtypes(i), target);
+  }
+
+  // repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+  if (this->listanomalytypes_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      39,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(    _listanomalytypes_cached_byte_size_, target);
+  }
+  for (int i = 0; i < this->listanomalytypes_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumNoTagToArray(
+      this->listanomalytypes(i), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:PBTargetPosition)
@@ -1342,46 +1615,79 @@ size_t PBTargetPosition::ByteSizeLong() const {
         this->cargotype());
   }
 
-  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
-  if (this->enum_targetthreadlevel() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->enum_targetthreadlevel());
-  }
-
-  // optional bool isDangerShip = 14;
+  // optional bool isDangerShip = 13;
   if (this->isdangership() != 0) {
     total_size += 1 + 1;
   }
 
-  // optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
+  // optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
   if (this->lastassocusingdscombinationutctime() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->lastassocusingdscombinationutctime());
   }
 
-  // optional int32 beidouID = 16;
+  // optional int32 beidouID = 15;
   if (this->beidouid() != 0) {
-    total_size += 2 +
+    total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->beidouid());
   }
 
-  // optional int32 haijianID = 17;
+  // optional int32 haijianID = 16;
   if (this->haijianid() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->haijianid());
   }
 
-  // optional int32 argosAndMarineSatID = 18;
+  // optional int32 argosAndMarineSatID = 17;
   if (this->argosandmarinesatid() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->argosandmarinesatid());
   }
 
-  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
+  // optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+  if (this->enum_targetthreadlevel() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->enum_targetthreadlevel());
+  }
+
+  // optional bool isInterestTarget = 32;
+  if (this->isinteresttarget() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+  if (this->enum_xgscustomizedtargetthreadlevel() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->enum_xgscustomizedtargetthreadlevel());
+  }
+
+  // optional bool isWarShip = 34;
+  if (this->iswarship() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // optional bool isLawEnforceShip = 35;
+  if (this->islawenforceship() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // optional bool isChinese = 36;
+  if (this->ischinese() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // optional uint32 zoneEntryTimes = 37;
+  if (this->zoneentrytimes() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->zoneentrytimes());
+  }
+
+  // repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
   {
     unsigned int count = this->listtargetassociation_ds_mass_size();
     total_size += 1UL * count;
@@ -1390,6 +1696,32 @@ size_t PBTargetPosition::ByteSizeLong() const {
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->listtargetassociation_ds_mass(i));
     }
+  }
+
+  // repeated string listIllegalEventTypes = 38;
+  total_size += 2 *
+      ::google::protobuf::internal::FromIntSize(this->listillegaleventtypes_size());
+  for (int i = 0; i < this->listillegaleventtypes_size(); i++) {
+    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+      this->listillegaleventtypes(i));
+  }
+
+  // repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+  {
+    size_t data_size = 0;
+    unsigned int count = this->listanomalytypes_size();for (unsigned int i = 0; i < count; i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::EnumSize(
+        this->listanomalytypes(i));
+    }
+    if (data_size > 0) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(data_size);
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _listanomalytypes_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1426,6 +1758,8 @@ void PBTargetPosition::MergeFrom(const PBTargetPosition& from) {
 void PBTargetPosition::UnsafeMergeFrom(const PBTargetPosition& from) {
   GOOGLE_DCHECK(&from != this);
   listtargetassociation_ds_mass_.MergeFrom(from.listtargetassociation_ds_mass_);
+  listillegaleventtypes_.UnsafeMergeFrom(from.listillegaleventtypes_);
+  listanomalytypes_.UnsafeMergeFrom(from.listanomalytypes_);
   if (from.targetid() != 0) {
     set_targetid(from.targetid());
   }
@@ -1460,9 +1794,6 @@ void PBTargetPosition::UnsafeMergeFrom(const PBTargetPosition& from) {
   if (from.cargotype() != 0) {
     set_cargotype(from.cargotype());
   }
-  if (from.enum_targetthreadlevel() != 0) {
-    set_enum_targetthreadlevel(from.enum_targetthreadlevel());
-  }
   if (from.isdangership() != 0) {
     set_isdangership(from.isdangership());
   }
@@ -1477,6 +1808,27 @@ void PBTargetPosition::UnsafeMergeFrom(const PBTargetPosition& from) {
   }
   if (from.argosandmarinesatid() != 0) {
     set_argosandmarinesatid(from.argosandmarinesatid());
+  }
+  if (from.enum_targetthreadlevel() != 0) {
+    set_enum_targetthreadlevel(from.enum_targetthreadlevel());
+  }
+  if (from.isinteresttarget() != 0) {
+    set_isinteresttarget(from.isinteresttarget());
+  }
+  if (from.enum_xgscustomizedtargetthreadlevel() != 0) {
+    set_enum_xgscustomizedtargetthreadlevel(from.enum_xgscustomizedtargetthreadlevel());
+  }
+  if (from.iswarship() != 0) {
+    set_iswarship(from.iswarship());
+  }
+  if (from.islawenforceship() != 0) {
+    set_islawenforceship(from.islawenforceship());
+  }
+  if (from.ischinese() != 0) {
+    set_ischinese(from.ischinese());
+  }
+  if (from.zoneentrytimes() != 0) {
+    set_zoneentrytimes(from.zoneentrytimes());
   }
 }
 
@@ -1515,13 +1867,21 @@ void PBTargetPosition::InternalSwap(PBTargetPosition* other) {
   countryname_.Swap(&other->countryname_);
   std::swap(aggregatedaisshiptype_, other->aggregatedaisshiptype_);
   std::swap(cargotype_, other->cargotype_);
-  std::swap(enum_targetthreadlevel_, other->enum_targetthreadlevel_);
   listtargetassociation_ds_mass_.UnsafeArenaSwap(&other->listtargetassociation_ds_mass_);
   std::swap(isdangership_, other->isdangership_);
   std::swap(lastassocusingdscombinationutctime_, other->lastassocusingdscombinationutctime_);
   std::swap(beidouid_, other->beidouid_);
   std::swap(haijianid_, other->haijianid_);
   std::swap(argosandmarinesatid_, other->argosandmarinesatid_);
+  std::swap(enum_targetthreadlevel_, other->enum_targetthreadlevel_);
+  std::swap(isinteresttarget_, other->isinteresttarget_);
+  std::swap(enum_xgscustomizedtargetthreadlevel_, other->enum_xgscustomizedtargetthreadlevel_);
+  std::swap(iswarship_, other->iswarship_);
+  std::swap(islawenforceship_, other->islawenforceship_);
+  std::swap(ischinese_, other->ischinese_);
+  std::swap(zoneentrytimes_, other->zoneentrytimes_);
+  listillegaleventtypes_.UnsafeArenaSwap(&other->listillegaleventtypes_);
+  listanomalytypes_.UnsafeArenaSwap(&other->listanomalytypes_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1796,21 +2156,7 @@ void PBTargetPosition::set_cargotype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.cargoType)
 }
 
-// optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12;
-void PBTargetPosition::clear_enum_targetthreadlevel() {
-  enum_targetthreadlevel_ = 0;
-}
-::PB_Enum_Target_ThreatLevel PBTargetPosition::enum_targetthreadlevel() const {
-  // @@protoc_insertion_point(field_get:PBTargetPosition.enum_TargetThreadLevel)
-  return static_cast< ::PB_Enum_Target_ThreatLevel >(enum_targetthreadlevel_);
-}
-void PBTargetPosition::set_enum_targetthreadlevel(::PB_Enum_Target_ThreatLevel value) {
-  
-  enum_targetthreadlevel_ = value;
-  // @@protoc_insertion_point(field_set:PBTargetPosition.enum_TargetThreadLevel)
-}
-
-// repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13;
+// repeated .PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12;
 int PBTargetPosition::listtargetassociation_ds_mass_size() const {
   return listtargetassociation_ds_mass_.size();
 }
@@ -1840,7 +2186,7 @@ PBTargetPosition::listtargetassociation_ds_mass() const {
   return listtargetassociation_ds_mass_;
 }
 
-// optional bool isDangerShip = 14;
+// optional bool isDangerShip = 13;
 void PBTargetPosition::clear_isdangership() {
   isdangership_ = false;
 }
@@ -1854,7 +2200,7 @@ void PBTargetPosition::set_isdangership(bool value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.isDangerShip)
 }
 
-// optional uint32 lastAssocUsingDSCombinationUTCTime = 15;
+// optional uint32 lastAssocUsingDSCombinationUTCTime = 14;
 void PBTargetPosition::clear_lastassocusingdscombinationutctime() {
   lastassocusingdscombinationutctime_ = 0u;
 }
@@ -1868,7 +2214,7 @@ void PBTargetPosition::set_lastassocusingdscombinationutctime(::google::protobuf
   // @@protoc_insertion_point(field_set:PBTargetPosition.lastAssocUsingDSCombinationUTCTime)
 }
 
-// optional int32 beidouID = 16;
+// optional int32 beidouID = 15;
 void PBTargetPosition::clear_beidouid() {
   beidouid_ = 0;
 }
@@ -1882,7 +2228,7 @@ void PBTargetPosition::set_beidouid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.beidouID)
 }
 
-// optional int32 haijianID = 17;
+// optional int32 haijianID = 16;
 void PBTargetPosition::clear_haijianid() {
   haijianid_ = 0;
 }
@@ -1896,7 +2242,7 @@ void PBTargetPosition::set_haijianid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBTargetPosition.haijianID)
 }
 
-// optional int32 argosAndMarineSatID = 18;
+// optional int32 argosAndMarineSatID = 17;
 void PBTargetPosition::clear_argosandmarinesatid() {
   argosandmarinesatid_ = 0;
 }
@@ -1908,6 +2254,189 @@ void PBTargetPosition::set_argosandmarinesatid(::google::protobuf::int32 value) 
   
   argosandmarinesatid_ = value;
   // @@protoc_insertion_point(field_set:PBTargetPosition.argosAndMarineSatID)
+}
+
+// optional .PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31;
+void PBTargetPosition::clear_enum_targetthreadlevel() {
+  enum_targetthreadlevel_ = 0;
+}
+::PB_Enum_Target_ThreatLevel PBTargetPosition::enum_targetthreadlevel() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.enum_TargetThreadLevel)
+  return static_cast< ::PB_Enum_Target_ThreatLevel >(enum_targetthreadlevel_);
+}
+void PBTargetPosition::set_enum_targetthreadlevel(::PB_Enum_Target_ThreatLevel value) {
+  
+  enum_targetthreadlevel_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.enum_TargetThreadLevel)
+}
+
+// optional bool isInterestTarget = 32;
+void PBTargetPosition::clear_isinteresttarget() {
+  isinteresttarget_ = false;
+}
+bool PBTargetPosition::isinteresttarget() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isInterestTarget)
+  return isinteresttarget_;
+}
+void PBTargetPosition::set_isinteresttarget(bool value) {
+  
+  isinteresttarget_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isInterestTarget)
+}
+
+// optional .PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel = 33;
+void PBTargetPosition::clear_enum_xgscustomizedtargetthreadlevel() {
+  enum_xgscustomizedtargetthreadlevel_ = 0;
+}
+::PB_Enum_Target_XGSCustomizedThreatLevel PBTargetPosition::enum_xgscustomizedtargetthreadlevel() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.enum_XGSCustomizedTargetThreadLevel)
+  return static_cast< ::PB_Enum_Target_XGSCustomizedThreatLevel >(enum_xgscustomizedtargetthreadlevel_);
+}
+void PBTargetPosition::set_enum_xgscustomizedtargetthreadlevel(::PB_Enum_Target_XGSCustomizedThreatLevel value) {
+  
+  enum_xgscustomizedtargetthreadlevel_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.enum_XGSCustomizedTargetThreadLevel)
+}
+
+// optional bool isWarShip = 34;
+void PBTargetPosition::clear_iswarship() {
+  iswarship_ = false;
+}
+bool PBTargetPosition::iswarship() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isWarShip)
+  return iswarship_;
+}
+void PBTargetPosition::set_iswarship(bool value) {
+  
+  iswarship_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isWarShip)
+}
+
+// optional bool isLawEnforceShip = 35;
+void PBTargetPosition::clear_islawenforceship() {
+  islawenforceship_ = false;
+}
+bool PBTargetPosition::islawenforceship() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isLawEnforceShip)
+  return islawenforceship_;
+}
+void PBTargetPosition::set_islawenforceship(bool value) {
+  
+  islawenforceship_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isLawEnforceShip)
+}
+
+// optional bool isChinese = 36;
+void PBTargetPosition::clear_ischinese() {
+  ischinese_ = false;
+}
+bool PBTargetPosition::ischinese() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.isChinese)
+  return ischinese_;
+}
+void PBTargetPosition::set_ischinese(bool value) {
+  
+  ischinese_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.isChinese)
+}
+
+// optional uint32 zoneEntryTimes = 37;
+void PBTargetPosition::clear_zoneentrytimes() {
+  zoneentrytimes_ = 0u;
+}
+::google::protobuf::uint32 PBTargetPosition::zoneentrytimes() const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.zoneEntryTimes)
+  return zoneentrytimes_;
+}
+void PBTargetPosition::set_zoneentrytimes(::google::protobuf::uint32 value) {
+  
+  zoneentrytimes_ = value;
+  // @@protoc_insertion_point(field_set:PBTargetPosition.zoneEntryTimes)
+}
+
+// repeated string listIllegalEventTypes = 38;
+int PBTargetPosition::listillegaleventtypes_size() const {
+  return listillegaleventtypes_.size();
+}
+void PBTargetPosition::clear_listillegaleventtypes() {
+  listillegaleventtypes_.Clear();
+}
+const ::std::string& PBTargetPosition::listillegaleventtypes(int index) const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_.Get(index);
+}
+::std::string* PBTargetPosition::mutable_listillegaleventtypes(int index) {
+  // @@protoc_insertion_point(field_mutable:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_.Mutable(index);
+}
+void PBTargetPosition::set_listillegaleventtypes(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:PBTargetPosition.listIllegalEventTypes)
+  listillegaleventtypes_.Mutable(index)->assign(value);
+}
+void PBTargetPosition::set_listillegaleventtypes(int index, const char* value) {
+  listillegaleventtypes_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:PBTargetPosition.listIllegalEventTypes)
+}
+void PBTargetPosition::set_listillegaleventtypes(int index, const char* value, size_t size) {
+  listillegaleventtypes_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:PBTargetPosition.listIllegalEventTypes)
+}
+::std::string* PBTargetPosition::add_listillegaleventtypes() {
+  // @@protoc_insertion_point(field_add_mutable:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_.Add();
+}
+void PBTargetPosition::add_listillegaleventtypes(const ::std::string& value) {
+  listillegaleventtypes_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:PBTargetPosition.listIllegalEventTypes)
+}
+void PBTargetPosition::add_listillegaleventtypes(const char* value) {
+  listillegaleventtypes_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:PBTargetPosition.listIllegalEventTypes)
+}
+void PBTargetPosition::add_listillegaleventtypes(const char* value, size_t size) {
+  listillegaleventtypes_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:PBTargetPosition.listIllegalEventTypes)
+}
+const ::google::protobuf::RepeatedPtrField< ::std::string>&
+PBTargetPosition::listillegaleventtypes() const {
+  // @@protoc_insertion_point(field_list:PBTargetPosition.listIllegalEventTypes)
+  return listillegaleventtypes_;
+}
+::google::protobuf::RepeatedPtrField< ::std::string>*
+PBTargetPosition::mutable_listillegaleventtypes() {
+  // @@protoc_insertion_point(field_mutable_list:PBTargetPosition.listIllegalEventTypes)
+  return &listillegaleventtypes_;
+}
+
+// repeated .PB_Enum_ShipAnomalyType listAnomalyTypes = 39;
+int PBTargetPosition::listanomalytypes_size() const {
+  return listanomalytypes_.size();
+}
+void PBTargetPosition::clear_listanomalytypes() {
+  listanomalytypes_.Clear();
+}
+::PB_Enum_ShipAnomalyType PBTargetPosition::listanomalytypes(int index) const {
+  // @@protoc_insertion_point(field_get:PBTargetPosition.listAnomalyTypes)
+  return static_cast< ::PB_Enum_ShipAnomalyType >(listanomalytypes_.Get(index));
+}
+void PBTargetPosition::set_listanomalytypes(int index, ::PB_Enum_ShipAnomalyType value) {
+  listanomalytypes_.Set(index, value);
+  // @@protoc_insertion_point(field_set:PBTargetPosition.listAnomalyTypes)
+}
+void PBTargetPosition::add_listanomalytypes(::PB_Enum_ShipAnomalyType value) {
+  listanomalytypes_.Add(value);
+  // @@protoc_insertion_point(field_add:PBTargetPosition.listAnomalyTypes)
+}
+const ::google::protobuf::RepeatedField<int>&
+PBTargetPosition::listanomalytypes() const {
+  // @@protoc_insertion_point(field_list:PBTargetPosition.listAnomalyTypes)
+  return listanomalytypes_;
+}
+::google::protobuf::RepeatedField<int>*
+PBTargetPosition::mutable_listanomalytypes() {
+  // @@protoc_insertion_point(field_mutable_list:PBTargetPosition.listAnomalyTypes)
+  return &listanomalytypes_;
 }
 
 inline const PBTargetPosition* PBTargetPosition::internal_default_instance() {

@@ -375,11 +375,11 @@ class PBAISStatic : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 shiptype_ais() const;
   void set_shiptype_ais(::google::protobuf::int32 value);
 
-  // optional uint32 IMO = 4;
+  // optional int32 IMO = 4;
   void clear_imo();
   static const int kIMOFieldNumber = 4;
-  ::google::protobuf::uint32 imo() const;
-  void set_imo(::google::protobuf::uint32 value);
+  ::google::protobuf::int32 imo() const;
+  void set_imo(::google::protobuf::int32 value);
 
   // optional string shipName = 5;
   void clear_shipname();
@@ -430,7 +430,7 @@ class PBAISStatic : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 mmsi_;
   ::google::protobuf::uint32 utctimestamp_;
   ::google::protobuf::int32 shiptype_ais_;
-  ::google::protobuf::uint32 imo_;
+  ::google::protobuf::int32 imo_;
   ::google::protobuf::uint32 breadthmeters_;
   ::google::protobuf::uint32 lenghmeters_;
   int fixingdevice_;
@@ -779,15 +779,15 @@ inline void PBAISStatic::set_shiptype_ais(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PBAISStatic.shipType_AIS)
 }
 
-// optional uint32 IMO = 4;
+// optional int32 IMO = 4;
 inline void PBAISStatic::clear_imo() {
-  imo_ = 0u;
+  imo_ = 0;
 }
-inline ::google::protobuf::uint32 PBAISStatic::imo() const {
+inline ::google::protobuf::int32 PBAISStatic::imo() const {
   // @@protoc_insertion_point(field_get:PBAISStatic.IMO)
   return imo_;
 }
-inline void PBAISStatic::set_imo(::google::protobuf::uint32 value) {
+inline void PBAISStatic::set_imo(::google::protobuf::int32 value) {
   
   imo_ = value;
   // @@protoc_insertion_point(field_set:PBAISStatic.IMO)

@@ -29,18 +29,30 @@ message PBTargetPosition
 	
 	PB_Enum_Aggregated_AIS_Ship_Type aggregatedAISShipType = 10; //聚合后的目标类型
 	int32 cargoType = 11; //货物类型，对应AIS标准中船舶类型编号的第二位数字。没有该数据时，填写为-1
-	PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 12; //目标威胁等级
 	
 	//DS证据理论中的mass值，记录可能关联上的各个目标的情况。各个目标（包括空集和全集）的mass值的和为1
 	//该条弃用，字段保留：改为分别记录该目标与各类型信息中其他目标的关联情况。
-	repeated PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 13; //obsolete
+	repeated PBTargetAssociation_DS_Mass listTargetAssociation_DS_Mass = 12; //obsolete
 
-	bool isDangerShip =14; //是否是运送危险货物的船只。Dangerous Goods, Hazard Substance, Marine Pollutant,etc. If this is not set, default value will be false.
-	uint32 lastAssocUsingDSCombinationUTCTime = 15; //Last time that performing association using D-S theory.
+	bool isDangerShip =13; //是否是运送危险货物的船只。Dangerous Goods, Hazard Substance, Marine Pollutant,etc. If this is not set, default value will be false.
+	uint32 lastAssocUsingDSCombinationUTCTime = 14; //Last time that performing association using D-S theory.
 	
-	int32 beidouID =16; //targetID in Beidou data, default is 0
-	int32 haijianID =17; // default is 0
-	int32 argosAndMarineSatID =18; // default is 0
+	int32 beidouID =15; //targetID in Beidou data, default is 0
+	int32 haijianID =16; // default is 0
+	int32 argosAndMarineSatID =17; // default is 0
+	
+	
+	//   Note:  以下字段由态势感知程序进行计算分析，将计算结果通过UpdateTarget消息发送到MQ，供数据关联等其他程序更新
+	
+	PB_Enum_Target_ThreatLevel enum_TargetThreadLevel = 31; //目标威胁等级
+	bool isInterestTarget=32; //是否为重点目标
+	PB_Enum_Target_XGSCustomizedThreatLevel enum_XGSCustomizedTargetThreadLevel=33; //XGS定制版目标威胁等级	
+	bool isWarShip = 34; //是否为军舰
+	bool isLawEnforceShip = 35; //是否为执法船
+	bool isChinese = 36; //是否为中国船
+	uint32 zoneEntryTimes = 37; //进入敏感区域次数
+	repeated string listIllegalEventTypes=38; //违法违规行为类型列表
+	repeated PB_Enum_ShipAnomalyType listAnomalyTypes = 39; //异常行为种类,只记录:{速度过快, 信息静默, 驶入/接近敏感区域}
 }
 
 //DS证据理论中的mass值，记录可能关联上的目标的情况。当没有相关信息时，可以将大小为1的mass赋值给全集Ω

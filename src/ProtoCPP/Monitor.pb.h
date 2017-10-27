@@ -67,6 +67,28 @@ inline bool PBMonitor_ToXGS_SoftwareStatus_PB_Enum_XGS_SoftwareStatus_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<PBMonitor_ToXGS_SoftwareStatus_PB_Enum_XGS_SoftwareStatus>(
     PBMonitor_ToXGS_SoftwareStatus_PB_Enum_XGS_SoftwareStatus_descriptor(), name, value);
 }
+enum PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus {
+  PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_NA = 0,
+  PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_Normal = 1,
+  PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_Error = 2,
+  PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_IsValid(int value);
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_MIN = PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_NA;
+const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_MAX = PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_Error;
+const int PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_ARRAYSIZE = PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor();
+inline const ::std::string& PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_Name(PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor(), value);
+}
+inline bool PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_Parse(
+    const ::std::string& name, PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus>(
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor(), name, value);
+}
 enum PB_Enum_TargetDistributionStatus {
   EV_TargetDistributionStatus_NA = 0,
   EV_TargetDistributionStatus_OnGoing = 1,
@@ -1122,6 +1144,34 @@ class PBMonitor_MessagesRcvdPerTargetInfoSourceAndType : public ::google::protob
 
   // nested types ----------------------------------------------------
 
+  typedef PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PB_Enum_MessagesRcvdStatus;
+  static const PB_Enum_MessagesRcvdStatus EV_MessagesRcvdStatus_NA =
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_NA;
+  static const PB_Enum_MessagesRcvdStatus EV_MessagesRcvdStatus_Normal =
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_Normal;
+  static const PB_Enum_MessagesRcvdStatus EV_MessagesRcvdStatus_Error =
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_EV_MessagesRcvdStatus_Error;
+  static inline bool PB_Enum_MessagesRcvdStatus_IsValid(int value) {
+    return PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_IsValid(value);
+  }
+  static const PB_Enum_MessagesRcvdStatus PB_Enum_MessagesRcvdStatus_MIN =
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_MIN;
+  static const PB_Enum_MessagesRcvdStatus PB_Enum_MessagesRcvdStatus_MAX =
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_MAX;
+  static const int PB_Enum_MessagesRcvdStatus_ARRAYSIZE =
+    PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_PB_Enum_MessagesRcvdStatus_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  PB_Enum_MessagesRcvdStatus_descriptor() {
+    return PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor();
+  }
+  static inline const ::std::string& PB_Enum_MessagesRcvdStatus_Name(PB_Enum_MessagesRcvdStatus value) {
+    return PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_Name(value);
+  }
+  static inline bool PB_Enum_MessagesRcvdStatus_Parse(const ::std::string& name,
+      PB_Enum_MessagesRcvdStatus* value) {
+    return PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // optional uint32 recordUTCTime = 1;
@@ -1148,6 +1198,18 @@ class PBMonitor_MessagesRcvdPerTargetInfoSourceAndType : public ::google::protob
   ::google::protobuf::int64 messagesrcvd() const;
   void set_messagesrcvd(::google::protobuf::int64 value);
 
+  // optional int32 targetsRcvd = 5;
+  void clear_targetsrcvd();
+  static const int kTargetsRcvdFieldNumber = 5;
+  ::google::protobuf::int32 targetsrcvd() const;
+  void set_targetsrcvd(::google::protobuf::int32 value);
+
+  // optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+  void clear_messagesrcvdstatus();
+  static const int kMessagesRcvdStatusFieldNumber = 6;
+  ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus messagesrcvdstatus() const;
+  void set_messagesrcvdstatus(::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus value);
+
   // @@protoc_insertion_point(class_scope:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType)
  private:
 
@@ -1156,6 +1218,8 @@ class PBMonitor_MessagesRcvdPerTargetInfoSourceAndType : public ::google::protob
   int enum_targetinfo_source_;
   ::google::protobuf::int64 messagesrcvd_;
   int enum_targetinfo_type_;
+  ::google::protobuf::int32 targetsrcvd_;
+  int messagesrcvdstatus_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_Monitor_2eproto_impl();
   friend void  protobuf_AddDesc_Monitor_2eproto_impl();
@@ -2300,6 +2364,34 @@ inline void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::set_messagesrcvd(:
   // @@protoc_insertion_point(field_set:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.messagesRcvd)
 }
 
+// optional int32 targetsRcvd = 5;
+inline void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::clear_targetsrcvd() {
+  targetsrcvd_ = 0;
+}
+inline ::google::protobuf::int32 PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::targetsrcvd() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.targetsRcvd)
+  return targetsrcvd_;
+}
+inline void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::set_targetsrcvd(::google::protobuf::int32 value) {
+  
+  targetsrcvd_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.targetsRcvd)
+}
+
+// optional .PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.PB_Enum_MessagesRcvdStatus messagesRcvdStatus = 6;
+inline void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::clear_messagesrcvdstatus() {
+  messagesrcvdstatus_ = 0;
+}
+inline ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::messagesrcvdstatus() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.messagesRcvdStatus)
+  return static_cast< ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus >(messagesrcvdstatus_);
+}
+inline void PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::set_messagesrcvdstatus(::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus value) {
+  
+  messagesrcvdstatus_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_MessagesRcvdPerTargetInfoSourceAndType.messagesRcvdStatus)
+}
+
 inline const PBMonitor_MessagesRcvdPerTargetInfoSourceAndType* PBMonitor_MessagesRcvdPerTargetInfoSourceAndType::internal_default_instance() {
   return &PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_default_instance_.get();
 }
@@ -2327,6 +2419,11 @@ template <> struct is_proto_enum< ::PBMonitor_ToXGS_SoftwareStatus_PB_Enum_XGS_S
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::PBMonitor_ToXGS_SoftwareStatus_PB_Enum_XGS_SoftwareStatus>() {
   return ::PBMonitor_ToXGS_SoftwareStatus_PB_Enum_XGS_SoftwareStatus_descriptor();
+}
+template <> struct is_proto_enum< ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus>() {
+  return ::PBMonitor_MessagesRcvdPerTargetInfoSourceAndType_PB_Enum_MessagesRcvdStatus_descriptor();
 }
 template <> struct is_proto_enum< ::PB_Enum_TargetDistributionStatus> : ::google::protobuf::internal::true_type {};
 template <>

@@ -27,6 +27,46 @@ enum PB_Enum_Aggregated_AIS_Ship_Type //枚举，聚合后的ais船类型。各�
 	EV_AggregatedAISShipType_Any = 101; //任意类型船
 }
 
+enum PB_Enum_ShipAnomalyType //船舶异常类型的枚举定义,大部分用于message PBAnomaly
+{
+	//正常
+	EV_ShipAnomalyType_NORMAL = 0;
+	
+	//活动轨迹异常，航行在船只稀少区域
+	EV_ShipAnomalyType_SUSPICIOUS_TRACK = 1; 
+	
+	//船速过快异常。初始设置：30节到40节：warning； 40节到50节：error ；50节以上：critical  
+	//可以根据异常配置消息更改
+	EV_ShipAnomalyType_HIGH_SPEED = 2; 
+	
+	//转向率过快异常。200°/min到300：warning； 300到500：error； 500以上：critical
+	EV_ShipAnomalyType_HIGH_ROT_Sensor = 3; 
+	
+	//失控，所有的该类型异常的异常等级都是warning
+	EV_ShipAnomalyType_NOT_UNDER_COMMAND = 4;
+	
+	//搁浅，所有的该类型异常的异常等级都是error
+	EV_ShipAnomalyType_AGROUND = 5;  
+
+	//操纵受限。May be a Oceanographic Research Ship
+	EV_ShipAnomalyType_RESTRICTED_Manoeuvrability=6; 
+	
+	//疑似军船。Suspiciously military ships, such as when the ship type is: engaged in military operation, medical transports; or when ship name contains words like "warship"
+	EV_ShipAnomalyType_MilitaryShip=7; 
+	
+	//疑似执法船.Suspiciously law enforcement ships, when the ship type 
+	EV_ShipAnomalyType_LawEnforcementShip=8; 
+	
+	//AIS device offline. 由于字段差异较多，AIS离线异常使用message AISOffLine来封装
+	EV_ShipAnomalyType_AISOffLine=9; 
+	
+	//进入/离开敏感区域. 由于字段差异较多，使用message PBZoneEntry来封装
+	EV_ShipAnomalyType_ZoneEntry=10;
+	
+	//Not available
+	EV_ShipAnomalyType_NA =99;
+}
+
 //信息类型。1： Argos及海事卫星 2：北斗 3：AIS静态 4： AIS动态 
 //5：LRIT 7：Hai Jian 15：综合信息(应该不会出现这一类型) 
 enum PB_Enum_TargetInfo_Type
@@ -129,6 +169,30 @@ enum PB_Enum_Target_ThreatLevel //枚举，目标威胁等级有哪些
 	EV_TargetThreatLevel_Non = 15;//无威胁
 }
 
+enum PB_Enum_Target_XGSCustomizedThreatLevel //枚举，XGS定制版目标威胁等级
+{
+	//下面的"已明确身份的外军舰船"指:船舶名称中包含军舰关键字（系统中实现为“疑似JS目标”的异常告警）;或船舶出现在“船舶类军舰信息表”
+	
+	//Not available，缺省值
+	EV_XGSCustomizedTargetThreatLevel_NA = 0;
+	
+	//1级威胁，最高等级威胁. 已明确身份的外军舰船进入敏感区域。
+	EV_XGSCustomizedTargetThreatLevel_Level1 = 1;
+	
+	//2级威胁.  包括2种情况，1：已明确身份的外军舰船  2：外国执法船进入敏感区域	   
+	EV_XGSCustomizedTargetThreatLevel_Level2 = 2;
+	
+	//3级威胁.  包括3种情况，1：出现多种违规(违规船舶信息表中有多种违规记录)  2: 累计多种行为异常(速度过快、信息静默、驶入/接近敏感区域 中的多种)  3: 疑似外国执法目标
+	EV_XGSCustomizedTargetThreatLevel_Level3 = 3;
+	
+	//4级威胁. 包括3种情况，1：单种违规  2:单种行为异常  3:疑似我国执法目标
+	EV_XGSCustomizedTargetThreatLevel_Level4 = 4;
+	
+	//无威胁
+	EV_XGSCustomizedTargetThreatLevel_Non = 15;
+}
+
+
 enum PB_Enum_Region_Shape //枚举，区域形状有哪些
 {
 	EV_RegionType_NA = 0;//Not available，缺省值
@@ -136,6 +200,9 @@ enum PB_Enum_Region_Shape //枚举，区域形状有哪些
 	EV_RegionType_Rectangle = 2;//矩形
 	EV_RegionType_Polygon = 3;//多边形
 	EV_RegionType_GeoPoint = 4;//点
+	
+	EV_RegionType_GeoCircularSector = 5;////扇形
+	EV_RegionType_GeoAnnularSector = 6;//点扇环
 	
 	EV_RegionType_Others = 15;//其他
 }

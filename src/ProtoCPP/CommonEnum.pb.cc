@@ -20,12 +20,14 @@
 namespace {
 
 const ::google::protobuf::EnumDescriptor* PB_Enum_Aggregated_AIS_Ship_Type_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* PB_Enum_ShipAnomalyType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetInfo_Type_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetInfo_Source_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetID_Type_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetInfo_ProcessLevel_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_Software_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_Target_ThreatLevel_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* PB_Enum_Target_XGSCustomizedThreatLevel_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* PB_Enum_Region_Shape_descriptor_ = NULL;
 
 }  // namespace
@@ -39,13 +41,15 @@ void protobuf_AssignDesc_CommonEnum_2eproto() {
       "CommonEnum.proto");
   GOOGLE_CHECK(file != NULL);
   PB_Enum_Aggregated_AIS_Ship_Type_descriptor_ = file->enum_type(0);
-  PB_Enum_TargetInfo_Type_descriptor_ = file->enum_type(1);
-  PB_Enum_TargetInfo_Source_descriptor_ = file->enum_type(2);
-  PB_Enum_TargetID_Type_descriptor_ = file->enum_type(3);
-  PB_Enum_TargetInfo_ProcessLevel_descriptor_ = file->enum_type(4);
-  PB_Enum_Software_descriptor_ = file->enum_type(5);
-  PB_Enum_Target_ThreatLevel_descriptor_ = file->enum_type(6);
-  PB_Enum_Region_Shape_descriptor_ = file->enum_type(7);
+  PB_Enum_ShipAnomalyType_descriptor_ = file->enum_type(1);
+  PB_Enum_TargetInfo_Type_descriptor_ = file->enum_type(2);
+  PB_Enum_TargetInfo_Source_descriptor_ = file->enum_type(3);
+  PB_Enum_TargetID_Type_descriptor_ = file->enum_type(4);
+  PB_Enum_TargetInfo_ProcessLevel_descriptor_ = file->enum_type(5);
+  PB_Enum_Software_descriptor_ = file->enum_type(6);
+  PB_Enum_Target_ThreatLevel_descriptor_ = file->enum_type(7);
+  PB_Enum_Target_XGSCustomizedThreatLevel_descriptor_ = file->enum_type(8);
+  PB_Enum_Region_Shape_descriptor_ = file->enum_type(9);
 }
 
 namespace {
@@ -102,60 +106,87 @@ void protobuf_AddDesc_CommonEnum_2eproto_impl() {
     "UnderwaterOperation\020\020\022#\n\037EV_AggregatedAI"
     "SShipType_Diving\020\021\022#\n\037EV_AggregatedAISSh"
     "ipType_Others\020d\022 \n\034EV_AggregatedAISShipT"
-    "ype_Any\020e*\327\002\n\027PB_Enum_TargetInfo_Type\022\030\n"
-    "\024EV_TargetInfoType_NA\020\000\022/\n+EV_TargetInfo"
-    "Type_ArgosAndMaritimeSatellite\020\001\022\034\n\030EV_T"
-    "argetInfoType_Beidou\020\002\022\037\n\033EV_TargetInfoT"
-    "ype_AISStatic\020\003\022 \n\034EV_TargetInfoType_AIS"
-    "Dynamic\020\004\022\032\n\026EV_TargetInfoType_LRIT\020\005\022\035\n"
-    "\031EV_TargetInfoType_Haijian\020\007\022\034\n\030EV_Targe"
-    "tInfoType_Fusion\020\017\022\031\n\025EV_TargetInfoType_"
-    "Any\020\020\022\034\n\030EV_TargetInfoType_Others\020\021*\207\003\n\031"
-    "PB_Enum_TargetInfo_Source\022\032\n\026EV_TargetIn"
-    "foSource_NA\020\000\022+\n\'EV_TargetInfoSource_Agr"
-    "icultureMinistry\020\001\022&\n\"EV_TargetInfoSourc"
-    "e_MaritimeBureau\020\002\022\037\n\033EV_TargetInfoSourc"
-    "e_Haijian\020\003\022\036\n\032EV_TargetInfoSource_SatAI"
-    "S\020\004\022\'\n#EV_TargetInfoSource_SearchAndResc"
-    "ue\020\005\0222\n.EV_TargetInfoSource_CivilMarineS"
-    "ituationSystem\020\006\022\036\n\032EV_TargetInfoSource_"
-    "Fusion\020\017\022\033\n\027EV_TargetInfoSource_Any\020\020\022\036\n"
-    "\032EV_TargetInfoSource_Others\020\021*\231\002\n\025PB_Enu"
-    "m_TargetID_Type\022\026\n\022EV_TargetIDType_NA\020\000\022"
-    "\030\n\024EV_TargetIDType_MMSI\020\001\022\027\n\023EV_TargetID"
-    "Type_IMO\020\002\022\034\n\030EV_TargetIDType_BeidouID\020\003"
-    "\022\035\n\031EV_TargetIDType_HaijianID\020\004\022\'\n#EV_Ta"
-    "rgetIDType_ArgosAndMarineSatID\020\005\022\032\n\026EV_T"
-    "argetIDType_Fusion\020\017\022\032\n\026EV_TargetIDType_"
-    "Others\020\020\022\027\n\023EV_TargetIDType_Any\020\021*\200\002\n\037PB"
-    "_Enum_TargetInfo_ProcessLevel\022 \n\034EV_Targ"
-    "etInfoProcessLevel_NA\020\000\022!\n\035EV_TargetInfo"
-    "ProcessLevel_Raw\020\001\022*\n&EV_TargetInfoProce"
-    "ssLevel_Preprocessed\020\002\022#\n\037EV_TargetInfoP"
-    "rocessLevel_Fused\020\003\022!\n\035EV_TargetInfoProc"
-    "essLevel_Any\020\017\022$\n EV_TargetInfoProcessLe"
-    "vel_Others\020\020*\375\002\n\020PB_Enum_Software\022\022\n\016EV_"
-    "Software_NA\020\000\022 \n\034EV_Software_OnLinePrepr"
-    "ocess\020\001\022\"\n\036EV_Software_TargetDistributio"
-    "n\020\002\022\034\n\030EV_Software_OnLineFusion\020\003\022!\n\035EV_"
-    "Software_StorageManagement\020\004\022\037\n\033EV_Softw"
-    "are_SoftwareMonitor\020\005\022\026\n\022EV_Software_XGS"
-    "Web\020\006\022\034\n\030EV_Software_XGSDestop_2D\020\007\022\035\n\031E"
-    "V_Software_XGSDesktop_3D\020\010\022\031\n\025EV_Softwar"
-    "e_DataAssoc\020\t\022\032\n\026EV_Software_MaritimeSA\020"
-    "\n\022!\n\035EV_Software_XGSDesktop_Others\020\017*\374\001\n"
-    "\032PB_Enum_Target_ThreatLevel\022\033\n\027EV_Target"
-    "ThreatLevel_NA\020\000\022\037\n\033EV_TargetThreatLevel"
-    "_Level1\020\001\022\037\n\033EV_TargetThreatLevel_Level2"
-    "\020\002\022\037\n\033EV_TargetThreatLevel_Level3\020\003\022\037\n\033E"
-    "V_TargetThreatLevel_Level4\020\004\022\037\n\033EV_Targe"
-    "tThreatLevel_Level5\020\005\022\034\n\030EV_TargetThreat"
-    "Level_Non\020\017*\264\001\n\024PB_Enum_Region_Shape\022\024\n\020"
-    "EV_RegionType_NA\020\000\022\030\n\024EV_RegionType_Circ"
-    "le\020\001\022\033\n\027EV_RegionType_Rectangle\020\002\022\031\n\025EV_"
-    "RegionType_Polygon\020\003\022\032\n\026EV_RegionType_Ge"
-    "oPoint\020\004\022\030\n\024EV_RegionType_Others\020\017B\024\n\022te"
-    "am.iOceanPlus.PBb\006proto3", 2984);
+    "ype_Any\020e*\331\003\n\027PB_Enum_ShipAnomalyType\022\035\n"
+    "\031EV_ShipAnomalyType_NORMAL\020\000\022\'\n#EV_ShipA"
+    "nomalyType_SUSPICIOUS_TRACK\020\001\022!\n\035EV_Ship"
+    "AnomalyType_HIGH_SPEED\020\002\022&\n\"EV_ShipAnoma"
+    "lyType_HIGH_ROT_Sensor\020\003\022(\n$EV_ShipAnoma"
+    "lyType_NOT_UNDER_COMMAND\020\004\022\036\n\032EV_ShipAno"
+    "malyType_AGROUND\020\005\0221\n-EV_ShipAnomalyType"
+    "_RESTRICTED_Manoeuvrability\020\006\022#\n\037EV_Ship"
+    "AnomalyType_MilitaryShip\020\007\022)\n%EV_ShipAno"
+    "malyType_LawEnforcementShip\020\010\022!\n\035EV_Ship"
+    "AnomalyType_AISOffLine\020\t\022 \n\034EV_ShipAnoma"
+    "lyType_ZoneEntry\020\n\022\031\n\025EV_ShipAnomalyType"
+    "_NA\020c*\327\002\n\027PB_Enum_TargetInfo_Type\022\030\n\024EV_"
+    "TargetInfoType_NA\020\000\022/\n+EV_TargetInfoType"
+    "_ArgosAndMaritimeSatellite\020\001\022\034\n\030EV_Targe"
+    "tInfoType_Beidou\020\002\022\037\n\033EV_TargetInfoType_"
+    "AISStatic\020\003\022 \n\034EV_TargetInfoType_AISDyna"
+    "mic\020\004\022\032\n\026EV_TargetInfoType_LRIT\020\005\022\035\n\031EV_"
+    "TargetInfoType_Haijian\020\007\022\034\n\030EV_TargetInf"
+    "oType_Fusion\020\017\022\031\n\025EV_TargetInfoType_Any\020"
+    "\020\022\034\n\030EV_TargetInfoType_Others\020\021*\255\003\n\031PB_E"
+    "num_TargetInfo_Source\022\032\n\026EV_TargetInfoSo"
+    "urce_NA\020\000\022+\n\'EV_TargetInfoSource_Agricul"
+    "tureMinistry\020\001\022&\n\"EV_TargetInfoSource_Ma"
+    "ritimeBureau\020\002\022\037\n\033EV_TargetInfoSource_Ha"
+    "ijian\020\003\022\036\n\032EV_TargetInfoSource_SatAIS\020\004\022"
+    "\'\n#EV_TargetInfoSource_SearchAndRescue\020\005"
+    "\0222\n.EV_TargetInfoSource_CivilMarineSitua"
+    "tionSystem\020\006\022$\n EV_TargetInfoSource_Ship"
+    "Security\020\007\022\036\n\032EV_TargetInfoSource_Fusion"
+    "\020\017\022\033\n\027EV_TargetInfoSource_Any\020\020\022\036\n\032EV_Ta"
+    "rgetInfoSource_Others\020\021*\231\002\n\025PB_Enum_Targ"
+    "etID_Type\022\026\n\022EV_TargetIDType_NA\020\000\022\030\n\024EV_"
+    "TargetIDType_MMSI\020\001\022\027\n\023EV_TargetIDType_I"
+    "MO\020\002\022\034\n\030EV_TargetIDType_BeidouID\020\003\022\035\n\031EV"
+    "_TargetIDType_HaijianID\020\004\022\'\n#EV_TargetID"
+    "Type_ArgosAndMarineSatID\020\005\022\032\n\026EV_TargetI"
+    "DType_Fusion\020\017\022\032\n\026EV_TargetIDType_Others"
+    "\020\020\022\027\n\023EV_TargetIDType_Any\020\021*\200\002\n\037PB_Enum_"
+    "TargetInfo_ProcessLevel\022 \n\034EV_TargetInfo"
+    "ProcessLevel_NA\020\000\022!\n\035EV_TargetInfoProces"
+    "sLevel_Raw\020\001\022*\n&EV_TargetInfoProcessLeve"
+    "l_Preprocessed\020\002\022#\n\037EV_TargetInfoProcess"
+    "Level_Fused\020\003\022!\n\035EV_TargetInfoProcessLev"
+    "el_Any\020\017\022$\n EV_TargetInfoProcessLevel_Ot"
+    "hers\020\020*\375\002\n\020PB_Enum_Software\022\022\n\016EV_Softwa"
+    "re_NA\020\000\022 \n\034EV_Software_OnLinePreprocess\020"
+    "\001\022\"\n\036EV_Software_TargetDistribution\020\002\022\034\n"
+    "\030EV_Software_OnLineFusion\020\003\022!\n\035EV_Softwa"
+    "re_StorageManagement\020\004\022\037\n\033EV_Software_So"
+    "ftwareMonitor\020\005\022\026\n\022EV_Software_XGSWeb\020\006\022"
+    "\034\n\030EV_Software_XGSDestop_2D\020\007\022\035\n\031EV_Soft"
+    "ware_XGSDesktop_3D\020\010\022\031\n\025EV_Software_Data"
+    "Assoc\020\t\022\032\n\026EV_Software_MaritimeSA\020\n\022!\n\035E"
+    "V_Software_XGSDesktop_Others\020\017*\242\003\n\032PB_En"
+    "um_Target_ThreatLevel\022\033\n\027EV_TargetThreat"
+    "Level_NA\020\000\022\037\n\033EV_TargetThreatLevel_Level"
+    "1\020\001\022\037\n\033EV_TargetThreatLevel_Level2\020\002\022\037\n\033"
+    "EV_TargetThreatLevel_Level3\020\003\022\037\n\033EV_Targ"
+    "etThreatLevel_Level4\020\004\022\037\n\033EV_TargetThrea"
+    "tLevel_Level5\020\005\022\037\n\033EV_TargetThreatLevel_"
+    "Level6\020\006\022\037\n\033EV_TargetThreatLevel_Level7\020"
+    "\007\022\037\n\033EV_TargetThreatLevel_Level8\020\010\022\037\n\033EV"
+    "_TargetThreatLevel_Level9\020\t\022 \n\034EV_Target"
+    "ThreatLevel_Level10\020\n\022\034\n\030EV_TargetThreat"
+    "Level_Non\020\017*\266\002\n\'PB_Enum_Target_XGSCustom"
+    "izedThreatLevel\022(\n$EV_XGSCustomizedTarge"
+    "tThreatLevel_NA\020\000\022,\n(EV_XGSCustomizedTar"
+    "getThreatLevel_Level1\020\001\022,\n(EV_XGSCustomi"
+    "zedTargetThreatLevel_Level2\020\002\022,\n(EV_XGSC"
+    "ustomizedTargetThreatLevel_Level3\020\003\022,\n(E"
+    "V_XGSCustomizedTargetThreatLevel_Level4\020"
+    "\004\022)\n%EV_XGSCustomizedTargetThreatLevel_N"
+    "on\020\017*\375\001\n\024PB_Enum_Region_Shape\022\024\n\020EV_Regi"
+    "onType_NA\020\000\022\030\n\024EV_RegionType_Circle\020\001\022\033\n"
+    "\027EV_RegionType_Rectangle\020\002\022\031\n\025EV_RegionT"
+    "ype_Polygon\020\003\022\032\n\026EV_RegionType_GeoPoint\020"
+    "\004\022#\n\037EV_RegionType_GeoCircularSector\020\005\022\""
+    "\n\036EV_RegionType_GeoAnnularSector\020\006\022\030\n\024EV"
+    "_RegionType_Others\020\017B\024\n\022team.iOceanPlus."
+    "PBb\006proto3", 4050);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "CommonEnum.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_CommonEnum_2eproto);
@@ -204,6 +235,30 @@ bool PB_Enum_Aggregated_AIS_Ship_Type_IsValid(int value) {
   }
 }
 
+const ::google::protobuf::EnumDescriptor* PB_Enum_ShipAnomalyType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PB_Enum_ShipAnomalyType_descriptor_;
+}
+bool PB_Enum_ShipAnomalyType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 99:
+      return true;
+    default:
+      return false;
+  }
+}
+
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetInfo_Type_descriptor() {
   protobuf_AssignDescriptorsOnce();
   return PB_Enum_TargetInfo_Type_descriptor_;
@@ -239,6 +294,7 @@ bool PB_Enum_TargetInfo_Source_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+    case 7:
     case 15:
     case 16:
     case 17:
@@ -323,6 +379,29 @@ bool PB_Enum_Target_ThreatLevel_IsValid(int value) {
     case 3:
     case 4:
     case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 15:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* PB_Enum_Target_XGSCustomizedThreatLevel_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PB_Enum_Target_XGSCustomizedThreatLevel_descriptor_;
+}
+bool PB_Enum_Target_XGSCustomizedThreatLevel_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
     case 15:
       return true;
     default:
@@ -341,6 +420,8 @@ bool PB_Enum_Region_Shape_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
+    case 6:
     case 15:
       return true;
     default:
