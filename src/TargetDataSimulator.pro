@@ -17,7 +17,7 @@ INCLUDEPATH += $$PWD/Module_MyFixedSizeQueue
 INCLUDEPATH += $$PWD/Module_EvidenceTheory
 INCLUDEPATH += $$PWD/FuzzyToolbox
 INCLUDEPATH += $$PWD/TailoredModule_Qt_PBCoderDecoder
-INCLUDEPATH += $$PWD/Module_Qt_Geography
+INCLUDEPATH += $$PWD/TailoredModule_Qt_Geography
 
 TARGET = TargetDataSimulator
 
@@ -38,18 +38,17 @@ SOURCES += main.cpp \
     DataSource.cpp \
     PosDevice.cpp \
     World_gridandmq.cpp \
-    Module_Qt_Geography/MyGeography.cpp \
-    Module_Qt_Geography/MyQtGeoCircle.cpp \
-    Module_Qt_Geography/MyQtGeoPolygon.cpp \
-    Module_Qt_Geography/MyQtGeoRectangle.cpp \
-    Module_Qt_Geography/MyQtGeoShapeBase.cpp \
     ThreadedWorld.cpp \
     TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.cpp \
     TailoredBaseClass_IOMessages/IOMessages.cpp \
     TailoredProtoCPP/AISData.pb.cc \
     TailoredProtoCPP/CommonEnum.pb.cc \
     TailoredProtoCPP/Monitor.pb.cc \
-    TailoredProtoCPP/Target.pb.cc
+    TailoredProtoCPP/Target.pb.cc \
+    TailoredModule_Qt_Geography/MyGeography.cpp \
+    TailoredModule_Qt_Geography/MyQtGeoPolygon.cpp \
+    TailoredModule_Qt_Geography/MyQtGeoRectangle.cpp \
+    TailoredModule_Qt_Geography/MyQtGeoShapeBase.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -76,18 +75,17 @@ HEADERS += \
     DataChannel.h \
     DataSource.h \
     PosDevice.h \
-    Module_Qt_Geography/MyGeography.h \
-    Module_Qt_Geography/MyQtGeoCircle.h \
-    Module_Qt_Geography/MyQtGeoPolygon.h \
-    Module_Qt_Geography/MyQtGeoRectangle.h \
-    Module_Qt_Geography/MyQtGeoShapeBase.h \
     ThreadedWorld.h \
     TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.h \
     TailoredBaseClass_IOMessages/IOMessages.h \
     TailoredProtoCPP/AISData.pb.h \
     TailoredProtoCPP/CommonEnum.pb.h \
     TailoredProtoCPP/Monitor.pb.h \
-    TailoredProtoCPP/Target.pb.h
+    TailoredProtoCPP/Target.pb.h \
+    TailoredModule_Qt_Geography/MyGeography.h \
+    TailoredModule_Qt_Geography/MyQtGeoPolygon.h \
+    TailoredModule_Qt_Geography/MyQtGeoRectangle.h \
+    TailoredModule_Qt_Geography/MyQtGeoShapeBase.h
 
 DISTFILES += \
     TailoredBaseClass_IOMessages/param_mq.txt \
