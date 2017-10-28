@@ -3,10 +3,9 @@
 
 #include <QObject>
 #include <QStringList>
-#include "ProtoCPP/Target.pb.h"
-#include "ProtoCPP/Monitor.pb.h"
 #include "ContainerOfUnThreadedMQTopicpublish.h"
-
+#include "Target.pb.h"
+#include "Monitor.pb.h"
 /********************
  * routing keys of rabbitmq
  * ***************************/

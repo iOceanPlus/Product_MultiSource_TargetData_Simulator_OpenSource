@@ -2,8 +2,8 @@
 #define PBCODERDECODER_H
 
 #include <QObject>
-#include "ProtoCPP/Target.pb.h"
-#include "ProtoCPP/CommonEnum.pb.h"
+#include "Target.pb.h"
+#include "CommonEnum.pb.h"
 
 class QMutex;
 
