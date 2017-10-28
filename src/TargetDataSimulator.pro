@@ -8,10 +8,10 @@ LIBS +=-L/usr/local/lib -lev
 LIBS +=-L/usr/lib -lamqpcpp
 
 INCLUDEPATH += /usr/local
-INCLUDEPATH += $$PWD/ProtoCPP
+INCLUDEPATH += $$PWD/TailoredProtoCPP
 INCLUDEPATH += $$PWD/Module_Qt_RabbitMQ
 INCLUDEPATH += $$PWD/Module_Qt_DBInterface
-INCLUDEPATH += $$PWD/BaseClass_IOMessages
+INCLUDEPATH += $$PWD/TailoredBaseClass_IOMessages
 INCLUDEPATH += $$PWD/Module_AISCommon
 INCLUDEPATH += $$PWD/Module_MyFixedSizeQueue
 INCLUDEPATH += $$PWD/Module_EvidenceTheory
@@ -24,7 +24,6 @@ TARGET = TargetDataSimulator
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    BaseClass_IOMessages/IOMessages.cpp \
     Module_Qt_RabbitMQ/ContainerOfThreadedMQTopicConsume.cpp \
     Module_Qt_RabbitMQ/ContainerOfThreadMQTopicPublish.cpp \
     Module_Qt_RabbitMQ/ContainerOfUnthreadedMQTopicConsume.cpp \
@@ -32,12 +31,8 @@ SOURCES += main.cpp \
     Module_Qt_RabbitMQ/LukeEventHandler.cpp \
     Module_Qt_RabbitMQ/MQTopicConsumeCore.cpp \
     Module_Qt_RabbitMQ/MQTopicPublishCore.cpp \
-    ProtoCPP/AISData.pb.cc \
-    ProtoCPP/CommonEnum.pb.cc \
-    ProtoCPP/Target.pb.cc \
     macro.cpp \
     target.cpp \
-    ProtoCPP/Monitor.pb.cc \
     simulator.cpp \
     DataChannel.cpp \
     DataSource.cpp \
@@ -49,7 +44,12 @@ SOURCES += main.cpp \
     Module_Qt_Geography/MyQtGeoRectangle.cpp \
     Module_Qt_Geography/MyQtGeoShapeBase.cpp \
     ThreadedWorld.cpp \
-    TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.cpp
+    TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.cpp \
+    TailoredBaseClass_IOMessages/IOMessages.cpp \
+    TailoredProtoCPP/AISData.pb.cc \
+    TailoredProtoCPP/CommonEnum.pb.cc \
+    TailoredProtoCPP/Monitor.pb.cc \
+    TailoredProtoCPP/Target.pb.cc
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -63,7 +63,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    BaseClass_IOMessages/IOMessages.h \
     Module_Qt_RabbitMQ/ContainerOfThreadedMQTopicConsume.h \
     Module_Qt_RabbitMQ/ContainerOfThreadMQTopicPublish.h \
     Module_Qt_RabbitMQ/ContainerOfUnThreadedMQTopicpublish.h \
@@ -71,12 +70,8 @@ HEADERS += \
     Module_Qt_RabbitMQ/LukeEventHandler.h \
     Module_Qt_RabbitMQ/MQTopicConsumeCore.h \
     Module_Qt_RabbitMQ/MQTopicPublishCore.h \
-    ProtoCPP/AISData.pb.h \
-    ProtoCPP/CommonEnum.pb.h \
-    ProtoCPP/Target.pb.h \
     macro.h \
     target.h \
-    ProtoCPP/Monitor.pb.h \
     simulator.h \
     DataChannel.h \
     DataSource.h \
@@ -87,10 +82,15 @@ HEADERS += \
     Module_Qt_Geography/MyQtGeoRectangle.h \
     Module_Qt_Geography/MyQtGeoShapeBase.h \
     ThreadedWorld.h \
-    TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.h
+    TailoredModule_Qt_PBCoderDecoder/PBCoderDecoder.h \
+    TailoredBaseClass_IOMessages/IOMessages.h \
+    TailoredProtoCPP/AISData.pb.h \
+    TailoredProtoCPP/CommonEnum.pb.h \
+    TailoredProtoCPP/Monitor.pb.h \
+    TailoredProtoCPP/Target.pb.h
 
 DISTFILES += \
-    BaseClass_IOMessages/param_mq.txt \
+    TailoredBaseClass_IOMessages/param_mq.txt \
     ../README.md \
     ../LICENSE \
     param.json
