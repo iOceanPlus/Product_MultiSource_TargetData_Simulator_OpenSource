@@ -94,7 +94,7 @@ void protobuf_AssignDesc_Monitor_2eproto() {
       sizeof(PBMonitor_Probe),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_Probe, _internal_metadata_));
   PBMonitor_ProbeAck_descriptor_ = file->message_type(2);
-  static const int PBMonitor_ProbeAck_offsets_[20] = {
+  static const int PBMonitor_ProbeAck_offsets_[22] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, recordutctime_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, enum_probesender_software_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, monitorprobesequencenumacked_),
@@ -102,6 +102,7 @@ void protobuf_AssignDesc_Monitor_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, origtargetpositionsrcvd_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, validorigtargetpositionsrcvd_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, preprocessedtargetpositionsrcvd_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, associatedtargetpositionsrcvd_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, fusedtargetpositionsrcvd_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, anomalymessagesrcvd_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, configmessagesrcvd_),
@@ -110,6 +111,7 @@ void protobuf_AssignDesc_Monitor_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, totalmessagessent_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, validorigtargetpositionssent_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, preprocessedtargetpositionssent_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, associatedtargetpositionssent_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, fusedtargetpositionssent_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, anomalymessagessent_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PBMonitor_ProbeAck, configmessagessent_),
@@ -311,94 +313,96 @@ void protobuf_AddDesc_Monitor_2eproto_impl() {
     "Status\030\n \003(\0132\037.PBMonitor_ToXGS_SoftwareS"
     "tatus\"Y\n\017PBMonitor_Probe\022\025\n\rrecordUTCTim"
     "e\030\001 \001(\r\022\037\n\027monitorProbeSequenceNum\030\002 \001(\r"
-    "\022\016\n\006strMsg\030\003 \001(\t\"\246\005\n\022PBMonitor_ProbeAck\022"
+    "\022\016\n\006strMsg\030\003 \001(\t\"\364\005\n\022PBMonitor_ProbeAck\022"
     "\025\n\rrecordUTCTime\030\001 \001(\r\0224\n\031enum_ProbeSend"
     "er_Software\030\002 \001(\0162\021.PB_Enum_Software\022$\n\034"
     "monitorProbeSequenceNumAcked\030\003 \001(\r\022\031\n\021to"
     "talMessagesRcvd\030\004 \001(\004\022\037\n\027origTargetPosit"
     "ionsRcvd\030\005 \001(\004\022$\n\034validOrigTargetPositio"
     "nsRcvd\030\006 \001(\004\022\'\n\037preprocessedTargetPositi"
-    "onsRcvd\030\007 \001(\004\022 \n\030fusedTargetPositionsRcv"
-    "d\030\010 \001(\004\022\033\n\023anomalyMessagesRcvd\030\t \001(\004\022\032\n\022"
-    "configMessagesRcvd\030\n \001(\r\022\033\n\023requestMessa"
-    "gesRcvd\030\013 \001(\r\022\033\n\023commandMessagesRcvd\030\014 \001"
-    "(\r\022\031\n\021totalMessagesSent\030\r \001(\004\022$\n\034validOr"
-    "igTargetPositionsSent\030\016 \001(\004\022\'\n\037preproces"
-    "sedTargetPositionsSent\030\017 \001(\004\022 \n\030fusedTar"
-    "getPositionsSent\030\020 \001(\004\022\033\n\023anomalyMessage"
-    "sSent\030\021 \001(\004\022\032\n\022configMessagesSent\030\022 \001(\r\022"
-    "\033\n\023requestMessagesSent\030\023 \001(\r\022\033\n\023commandM"
-    "essagesSent\030\024 \001(\r\"\302\r\n\036PBMonitor_ToXGS_So"
-    "ftwareStatus\022\025\n\rrecordUTCTime\030\001 \001(\r\022Z\n\026S"
-    "ubsys_XGS_HJFF_Status\030\002 \001(\0162:.PBMonitor_"
-    "ToXGS_SoftwareStatus.PB_Enum_XGS_Softwar"
-    "eStatus\022V\n\022Subsys_ZHCL_Status\030\003 \001(\0162:.PB"
-    "Monitor_ToXGS_SoftwareStatus.PB_Enum_XGS"
-    "_SoftwareStatus\022Y\n\025Subsys_XXFenXi_Status"
-    "\030\004 \001(\0162:.PBMonitor_ToXGS_SoftwareStatus."
-    "PB_Enum_XGS_SoftwareStatus\022V\n\022Subsys_YWG"
-    "L_Status\030\005 \001(\0162:.PBMonitor_ToXGS_Softwar"
-    "eStatus.PB_Enum_XGS_SoftwareStatus\022V\n\022Su"
-    "bsys_SJGL_Status\030\006 \001(\0162:.PBMonitor_ToXGS"
-    "_SoftwareStatus.PB_Enum_XGS_SoftwareStat"
-    "us\022X\n\024Module_XXZHCL_Status\030\007 \001(\0162:.PBMon"
-    "itor_ToXGS_SoftwareStatus.PB_Enum_XGS_So"
-    "ftwareStatus\022V\n\022Module_XXGL_Status\030\010 \001(\016"
-    "2:.PBMonitor_ToXGS_SoftwareStatus.PB_Enu"
-    "m_XGS_SoftwareStatus\022Y\n\025Module_XXFenFa_S"
-    "tatus\030\t \001(\0162:.PBMonitor_ToXGS_SoftwareSt"
-    "atus.PB_Enum_XGS_SoftwareStatus\022V\n\022Modul"
-    "e_JKTJ_Status\030\n \001(\0162:.PBMonitor_ToXGS_So"
-    "ftwareStatus.PB_Enum_XGS_SoftwareStatus\022"
-    "V\n\022Module_WJFX_Status\030\013 \001(\0162:.PBMonitor_"
-    "ToXGS_SoftwareStatus.PB_Enum_XGS_Softwar"
-    "eStatus\022V\n\022Module_YCGJ_Status\030\014 \001(\0162:.PB"
-    "Monitor_ToXGS_SoftwareStatus.PB_Enum_XGS"
-    "_SoftwareStatus\022V\n\022Module_XTJK_Status\030\r "
-    "\001(\0162:.PBMonitor_ToXGS_SoftwareStatus.PB_"
-    "Enum_XGS_SoftwareStatus\022X\n\024Module_YHQXGL"
-    "_Status\030\016 \001(\0162:.PBMonitor_ToXGS_Software"
-    "Status.PB_Enum_XGS_SoftwareStatus\022Z\n\026Mod"
-    "ule_SJYYGLWH_Status\030\017 \001(\0162:.PBMonitor_To"
+    "onsRcvd\030\007 \001(\004\022%\n\035associatedTargetPositio"
+    "nsRcvd\030\025 \001(\004\022 \n\030fusedTargetPositionsRcvd"
+    "\030\010 \001(\004\022\033\n\023anomalyMessagesRcvd\030\t \001(\004\022\032\n\022c"
+    "onfigMessagesRcvd\030\n \001(\r\022\033\n\023requestMessag"
+    "esRcvd\030\013 \001(\r\022\033\n\023commandMessagesRcvd\030\014 \001("
+    "\r\022\031\n\021totalMessagesSent\030\r \001(\004\022$\n\034validOri"
+    "gTargetPositionsSent\030\016 \001(\004\022\'\n\037preprocess"
+    "edTargetPositionsSent\030\017 \001(\004\022%\n\035associate"
+    "dTargetPositionsSent\030\026 \001(\004\022 \n\030fusedTarge"
+    "tPositionsSent\030\020 \001(\004\022\033\n\023anomalyMessagesS"
+    "ent\030\021 \001(\004\022\032\n\022configMessagesSent\030\022 \001(\r\022\033\n"
+    "\023requestMessagesSent\030\023 \001(\r\022\033\n\023commandMes"
+    "sagesSent\030\024 \001(\r\"\302\r\n\036PBMonitor_ToXGS_Soft"
+    "wareStatus\022\025\n\rrecordUTCTime\030\001 \001(\r\022Z\n\026Sub"
+    "sys_XGS_HJFF_Status\030\002 \001(\0162:.PBMonitor_To"
     "XGS_SoftwareStatus.PB_Enum_XGS_SoftwareS"
-    "tatus\022[\n\027Module_SJKYXZTJK_Status\030\020 \001(\0162:"
+    "tatus\022V\n\022Subsys_ZHCL_Status\030\003 \001(\0162:.PBMo"
+    "nitor_ToXGS_SoftwareStatus.PB_Enum_XGS_S"
+    "oftwareStatus\022Y\n\025Subsys_XXFenXi_Status\030\004"
+    " \001(\0162:.PBMonitor_ToXGS_SoftwareStatus.PB"
+    "_Enum_XGS_SoftwareStatus\022V\n\022Subsys_YWGL_"
+    "Status\030\005 \001(\0162:.PBMonitor_ToXGS_SoftwareS"
+    "tatus.PB_Enum_XGS_SoftwareStatus\022V\n\022Subs"
+    "ys_SJGL_Status\030\006 \001(\0162:.PBMonitor_ToXGS_S"
+    "oftwareStatus.PB_Enum_XGS_SoftwareStatus"
+    "\022X\n\024Module_XXZHCL_Status\030\007 \001(\0162:.PBMonit"
+    "or_ToXGS_SoftwareStatus.PB_Enum_XGS_Soft"
+    "wareStatus\022V\n\022Module_XXGL_Status\030\010 \001(\0162:"
     ".PBMonitor_ToXGS_SoftwareStatus.PB_Enum_"
-    "XGS_SoftwareStatus\022X\n\024Module_SJBFHF_Stat"
-    "us\030\021 \001(\0162:.PBMonitor_ToXGS_SoftwareStatu"
-    "s.PB_Enum_XGS_SoftwareStatus\022W\n\023Module_J"
-    "RYCL_Status\030\022 \001(\0162:.PBMonitor_ToXGS_Soft"
-    "wareStatus.PB_Enum_XGS_SoftwareStatus\022\030\n"
-    "\020errorDescription\030\023 \001(\t\"}\n\032PB_Enum_XGS_S"
-    "oftwareStatus\022\034\n\030EV_XGS_SoftwareStatus_N"
-    "A\020\000\022 \n\034EV_XGS_SoftwareStatus_Normal\020\001\022\037\n"
-    "\033EV_XGS_SoftwareStatus_Error\020\002\"\352\001\n\034PBMon"
-    "itor_TargetDistribution\022\025\n\rrecordUTCTime"
-    "\030\001 \001(\r\022\027\n\017distribution_id\030\002 \001(\005\022 \n\030distr"
-    "ibutionStartUTCTime\030\003 \001(\r\022A\n\026enum_Distri"
-    "butionState\030\004 \001(\0162!.PB_Enum_TargetDistri"
-    "butionStatus\022\032\n\022message_Count_Sent\030\005 \001(\004"
-    "\022\031\n\021target_Count_Sent\030\006 \001(\r\"\201\001\n\032PBMonito"
-    "r_AliveTargetCount\022\025\n\rrecordUTCTime\030\001 \001("
-    "\r\0222\n\022enum_targetID_Type\030\002 \001(\0162\026.PB_Enum_"
-    "TargetID_Type\022\030\n\020aliveTargetcount\030\003 \001(\005\""
-    "\321\003\n0PBMonitor_MessagesRcvdPerTargetInfoS"
-    "ourceAndType\022\025\n\rrecordUTCTime\030\001 \001(\r\022:\n\026e"
-    "num_targetInfo_Source\030\002 \001(\0162\032.PB_Enum_Ta"
-    "rgetInfo_Source\0226\n\024enum_targetInfo_Type\030"
-    "\003 \001(\0162\030.PB_Enum_TargetInfo_Type\022\024\n\014messa"
-    "gesRcvd\030\004 \001(\003\022\023\n\013targetsRcvd\030\005 \001(\005\022h\n\022me"
-    "ssagesRcvdStatus\030\006 \001(\0162L.PBMonitor_Messa"
-    "gesRcvdPerTargetInfoSourceAndType.PB_Enu"
-    "m_MessagesRcvdStatus\"}\n\032PB_Enum_Messages"
-    "RcvdStatus\022\034\n\030EV_MessagesRcvdStatus_NA\020\000"
-    "\022 \n\034EV_MessagesRcvdStatus_Normal\020\001\022\037\n\033EV"
-    "_MessagesRcvdStatus_Error\020\002*\300\001\n PB_Enum_"
-    "TargetDistributionStatus\022\"\n\036EV_TargetDis"
-    "tributionStatus_NA\020\000\022\'\n#EV_TargetDistrib"
-    "utionStatus_OnGoing\020\001\022&\n\"EV_TargetDistri"
-    "butionStatus_Paused\020\002\022\'\n#EV_TargetDistri"
-    "butionStatus_Stopped\020\003B\024\n\022team.iOceanPlu"
-    "s.PBb\006proto3", 4132);
+    "XGS_SoftwareStatus\022Y\n\025Module_XXFenFa_Sta"
+    "tus\030\t \001(\0162:.PBMonitor_ToXGS_SoftwareStat"
+    "us.PB_Enum_XGS_SoftwareStatus\022V\n\022Module_"
+    "JKTJ_Status\030\n \001(\0162:.PBMonitor_ToXGS_Soft"
+    "wareStatus.PB_Enum_XGS_SoftwareStatus\022V\n"
+    "\022Module_WJFX_Status\030\013 \001(\0162:.PBMonitor_To"
+    "XGS_SoftwareStatus.PB_Enum_XGS_SoftwareS"
+    "tatus\022V\n\022Module_YCGJ_Status\030\014 \001(\0162:.PBMo"
+    "nitor_ToXGS_SoftwareStatus.PB_Enum_XGS_S"
+    "oftwareStatus\022V\n\022Module_XTJK_Status\030\r \001("
+    "\0162:.PBMonitor_ToXGS_SoftwareStatus.PB_En"
+    "um_XGS_SoftwareStatus\022X\n\024Module_YHQXGL_S"
+    "tatus\030\016 \001(\0162:.PBMonitor_ToXGS_SoftwareSt"
+    "atus.PB_Enum_XGS_SoftwareStatus\022Z\n\026Modul"
+    "e_SJYYGLWH_Status\030\017 \001(\0162:.PBMonitor_ToXG"
+    "S_SoftwareStatus.PB_Enum_XGS_SoftwareSta"
+    "tus\022[\n\027Module_SJKYXZTJK_Status\030\020 \001(\0162:.P"
+    "BMonitor_ToXGS_SoftwareStatus.PB_Enum_XG"
+    "S_SoftwareStatus\022X\n\024Module_SJBFHF_Status"
+    "\030\021 \001(\0162:.PBMonitor_ToXGS_SoftwareStatus."
+    "PB_Enum_XGS_SoftwareStatus\022W\n\023Module_JRY"
+    "CL_Status\030\022 \001(\0162:.PBMonitor_ToXGS_Softwa"
+    "reStatus.PB_Enum_XGS_SoftwareStatus\022\030\n\020e"
+    "rrorDescription\030\023 \001(\t\"}\n\032PB_Enum_XGS_Sof"
+    "twareStatus\022\034\n\030EV_XGS_SoftwareStatus_NA\020"
+    "\000\022 \n\034EV_XGS_SoftwareStatus_Normal\020\001\022\037\n\033E"
+    "V_XGS_SoftwareStatus_Error\020\002\"\352\001\n\034PBMonit"
+    "or_TargetDistribution\022\025\n\rrecordUTCTime\030\001"
+    " \001(\r\022\027\n\017distribution_id\030\002 \001(\005\022 \n\030distrib"
+    "utionStartUTCTime\030\003 \001(\r\022A\n\026enum_Distribu"
+    "tionState\030\004 \001(\0162!.PB_Enum_TargetDistribu"
+    "tionStatus\022\032\n\022message_Count_Sent\030\005 \001(\004\022\031"
+    "\n\021target_Count_Sent\030\006 \001(\r\"\201\001\n\032PBMonitor_"
+    "AliveTargetCount\022\025\n\rrecordUTCTime\030\001 \001(\r\022"
+    "2\n\022enum_targetID_Type\030\002 \001(\0162\026.PB_Enum_Ta"
+    "rgetID_Type\022\030\n\020aliveTargetcount\030\003 \001(\005\"\321\003"
+    "\n0PBMonitor_MessagesRcvdPerTargetInfoSou"
+    "rceAndType\022\025\n\rrecordUTCTime\030\001 \001(\r\022:\n\026enu"
+    "m_targetInfo_Source\030\002 \001(\0162\032.PB_Enum_Targ"
+    "etInfo_Source\0226\n\024enum_targetInfo_Type\030\003 "
+    "\001(\0162\030.PB_Enum_TargetInfo_Type\022\024\n\014message"
+    "sRcvd\030\004 \001(\003\022\023\n\013targetsRcvd\030\005 \001(\005\022h\n\022mess"
+    "agesRcvdStatus\030\006 \001(\0162L.PBMonitor_Message"
+    "sRcvdPerTargetInfoSourceAndType.PB_Enum_"
+    "MessagesRcvdStatus\"}\n\032PB_Enum_MessagesRc"
+    "vdStatus\022\034\n\030EV_MessagesRcvdStatus_NA\020\000\022 "
+    "\n\034EV_MessagesRcvdStatus_Normal\020\001\022\037\n\033EV_M"
+    "essagesRcvdStatus_Error\020\002*\300\001\n PB_Enum_Ta"
+    "rgetDistributionStatus\022\"\n\036EV_TargetDistr"
+    "ibutionStatus_NA\020\000\022\'\n#EV_TargetDistribut"
+    "ionStatus_OnGoing\020\001\022&\n\"EV_TargetDistribu"
+    "tionStatus_Paused\020\002\022\'\n#EV_TargetDistribu"
+    "tionStatus_Stopped\020\003B\024\n\022team.iOceanPlus."
+    "PBb\006proto3", 4210);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Monitor.proto", &protobuf_RegisterTypes);
   ::protobuf_AddDesc_CommonEnum_2eproto();
@@ -1752,6 +1756,7 @@ const int PBMonitor_ProbeAck::kTotalMessagesRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kOrigTargetPositionsRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kValidOrigTargetPositionsRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kPreprocessedTargetPositionsRcvdFieldNumber;
+const int PBMonitor_ProbeAck::kAssociatedTargetPositionsRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kFusedTargetPositionsRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kAnomalyMessagesRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kConfigMessagesRcvdFieldNumber;
@@ -1760,6 +1765,7 @@ const int PBMonitor_ProbeAck::kCommandMessagesRcvdFieldNumber;
 const int PBMonitor_ProbeAck::kTotalMessagesSentFieldNumber;
 const int PBMonitor_ProbeAck::kValidOrigTargetPositionsSentFieldNumber;
 const int PBMonitor_ProbeAck::kPreprocessedTargetPositionsSentFieldNumber;
+const int PBMonitor_ProbeAck::kAssociatedTargetPositionsSentFieldNumber;
 const int PBMonitor_ProbeAck::kFusedTargetPositionsSentFieldNumber;
 const int PBMonitor_ProbeAck::kAnomalyMessagesSentFieldNumber;
 const int PBMonitor_ProbeAck::kConfigMessagesSentFieldNumber;
@@ -1843,10 +1849,10 @@ void PBMonitor_ProbeAck::Clear() {
 } while (0)
 
   ZR_(recordutctime_, monitorprobesequencenumacked_);
-  ZR_(preprocessedtargetpositionsrcvd_, fusedtargetpositionsrcvd_);
-  ZR_(anomalymessagesrcvd_, fusedtargetpositionssent_);
+  associatedtargetpositionsrcvd_ = GOOGLE_ULONGLONG(0);
+  ZR_(fusedtargetpositionsrcvd_, preprocessedtargetpositionssent_);
   configmessagesrcvd_ = 0u;
-  ZR_(anomalymessagessent_, commandmessagessent_);
+  ZR_(associatedtargetpositionssent_, commandmessagessent_);
 
 #undef ZR_HELPER_
 #undef ZR_
@@ -2159,6 +2165,36 @@ bool PBMonitor_ProbeAck::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(168)) goto parse_associatedTargetPositionsRcvd;
+        break;
+      }
+
+      // optional uint64 associatedTargetPositionsRcvd = 21;
+      case 21: {
+        if (tag == 168) {
+         parse_associatedTargetPositionsRcvd:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &associatedtargetpositionsrcvd_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(176)) goto parse_associatedTargetPositionsSent;
+        break;
+      }
+
+      // optional uint64 associatedTargetPositionsSent = 22;
+      case 22: {
+        if (tag == 176) {
+         parse_associatedTargetPositionsSent:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &associatedtargetpositionssent_)));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -2288,6 +2324,16 @@ void PBMonitor_ProbeAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(20, this->commandmessagessent(), output);
   }
 
+  // optional uint64 associatedTargetPositionsRcvd = 21;
+  if (this->associatedtargetpositionsrcvd() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(21, this->associatedtargetpositionsrcvd(), output);
+  }
+
+  // optional uint64 associatedTargetPositionsSent = 22;
+  if (this->associatedtargetpositionssent() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(22, this->associatedtargetpositionssent(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:PBMonitor_ProbeAck)
 }
 
@@ -2396,6 +2442,16 @@ void PBMonitor_ProbeAck::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(20, this->commandmessagessent(), target);
   }
 
+  // optional uint64 associatedTargetPositionsRcvd = 21;
+  if (this->associatedtargetpositionsrcvd() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(21, this->associatedtargetpositionsrcvd(), target);
+  }
+
+  // optional uint64 associatedTargetPositionsSent = 22;
+  if (this->associatedtargetpositionssent() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(22, this->associatedtargetpositionssent(), target);
+  }
+
   // @@protoc_insertion_point(serialize_to_array_end:PBMonitor_ProbeAck)
   return target;
 }
@@ -2452,6 +2508,13 @@ size_t PBMonitor_ProbeAck::ByteSizeLong() const {
         this->preprocessedtargetpositionsrcvd());
   }
 
+  // optional uint64 associatedTargetPositionsRcvd = 21;
+  if (this->associatedtargetpositionsrcvd() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->associatedtargetpositionsrcvd());
+  }
+
   // optional uint64 fusedTargetPositionsRcvd = 8;
   if (this->fusedtargetpositionsrcvd() != 0) {
     total_size += 1 +
@@ -2506,6 +2569,13 @@ size_t PBMonitor_ProbeAck::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->preprocessedtargetpositionssent());
+  }
+
+  // optional uint64 associatedTargetPositionsSent = 22;
+  if (this->associatedtargetpositionssent() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->associatedtargetpositionssent());
   }
 
   // optional uint64 fusedTargetPositionsSent = 16;
@@ -2597,6 +2667,9 @@ void PBMonitor_ProbeAck::UnsafeMergeFrom(const PBMonitor_ProbeAck& from) {
   if (from.preprocessedtargetpositionsrcvd() != 0) {
     set_preprocessedtargetpositionsrcvd(from.preprocessedtargetpositionsrcvd());
   }
+  if (from.associatedtargetpositionsrcvd() != 0) {
+    set_associatedtargetpositionsrcvd(from.associatedtargetpositionsrcvd());
+  }
   if (from.fusedtargetpositionsrcvd() != 0) {
     set_fusedtargetpositionsrcvd(from.fusedtargetpositionsrcvd());
   }
@@ -2620,6 +2693,9 @@ void PBMonitor_ProbeAck::UnsafeMergeFrom(const PBMonitor_ProbeAck& from) {
   }
   if (from.preprocessedtargetpositionssent() != 0) {
     set_preprocessedtargetpositionssent(from.preprocessedtargetpositionssent());
+  }
+  if (from.associatedtargetpositionssent() != 0) {
+    set_associatedtargetpositionssent(from.associatedtargetpositionssent());
   }
   if (from.fusedtargetpositionssent() != 0) {
     set_fusedtargetpositionssent(from.fusedtargetpositionssent());
@@ -2669,6 +2745,7 @@ void PBMonitor_ProbeAck::InternalSwap(PBMonitor_ProbeAck* other) {
   std::swap(origtargetpositionsrcvd_, other->origtargetpositionsrcvd_);
   std::swap(validorigtargetpositionsrcvd_, other->validorigtargetpositionsrcvd_);
   std::swap(preprocessedtargetpositionsrcvd_, other->preprocessedtargetpositionsrcvd_);
+  std::swap(associatedtargetpositionsrcvd_, other->associatedtargetpositionsrcvd_);
   std::swap(fusedtargetpositionsrcvd_, other->fusedtargetpositionsrcvd_);
   std::swap(anomalymessagesrcvd_, other->anomalymessagesrcvd_);
   std::swap(configmessagesrcvd_, other->configmessagesrcvd_);
@@ -2677,6 +2754,7 @@ void PBMonitor_ProbeAck::InternalSwap(PBMonitor_ProbeAck* other) {
   std::swap(totalmessagessent_, other->totalmessagessent_);
   std::swap(validorigtargetpositionssent_, other->validorigtargetpositionssent_);
   std::swap(preprocessedtargetpositionssent_, other->preprocessedtargetpositionssent_);
+  std::swap(associatedtargetpositionssent_, other->associatedtargetpositionssent_);
   std::swap(fusedtargetpositionssent_, other->fusedtargetpositionssent_);
   std::swap(anomalymessagessent_, other->anomalymessagessent_);
   std::swap(configmessagessent_, other->configmessagessent_);
@@ -2795,6 +2873,20 @@ void PBMonitor_ProbeAck::set_preprocessedtargetpositionsrcvd(::google::protobuf:
   // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.preprocessedTargetPositionsRcvd)
 }
 
+// optional uint64 associatedTargetPositionsRcvd = 21;
+void PBMonitor_ProbeAck::clear_associatedtargetpositionsrcvd() {
+  associatedtargetpositionsrcvd_ = GOOGLE_ULONGLONG(0);
+}
+::google::protobuf::uint64 PBMonitor_ProbeAck::associatedtargetpositionsrcvd() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_ProbeAck.associatedTargetPositionsRcvd)
+  return associatedtargetpositionsrcvd_;
+}
+void PBMonitor_ProbeAck::set_associatedtargetpositionsrcvd(::google::protobuf::uint64 value) {
+  
+  associatedtargetpositionsrcvd_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.associatedTargetPositionsRcvd)
+}
+
 // optional uint64 fusedTargetPositionsRcvd = 8;
 void PBMonitor_ProbeAck::clear_fusedtargetpositionsrcvd() {
   fusedtargetpositionsrcvd_ = GOOGLE_ULONGLONG(0);
@@ -2905,6 +2997,20 @@ void PBMonitor_ProbeAck::set_preprocessedtargetpositionssent(::google::protobuf:
   
   preprocessedtargetpositionssent_ = value;
   // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.preprocessedTargetPositionsSent)
+}
+
+// optional uint64 associatedTargetPositionsSent = 22;
+void PBMonitor_ProbeAck::clear_associatedtargetpositionssent() {
+  associatedtargetpositionssent_ = GOOGLE_ULONGLONG(0);
+}
+::google::protobuf::uint64 PBMonitor_ProbeAck::associatedtargetpositionssent() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_ProbeAck.associatedTargetPositionsSent)
+  return associatedtargetpositionssent_;
+}
+void PBMonitor_ProbeAck::set_associatedtargetpositionssent(::google::protobuf::uint64 value) {
+  
+  associatedtargetpositionssent_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.associatedTargetPositionsSent)
 }
 
 // optional uint64 fusedTargetPositionsSent = 16;

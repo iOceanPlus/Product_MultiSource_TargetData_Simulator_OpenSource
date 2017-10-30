@@ -503,6 +503,12 @@ class PBMonitor_ProbeAck : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::uint64 preprocessedtargetpositionsrcvd() const;
   void set_preprocessedtargetpositionsrcvd(::google::protobuf::uint64 value);
 
+  // optional uint64 associatedTargetPositionsRcvd = 21;
+  void clear_associatedtargetpositionsrcvd();
+  static const int kAssociatedTargetPositionsRcvdFieldNumber = 21;
+  ::google::protobuf::uint64 associatedtargetpositionsrcvd() const;
+  void set_associatedtargetpositionsrcvd(::google::protobuf::uint64 value);
+
   // optional uint64 fusedTargetPositionsRcvd = 8;
   void clear_fusedtargetpositionsrcvd();
   static const int kFusedTargetPositionsRcvdFieldNumber = 8;
@@ -551,6 +557,12 @@ class PBMonitor_ProbeAck : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::uint64 preprocessedtargetpositionssent() const;
   void set_preprocessedtargetpositionssent(::google::protobuf::uint64 value);
 
+  // optional uint64 associatedTargetPositionsSent = 22;
+  void clear_associatedtargetpositionssent();
+  static const int kAssociatedTargetPositionsSentFieldNumber = 22;
+  ::google::protobuf::uint64 associatedtargetpositionssent() const;
+  void set_associatedtargetpositionssent(::google::protobuf::uint64 value);
+
   // optional uint64 fusedTargetPositionsSent = 16;
   void clear_fusedtargetpositionssent();
   static const int kFusedTargetPositionsSentFieldNumber = 16;
@@ -590,9 +602,10 @@ class PBMonitor_ProbeAck : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::uint64 totalmessagesrcvd_;
   ::google::protobuf::uint64 origtargetpositionsrcvd_;
   ::google::protobuf::uint64 validorigtargetpositionsrcvd_;
+  ::google::protobuf::uint64 preprocessedtargetpositionsrcvd_;
   ::google::protobuf::uint32 monitorprobesequencenumacked_;
   ::google::protobuf::uint32 configmessagesrcvd_;
-  ::google::protobuf::uint64 preprocessedtargetpositionsrcvd_;
+  ::google::protobuf::uint64 associatedtargetpositionsrcvd_;
   ::google::protobuf::uint64 fusedtargetpositionsrcvd_;
   ::google::protobuf::uint64 anomalymessagesrcvd_;
   ::google::protobuf::uint32 requestmessagesrcvd_;
@@ -600,6 +613,7 @@ class PBMonitor_ProbeAck : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::uint64 totalmessagessent_;
   ::google::protobuf::uint64 validorigtargetpositionssent_;
   ::google::protobuf::uint64 preprocessedtargetpositionssent_;
+  ::google::protobuf::uint64 associatedtargetpositionssent_;
   ::google::protobuf::uint64 fusedtargetpositionssent_;
   ::google::protobuf::uint64 anomalymessagessent_;
   ::google::protobuf::uint32 configmessagessent_;
@@ -1676,6 +1690,20 @@ inline void PBMonitor_ProbeAck::set_preprocessedtargetpositionsrcvd(::google::pr
   // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.preprocessedTargetPositionsRcvd)
 }
 
+// optional uint64 associatedTargetPositionsRcvd = 21;
+inline void PBMonitor_ProbeAck::clear_associatedtargetpositionsrcvd() {
+  associatedtargetpositionsrcvd_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 PBMonitor_ProbeAck::associatedtargetpositionsrcvd() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_ProbeAck.associatedTargetPositionsRcvd)
+  return associatedtargetpositionsrcvd_;
+}
+inline void PBMonitor_ProbeAck::set_associatedtargetpositionsrcvd(::google::protobuf::uint64 value) {
+  
+  associatedtargetpositionsrcvd_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.associatedTargetPositionsRcvd)
+}
+
 // optional uint64 fusedTargetPositionsRcvd = 8;
 inline void PBMonitor_ProbeAck::clear_fusedtargetpositionsrcvd() {
   fusedtargetpositionsrcvd_ = GOOGLE_ULONGLONG(0);
@@ -1786,6 +1814,20 @@ inline void PBMonitor_ProbeAck::set_preprocessedtargetpositionssent(::google::pr
   
   preprocessedtargetpositionssent_ = value;
   // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.preprocessedTargetPositionsSent)
+}
+
+// optional uint64 associatedTargetPositionsSent = 22;
+inline void PBMonitor_ProbeAck::clear_associatedtargetpositionssent() {
+  associatedtargetpositionssent_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 PBMonitor_ProbeAck::associatedtargetpositionssent() const {
+  // @@protoc_insertion_point(field_get:PBMonitor_ProbeAck.associatedTargetPositionsSent)
+  return associatedtargetpositionssent_;
+}
+inline void PBMonitor_ProbeAck::set_associatedtargetpositionssent(::google::protobuf::uint64 value) {
+  
+  associatedtargetpositionssent_ = value;
+  // @@protoc_insertion_point(field_set:PBMonitor_ProbeAck.associatedTargetPositionsSent)
 }
 
 // optional uint64 fusedTargetPositionsSent = 16;
