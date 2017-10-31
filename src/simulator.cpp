@@ -321,8 +321,8 @@ void  Simulator::initTargetsAndPutToWorlds()
     quint32 timeInt32= QDateTime::currentDateTime().toTime_t();
     bool isAnomynous=ship_FileName.contains("anony",Qt::CaseInsensitive);
 
-    qint32 longitudeX60W,latitudeX60W,cogX10,sogX10;
-    QString shipName;
+    qint32 longitudeX60W,latitudeX60W,cogX10,sogX10,status,heading;
+    QString shipName, callSign;
 
     while (!shipDataFile.atEnd()&&targetID<(qint32)ExternV_TargetCount)
     {
@@ -338,6 +338,7 @@ void  Simulator::initTargetsAndPutToWorlds()
             longitudeX60W=listField.at(1).toInt();
             latitudeX60W=listField.at(2).toInt();
             cogX10=listField.at(3).toInt();
+            heading=qRound(cogX10/10.0);
             sogX10=listField.at(4).toInt();
         }
         else
@@ -351,8 +352,11 @@ void  Simulator::initTargetsAndPutToWorlds()
             longitudeX60W=listField.at(1).toInt();
             latitudeX60W=listField.at(2).toInt();
             cogX10=listField.at(3).toInt();
+            heading=listField.at(4).toInt();
             sogX10=listField.at(5).toInt();
+            status=listField.at(6).toInt();
             shipName=listField.at(8);
+            callSign=listField.at(9);
         }
 
         if(sogX10<(qint32)ExternV_SOGX10_LOWER_THRESH || sogX10>(qint32)ExternV_SOGX10_UPPER_THRESH)
@@ -369,7 +373,7 @@ void  Simulator::initTargetsAndPutToWorlds()
        pbTargetPos.mutable_aisdynamic()->set_intlongitudex60w(longitudeX60W);
        pbTargetPos.mutable_aisdynamic()->set_intlatitudex60w(latitudeX60W);
        pbTargetPos.mutable_aisdynamic()->set_cogdegreex10(cogX10);
-       pbTargetPos.mutable_aisdynamic()->set_headingdegree(qRound(cogX10/10.0));
+       pbTargetPos.mutable_aisdynamic()->set_headingdegree(heading);
        pbTargetPos.mutable_aisdynamic()->set_sogknotsx10(sogX10);
        pbTargetPos.mutable_aisdynamic()->set_utctimestamp(timeInt32);
        pbTargetPos.set_enum_targetinfotype(EV_TargetInfoType_AISDynamic);
@@ -382,7 +386,11 @@ void  Simulator::initTargetsAndPutToWorlds()
        pbTargetPos.mutable_aisstatic()->set_mmsi(EV_TargetIDType_MMSI*ExternV_TargetCount+targetID);
 
        if(!isAnomynous)
+       {
+           pbTargetPos.mutable_aisdynamic()->set_status(status);
+           pbTargetPos.mutable_aisstatic()->set_callsign(callSign.toStdString());
            pbTargetPos.mutable_aisstatic()->set_shipname(shipName.toStdString());
+       }
 
        pbTargetPos.mutable_aisstatic()->set_shiptype_ais(qrand()%71+20); //20-90
        pbTargetPos.mutable_aisstatic()->set_imo(EV_TargetIDType_IMO*ExternV_TargetCount+targetID);
