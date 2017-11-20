@@ -1,7 +1,7 @@
 ### 注意！该项目为开源项目，请勿将账号、消息队列信息、敏感信息等传入代码或附件！   
 Notice! This project is open source, DO NOT PUSH personal or sensitive contents, such as accounts of rabbitmq.
   
-# ICTShips
+# ICTShips: Multisource Target Data Simulator
 
 ## Introduction  
 This project simulates targets in a specified area, several devices are installed in each target. These devices get kinematic information about targets and send to channels. Data sources fetech data from channels periodically.  
