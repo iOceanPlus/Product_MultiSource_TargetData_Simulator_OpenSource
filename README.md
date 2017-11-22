@@ -216,15 +216,15 @@ To configure DenseShip42, copy below to param.json:
 ```
 
 
-### SpareShip45: Outside Shanghai, China  
+### SparseShip45: Outside Shanghai, China  
 See the figure below:  
-![spare scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
+![sparse scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
 
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
  This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
 The std dev of positioning from radars is configured as 200 meters.
 
-To configure SpareShip45, copy below to param.json:  
+To configure SparseShip45, copy below to param.json:  
 ```JSON
 {
     "ISDebugMode":"TRUE",
