@@ -100,7 +100,7 @@ TargetInfo_Type id is 2, targetInfo_Source id is 1
 TargetInfo_Type id is 7, targetInfo_Source id is 3  
 
 ### DenseShip42: HuangPu River in Shanghai, China  
-This is one of the busiest water ways in the world,  we focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,121.5067], see below:  
+This is one of the busiest water ways in the world, see below:  
 
 ![42 targets in Huangpu river](https://git.oschina.net/uploads/images/2017/0929/115344_4942a03c_854788.png "屏幕截图.png")
 
@@ -217,7 +217,7 @@ To configure DenseShip42, copy below to param.json:
 
 
 ### SpareShip45: Outside Shanghai, China  
-A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
+See the figure below:  
 ![spare scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
 
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
@@ -335,7 +335,7 @@ To configure SpareShip45, copy below to param.json:
 
 ### RegularShip32:  TangShan, China
 
-32 Ships are under this scence.The region is latitude [38.92,38.9633] and longitude [118.3367,118.4183].
+32 Ships are under this scence.
 
 ![RegularShip32](https://git.oschina.net/uploads/images/2017/0929/123032_c1f1fa4b_854788.png "屏幕截图.png")
 
