@@ -1,7 +1,7 @@
 ### 注意！该项目为开源项目，请勿将账号、消息队列信息、敏感信息等传入代码或附件！   
 Notice! This project is open source, DO NOT PUSH personal or sensitive contents, such as accounts of rabbitmq.
   
-# ICTShips
+# ICTShips: Multisource Target Data Simulator
 
 ## Introduction  
 This project simulates targets in a specified area, several devices are installed in each target. These devices get kinematic information about targets and send to channels. Data sources fetech data from channels periodically.  
@@ -18,10 +18,11 @@ http://git.oschina.net/iOceanPlus/PythonProtobufDemo
 If your program do not support rabbitmq (such as MatLab), use a MQ-UDP adapter as a bridge.  
 
 The architecture of fusion systems based on rabbitmq is in the following figure.
-![How to interact with simulator](https://git.oschina.net/uploads/images/2017/0903/173330_065b65ed_854788.jpeg "system.JPG")
+
+![How to interact with simulator](https://gitee.com/uploads/images/2017/1121/120341_2ccad847_854788.png "system.png")
 
 The architecture of Data Simulator is in the figure below.
-![Data Smulator Architecture](https://git.oschina.net/uploads/images/2017/0903/212725_101dcebf_854788.jpeg "Simulator.JPG")
+![Data Smulator Architecture](https://gitee.com/uploads/images/2017/1121/153109_4ae7d048_854788.png "屏幕截图.png")
 
 ## Messages  
 Message trasmitted: PBTarget encoded by protobuf. See the Protobuf_Files directory.  
@@ -99,7 +100,7 @@ TargetInfo_Type id is 2, targetInfo_Source id is 1
 TargetInfo_Type id is 7, targetInfo_Source id is 3  
 
 ### DenseShip42: HuangPu River in Shanghai, China  
-This is one of the busiest water ways in the world,  we focus on the region with latitude [31.3733,31.3867] and longitude [121.4967,121.5067], see below:  
+This is one of the busiest water ways in the world, see below:  
 
 ![42 targets in Huangpu river](https://git.oschina.net/uploads/images/2017/0929/115344_4942a03c_854788.png "屏幕截图.png")
 
@@ -215,15 +216,15 @@ To configure DenseShip42, copy below to param.json:
 ```
 
 
-### SpareShip45: Outside Shanghai, China  
-A region with latitude [31.0017,31.8283] and longitude [123.4317,124.7267],See the figure below:  
-![spare scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
+### SparseShip45: Outside Shanghai, China  
+See the figure below:  
+![sparse scene](https://git.oschina.net/uploads/images/2017/0929/121205_bbfc5624_854788.png "屏幕截图.png") 
 
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
  This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
 The std dev of positioning from radars is configured as 200 meters.
 
-To configure SpareShip45, copy below to param.json:  
+To configure SparseShip45, copy below to param.json:  
 ```JSON
 {
     "ISDebugMode":"TRUE",
@@ -334,7 +335,7 @@ To configure SpareShip45, copy below to param.json:
 
 ### RegularShip32:  TangShan, China
 
-32 Ships are under this scence.The region is latitude [38.92,38.9633] and longitude [118.3367,118.4183].
+32 Ships are under this scence.
 
 ![RegularShip32](https://git.oschina.net/uploads/images/2017/0929/123032_c1f1fa4b_854788.png "屏幕截图.png")
 
