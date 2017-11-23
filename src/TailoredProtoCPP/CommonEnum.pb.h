@@ -229,13 +229,14 @@ enum PB_Enum_Software {
   EV_Software_XGSDesktop_3D = 8,
   EV_Software_DataAssoc = 9,
   EV_Software_MaritimeSA = 10,
-  EV_Software_XGSDesktop_Others = 15,
+  EV_Software_TargetDataSimulator = 11,
+  EV_Software_Others = 15,
   PB_Enum_Software_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   PB_Enum_Software_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool PB_Enum_Software_IsValid(int value);
 const PB_Enum_Software PB_Enum_Software_MIN = EV_Software_NA;
-const PB_Enum_Software PB_Enum_Software_MAX = EV_Software_XGSDesktop_Others;
+const PB_Enum_Software PB_Enum_Software_MAX = EV_Software_Others;
 const int PB_Enum_Software_ARRAYSIZE = PB_Enum_Software_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* PB_Enum_Software_descriptor();
