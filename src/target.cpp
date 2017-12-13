@@ -16,12 +16,14 @@ Target::Target(const PBTargetPosition &pbTargetPos,
     this->posOrigDateTimeMSecs=posDateTimeMSecs;
 
     this->pbTargetPosCurrent.CopyFrom(pbTargetPos);
-    this->pbTargetPosBeforeCurrent.CopyFrom(pbTargetPos);
+    this->pbTargetPosBeforeCurrent_Obsolete.CopyFrom(pbTargetPos);
     this->posCurrentDateTimeMSecs=posDateTimeMSecs;
 
     geoCurrentHighPreci.setLatitude(pbTargetPos.aisdynamic().intlatitudex60w()/AISPosDivider);
     geoCurrentHighPreci.setLongitude(pbTargetPos.aisdynamic().intlongitudex60w()/AISPosDivider);
     geoOrigHighPreci=geoBeforeCurrentHighPreci=geoCurrentHighPreci;
+
+    accelSpeedInMeterPerSquareSecond=0;
 }
 
 Target::~Target()
@@ -167,7 +169,9 @@ PBTargetPosition Target::updateAndGetPbTargetPosCurrent(const qint64 &currentDat
                                                                    pbTargetPosOrig.aisdynamic().cogdegreex10()/10.0, currentDateTimeMSecs, isOnLand);
     if(isOnLand) //find a new direction
     {
-        pbTargetPosOrig=pbTargetPosBeforeCurrent=pbTargetPosCurrent ;
+        quint32 origSOGX10= pbTargetPosOrig.aisdynamic().sogknotsx10();
+        pbTargetPosOrig=pbTargetPosBeforeCurrent_Obsolete=pbTargetPosCurrent ;
+        pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(origSOGX10);
          posOrigDateTimeMSecs=posCurrentDateTimeMSecs;
         geoOrigHighPreci= geoBeforeCurrentHighPreci=geoCurrentHighPreci;
 
@@ -191,7 +195,7 @@ PBTargetPosition Target::updateAndGetPbTargetPosCurrent(const qint64 &currentDat
             {
                 newCOGGot=true;
                 pbTargetPosOrig.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
-                pbTargetPosBeforeCurrent.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
+                pbTargetPosBeforeCurrent_Obsolete.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
                 pbTargetPosCurrent.mutable_aisdynamic()->set_cogdegreex10(newCOGX10);
                 updatePosAndCOG(currentDateTimeMSecs,geoReckonedTrial);
                 break;
@@ -200,7 +204,7 @@ PBTargetPosition Target::updateAndGetPbTargetPosCurrent(const qint64 &currentDat
         if(!newCOGGot) //stop it
         {
             pbTargetPosOrig.mutable_aisdynamic()->set_sogknotsx10(0);
-            pbTargetPosBeforeCurrent.mutable_aisdynamic()->set_sogknotsx10(0);
+            pbTargetPosBeforeCurrent_Obsolete.mutable_aisdynamic()->set_sogknotsx10(0);
             pbTargetPosCurrent.mutable_aisdynamic()->set_sogknotsx10(0);
             pbTargetPosCurrent.mutable_aisdynamic()->set_utctimestamp(currentDateTimeMSecs/1000);
         }
@@ -217,7 +221,7 @@ void Target::updatePosAndCOG(const qint64 &dtMSecsReckoned, const QGeoCoordinate
     geoBeforeCurrentHighPreci=geoCurrentHighPreci;
     geoCurrentHighPreci=geoReckoned;
 
-    pbTargetPosBeforeCurrent.CopyFrom(pbTargetPosCurrent);
+    pbTargetPosBeforeCurrent_Obsolete.CopyFrom(pbTargetPosCurrent);
     posCurrentDateTimeMSecs=dtMSecsReckoned;
 
     if(geoBeforeCurrentHighPreci!=geoCurrentHighPreci)

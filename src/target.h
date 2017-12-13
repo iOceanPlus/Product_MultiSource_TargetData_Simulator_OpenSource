@@ -46,12 +46,16 @@ private:
     /*******
      * Periodically update pbTargetPosCurrent, assuming Great Circle journey from pbTargetPosOrig.
      * When the target meets land, change the pbTargetPosOrig,  pbTargetPosCurrent and posTime.
+     *
+     * pbTargetPosOrig: Start point of this journey.
+     * pbTargetPosCurrent: Current point of this journey.
+     * pbTargetPosBeforeCurrent_Obsolete: the point before current point. Not used.
 ********/
-    PBTargetPosition pbTargetPosOrig, pbTargetPosCurrent, pbTargetPosBeforeCurrent;
+    PBTargetPosition pbTargetPosOrig, pbTargetPosCurrent, pbTargetPosBeforeCurrent_Obsolete;
     qint64 posOrigDateTimeMSecs, posCurrentDateTimeMSecs;
     QGeoCoordinate geoOrigHighPreci,  geoCurrentHighPreci, geoBeforeCurrentHighPreci;
 
-    //PBCoderDecoder *pbCoderDecoder;
+    double accelSpeedInMeterPerSquareSecond; //Acceleration, m/s^2
     ThreadedWorld *world;
 };
 

@@ -49,5 +49,7 @@ const QString ROUTING_KEY_MONITOR_RPOBE ="Monitor.Probe";
 /*******定时检查的相关参数**************/
 extern uint ExternV_SECONDS_CHECK_TARGET_COUNT; //定时检查目标总数，并输出
 
+const double MAX_ACCEL_IN_KNOTS_PER_SECOND = 0.5/60.0; //0.5 knot per minute
+
 #endif // MACRO
 
