@@ -52,7 +52,9 @@ private:
 
     void deadReckoning(const qint64 &currentDateTimeMSecs, QGeoCoordinate &geoReckoned, double &newAccelSpeedInMeterPerSquareSecond,
                        double &newSpeedMetersPerSecondCurrentHighPreci, bool &isOutSideAreaFilter) const;
-    void calibrate(const bool &isOutSideArea, const qint64 &dtMSecsReckoned, QGeoCoordinate &geoReckoned);
+    void calibrateTargetKinematic(const bool &isOutSideArea, const qint64 &dtMSecsReckoned,
+                                        const QGeoCoordinate &geoBeforeReckon, const QGeoCoordinate &geoReckoned,
+                                        double &newAccelSpeedInMeterPerSquareSecond, double &newSpeedMetersPerSecondCurrentHighPreci);
 
     void updateSOGAndAcceleration(const qint64 &currentDateTimeMSecs, double &newAccelSpeedInMeterPerSquareSecond,
                              double &newSpeedMetersPerSecondCurrentHighPreci) const;

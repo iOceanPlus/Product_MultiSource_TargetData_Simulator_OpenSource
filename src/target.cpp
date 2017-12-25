@@ -57,28 +57,18 @@ bool Target::installPosDevices(qint64 timeMSecsSinceEpoch)
 
 PBTargetPosition Target::updateTargetAndGetPbTargetPosCurrent(const qint64 &currentDateTimeMSecs)
 {
-    if((currentDateTimeMSecs-kinematicCurrent.dateTimeMSecs)<ExternV_MIN_Sample_MSEC)
+    if((currentDateTimeMSecs-kinematicCurrent.dateTimeMSecs)<ExternV_MIN_Sample_MSEC
+            ||stoppedForever)
         return getPBTargetPosCurrent();
 
-    if(stoppedForever)
-    {
-         kinematicCurrent.dateTimeMSecs=currentDateTimeMSecs;
-         return getPBTargetPosCurrent();
-    }
-
-    StructKinematicStates lastCurrentKinematic=kinematicCurrent;
-
+    StructKinematicStates lastCurrentKinematic=kinematicCurrent; //Store it first, kinematicCurrent will be modified
     QGeoCoordinate geoReckoned ;
     double newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci;
     bool isOutSideAreaFilter;
     deadReckoning(currentDateTimeMSecs,geoReckoned,newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci,
                   isOutSideAreaFilter);
-    if(!isOutSideAreaFilter)
-    {
-        kinematicCurrent.accelSpeedInMeterPerSquareSecond=newAccelSpeedInMeterPerSquareSecond;
-        kinematicCurrent.speedMetersPerSecondCurrentHighPreci=newSpeedMetersPerSecondCurrentHighPreci;
-    }
-    calibrate(isOutSideAreaFilter,currentDateTimeMSecs,geoReckoned);
+    calibrateTargetKinematic(isOutSideAreaFilter,currentDateTimeMSecs,lastCurrentKinematic.geoHighPreci, geoReckoned,
+                                   newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci);
     kinematicBeforeCurrent=lastCurrentKinematic;
     return getPBTargetPosCurrent();
 }
@@ -94,11 +84,15 @@ void Target::deadReckoning(const qint64 &currentDateTimeMSecs, QGeoCoordinate &g
 
 }
 
-void Target::calibrate(const bool &isOutSideArea,  const qint64 &dtMSecsReckoned, QGeoCoordinate &geoReckoned)
+void Target::calibrateTargetKinematic(const bool &isOutSideArea,  const qint64 &dtMSecsReckoned,
+                            const  QGeoCoordinate &geoBeforeReckon, const  QGeoCoordinate &geoReckoned,
+                                            double &newAccelSpeedInMeterPerSquareSecond,double &newSpeedMetersPerSecondCurrentHighPreci)
 {
     if(!isOutSideArea) //inside area filter
     {
-        updateCurrentPosAndCalibrateCOG(dtMSecsReckoned,geoReckoned,geoReckoned);
+        updateCurrentPosAndCalibrateCOG(dtMSecsReckoned,geoReckoned,geoBeforeReckon);
+        kinematicCurrent.accelSpeedInMeterPerSquareSecond=newAccelSpeedInMeterPerSquareSecond;
+        kinematicCurrent.speedMetersPerSecondCurrentHighPreci=newSpeedMetersPerSecondCurrentHighPreci;
         detectMovingToBoundaryAndSlowDownWhenClose();
     }
     else  //outside area filter
@@ -106,8 +100,6 @@ void Target::calibrate(const bool &isOutSideArea,  const qint64 &dtMSecsReckoned
         findAndSetNewDirectionIntoWater(dtMSecsReckoned);
         if(!stoppedForever)
         {
-            geoReckoned=kinematicCurrent.geoHighPreci;
-            kinematicOrig=kinematicCurrent;
             detectMovingToBoundaryAndSlowDownWhenClose();
         }
     }
@@ -115,39 +107,41 @@ void Target::calibrate(const bool &isOutSideArea,  const qint64 &dtMSecsReckoned
 
 void Target::findAndSetNewDirectionIntoWater(const qint64 &currentDateTimeMSecs)
 {
-        bool turnRight=qrand()%2==0;
-        bool newCOGGot=false;
-        for(int i=1;i<=7;i++)
-        {
-            qint32 factor=turnRight?1:-1;
-            qint32 newCOGX10=qRound(kinematicCurrent.cogInDegreesHighPreci*10)+(qint32)factor*i*DegreesX10_ToTurn_WhenMeetLand;
-            if(newCOGX10<0)
-                newCOGX10+=3600;
-            else
-                newCOGX10%=3600;
+    bool turnRight=qrand()%2==0;
+    bool newCOGGot=false;
+    for(int i=1;i<=7;i++)
+    {
+        qint32 factor=turnRight?1:-1;
+        qint32 newCOGX10=qRound(kinematicCurrent.cogInDegreesHighPreci*10)+(qint32)factor*i*DegreesX10_ToTurn_WhenMeetLand;
+        if(newCOGX10<0)
+            newCOGX10+=3600;
+        else
+            newCOGX10%=3600;
 
-            bool isNewPosOnLand;
-            QGeoCoordinate geoReckonedTrial= getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,kinematicCurrent.dateTimeMSecs,
-                                                             kinematicCurrent.speedMetersPerSecondCurrentHighPreci,
-                                                                           newCOGX10/10.0, currentDateTimeMSecs, isNewPosOnLand);
-            if(isNewPosOnLand)
-                continue;
-            else
-            {
-                newCOGGot=true;
-                kinematicCurrent.cogInDegreesHighPreci=newCOGX10/10.0;
-                kinematicCurrent.accelSpeedInMeterPerSquareSecond=ACCEL_IN_METERS_PER_SECOND;
-                kinematicCurrent.geoHighPreci=geoReckonedTrial;
-                kinematicCurrent.dateTimeMSecs=currentDateTimeMSecs;
-                break;
-            }
-        }
-        if(!newCOGGot) //stop it
+        bool isNewPosOnLand;
+        QGeoCoordinate geoReckonedTrial= getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,kinematicCurrent.dateTimeMSecs,
+                                                         kinematicCurrent.speedMetersPerSecondCurrentHighPreci,
+                                                                       newCOGX10/10.0, currentDateTimeMSecs, isNewPosOnLand);
+        if(isNewPosOnLand)
+            continue;
+        else
         {
-            kinematicCurrent.speedMetersPerSecondCurrentHighPreci=0;
-            kinematicCurrent.dateTimeMSecs=qRound(currentDateTimeMSecs/1000.0);
-            stoppedForever=true;
+            newCOGGot=true;
+            kinematicCurrent.cogInDegreesHighPreci=newCOGX10/10.0;
+            kinematicCurrent.accelSpeedInMeterPerSquareSecond=ACCEL_IN_METERS_PER_SECOND; //speed up
+            kinematicCurrent.geoHighPreci=geoReckonedTrial;
+            kinematicCurrent.dateTimeMSecs=currentDateTimeMSecs;
+
+            kinematicOrig=kinematicCurrent;
+            break;
         }
+    }
+    if(!newCOGGot) //stop it
+    {
+        kinematicCurrent.speedMetersPerSecondCurrentHighPreci=0;
+        kinematicCurrent.dateTimeMSecs=qRound(currentDateTimeMSecs/1000.0);
+        stoppedForever=true;
+    }
 }
 
 void Target::detectMovingToBoundaryAndSlowDownWhenClose()
@@ -165,9 +159,7 @@ void Target::detectMovingToBoundaryAndSlowDownWhenClose()
     getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,distanceToApproachInMeters*ENLARGE_FACTOR,
                                     kinematicCurrent.cogInDegreesHighPreci,outsideAreaFilter);
     if(outsideAreaFilter)
-    {
         kinematicCurrent.accelSpeedInMeterPerSquareSecond=-1*ACCEL_IN_METERS_PER_SECOND; //decrease speed to sop
-    }
 }
 
 void Target::updateCurrentPosAndCalibrateCOG(const qint64 &dtMSecsReckoned, const QGeoCoordinate &geoReckoned,
