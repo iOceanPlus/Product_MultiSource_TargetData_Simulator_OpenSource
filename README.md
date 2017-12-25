@@ -26,6 +26,9 @@ The architecture of fusion systems based on rabbitmq is in the following figure.
 The architecture of Data Simulator is in the figure below.
 ![Data Smulator Architecture](https://gitee.com/uploads/images/2017/1121/153109_4ae7d048_854788.png "屏幕截图.png")
 
+The motion model of targets are in the figure below:
+![输入图片说明](https://gitee.com/uploads/images/2017/1225/171943_e843a7d3_854788.jpeg "target motion model.jpg")
+
 ## Messages  
 Message trasmitted: PBTarget encoded by protobuf. See the Protobuf_Files directory. Details about protobuf can be found in:    
 https://developers.google.com/protocol-buffers/  
