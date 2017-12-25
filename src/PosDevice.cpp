@@ -23,7 +23,7 @@ PBTargetPosition PosDevice::measurePBTargetPosAndUpdateTarget(bool &isMeasureSuc
     {
         isMeasureSuccessful=true;
         msecsSinceEpochLastSampleTime=currentDTAsMSecsSinceEpoch;
-        PBTargetPosition pbTargetPos=targetInstalled->updateAndGetPbTargetPosCurrent(currentDTAsMSecsSinceEpoch);
+        PBTargetPosition pbTargetPos=targetInstalled->updateTargetAndGetPbTargetPosCurrent(currentDTAsMSecsSinceEpoch);
         pbTargetPos.set_enum_targetinfotype(infoType);
         targetInstalled->set_enum_targetidorigAndIDType_AccordingToInfoType(pbTargetPos);
 #ifdef DEBUG_TARGETTYPE_ANDNAME

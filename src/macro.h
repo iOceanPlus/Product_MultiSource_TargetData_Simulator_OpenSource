@@ -43,13 +43,16 @@ const int MAX_INT32= 2147483647;
 //AIS消息中的经纬度需要除以这个数得到度数
 const double AISPosDivider =600000.0;
 const double  NM_In_Meter= 1852.0 ;//一海里多少米
+const double KNOT_IN_METER_PER_SECOND= NM_In_Meter/3600.0;
 
 const QString ROUTING_KEY_MONITOR_RPOBE ="Monitor.Probe";
 
 /*******定时检查的相关参数**************/
 extern uint ExternV_SECONDS_CHECK_TARGET_COUNT; //定时检查目标总数，并输出
 
-const double MAX_ACCEL_IN_KNOTS_PER_SECOND = 0.5/60.0; //0.5 knot per minute
+const double ACCEL_IN_METERS_PER_SECOND = 0.5/60.0 *KNOT_IN_METER_PER_SECOND; //accel: 0.5 knot per minute
+const double APPROACHING__SPEED_IN_KNOTX10=8; //Approach boundary in this speed
+const double APPROACHING_SPEED_IN_METERS_PER_SECOND=APPROACHING__SPEED_IN_KNOTX10/10.0*KNOT_IN_METER_PER_SECOND; //Approach boundary in this speed
 
 #endif // MACRO
 

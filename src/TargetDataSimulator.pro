@@ -48,7 +48,8 @@ SOURCES += main.cpp \
     TailoredModule_Qt_Geography/MyGeography.cpp \
     TailoredModule_Qt_Geography/MyQtGeoPolygon.cpp \
     TailoredModule_Qt_Geography/MyQtGeoRectangle.cpp \
-    TailoredModule_Qt_Geography/MyQtGeoShapeBase.cpp
+    TailoredModule_Qt_Geography/MyQtGeoShapeBase.cpp \
+    target_gettersetters.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
