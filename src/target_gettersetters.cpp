@@ -22,6 +22,7 @@ PBTargetPosition Target::getPBTargetPosCurrent() const
                 qRound(kinematicCurrent.speedMetersPerSecondCurrentHighPreci/KNOT_IN_METER_PER_SECOND*10));
     pbTargetPosToReturn.mutable_aisdynamic()->set_intlatitudex60w(qRound(kinematicCurrent.geoHighPreci.latitude()*AISPosDivider));
     pbTargetPosToReturn.mutable_aisdynamic()->set_intlongitudex60w(qRound(kinematicCurrent.geoHighPreci.longitude()*AISPosDivider));
+    return pbTargetPosToReturn;
 }
 
 /***************data cleaning*******************/
