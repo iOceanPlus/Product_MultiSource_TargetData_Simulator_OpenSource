@@ -72,7 +72,8 @@ PBTargetPosition Target::updateTargetAndGetPbTargetPosCurrent(const qint64 &curr
     kinematicBeforeCurrent=lastCurrentKinematic;
 #ifdef DEBUG_MOTION
     std::cout<<"MMSI:"<<getPBTargetPosCurrent().aisdynamic().mmsi()<<" Accel:"<<kinematicCurrent.accelSpeedInMeterPerSquareSecond
-            <<" Speed:"<<kinematicCurrent.speedMetersPerSecondCurrentHighPreci<<"Direction:"<<kinematicCurrent.cogInDegreesHighPreci<<endl<<endl;
+            <<" Speed:"<<kinematicCurrent.speedMetersPerSecondCurrentHighPreci<<" Direction:"<<kinematicCurrent.cogInDegreesHighPreci<<
+              " Longitude:"<<kinematicCurrent.geoHighPreci.longitude()<<" Latitude:"<<kinematicCurrent.geoHighPreci.latitude()<<endl<<endl;
 #endif
     return getPBTargetPosCurrent();
 }
@@ -83,7 +84,7 @@ void Target::deadReckoning(const qint64 &currentDateTimeMSecs, QGeoCoordinate &g
 {
     updateSOGAndAcceleration(currentDateTimeMSecs,newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci);
     double metersAlreadTravelled=kinematicOrig.geoHighPreci.distanceTo(kinematicCurrent.geoHighPreci);
-    double metersTravelledInTotal=metersAlreadTravelled+(currentDateTimeMSecs-kinematicCurrent.dateTimeMSecs)*
+    double metersTravelledInTotal=metersAlreadTravelled+(currentDateTimeMSecs-kinematicCurrent.dateTimeMSecs)/1000.0*
                 (kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0;
     geoReckoned=getConstGeoPosHighPreciReckoned(kinematicOrig.geoHighPreci,metersTravelledInTotal,kinematicOrig.cogInDegreesHighPreci,isOutSideAreaFilter);
 
@@ -182,8 +183,8 @@ void Target::detectMovingToBoundaryAndSlowDownWhenClose()
 #endif
     bool outsideAreaFilter;
     //const double ENLARGE_FACTOR=1.0; //Stop before exactly outside area filter
-    getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,distanceToApproachInMeters,
-                                    kinematicCurrent.cogInDegreesHighPreci,outsideAreaFilter);
+    double metersTravelledTotal=distanceToApproachInMeters+kinematicOrig.geoHighPreci.distanceTo(kinematicCurrent.geoHighPreci);
+    getConstGeoPosHighPreciReckoned(kinematicOrig.geoHighPreci,metersTravelledTotal,kinematicOrig.cogInDegreesHighPreci,outsideAreaFilter);
 #ifdef DEBUG_MOTION
             std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<< ". Going to outsideAreaFilter:"<<outsideAreaFilter<<endl;
 #endif
