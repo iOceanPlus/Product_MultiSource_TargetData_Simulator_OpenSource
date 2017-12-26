@@ -82,18 +82,10 @@ void Target::deadReckoning(const qint64 &currentDateTimeMSecs, QGeoCoordinate &g
                            bool &isOutSideAreaFilter) const
 {
     updateSOGAndAcceleration(currentDateTimeMSecs,newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci);
-    if(newSpeedMetersPerSecondCurrentHighPreci==kinematicCurrent.speedMetersPerSecondCurrentHighPreci) //speed unchanged
-    {
-        geoReckoned= getConstGeoPosHighPreciReckoned(kinematicOrig.geoHighPreci,kinematicOrig.dateTimeMSecs,
-                                     kinematicCurrent.speedMetersPerSecondCurrentHighPreci,
-                                    kinematicOrig.cogInDegreesHighPreci, currentDateTimeMSecs, isOutSideAreaFilter);
-    }
-    else //Speed changed
-    {
-        geoReckoned= getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,kinematicCurrent.dateTimeMSecs,
-                                    ( kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0,
-                                    kinematicCurrent.cogInDegreesHighPreci, currentDateTimeMSecs, isOutSideAreaFilter);
-    }
+    double metersAlreadTravelled=kinematicOrig.geoHighPreci.distanceTo(kinematicCurrent.geoHighPreci);
+    double metersTravelledInTotal=metersAlreadTravelled+(currentDateTimeMSecs-kinematicCurrent.dateTimeMSecs)*
+                (kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0;
+    geoReckoned=getConstGeoPosHighPreciReckoned(kinematicOrig.geoHighPreci,metersTravelledInTotal,kinematicOrig.cogInDegreesHighPreci,isOutSideAreaFilter);
 
 #ifdef DEBUG_MOTION
 //    std::cout<<"cog in dead reckoning: "<<kinematicOrig.cogInDegreesHighPreci<<
