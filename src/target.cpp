@@ -13,7 +13,7 @@ Target::Target(const PBTargetPosition &pbTargetPos,
     this->world=paramWorld;
 
     this->pbTargetPosInitial.CopyFrom(pbTargetPos);
-    initialSOGX10=pbTargetPos.aisdynamic().sogknotsx10();
+    initialSpeedInMeterPerSecond=pbTargetPos.aisdynamic().sogknotsx10()/10.0*KNOT_IN_METER_PER_SECOND;
 
     kinematicOrig.accelSpeedInMeterPerSquareSecond=0;
     kinematicOrig.cogInDegreesHighPreci=pbTargetPos.aisdynamic().cogdegreex10()/10.0;
@@ -193,9 +193,9 @@ void Target::updateSOGAndAcceleration(const qint64 &currentDateTimeMSecs, double
         double tentativeSpeed= kinematicCurrent.speedMetersPerSecondCurrentHighPreci+secondsElapsed*kinematicCurrent.accelSpeedInMeterPerSquareSecond;
         if(kinematicCurrent.accelSpeedInMeterPerSquareSecond>0) //speeding up
         {
-            if(tentativeSpeed>=initialSOGX10/10.0*KNOT_IN_METER_PER_SECOND) //Already at original speed
+            if(tentativeSpeed>=initialSpeedInMeterPerSecond) //Already at original speed
             {
-                newSpeedMetersPerSecondCurrentHighPreci=initialSOGX10/10.0*KNOT_IN_METER_PER_SECOND;
+                newSpeedMetersPerSecondCurrentHighPreci=initialSpeedInMeterPerSecond;
                 newAccelSpeedInMeterPerSquareSecond=0; //Enter into constant speed move
             }
         }

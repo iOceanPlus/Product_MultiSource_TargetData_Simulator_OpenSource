@@ -75,7 +75,7 @@ private:
      * geoCurrentHighPreci: Current point of this journey.
 ********/
     PBTargetPosition pbTargetPosInitial;
-    qint32 initialSOGX10;
+    double initialSpeedInMeterPerSecond;
 
     StructKinematicStates kinematicOrig, kinematicBeforeCurrent, kinematicCurrent;
 
