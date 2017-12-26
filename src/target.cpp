@@ -70,6 +70,9 @@ PBTargetPosition Target::updateTargetAndGetPbTargetPosCurrent(const qint64 &curr
     calibrateTargetKinematic(isOutSideAreaFilter,currentDateTimeMSecs,lastCurrentKinematic.geoHighPreci, geoReckoned,
                                    newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci);
     kinematicBeforeCurrent=lastCurrentKinematic;
+#ifdef DEBUG_MOTION
+    std::cout<<getPBTargetPosCurrent().DebugString();
+#endif
     return getPBTargetPosCurrent();
 }
 
@@ -211,5 +214,10 @@ void Target::updateSOGAndAcceleration(const qint64 &currentDateTimeMSecs, double
         {
             newSpeedMetersPerSecondCurrentHighPreci=tentativeSpeed;
         }
+    }
+    else //not accelerating
+    {
+        newAccelSpeedInMeterPerSquareSecond=kinematicCurrent.accelSpeedInMeterPerSquareSecond;
+        newSpeedMetersPerSecondCurrentHighPreci=kinematicCurrent.speedMetersPerSecondCurrentHighPreci;
     }
 }
