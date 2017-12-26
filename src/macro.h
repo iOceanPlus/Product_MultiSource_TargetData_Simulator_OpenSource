@@ -9,7 +9,7 @@
 //#define DEBUG_PERFORMANCE
 //#define DEBUG_TargetCount
 //#define DEBUG_TARGETTYPE_ANDNAME
-#define DEBUG_MOTION
+//#define DEBUG_MOTION
 
 /**Each data source may recode targetIDOrigs, for example: mmsi of a target in data from different sources may be different**/
 //#define DATA_SOURCE_RECODE_TARGETIDORIG  //not work, discard
