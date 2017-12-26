@@ -201,6 +201,11 @@ void Target::updateSOGAndAcceleration(const qint64 &currentDateTimeMSecs, double
                 newSpeedMetersPerSecondCurrentHighPreci=initialSpeedInMeterPerSecond;
                 newAccelSpeedInMeterPerSquareSecond=0; //Enter into constant speed move
             }
+            else //accelerating
+            {
+                newSpeedMetersPerSecondCurrentHighPreci=tentativeSpeed;
+                newAccelSpeedInMeterPerSquareSecond=kinematicCurrent.accelSpeedInMeterPerSquareSecond;
+            }
         }
         else if(kinematicCurrent.accelSpeedInMeterPerSquareSecond<0) //slowing down
         {
@@ -209,10 +214,11 @@ void Target::updateSOGAndAcceleration(const qint64 &currentDateTimeMSecs, double
                 newSpeedMetersPerSecondCurrentHighPreci=APPROACHING_SPEED_IN_METERS_PER_SECOND;
                 newAccelSpeedInMeterPerSquareSecond=0;
             }
-        }
-        else //continue accelerating
-        {
-            newSpeedMetersPerSecondCurrentHighPreci=tentativeSpeed;
+            else //accelerating
+            {
+                newSpeedMetersPerSecondCurrentHighPreci=tentativeSpeed;
+                newAccelSpeedInMeterPerSquareSecond=kinematicCurrent.accelSpeedInMeterPerSquareSecond;
+            }
         }
     }
     else //not accelerating
