@@ -82,9 +82,24 @@ void Target::deadReckoning(const qint64 &currentDateTimeMSecs, QGeoCoordinate &g
                            bool &isOutSideAreaFilter) const
 {
     updateSOGAndAcceleration(currentDateTimeMSecs,newAccelSpeedInMeterPerSquareSecond,newSpeedMetersPerSecondCurrentHighPreci);
-    geoReckoned= getConstGeoPosHighPreciReckoned(kinematicOrig.geoHighPreci,kinematicOrig.dateTimeMSecs,
-                                ( kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0,
-                                kinematicOrig.cogInDegreesHighPreci, currentDateTimeMSecs, isOutSideAreaFilter);
+    if(newSpeedMetersPerSecondCurrentHighPreci==kinematicCurrent.speedMetersPerSecondCurrentHighPreci) //speed unchanged
+    {
+        geoReckoned= getConstGeoPosHighPreciReckoned(kinematicOrig.geoHighPreci,kinematicOrig.dateTimeMSecs,
+                                     kinematicCurrent.speedMetersPerSecondCurrentHighPreci,
+                                    kinematicOrig.cogInDegreesHighPreci, currentDateTimeMSecs, isOutSideAreaFilter);
+    }
+    else //Speed changed
+    {
+        geoReckoned= getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,kinematicCurrent.dateTimeMSecs,
+                                    ( kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0,
+                                    kinematicCurrent.cogInDegreesHighPreci, currentDateTimeMSecs, isOutSideAreaFilter);
+    }
+
+#ifdef DEBUG_MOTION
+    std::cout<<"cog in dead reckoning: "<<kinematicOrig.cogInDegreesHighPreci<<
+                " Avg Speed in dead reckoning:"<< ( kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0
+            <<" OrigDT:"<<kinematicOrig.dateTimeMSecs<<" Current Dt:"<<currentDateTimeMSecs<<endl;
+#endif
 
 }
 
@@ -178,7 +193,7 @@ void Target::detectMovingToBoundaryAndSlowDownWhenClose()
     getConstGeoPosHighPreciReckoned(kinematicCurrent.geoHighPreci,distanceToApproachInMeters,
                                     kinematicCurrent.cogInDegreesHighPreci,outsideAreaFilter);
 #ifdef DEBUG_MOTION
-            std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<< ". outsideAreaFilter:"<<outsideAreaFilter<<endl;
+            std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<< ". Going to outsideAreaFilter:"<<outsideAreaFilter<<endl;
 #endif
     if(outsideAreaFilter)
         kinematicCurrent.accelSpeedInMeterPerSquareSecond=-1*ACCEL_IN_METERS_PER_SECOND; //decrease speed to sop
@@ -195,7 +210,7 @@ void Target::updateCurrentPosAndCalibrateCOG(const qint64 &dtMSecsReckoned, cons
         float newCOGInDegree=geoBeforeReckon.azimuthTo(geoReckoned);
         kinematicCurrent.cogInDegreesHighPreci=newCOGInDegree;
 #ifdef DEBUG_MOTION
-        std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<<". New direction after calibrate cog:"<<kinematicCurrent.cogInDegreesHighPreci;
+        std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<<". New direction after calibrate cog:"<<kinematicCurrent.cogInDegreesHighPreci<<endl;
 #endif
     }
     kinematicCurrent.geoHighPreci=geoReckoned;
