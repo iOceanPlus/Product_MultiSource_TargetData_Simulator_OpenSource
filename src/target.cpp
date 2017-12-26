@@ -96,9 +96,9 @@ void Target::deadReckoning(const qint64 &currentDateTimeMSecs, QGeoCoordinate &g
     }
 
 #ifdef DEBUG_MOTION
-    std::cout<<"cog in dead reckoning: "<<kinematicOrig.cogInDegreesHighPreci<<
-                " Avg Speed in dead reckoning:"<< ( kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0
-            <<" OrigDT:"<<kinematicOrig.dateTimeMSecs<<" Current Dt:"<<currentDateTimeMSecs<<endl;
+//    std::cout<<"cog in dead reckoning: "<<kinematicOrig.cogInDegreesHighPreci<<
+//                " Avg Speed in dead reckoning:"<< ( kinematicCurrent.speedMetersPerSecondCurrentHighPreci+newSpeedMetersPerSecondCurrentHighPreci)/2.0
+//            <<" OrigDT:"<<kinematicOrig.dateTimeMSecs<<" Current Dt:"<<currentDateTimeMSecs<<endl;
 #endif
 
 }
@@ -205,12 +205,12 @@ void Target::updateCurrentPosAndCalibrateCOG(const qint64 &dtMSecsReckoned, cons
     if(geoBeforeReckon!=geoReckoned)
     {
 #ifdef DEBUG_MOTION
-        std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<<". Old direction:"<<kinematicCurrent.cogInDegreesHighPreci;
+        //std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<<". Old direction:"<<kinematicCurrent.cogInDegreesHighPreci;
 #endif
         float newCOGInDegree=geoBeforeReckon.azimuthTo(geoReckoned);
         kinematicCurrent.cogInDegreesHighPreci=newCOGInDegree;
 #ifdef DEBUG_MOTION
-        std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<<". New direction after calibrate cog:"<<kinematicCurrent.cogInDegreesHighPreci<<endl;
+        //std::cout<<"MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<<". New direction after calibrate cog:"<<kinematicCurrent.cogInDegreesHighPreci<<endl;
 #endif
     }
     kinematicCurrent.geoHighPreci=geoReckoned;

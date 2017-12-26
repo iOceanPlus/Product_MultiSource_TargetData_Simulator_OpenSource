@@ -9,7 +9,7 @@
 //#define DEBUG_PERFORMANCE
 //#define DEBUG_TargetCount
 //#define DEBUG_TARGETTYPE_ANDNAME
-#define DEBUG_MOTION
+//#define DEBUG_MOTION
 
 /**Each data source may recode targetIDOrigs, for example: mmsi of a target in data from different sources may be different**/
 //#define DATA_SOURCE_RECODE_TARGETIDORIG  //not work, discard
@@ -51,7 +51,7 @@ const QString ROUTING_KEY_MONITOR_RPOBE ="Monitor.Probe";
 /*******定时检查的相关参数**************/
 extern uint ExternV_SECONDS_CHECK_TARGET_COUNT; //定时检查目标总数，并输出
 
-const double ACCEL_IN_METERS_PER_SECOND = 60/60.0 *KNOT_IN_METER_PER_SECOND; //accel: 0.5 knot per minute
+const double ACCEL_IN_METERS_PER_SECOND = 0.5/60.0 *KNOT_IN_METER_PER_SECOND; //accel: 0.5 knot per minute
 const double APPROACHING__SPEED_IN_KNOTX10=8; //Approach boundary in this speed
 const double APPROACHING_SPEED_IN_METERS_PER_SECOND=APPROACHING__SPEED_IN_KNOTX10/10.0*KNOT_IN_METER_PER_SECOND; //Approach boundary in this speed
 
