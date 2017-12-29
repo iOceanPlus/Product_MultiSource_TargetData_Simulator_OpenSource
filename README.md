@@ -229,7 +229,6 @@ See the figure below:
 
 Ships are in a polygon: (31.0017 123.4317, 31.0017 124.7267,31.8283 124.7267,31.8283 123.4317,31.0017 123.4317)
  This section is 120 kilometers long and 92 kilometers wide. There is one target on every 245 square kilometers, average distance between ships is 15.66 kilometers.  
-The std dev of positioning from radars is configured as 200 meters.
 
 To configure SparseShip45, copy below to param.json:  
 ```JSON
@@ -262,23 +261,23 @@ To configure SparseShip45, copy below to param.json:
         {
             "TargetInfo_Type":2,
             "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
-            "PositioningDevInMeters":5.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":15.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":20000
         },
         {
             "TargetInfo_Type":4,
-            "PositioningDevInMeters":5.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":15.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
-            "PositioningDevInMeters":200,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":500,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":2000
         }
     ],
@@ -380,23 +379,23 @@ To configure RegularShip32, copy below to param.json:
         {
             "TargetInfo_Type":2,
             "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
-            "PositioningDevInMeters":5.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":15.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":20000
         },
         {
             "TargetInfo_Type":4,
-            "PositioningDevInMeters":5.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":15.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
-            "PositioningDevInMeters":30,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":500,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":2000
         }
     ],
@@ -492,23 +491,23 @@ To configure GlobalShip110K, copy below to param.json:
         {
             "TargetInfo_Type":2,
             "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
-            "PositioningDevInMeters":5.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":15.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":30000
         },
         {
             "TargetInfo_Type":4,
-            "PositioningDevInMeters":5.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":15.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
-            "PositioningDevInMeters":30,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "PositioningDevInMeters":50,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":20000
         }
     ],
