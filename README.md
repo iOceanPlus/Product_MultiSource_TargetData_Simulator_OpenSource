@@ -146,22 +146,22 @@ To configure DenseShip42, copy below to param.json:
             "TargetInfo_Type":2,
             "Comment of PositioningDevInMeters":"Std dev of the gaussian distribution",
             "PositioningDevInMeters":15.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":20000
         },
         {
             "TargetInfo_Type":4,
             "PositioningDevInMeters":15.0,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":12000
         },
         {
             "TargetInfo_Type":7,
             "PositioningDevInMeters":78.7,
-            "SOGDevInKnots":0.2,
-            "COGDevInDegrees":3.0,
+            "SOGDevInKnots":0.5,
+            "COGDevInDegrees":5.0,
             "SampleMilliSeconds":2000
         }
     ],
