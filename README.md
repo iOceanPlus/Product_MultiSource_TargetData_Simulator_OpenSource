@@ -494,7 +494,7 @@ To configure GlobalShip110K, copy below to param.json:
             "PositioningDevInMeters":15.0,
             "SOGDevInKnots":0.5,
             "COGDevInDegrees":5.0,
-            "SampleMilliSeconds":30000
+            "SampleMilliSeconds":20000
         },
         {
             "TargetInfo_Type":4,
@@ -508,7 +508,7 @@ To configure GlobalShip110K, copy below to param.json:
             "PositioningDevInMeters":50,
             "SOGDevInKnots":0.5,
             "COGDevInDegrees":5.0,
-            "SampleMilliSeconds":20000
+            "SampleMilliSeconds":2000
         }
     ],
 
