@@ -159,7 +159,7 @@ To configure DenseShip42, copy below to param.json:
         },
         {
             "TargetInfo_Type":7,
-            "PositioningDevInMeters":78.7,
+            "PositioningDevInMeters":100,
             "SOGDevInKnots":0.5,
             "COGDevInDegrees":5.0,
             "SampleMilliSeconds":2000
