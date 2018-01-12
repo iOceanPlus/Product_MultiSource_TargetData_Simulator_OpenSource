@@ -56,53 +56,50 @@ bool DataSource::addTargetIDObservedWithHaijian(qint32 targetID)
 
 bool DataSource::fetchDataFromChannelsAndSendToMQ()
 {
-    QList <StructDataAndKey> listDataAndKey;
-
     if(!setTargetIDsObservedWithAIS.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_AISDynamic)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_AISDynamic))
     {
-        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_AISDynamic,listDataAndKey,setTargetIDsObservedWithAIS,setTargetIDsSentWithAIS,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_AISDynamic,setTargetIDsObservedWithAIS,setTargetIDsSentWithAIS,
                               ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
     if(!setTargetIDsObservedWithLRIT.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_LRIT)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_LRIT))
     {
-        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_LRIT,listDataAndKey,setTargetIDsObservedWithLRIT,setTargetIDsSentWithLRIT,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_LRIT,setTargetIDsObservedWithLRIT,setTargetIDsSentWithLRIT,
                               ROUTING_KEY_ONLINE_PREPROCESSED_AIS);
     }
 
     if(!setTargetIDsObservedWithBeidou.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Beidou)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Beidou))
     {
-        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Beidou,listDataAndKey,setTargetIDsObservedWithBeidou,setTargetIDsSentWithBeidou,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Beidou,setTargetIDsObservedWithBeidou,setTargetIDsSentWithBeidou,
                               ROUTING_KEY_ONLINE_PREPROCESSED_Beidou);
     }
 
     if(!setTargetIDsObservedWithHaijian.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Haijian)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Haijian))
     {
-        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Haijian,listDataAndKey,setTargetIDsObservedWithHaijian,setTargetIDsSentWithHaijian,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Haijian,setTargetIDsObservedWithHaijian,setTargetIDsSentWithHaijian,
                               ROUTING_KEY_ONLINE_PREPROCESSED_Haijian);
     }
 
     if(!setTargetIDsObservedWithArgosAndMarineSat.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_ArgosAndMaritimeSatellite)
             &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_ArgosAndMaritimeSatellite))
     {
-        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_ArgosAndMaritimeSatellite,listDataAndKey,setTargetIDsObservedWithArgosAndMarineSat,
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_ArgosAndMaritimeSatellite,setTargetIDsObservedWithArgosAndMarineSat,
                               setTargetIDsSentWithArgosAndMarineSat,  ROUTING_KEY_ONLINE_PREPROCESSED_Argos);
     }
-
     return true;
 }
 
-bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
-                                       QSet <qint32> &setTargetIDObservedOfThisInfoType,QSet <qint32> &setTargetIDSentOfThisInfoType, const QString &routingKey)
+bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type &targetInfoType,
+                    QSet <qint32> &setTargetIDObservedOfThisInfoType,QSet <qint32> &setTargetIDSentOfThisInfoType, const QString &routingKey)
 {
     Struct_TransmissionQuality transmissionQ=mapInfoTypeTransmitQuality.value(targetInfoType);
 
+    QList <StructDataAndKey> listDataAndKey;
     PBTarget pbTarget;
-    pbTarget.set_sequencenum(world->getPbCoderDecoder()->getSerialNumAndIncrement());
     pbTarget.set_enum_sender_software(world->getPbCoderDecoder()->getPbEnumSenderSoftware());
 
     QListIterator <PBTargetPosition> iListTargetPos(world->getMapInfoTypeDataChannels().value(targetInfoType)->getListPBTargetPosInChannel());
@@ -145,6 +142,8 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
     //qDebug()<<PBCoderDecoder::getReadableTargetInfo_SourceName(this->getPbTargetInfoSource())<<  PBCoderDecoder::getReadableTargetInfo_TypeName(targetInfoType)<<pbTarget.listtargetpos_size();
     if(pbTarget.listtargetpos_size()>0)
     {
+        pbTarget.set_sequencenum(world->getPbCoderDecoder()->getSerialNumAndIncrement());
+
         StructDataAndKey dataAndKey;
         dataAndKey.data= world->getPbCoderDecoder()->serializePBTargetToArray(pbTarget);
         dataAndKey.routingKey=routingKey;

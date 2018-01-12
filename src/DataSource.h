@@ -58,7 +58,7 @@ public slots:
     void slotOutPutPosCountAndRate();
 
 private:
-    bool fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type &targetInfoType, QList <StructDataAndKey> &listDataAndKey,
+    bool fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type &targetInfoType,
                                QSet <qint32> &setTargetIDObservedOfThisInfoType,QSet <qint32> &setTargetIDSentOfThisInfoType, const QString &routingKey);
 
     void addTimeStampErrorInDynamicOfTargetPos(PBTargetPosition &pbTargetPos, const Struct_TransmissionQuality &transQ) const;
