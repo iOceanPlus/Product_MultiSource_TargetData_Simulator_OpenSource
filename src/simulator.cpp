@@ -125,10 +125,6 @@ void Simulator::parseParamFileAndInitWorldMembers()
     {
         ExternV_TargetCount=jsonObjcet.value("TargetCount").toInt(ExternV_TargetCount);
     }
-    if(checkJsonObjectAndOutPutValue(jsonObjcet,"World_Threads_Count",true))
-    {
-        worldThreadCount=jsonObjcet.value("World_Threads_Count").toInt(worldThreadCount);
-    }
     if(checkJsonObjectAndOutPutValue(jsonObjcet,"ExternV_MIN_Sample_MSEC",true))
     {
         ExternV_MIN_Sample_MSEC=jsonObjcet.value("ExternV_MIN_Sample_MSEC").toInt(ExternV_MIN_Sample_MSEC);
