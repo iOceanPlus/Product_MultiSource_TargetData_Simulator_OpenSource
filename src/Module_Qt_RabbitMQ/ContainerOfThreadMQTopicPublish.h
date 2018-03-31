@@ -17,13 +17,15 @@ public:
 
 
 signals:
+    void sigErrorInfo(const QString errorStr) const;
+    void sigInfo(const QString &infoStr) const;
+
+    void sigPublishToMQ(const QList <StructDataAndKey> &listDataAndKey) const;
 
 public slots:
     //This method can be called directly as well as connect by a signal
-    void slotPublishToMQ(QList <StructDataAndKey> listDataAndKey);
-
+    void slotPublishToMQ(const QList <StructDataAndKey> &listDataAndKey) const;
 private slots:
-    void slotPublishSimuHeartBeat();
 
 private:
     MQTopicPublishCore *mqTopicPublish;

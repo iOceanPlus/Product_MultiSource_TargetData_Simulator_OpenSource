@@ -17,23 +17,22 @@ ContainerOfThreadedMQTopicConsume::ContainerOfThreadedMQTopicConsume(QString mqA
 
     timerPublishSimuHeartBeatToMQ=new QTimer(this);
     timerPublishSimuHeartBeatToMQ->start(secondsIntervalSendHeartbeatToMQ*1000);
-    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),this,SLOT(slotPublishSimuHeartBeat()));
+    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),mqTopicConsumeCore,SLOT(slotPublishSimuHeartBeat()));
 
     connect(mqTopicConsumeCore,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
             this,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)));
+    connect(mqTopicConsumeCore,SIGNAL(sigErrorInfo(QString)),this,SIGNAL(sigErrorInfo(QString)));
+    connect(mqTopicConsumeCore,SIGNAL(sigInfo(QString)),this,SIGNAL(sigInfo(QString)));
 
     threadOfMQTopicConsume->start();
 }
 
 ContainerOfThreadedMQTopicConsume::~ContainerOfThreadedMQTopicConsume()
 {
-
+    threadOfMQTopicConsume->quit();
+    threadOfMQTopicConsume->wait(1000);
+    threadOfMQTopicConsume->deleteLater();
 }
 
-//avoid reset caused by missing heartbeat
-void ContainerOfThreadedMQTopicConsume::slotPublishSimuHeartBeat()
-{
-    mqTopicConsumeCore->slotPublishSimuHeartBeat();
-}
 
 

@@ -11,10 +11,13 @@ public:
                                                  QObject *parent = 0,quint32 maxCachedMessageCount=300000,quint32 secondsIntervalSendHeartbeatToMQ=5);
     ~ContainerOfUnThreadedMQTopicPublish();
 
+signals:
+    void sigErrorInfo(const QString &errorStr) const;
+    void sigInfo(const QString &infoStr) const;
 
 public slots:
     //This method can be called directly as well as connect by a signal
-    void slotPublishToMQ(QList <StructDataAndKey> listDataAndKey);
+    void slotPublishToMQ(const QList <StructDataAndKey> &listDataAndKey) const;
 
 private slots:
     //void slotPublishSimuHeartBeat();

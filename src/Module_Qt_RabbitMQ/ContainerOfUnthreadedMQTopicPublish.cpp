@@ -9,11 +9,14 @@ ContainerOfUnThreadedMQTopicPublish::ContainerOfUnThreadedMQTopicPublish(QString
 
     timerPublishSimuHeartBeatToMQ=new QTimer(this);
     connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),mqTopicPublish,SLOT(slotTimerEventSimuHeartBeat()));
+    connect(mqTopicPublish,SIGNAL(sigErrorInfo(QString)),this,SIGNAL(sigErrorInfo(QString)));
+    connect(mqTopicPublish, SIGNAL(sigInfo(QString)),this,SIGNAL(sigInfo(QString)));
+
     mqTopicPublish->slotInit();
     timerPublishSimuHeartBeatToMQ->start(secondsIntervalSendHeartbeatToMQ*1000);
 }
 
-void ContainerOfUnThreadedMQTopicPublish::slotPublishToMQ(QList <StructDataAndKey> listDataAndKey)
+void ContainerOfUnThreadedMQTopicPublish::slotPublishToMQ(const QList<StructDataAndKey> &listDataAndKey) const
 {
     mqTopicPublish->slotPublish(listDataAndKey);
 }

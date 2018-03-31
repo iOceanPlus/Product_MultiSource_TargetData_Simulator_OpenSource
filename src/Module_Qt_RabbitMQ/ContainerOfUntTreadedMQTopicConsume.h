@@ -17,8 +17,11 @@ public:
     ~ContainerOfUnThreadedMQTopicConsume();
 
 signals:
-    void sigMsgRcvd(QByteArray baData,QString exchangeName,QString routingKey,
+    void sigMsgRcvd(const QByteArray &baData,QString exchangeName,QString routingKey,
                     quint64 deliveryTag, bool redelivered);
+    void sigErrorInfo(const QString &errorStr) const;
+    void sigInfo(const QString &infoStr) const;
+
 
 private slots:
    // void slotPublishSimuHeartBeat();

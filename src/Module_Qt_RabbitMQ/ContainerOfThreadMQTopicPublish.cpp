@@ -11,28 +11,29 @@ ContainerOfThreadMQTopicPublish::ContainerOfThreadMQTopicPublish(QString mqAddr,
     mqTopicPublish=new MQTopicPublishCore(mqAddr,exchangeName,false, 0,maxCachedMessageCount);
     connect(threadOfMQTopicPublish,SIGNAL(finished()),mqTopicPublish,SLOT(deleteLater()));
     connect(threadOfMQTopicPublish,SIGNAL(started()),mqTopicPublish,SLOT(slotInit()));
+    connect(mqTopicPublish,SIGNAL(sigErrorInfo(QString)),this,SIGNAL(sigErrorInfo(QString)));
+    connect(mqTopicPublish,SIGNAL(sigInfo(QString)),this,SIGNAL(sigInfo(QString)));
+
     mqTopicPublish->moveToThread(threadOfMQTopicPublish);
 
     timerPublishSimuHeartBeatToMQ=new QTimer(this);
     timerPublishSimuHeartBeatToMQ->start(secondsIntervalSendHeartbeatToMQ*1000);
-    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),this,SLOT(slotPublishSimuHeartBeat()));
+    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),mqTopicPublish,SLOT(slotTimerEventSimuHeartBeat()));
+    connect(this,SIGNAL(sigPublishToMQ(QList<StructDataAndKey>)),mqTopicPublish,SLOT(slotPublish(QList<StructDataAndKey>)));
 
     threadOfMQTopicPublish->start();
 }
 
-void ContainerOfThreadMQTopicPublish::slotPublishToMQ(QList <StructDataAndKey> listDataAndKey)
-{
-    mqTopicPublish->slotPublish(listDataAndKey);
-}
 
 ContainerOfThreadMQTopicPublish::~ContainerOfThreadMQTopicPublish()
 {
-
+    threadOfMQTopicPublish->quit();
+    threadOfMQTopicPublish->wait(1000);
+    threadOfMQTopicPublish->deleteLater();
 }
 
-void ContainerOfThreadMQTopicPublish::slotPublishSimuHeartBeat()
+void ContainerOfThreadMQTopicPublish::slotPublishToMQ(const QList<StructDataAndKey> &listDataAndKey) const
 {
-    mqTopicPublish->slotTimerEventSimuHeartBeat();
+    emit sigPublishToMQ(listDataAndKey);
 }
-
 

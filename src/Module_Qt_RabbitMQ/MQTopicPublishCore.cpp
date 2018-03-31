@@ -67,14 +67,18 @@ void MQTopicPublishCore::connectMQAndDeclare()
     // install a generic channel-error handler that will be called for every
     // error that occurs on the channel
     channel->onError([this](const char *message) {
-        qDebug() <<QDateTime::currentDateTime()<< "channel error in class MQTopicPublish: " << message <<endl;
+        QString errorStr=QDateTime::currentDateTime().toString()+"channel error in class MQTopicPublish: " +QString(message);
+        emit sigErrorInfo(errorStr);
+        qDebug() <<errorStr;
         isChannelReady=false;
         this->slotDestroyAndReInitAfterAWhile();
     });
     channel->onReady([this]
     {
         this->isChannelReady=true;
-        qDebug()<<"Channel is ready in class MQTopicPublish."<<endl;
+        QString infoStr="Channel is ready in class MQTopicPublish.";
+        emit sigInfo(infoStr);
+       qDebug()<<infoStr;
     });
 
     /*  The following flags can be used for the exchange:
@@ -87,7 +91,7 @@ void MQTopicPublishCore::connectMQAndDeclare()
 }
 
 
-void MQTopicPublishCore::slotPublish(QList<StructDataAndKey> listDataAndKey)
+void MQTopicPublishCore::slotPublish(const QList<StructDataAndKey> &listDataAndKey)
 {
     QMutexLocker locker(mutex); //ensure that, this method is not called by two threads simultaneously
     listDataAndKeyToBePublished.append(listDataAndKey);
@@ -133,14 +137,21 @@ void MQTopicPublishCore::slotTimerEventRunEv()
 
 void MQTopicPublishCore::slotDestroyAndReInitAfterAWhile()
 {
-    qDebug()<<QDateTime::currentDateTime()<<"ReInit members in MQTopicPublish after "<<RECONNECT_INTERVAL_SECONDS<<" seconds";
+    QString infoStr= QDateTime::currentDateTime().toString()+" Destroy and ReInit members in MQTopicPublish after "+
+            QString::number(RECONNECT_INTERVAL_SECONDS)+" seconds";
+    emit sigInfo(infoStr);
+    qDebug()<<infoStr;
+
     isChannelReady=false;
     QTimer::singleShot(RECONNECT_INTERVAL_SECONDS*1000,this,SLOT(slotDestroyAndReInitImmediately()));
 }
 
 void MQTopicPublishCore::slotDestroyAndReInitImmediately()
 {
-    qDebug()<<QDateTime::currentDateTime()<<"Trying to ReInit MQTopicConsume";
+    QString infoStr= QDateTime::currentDateTime().toString()+" Trying to ReInit MQTopicPublish ";
+    emit sigInfo(infoStr);
+    qDebug()<<infoStr;
+
     isChannelReady=false;
 
     if(channel)
@@ -171,9 +182,11 @@ void MQTopicPublishCore::slotTimerEventSimuHeartBeat()
     if(channel&&channel->connected()&&isChannelReady)
     {
         if(!channel->publish(exchangeName.toUtf8().data(),"Simu.HeartBeat","Hello to Broker"))
-            qDebug()<<QDateTime::currentDateTime()<<"MQTopicPublish Fail to publish heartbeat to broker!"; //avoid reset caused by missing heartbeat
-//        else
-//            qDebug()<<QDateTime::currentDateTime()<<"MQTopicPublish publised heartbeat to broker";
+        {
+            QString errorStr=QDateTime::currentDateTime().toString()+"MQTopicPublish Fail to publish heartbeat to broker!"; //avoid reset caused by missing heartbeat
+            emit sigErrorInfo(errorStr);
+            qDebug() <<errorStr;
+        }
     }
 }
 

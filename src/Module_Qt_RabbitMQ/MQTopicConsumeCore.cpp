@@ -80,7 +80,9 @@ void MQTopicConsumeCore::connectMQAndDeclare()
     // install a generic channel-error handler that will be called for every
     // error that occurs on the channel
     channel->onError([this](const char *message) {
-        qDebug() << "channel error in class MQTopicConsume: " << message <<endl<<"Begion to reinit....";
+        QString errorStr="channel error in class MQTopicConsume: " +QString(message);
+        emit sigErrorInfo(errorStr);
+        qDebug() << errorStr<<endl<<"Begion to reinit....";
         isChannelReady=false;
         this->slotDestroyAndReInitAfterAWhile();
     });
@@ -88,40 +90,53 @@ void MQTopicConsumeCore::connectMQAndDeclare()
     channel->onReady([this]
     {
         this->isChannelReady=true;
-        qDebug()<<"Channel is ready in class MQTopicConsume."<<endl;
+        QString infoStr="Channel is ready in class MQTopicConsume.";
+        emit sigInfo(infoStr);
+       qDebug()<<infoStr;
     });
 
     channel->declareExchange(exchangeName.toStdString(),AMQP::topic,AMQP::durable)
-        .onSuccess([] ()
+        .onSuccess([this] ()
         {
-           qDebug()<<"Exchange  is declared successfully in MQTopiConsume"<<endl;
+            QString infoStr="Exchange  is declared successfully in MQTopiConsume";
+            emit sigInfo(infoStr);
+           qDebug()<<infoStr;
         })
-        .onError([] (const char* message)
+        .onError([this] (const char* message)
         {
-            qDebug()<<"Error when declare exchange  in MQTopiConsume:"<<message<<endl;
+            QString errorStr="Error when declare exchange  in MQTopiConsume: " +QString(message);
+            emit sigErrorInfo(errorStr);
+            qDebug()<<errorStr<<endl;
         });
 
     // callback operation when a queue was declared successfully
     // signature: void myCallback(const std::string &name, uint32_t messageCount, uint32_t consumerCount);
     AMQP::QueueCallback callbackQueueDeclared = [=](const std::string &name, uint32_t messageCount, uint32_t consumerCount)
     {
-        std::cout <<"Message queue "<<name<<" has been declared in class MQTopicConsume."<<std::endl
-                 <<"Messagecount is:"<<messageCount<<". Consumercount is:"<<consumerCount<<std::endl;
+        QString infoStr="Message queue "+QString(name.data())+" has been declared in class MQTopicConsume.\n"
+                "Messagecount is: "+QString::number(messageCount)+". Consumercount is: "+QString::number(consumerCount);
+        emit sigInfo(infoStr);
+       qDebug()<<infoStr;
+
         QString routingKey;
         /***Can a nonDurable queue bind with a durable exchange?**/
         foreach (routingKey,listRoutingKey)
             channel->bindQueue(exchangeName.toStdString(),name,routingKey.toStdString());
 
         // callback function that is called when the consume operation starts
-        AMQP::ConsumeCallback callBackConsumeStarted = [](const std::string &consumertag)
+        AMQP::ConsumeCallback callBackConsumeStarted = [this](const std::string &consumertag)
         {
-            std::cout << "consume operation started. Consumertag is: " <<consumertag<< std::endl;
+            QString infoStr= "consume operation started. Consumertag is: " +QString(consumertag.data());
+            emit sigInfo(infoStr);
+            qDebug()<<infoStr;
         };
 
         // callback function that is called when the consume operation failed
-        auto callBackConsumeError = [](const char *message)
+        auto callBackConsumeError = [this](const char *message)
         {
-            std::cout << "consume operation failed:" <<message<<std::endl;
+            QString errorStr="Consume operation failed: " +QString(message);
+            emit sigErrorInfo(errorStr);
+            qDebug() << errorStr;
         } ;
 
         // callback operation when a message was received
@@ -210,14 +225,18 @@ void MQTopicConsumeCore::connectMQAndDeclare()
     if(queueName.simplified().isEmpty())
        channel->declareQueue(isQueueDurable?AMQP::durable:AMQP::exclusive,arguments)
                .onSuccess(callbackQueueDeclared)
-               .onError([](const char *message) {
-           qDebug() << "queue declare error in MQTopicConsume: " << message;
+               .onError([this](const char *message) {
+           QString errorStr="Queue declare error in MQTopicConsume:" +QString(message);
+           emit sigErrorInfo(errorStr);
+           qDebug() <<errorStr;
        });
     else
         channel->declareQueue(queueName.toUtf8().data(), isQueueDurable?AMQP::durable:AMQP::exclusive,arguments)
                 .onSuccess(callbackQueueDeclared)
-                .onError([](const char *message) {
-            qDebug() << "queue declare error in MQTopicConsume: " << message;
+                .onError([this](const char *message) {
+            QString errorStr="Queue declare error in MQTopicConsume:" +QString(message);
+            emit sigErrorInfo(errorStr);
+            qDebug() << errorStr;
         });
 
 }
@@ -225,13 +244,19 @@ void MQTopicConsumeCore::connectMQAndDeclare()
 void MQTopicConsumeCore::slotDestroyAndReInitAfterAWhile()
 {
     isChannelReady=false;
-    qDebug()<<QDateTime::currentDateTime()<<"Destroy and ReInit members in MQTopicConsume after "<<RECONNECT_INTERVAL_SECONDS<<" seconds";
+    QString infoStr= QDateTime::currentDateTime().toString()+" Destroy and ReInit members in MQTopicConsume after "+
+            QString::number(RECONNECT_INTERVAL_SECONDS)+" seconds";
+    emit sigInfo(infoStr);
+    qDebug()<<infoStr;
     QTimer::singleShot(RECONNECT_INTERVAL_SECONDS*1000,this,SLOT(slotDestroyAndReInitImmediately()));
 }
 
 void MQTopicConsumeCore::slotDestroyAndReInitImmediately()
 {
-    qDebug()<<QDateTime::currentDateTime()<<"Trying to ReInit MQTopicConsume";
+    QString infoStr= QDateTime::currentDateTime().toString()+" Trying to ReInit MQTopicConsume ";
+    emit sigInfo(infoStr);
+    qDebug()<<infoStr;
+
     if(channel)
     {
         delete channel;
@@ -271,9 +296,11 @@ void MQTopicConsumeCore::slotPublishSimuHeartBeat()
     if(channel&&channel->connected()&&isChannelReady)
     {
         if(!channel->publish(exchangeName.toUtf8().data(),routingKeyForSimuHeart.toStdString(),"Hello to Broker"))
-            qDebug()<<QDateTime::currentDateTime()<<"MQTopicConsumeCore Fail to publish heartbeat to broker!"; //avoid reset caused by missing heartbeat
-//        else
-//            qDebug()<<QDateTime::currentDateTime()<<"MQTopicConsumeCore publised heartbeat to broker";
+        {
+            QString errorStr=QDateTime::currentDateTime().toString()+"MQTopicConsumeCore Fail to publish heartbeat to broker!"; //avoid reset caused by missing heartbeat
+            emit sigErrorInfo(errorStr);
+            qDebug() <<errorStr;
+        }
     }
 }
 

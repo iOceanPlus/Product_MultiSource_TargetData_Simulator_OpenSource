@@ -18,11 +18,12 @@ public:
 
 
 signals:
-    void sigMsgRcvd(QByteArray baData,QString exchangeName,QString routingKey,
-                    quint64 deliveryTag, bool redelivered);
+    void sigMsgRcvd(const QByteArray &baData,QString exchangeName,QString routingKey,
+                    quint64 deliveryTag, bool redelivered) const;
+    void sigErrorInfo(const QString &errorStr) const;
+    void sigInfo(const QString &infoStr) const;
 
 private slots:
-    void slotPublishSimuHeartBeat();
 
 private:
     MQTopicConsumeCore *mqTopicConsumeCore;

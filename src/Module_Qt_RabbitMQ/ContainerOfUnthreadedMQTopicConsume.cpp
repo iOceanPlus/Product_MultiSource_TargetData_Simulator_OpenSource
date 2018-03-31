@@ -12,6 +12,8 @@ ContainerOfUnThreadedMQTopicConsume::ContainerOfUnThreadedMQTopicConsume(QString
 
     connect(mqTopicConsumeCore,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
             this,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)));
+    connect(mqTopicConsumeCore,SIGNAL(sigErrorInfo(QString)),this,SIGNAL(sigErrorInfo(QString)));
+    connect(mqTopicConsumeCore,SIGNAL(sigInfo(QString)),this,SIGNAL(sigInfo(QString)));
     mqTopicConsumeCore->slotInit();
     timerPublishSimuHeartBeatToMQ->start(secondsIntervalSendHeartbeatToMQ*1000);
 }

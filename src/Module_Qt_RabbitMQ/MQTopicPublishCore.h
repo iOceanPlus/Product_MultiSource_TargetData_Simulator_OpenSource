@@ -26,9 +26,10 @@ public:
     ~MQTopicPublishCore();
 
 signals:
-
+    void sigErrorInfo(const QString errorStr) const;
+    void sigInfo(const QString &infoStr) const;
 public slots:
-    void slotPublish(QList <StructDataAndKey> listDataAndKey);
+    void slotPublish(const QList <StructDataAndKey> &listDataAndKey);
     void slotTimerEventSimuHeartBeat();
     void slotInit();
 
@@ -53,8 +54,6 @@ private:
     QMutex *mutex;
 
     void  connectMQAndDeclare();
-
-
 };
 
 #endif // MQTOPICPUBLISH_H
