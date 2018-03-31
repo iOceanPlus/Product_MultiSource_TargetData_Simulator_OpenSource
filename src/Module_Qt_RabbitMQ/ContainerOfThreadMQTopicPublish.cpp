@@ -18,8 +18,8 @@ ContainerOfThreadMQTopicPublish::ContainerOfThreadMQTopicPublish(QString mqAddr,
 
     timerPublishSimuHeartBeatToMQ=new QTimer(this);
     timerPublishSimuHeartBeatToMQ->start(secondsIntervalSendHeartbeatToMQ*1000);
-    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),mqTopicPublish,SLOT(slotTimerEventSimuHeartBeat()));
-    connect(this,SIGNAL(sigPublishToMQ(QList<StructDataAndKey>)),mqTopicPublish,SLOT(slotPublish(QList<StructDataAndKey>)));
+    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),this,SLOT(slotPublishSimuHeartBeat()));//Can not connect with mqTopicPublish
+  //  connect(this,SIGNAL(sigPublishToMQ(QList<StructDataAndKey>)),mqTopicPublish,SLOT(slotPublish(QList<StructDataAndKey>))); //This fail to funct
 
     threadOfMQTopicPublish->start();
 }
@@ -34,6 +34,10 @@ ContainerOfThreadMQTopicPublish::~ContainerOfThreadMQTopicPublish()
 
 void ContainerOfThreadMQTopicPublish::slotPublishToMQ(const QList<StructDataAndKey> &listDataAndKey) const
 {
-    emit sigPublishToMQ(listDataAndKey);
+    mqTopicPublish->slotPublish(listDataAndKey);
 }
 
+void ContainerOfThreadMQTopicPublish::slotPublishSimuHeartBeat()
+{
+    mqTopicPublish->slotTimerEventSimuHeartBeat();
+}
