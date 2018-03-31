@@ -9,28 +9,66 @@
 #include <exception>
 using namespace std;
 
-IOMessages::IOMessages(const PB_Enum_Software &enum_SoftwareName, QStringList paramListRoutingKeyToConsume,
-                       QString mqParamFileName, QObject *parent) :
+IOMessages::IOMessages(const PB_Enum_Software &enum_SoftwareName , const QStringList &listRoutingKeyToConsume,
+                       const QString &mqParamFileName, const bool &threaded, QObject *parent) :
     QObject(parent)
 {
     mutex=new QMutex();
+    isContainerThreaded=threaded;
     containerUnThreadedMQTopicPublish = NULL;
     containerUnThreadedMQTopicConsume = NULL;
-    this->listRoutingKeyToConsume=paramListRoutingKeyToConsume;
+    containerThreadedMQTopicPublish = NULL;
+    containerThreadedMQTopicConsume = NULL;
+
+    outPutMsg=false;
+    outPutTargetPosInMsg=false;
+    debugTimeStamp=false;
     this->enumSoftware=enum_SoftwareName;
-    //monitorProbeAck.set_enum_probesender_software(enum_SoftwareName);
+    this->structMQParams.listRoutingKeyToConsume=listRoutingKeyToConsume;
 
-    if(!parseMQParamFile(mqParamFileName))
-        exit(1);
-
-    if(!mqIP.startsWith("amqp://"))
+    if(mqParamFileName.isEmpty()|| !parseMQParamFile(mqParamFileName))
     {
-        qDebug()<<"AMQP address should start with 'amqp://'. Check if it is set corectly in param_mq.txt. Its current value is: "<<mqIP;
+        qDebug()<<"mqParamFileName not exist or fail to parseMQParamFile";
+        exit(1);
+    }
+
+    if(!structMQParams.mqAddr.startsWith("amqp://"))
+    {
+        qDebug()<<"AMQP address should start with 'amqp://'. Check if it is set corectly in param_mq.txt. Its current value is: "<<structMQParams.mqAddr;
         exit(2);
     }
 
-    if(exchangeNameOut.isEmpty())
-        exchangeNameOut=exchangeNameIn;
+    if(structMQParams.exchangeNameOut.isEmpty())
+        structMQParams.exchangeNameOut=structMQParams.exchangeNameIn;
+
+    startWork();
+}
+
+IOMessages::IOMessages(const PB_Enum_Software &enum_SoftwareName , const StructMQParams &structMQParamsPassedIn,
+                      const bool &threaded,  QObject *parent ) :
+    QObject(parent)
+{
+    mutex=new QMutex();
+    isContainerThreaded=threaded;
+
+    containerUnThreadedMQTopicPublish = NULL;
+    containerUnThreadedMQTopicConsume = NULL;
+    containerThreadedMQTopicPublish = NULL;
+    containerThreadedMQTopicConsume = NULL;
+    outPutMsg=false;
+    outPutTargetPosInMsg=false;
+    debugTimeStamp=false;
+    this->structMQParams=structMQParamsPassedIn;
+    this->enumSoftware=enum_SoftwareName;
+
+    if(!structMQParams.mqAddr.startsWith("amqp://"))
+    {
+        qDebug()<<"AMQP address should start with 'amqp://'. Check if it is set corectly in param_mq.txt. Its current value is: "<<structMQParams.mqAddr;
+        exit(2);
+    }
+
+    if(structMQParams.exchangeNameOut.isEmpty())
+        structMQParams.exchangeNameOut=structMQParams.exchangeNameIn;
 
     startWork();
 }
@@ -39,6 +77,7 @@ IOMessages::~IOMessages()
 {
     // Optional:  Delete all global objects allocated by libprotobuf.
     google::protobuf::ShutdownProtobufLibrary();
+    delete mutex;
 }
 
 bool IOMessages::parseMQParamFile(QString mqParamFIleName)
@@ -68,31 +107,49 @@ bool IOMessages::parseMQParamFile(QString mqParamFIleName)
                 bool ok=true;
                 if(paramName.simplified()=="MQIP")
                 {
-                    mqIP=paramValue;
-                    qDebug()<<"MQ IP is: "<<mqIP;
+                    structMQParams.mqAddr=paramValue;
+                    qDebug()<<"MQ IP is: "<<structMQParams.mqAddr;
                 }
                 else if(paramName.simplified()=="ExchangeName")
                 {
-                    exchangeNameIn=paramValue;
-                    qDebug()<<"Exchange name in is:"<<exchangeNameIn;
+                    structMQParams.exchangeNameIn=paramValue;
+                    qDebug()<<"Exchange name in is:"<<structMQParams.exchangeNameIn;
                 }
                 else if(paramName.simplified()=="ExchangeNameOut")
                 {
-                    exchangeNameOut=paramValue;
-                    qDebug()<<"Exchange name out is:"<<exchangeNameOut;
+                    structMQParams.exchangeNameOut=paramValue;
+                    qDebug()<<"Exchange name out is:"<<structMQParams.exchangeNameOut;
                 }
 
                 else if(paramName.simplified()=="MQQueueName")
                 {
-                    mqQueueName=paramValue;
-                    qDebug()<<"Queue name is:"<<mqQueueName;
+                    structMQParams.mqQueueName=paramValue;
+                    qDebug()<<"Queue name is:"<<structMQParams.mqQueueName;
                 }
 
                 else if(paramName.simplified()=="ConsumerTag")
                 {
-                    consumerTag=paramValue;
-                    qDebug()<<"consumerTag is:"<<consumerTag;
+                    structMQParams.consumerTag=paramValue;
+                    qDebug()<<"consumerTag is:"<<structMQParams.consumerTag;
                 }
+
+                else if(paramName.simplified()=="OutPutMsg")
+                {
+                    outPutMsg=paramValue.toInt()>0;
+                    qDebug()<<"outPutMsg is:"<<outPutMsg;
+                }
+
+                else if(paramName.simplified()=="OutPutTargetPosInMsg")
+                {
+                    outPutTargetPosInMsg=paramValue.toInt(&ok)>0;
+                    qDebug()<<"OutPutTargetPosInMsg is:"<<outPutTargetPosInMsg;
+                }
+                else if(paramName.simplified()=="DebugTimeStamp")
+                {
+                    debugTimeStamp=paramValue.toInt(&ok)>0;
+                    qDebug()<<"DebugTimeStamp is:"<<debugTimeStamp;
+                }
+
                 else
                     qDebug()<<"Fail to parse field:"+paramName;
 
@@ -110,16 +167,37 @@ bool IOMessages::parseMQParamFile(QString mqParamFIleName)
 }
 void IOMessages::startWork()
 {
-    containerUnThreadedMQTopicPublish = new ContainerOfUnThreadedMQTopicPublish(mqIP,exchangeNameOut,this,300000,6);
-    containerUnThreadedMQTopicConsume = new ContainerOfUnThreadedMQTopicConsume(mqIP,exchangeNameIn,listRoutingKeyToConsume,consumerTag,
-                                                        this,mqQueueName,300000,600000,"SimuHeartBeat",true,60);
-    connect(containerUnThreadedMQTopicConsume,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
-            this,SLOT(slotMsgRcvdFromMQ(QByteArray,QString,QString,quint64,bool)));
+    if(!isContainerThreaded)
+    {
+        containerUnThreadedMQTopicPublish = new ContainerOfUnThreadedMQTopicPublish(structMQParams.mqAddr,
+                                                                                    structMQParams.exchangeNameOut,this,300000,6);
+        containerUnThreadedMQTopicConsume = new ContainerOfUnThreadedMQTopicConsume(structMQParams.mqAddr,
+                                            structMQParams.exchangeNameIn,structMQParams.listRoutingKeyToConsume,structMQParams.consumerTag,
+                                                            this,structMQParams.mqQueueName,300000,600000,"SimuHeartBeat",true,60);
+        connect(containerUnThreadedMQTopicConsume,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
+                this,SLOT(slotMsgRcvdFromMQ(QByteArray,QString,QString,quint64,bool)));
+        connect(containerUnThreadedMQTopicConsume,SIGNAL(sigErrorInfo(QString)),this,SIGNAL(sigErrorInfo(QString)));
+        connect(containerUnThreadedMQTopicConsume,SIGNAL(sigInfo(QString)),this,SIGNAL(sigInfo(QString)));
+    }
+    else
+    {
+        containerThreadedMQTopicPublish = new ContainerOfThreadMQTopicPublish(structMQParams.mqAddr,
+                                                                                    structMQParams.exchangeNameOut,this,300000,6);
+        containerThreadedMQTopicConsume = new ContainerOfThreadedMQTopicConsume(structMQParams.mqAddr,
+                                            structMQParams.exchangeNameIn,structMQParams.listRoutingKeyToConsume,structMQParams.consumerTag,
+                                                            this,structMQParams.mqQueueName,300000,600000,"SimuHeartBeat",true,60);
+        connect(containerThreadedMQTopicConsume,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
+                this,SLOT(slotMsgRcvdFromMQ(QByteArray,QString,QString,quint64,bool)));
+        connect(containerThreadedMQTopicConsume,SIGNAL(sigErrorInfo(QString)),this,SIGNAL(sigErrorInfo(QString)));
+        connect(containerThreadedMQTopicConsume,SIGNAL(sigInfo(QString)),this,SIGNAL(sigInfo(QString)));
+        connect(this,SIGNAL(sigPublishToMQ(QList<StructDataAndKey>)),containerThreadedMQTopicPublish,
+                SLOT(slotPublishToMQ(QList<StructDataAndKey>)));
+    }
 }
 
 
-void IOMessages::slotMsgRcvdFromMQ(QByteArray baData, QString exchangeName,
-                      QString routingKey, quint64 deliveryTag, bool redelivered)
+void IOMessages::slotMsgRcvdFromMQ(const QByteArray &baData, const QString &exchangeName,
+                   const   QString &routingKey,const quint64 &deliveryTag, const bool &redelivered)
 {
     if(routingKey.startsWith("Monitor."))
     {
@@ -136,7 +214,13 @@ void IOMessages::slotMsgRcvdFromMQ(QByteArray baData, QString exchangeName,
     }
 }
 
-void IOMessages::slotPublishToMQ(QList <StructDataAndKey> listDataAndKey)
+void IOMessages::slotPublishToMQ(const QList<StructDataAndKey> &listDataAndKey) const
 {
-    containerUnThreadedMQTopicPublish->slotPublishToMQ(listDataAndKey);
+    if(!isContainerThreaded)
+        containerUnThreadedMQTopicPublish->slotPublishToMQ(listDataAndKey);
+    else
+    {
+        emit sigPublishToMQ(listDataAndKey);
+    }
 }
+

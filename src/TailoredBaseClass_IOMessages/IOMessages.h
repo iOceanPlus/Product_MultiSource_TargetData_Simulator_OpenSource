@@ -61,6 +61,7 @@ private:
     QMutex *mutex;
 
     QString mqIP,exchangeNameIn,exchangeNameOut,  mqQueueName,consumerTag;
+    bool outPutMsg, outPutTargetPosInMsg,debugTimeStamp;//For debug
 
     ContainerOfUnThreadedMQTopicPublish *containerUnThreadedMQTopicPublish;
     ContainerOfUnThreadedMQTopicConsume *containerUnThreadedMQTopicConsume;
