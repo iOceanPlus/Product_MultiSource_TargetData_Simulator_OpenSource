@@ -30,7 +30,7 @@ Simulator::Simulator(QObject *parent) : QObject(parent)
     }
     QStringList listRoutingKeyToConsume;
     listRoutingKeyToConsume.append(ROUTING_KEY_MONITOR_RPOBE);
-    ioMessages=new IOMessages(SOFTWARE_NAME,listRoutingKeyToConsume,"param_mq.txt",this);
+    ioMessages=new IOMessages(SOFTWARE_NAME,listRoutingKeyToConsume,"param_mq.txt",true,this);
     connectIOMessageAndWorld();
 
     parseParamFileAndInitWorldMembers();
