@@ -23,8 +23,8 @@ public slots:
     //This method can be called directly as well as connect by a signal
     void slotPublishToMQ(const QList <StructDataAndKey> &listDataAndKey) const;
 
-    void slotPublishSimuHeartBeat()   ;
 private slots:
+    void slotPublishSimuHeartBeat()   ;
 
 private:
     MQTopicPublishCore *mqTopicPublish;

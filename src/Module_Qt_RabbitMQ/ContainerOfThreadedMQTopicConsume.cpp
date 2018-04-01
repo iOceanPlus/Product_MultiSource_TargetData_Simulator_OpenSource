@@ -17,7 +17,7 @@ ContainerOfThreadedMQTopicConsume::ContainerOfThreadedMQTopicConsume(QString mqA
 
     timerPublishSimuHeartBeatToMQ=new QTimer(this);
     timerPublishSimuHeartBeatToMQ->start(secondsIntervalSendHeartbeatToMQ*1000);
-    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),mqTopicConsumeCore,SLOT(slotPublishSimuHeartBeat()));
+    connect(timerPublishSimuHeartBeatToMQ,SIGNAL(timeout()),this,SLOT(slotPublishSimuHeartBeat())); //Can not connect the timer with mqTopicConsumeCore directly
 
     connect(mqTopicConsumeCore,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)),
             this,SIGNAL(sigMsgRcvd(QByteArray,QString,QString,quint64,bool)));
@@ -33,6 +33,13 @@ ContainerOfThreadedMQTopicConsume::~ContainerOfThreadedMQTopicConsume()
     threadOfMQTopicConsume->wait(1000);
     threadOfMQTopicConsume->deleteLater();
 }
+
+//avoid reset caused by missing heartbeat
+void ContainerOfThreadedMQTopicConsume::slotPublishSimuHeartBeat() const
+{
+    mqTopicConsumeCore->slotPublishSimuHeartBeat(); //Can not connect the signal with slot in mqTopicConsumeCore directly
+}
+
 
 
 

@@ -30,10 +30,11 @@ signals:
     void sigInfo(const QString &infoStr) const;
 public slots:
     void slotPublish(const QList <StructDataAndKey> &listDataAndKey);
-    void slotTimerEventSimuHeartBeat();
     void slotInit();
+    void slotTimerEventSimuHeartBeat();
 
 private slots:
+
     void slotDestroyAndReInitAfterAWhile();
     void slotDestroyAndReInitImmediately();
 

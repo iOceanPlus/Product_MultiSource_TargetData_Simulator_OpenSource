@@ -24,6 +24,7 @@ signals:
     void sigInfo(const QString &infoStr) const;
 
 private slots:
+    void slotPublishSimuHeartBeat() const;
 
 private:
     MQTopicConsumeCore *mqTopicConsumeCore;
