@@ -102,10 +102,10 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
     PBTarget pbTarget;
     pbTarget.set_enum_sender_software(world->getPbCoderDecoder()->getPbEnumSenderSoftware());
 
-    QListIterator <PBTargetPosition> iListTargetPos(world->getMapInfoTypeDataChannels().value(targetInfoType)->getListPBTargetPosInChannel());
-    while(iListTargetPos.hasNext())
+    QVectorIterator <PBTargetPosition> iVectTargetPos(world->getMapInfoTypeDataChannels().value(targetInfoType)->getVectPBTargetPosInChannel());
+    while(iVectTargetPos.hasNext())
     {
-        PBTargetPosition pbTargetPosInList= iListTargetPos.next();
+        PBTargetPosition pbTargetPosInList= iVectTargetPos.next();
         if(!setTargetIDObservedOfThisInfoType.contains(pbTargetPosInList.targetid())
                 ||qrand()%100<transmissionQ.packetLossPercentage )
             continue;

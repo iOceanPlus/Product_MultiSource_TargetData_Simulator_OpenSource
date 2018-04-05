@@ -2,6 +2,7 @@
 #define DATACHANNEL_H
 
 #include <QObject>
+#include <QVector>
 #include "Target.pb.h"
 class ThreadedWorld;
 
@@ -13,7 +14,7 @@ public:
     bool fetchDataFromPosDevicesIntoChannel(const qint64 &currentDateTimeMSecs);
     bool clearListPBTargetPosInChannel();
 
-    QList<PBTargetPosition> getListPBTargetPosInChannel() const;
+    QVector<PBTargetPosition> getVectPBTargetPosInChannel() const;
 
     PB_Enum_TargetInfo_Type getTargetInfoType() const;
 
@@ -24,7 +25,7 @@ public slots:
 private:
     PB_Enum_TargetInfo_Type targetInfoType;
     ThreadedWorld *world;
-    QList <PBTargetPosition> listPBTargetPosInChannel;
+    QVector <PBTargetPosition> vectPBTargetPosInChannel;
 };
 
 #endif // DATACHANNEL_H

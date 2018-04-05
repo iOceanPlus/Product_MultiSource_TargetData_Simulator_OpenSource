@@ -60,7 +60,7 @@ bool ThreadedWorld::getGridIndex(const double &longitudeInDegree,const double &l
 
 
 /****reply to PBMoniitor***/
-void ThreadedWorld::slotPBMonitor(PBMonitor pbMonitor)
+void ThreadedWorld::slotPBMonitor(const PBMonitor &pbMonitor)
 {
     updateTotalMsgOfProbeAckWithOneMessageRcvd();
 

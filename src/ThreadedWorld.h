@@ -65,8 +65,8 @@ public:
     QString getLanguage() const;
 
 signals:
-    void sigSend2MQ(QList <StructDataAndKey> listProtoData);
-    void sigPBMonitor(PBMonitor pbMonitor); //
+    void sigSend2MQ(const QList <StructDataAndKey> &listProtoData);
+    void sigPBMonitor(const PBMonitor &pbMonitor); //
 public slots:
     bool slotAddDataSourceIfNotExist(const PB_Enum_TargetInfo_Source &pbTargetInfoSource,
                                  const QMap <PB_Enum_TargetInfo_Type,Struct_TransmissionQuality>  &mapInfoTypeTransmitQuality);
@@ -74,7 +74,7 @@ public slots:
     void slotInitDataChannels(const QMap<PB_Enum_TargetInfo_Type, Struct_PosDeviceInfo> &mapInfoTypePosDeviceInfo);
 
 private slots:
-    void slotPBMonitor(PBMonitor pbMonitor); //
+    void slotPBMonitor(const PBMonitor &pbMonitor); //
     void slotTimerEventMeasureAndUpdateTargetsPos();
 
 private:

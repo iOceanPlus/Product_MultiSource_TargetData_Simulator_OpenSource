@@ -22,7 +22,7 @@ bool DataChannel::fetchDataFromPosDevicesIntoChannel(const qint64 &currentDateTi
         {
             PBTargetPosition pbTargetPosMeasured= posDevice->measurePBTargetPosAndUpdateTarget(isMeasured,currentDateTimeMSecs);
             if(isMeasured)
-                listPBTargetPosInChannel.append(pbTargetPosMeasured);
+                vectPBTargetPosInChannel.append(pbTargetPosMeasured);
         }
     }
     return true;
@@ -30,13 +30,13 @@ bool DataChannel::fetchDataFromPosDevicesIntoChannel(const qint64 &currentDateTi
 
 bool DataChannel::clearListPBTargetPosInChannel()
 {
-    listPBTargetPosInChannel.clear();
+    vectPBTargetPosInChannel.clear();
     return true;
 }
 
-QList<PBTargetPosition> DataChannel::getListPBTargetPosInChannel() const
+QVector<PBTargetPosition> DataChannel::getVectPBTargetPosInChannel() const
 {
-    return listPBTargetPosInChannel;
+    return vectPBTargetPosInChannel;
 }
 
 PB_Enum_TargetInfo_Type DataChannel::getTargetInfoType() const
