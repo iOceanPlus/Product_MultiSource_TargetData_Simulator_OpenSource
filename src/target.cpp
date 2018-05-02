@@ -161,7 +161,7 @@ void Target::findAndSetNewDirectionIntoWater(const qint64 &currentDateTimeMSecs)
             std::cout<<"Fail to find direction set into water. MMSI: "<<pbTargetPosInitial.aisdynamic().mmsi()<< " Stop forever..."<<endl;
 #endif
         kinematicCurrent.speedMetersPerSecondCurrentHighPreci=0;
-        kinematicCurrent.dateTimeMSecs=qRound(currentDateTimeMSecs/1000.0);
+        kinematicCurrent.dateTimeMSecs=currentDateTimeMSecs;
         stoppedForever=true;
     }
 }
