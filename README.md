@@ -23,7 +23,7 @@ The architecture of fusion systems based on rabbitmq is in the following figure.
 
 ![How to interact with simulator](https://gitee.com/uploads/images/2017/1121/120341_2ccad847_854788.png "system.png")
 
-The architecture of Data Simulator is in the figure below.
+There are multiple threads in simulator, whose count can be configured in param.json. In each thread, there are multiple data sources as in the figure below.
 ![Data Smulator Architecture](https://gitee.com/uploads/images/2017/1121/153109_4ae7d048_854788.png "屏幕截图.png")
 
 The motion model of targets are in the figure below:
