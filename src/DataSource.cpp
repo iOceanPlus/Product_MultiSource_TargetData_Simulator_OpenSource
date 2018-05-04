@@ -21,7 +21,7 @@ DataSource::DataSource(ThreadedWorld *world, const PB_Enum_TargetInfo_Source &pb
     timerOutPutInfo=new QTimer(this);
     //connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutTargetsCountPerType);
     connect(timerOutPutInfo,&QTimer::timeout,this,&DataSource::slotOutPutPosCountAndRate);
-    timerOutPutInfo->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000);
+    timerOutPutInfo->start(ExternV_SECONDS_CHECK_TARGET_COUNT*1000+13); //add a deviation to avoid statistic bug
 }
 
 bool DataSource::addTargetIDObservedWithAIS(qint32 targetID)
@@ -201,10 +201,14 @@ void DataSource::slotOutPutTargetsCountPerType()
 void DataSource::slotOutPutPosCountAndRate()
 {
     //qDebug()<<thread()<<thread()->isRunning()<<thread()->priority();
-    qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
-    posCountPerMinute=newPosCount*1.00000/dtPosCountOutputToLog.msecsTo(dtPosCountFetched)*1000*60;
-    posCountOutputToLog=totalPosCountFetched;
-   dtPosCountOutputToLog=dtPosCountFetched;
+    qint64 mSecElapsed=dtPosCountOutputToLog.msecsTo(dtPosCountFetched);
+    if(mSecElapsed>0)
+    {
+        qint64 newPosCount=totalPosCountFetched-posCountOutputToLog;
+        posCountPerMinute=newPosCount*1.00000/mSecElapsed*1000*60;
+        posCountOutputToLog=totalPosCountFetched;
+       dtPosCountOutputToLog=dtPosCountFetched;
+    }
 }
 
 qint32 DataSource::getTotalTargetCount()
