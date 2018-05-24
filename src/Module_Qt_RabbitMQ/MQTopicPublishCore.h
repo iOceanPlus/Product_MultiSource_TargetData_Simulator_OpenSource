@@ -29,7 +29,7 @@ signals:
     void sigErrorInfo(const QString errorStr) const;
     void sigInfo(const QString &infoStr) const;
 public slots:
-    void slotPublish(const QList <StructDataAndKey> &listDataAndKey);
+    void slotPublish(const QList<StructDataAndKey> listDataAndKey);
     void slotInit();
     void slotTimerEventSimuHeartBeat();
 

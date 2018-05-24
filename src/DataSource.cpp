@@ -162,7 +162,7 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
             milliSecLatency=0;
 
         QTimer::singleShot(milliSecLatency,
-                            [this, &listDataAndKey] () { emit sigSend2MQ(listDataAndKey);}  );
+                            [this, listDataAndKey] () { emit sigSend2MQ(listDataAndKey);}  );
     }
 
     return true;

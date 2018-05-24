@@ -91,7 +91,7 @@ void MQTopicPublishCore::connectMQAndDeclare()
 }
 
 
-void MQTopicPublishCore::slotPublish(const QList<StructDataAndKey> &listDataAndKey)
+void MQTopicPublishCore::slotPublish(const QList<StructDataAndKey> listDataAndKey)
 {
     QMutexLocker locker(mutex); //ensure that, this method is not called by two threads simultaneously
     listDataAndKeyToBePublished.append(listDataAndKey);
