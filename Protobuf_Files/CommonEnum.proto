@@ -149,7 +149,11 @@ enum PB_Enum_Software //枚举，包含了哪些软件
 	EV_Software_DataAssoc = 9;// data association
 	EV_Software_MaritimeSA = 10 ;//maritime situational assessement.  Anomaly detection etc.
 	
-	EV_Software_XGSDesktop_Others =15; //其他软件
+	
+	EV_Software_TargetDataSimulator=11; //Data simulator
+	
+	EV_Software_Others =15; //其他软件
+	EV_Software_Any =16; //任意软件
 }
 
 enum PB_Enum_Target_ThreatLevel //枚举，目标威胁等级有哪些
