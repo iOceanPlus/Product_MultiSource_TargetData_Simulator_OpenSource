@@ -59,7 +59,11 @@ PBTargetPosition Target::updateTargetAndGetPbTargetPosCurrent(const qint64 &curr
 {
     if((currentDateTimeMSecs-kinematicCurrent.dateTimeMSecs)<ExternV_MIN_Sample_MSEC
             ||stoppedForever)
+    {
+        if(stoppedForever)
+            kinematicCurrent.dateTimeMSecs=currentDateTimeMSecs;
         return getPBTargetPosCurrent();
+    }
 
     StructKinematicStates lastCurrentKinematic=kinematicCurrent; //Store it first, kinematicCurrent will be modified
     QGeoCoordinate geoReckoned ;
