@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QMutex>
 #include "ev.h"
+#include "amqpcpp/linux_tcp.h"
 
 #define RECONNECT_INTERVAL_SECONDS 30
 

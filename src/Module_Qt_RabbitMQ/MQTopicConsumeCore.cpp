@@ -3,8 +3,6 @@
 #include "ev.h"
 #include "amqpcpp.h"
 #include "amqpcpp/libev.h"
-#include "amqpcpp/channel.h"
-#include "amqpcpp/tcpchannel.h"
 #include "MQTopicConsumeCore.h"
 
 #include <QDebug>
@@ -148,10 +146,10 @@ void MQTopicConsumeCore::connectMQAndDeclare()
         auto callBackConsumeRecvd = [this](const AMQP::Message &message, uint64_t deliveryTag, bool redelivered)
         {
             QString exchangeName=message.exchange().data();
-            QString routingKey=message.routingKey().data();
+            QString routingKey=message.routingkey().data();
             //qDebug()<<"msg recvd:"<<routingKey;
             if(!routingKey.startsWith(routingKeyForSimuHeart))
-               emit sigMsgRcvd(QByteArray(message.message().data(),message.message().size()),exchangeName,routingKey,deliveryTag,redelivered);
+               emit sigMsgRcvd(QByteArray(message.body(),message.bodySize()),exchangeName,routingKey,deliveryTag,redelivered);
             // acknowledge the message
             //channel->ack(deliveryTag); //noack flag is set
         } ;
