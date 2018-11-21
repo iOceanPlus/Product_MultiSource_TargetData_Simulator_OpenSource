@@ -104,7 +104,7 @@ void MQTopicPublishCore::slotPublish(const QList<StructDataAndKey> listDataAndKe
             // If per message TTL is required (not recommended!), use:     bool publish(const std::string &exchange, const std::string &routingKey, const char *message, size_t size)
             // message.setExpiration("xxxx") can be used to set the expiration.
             if(channel->publish(exchangeName.toStdString(),dataAndKey.routingKey.toStdString(),
-                                dataAndKey.data.data(),dataAndKey.data.size()))
+                                 std::string(dataAndKey.data.data(),dataAndKey.data.size()) ))
                 listDataAndKeyToBePublished.removeFirst();
             else
                 break;

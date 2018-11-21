@@ -30,11 +30,11 @@ void  Target::setOriginalTargetIDsOfTargetPos(PBTargetPosition &pbTargetPosToSet
 {
     if(pbTargetPosToSet.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
     {
-        pbTargetPosToSet.mutable_aisdynamic()->set_mmsi(0);
+        pbTargetPosToSet.mutable_aisdynamic()->clear_mmsi();
         if(pbTargetPosToSet.has_aisstatic())
-            pbTargetPosToSet.mutable_aisstatic()->set_mmsi(0);
+            pbTargetPosToSet.mutable_aisstatic()->clear_mmsi();
         if(pbTargetPosToSet.has_aisvoyage())
-            pbTargetPosToSet.mutable_aisvoyage()->set_mmsi(0);
+            pbTargetPosToSet.mutable_aisvoyage()->clear_mmsi();
     }
 
     if(pbTargetPosToSet.enum_targetidorig_type()==EV_TargetIDType_BeidouID)
@@ -63,11 +63,11 @@ void Target::clearInvalidFieldsInAnOriginalTargetPos(PBTargetPosition &pbTargetP
 {
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_MMSI)
     {
-        pbTargetPos.mutable_aisdynamic()->set_mmsi(0);
+        pbTargetPos.mutable_aisdynamic()->clear_mmsi();
         if(pbTargetPos.has_aisstatic())
-            pbTargetPos.mutable_aisstatic()->set_mmsi(0);
+            pbTargetPos.mutable_aisstatic()->clear_mmsi();
         if(pbTargetPos.has_aisvoyage())
-            pbTargetPos.mutable_aisvoyage()->set_mmsi(0);
+            pbTargetPos.mutable_aisvoyage()->clear_mmsi();
     }
     if(pbTargetPos.enum_targetidorig_type()!=EV_TargetIDType_BeidouID)
         pbTargetPos.set_beidouid(0);
