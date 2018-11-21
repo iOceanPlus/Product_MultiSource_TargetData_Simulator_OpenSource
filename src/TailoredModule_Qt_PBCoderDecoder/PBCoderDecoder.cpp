@@ -163,8 +163,13 @@ quint32 PBCoderDecoder::getSerialNumAndIncrement()
 QByteArray PBCoderDecoder::serializePBTargetToArray(PBTarget pbTarget) const
 {
     QByteArray baResult;
-    baResult.resize(pbTarget.ByteSize());
-    pbTarget.SerializeToArray(baResult.data(),pbTarget.ByteSize());
+    baResult.resize(pbTarget.ByteSizeLong());
+    if(!pbTarget.SerializeToArray(baResult.data(),pbTarget.ByteSizeLong()))
+        qDebug()<<"Fail to serialize pbTarget to array! "<<QString::fromStdString(pbTarget.DebugString());
+
+//    if(pbTarget.ByteSizeLong()<100)
+//        qDebug()<<pbTarget.ByteSizeLong()<<baResult.size()<<pbTarget.DebugString().data();
+
     return baResult;
 }
 
