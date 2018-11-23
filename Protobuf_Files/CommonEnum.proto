@@ -81,6 +81,8 @@ enum PB_Enum_TargetInfo_Type
 	EV_TargetInfoType_Fusion =15;
 	EV_TargetInfoType_Any =16; //任意信息类型
 	EV_TargetInfoType_Others =17; //others
+	
+	EV_TargetInfoType_Truth =31; //ground truth
 }
 
 //信息来源。1：农业部 2：海事局 3：Hai Jian  15：综合(fusion software)
@@ -114,7 +116,7 @@ enum PB_Enum_TargetID_Type
 	EV_TargetIDType_Fusion =15;
 	EV_TargetIDType_Others =16;
 	EV_TargetIDType_Any =17;
-
+	EV_TargetIDType_Truth = 31; //ground truth
 }
 
 //目标消息的处理层次

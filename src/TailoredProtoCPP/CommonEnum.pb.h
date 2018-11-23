@@ -126,12 +126,13 @@ enum PB_Enum_TargetInfo_Type {
   EV_TargetInfoType_Fusion = 15,
   EV_TargetInfoType_Any = 16,
   EV_TargetInfoType_Others = 17,
+  EV_TargetInfoType_Truth = 31,
   PB_Enum_TargetInfo_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   PB_Enum_TargetInfo_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool PB_Enum_TargetInfo_Type_IsValid(int value);
 const PB_Enum_TargetInfo_Type PB_Enum_TargetInfo_Type_MIN = EV_TargetInfoType_NA;
-const PB_Enum_TargetInfo_Type PB_Enum_TargetInfo_Type_MAX = EV_TargetInfoType_Others;
+const PB_Enum_TargetInfo_Type PB_Enum_TargetInfo_Type_MAX = EV_TargetInfoType_Truth;
 const int PB_Enum_TargetInfo_Type_ARRAYSIZE = PB_Enum_TargetInfo_Type_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetInfo_Type_descriptor();
@@ -184,12 +185,13 @@ enum PB_Enum_TargetID_Type {
   EV_TargetIDType_Fusion = 15,
   EV_TargetIDType_Others = 16,
   EV_TargetIDType_Any = 17,
+  EV_TargetIDType_Truth = 31,
   PB_Enum_TargetID_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   PB_Enum_TargetID_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool PB_Enum_TargetID_Type_IsValid(int value);
 const PB_Enum_TargetID_Type PB_Enum_TargetID_Type_MIN = EV_TargetIDType_NA;
-const PB_Enum_TargetID_Type PB_Enum_TargetID_Type_MAX = EV_TargetIDType_Any;
+const PB_Enum_TargetID_Type PB_Enum_TargetID_Type_MAX = EV_TargetIDType_Truth;
 const int PB_Enum_TargetID_Type_ARRAYSIZE = PB_Enum_TargetID_Type_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* PB_Enum_TargetID_Type_descriptor();

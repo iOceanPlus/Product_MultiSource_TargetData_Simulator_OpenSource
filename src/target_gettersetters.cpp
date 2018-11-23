@@ -103,6 +103,15 @@ void  Target::set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPositio
         pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_HaijianID);
         pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.haijianid());
         break;
+    case EV_TargetInfoType_Truth:
+        pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_Truth);
+        pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.targetid());
+        break;
+    case EV_TargetInfoType_Fusion:
+        pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_Truth);
+        pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.targetid());
+        break;
+
     default:
         pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_Others);
         pbTargetPosToSet.set_targetidorig(-1);
