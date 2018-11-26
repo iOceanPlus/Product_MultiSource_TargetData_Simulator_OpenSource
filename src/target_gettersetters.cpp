@@ -108,7 +108,7 @@ void  Target::set_enum_targetidorigAndIDType_AccordingToInfoType(PBTargetPositio
         pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.targetid());
         break;
     case EV_TargetInfoType_Fusion:
-        pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_Truth);
+        pbTargetPosToSet.set_enum_targetidorig_type(EV_TargetIDType_Fusion);
         pbTargetPosToSet.set_targetidorig(pbTargetPosToSet.targetid());
         break;
 

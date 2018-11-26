@@ -146,8 +146,7 @@ bool DataSource::fetchDataFromAChannelAndSendToMQ(const PB_Enum_TargetInfo_Type 
 
         PBTargetPosition *pbTargetPosToAdd= pbTarget.add_listtargetpos();
         pbTargetPosToAdd->CopyFrom(pbTargetPosInList);
-        if(pbTargetPosToAdd->enum_targetidorig_type()!=EV_TargetIDType_Fusion
-                &&pbTargetPosToAdd->enum_targetidorig_type()!=EV_TargetIDType_Truth)
+        if(pbTargetPosToAdd->enum_targetidorig_type()!=EV_TargetIDType_Fusion)
             pbTargetPosToAdd->set_targetid(0);
 
        // qDebug()<<PBCoderDecoder::getReadableTargetInfo_TypeName(pbTargetPosToAdd->enum_targetinfotype())<<pbTargetPosToAdd->targetidorig();
