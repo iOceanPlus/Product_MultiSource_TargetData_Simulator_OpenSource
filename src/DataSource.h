@@ -37,6 +37,8 @@ public:
     bool addTargetIDObservedWithBeidou(qint32 targetID);
     bool addTargetIDObservedWithArgosAndMarineSat(qint32 targetID);
     bool addTargetIDObservedWithHaijian(qint32 targetID);
+    bool addTargetIDObservedWithTruth(qint32 targetID);
+
 
     bool fetchDataFromChannelsAndSendToMQ();
 
@@ -67,9 +69,9 @@ private:
     ThreadedWorld *world;
 
     QSet <qint32> setTargetIDsObservedWithAIS, setTargetIDsObservedWithLRIT, setTargetIDsObservedWithBeidou,setTargetIDsObservedWithArgosAndMarineSat,
-                setTargetIDsObservedWithHaijian; //Which targets this data source is able to observe.
+                setTargetIDsObservedWithHaijian, setTargetIDsObservedWithTruth; //Which targets this data source is able to observe.
     QSet <qint32> setTargetIDsSentWithAIS,setTargetIDsSentWithLRIT, setTargetIDsSentWithBeidou,setTargetIDsSentWithArgosAndMarineSat,
-                setTargetIDsSentWithHaijian;     //Which targets have been sent by this data source.
+                setTargetIDsSentWithHaijian, setTargetIDsSentWithTruth;     //Which targets have been sent by this data source.
 
     QSet <qint32> setOrigTargetIDs; //MMSIs, beidous, etc.
     QSet <qint32> setTargetIDs;

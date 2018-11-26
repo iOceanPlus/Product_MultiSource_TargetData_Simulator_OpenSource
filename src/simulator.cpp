@@ -109,7 +109,7 @@ bool Simulator::setWorldThreadCount_BoundingRegion_LanguageFromParamJson()
 
 void Simulator::parseParamFileAndInitWorldMembers()
 {
-    QFile paramJsonFile(QStringLiteral("param.json"));
+    QFile paramJsonFile("param.json");
     if (!paramJsonFile.open(QIODevice::ReadOnly)) {
         qDebug()<<"Critical: Couldn't open "<<paramJsonFile.fileName()<<paramJsonFile.errorString()<<". Nothing will be done.";
         exit(1);
@@ -284,7 +284,8 @@ void  Simulator::initTargetsAndPutToWorlds()
 {
     QFile mc2File(mc2FileName);
     if (!mc2File.open(QIODevice::ReadOnly)) {
-        qDebug()<<"Warning: Couldn't open "<<mc2File.fileName()<<mc2File.errorString()<<". Targets will not have country attributes.";
+        qDebug()<<"Warning: Couldn't open "<<
+                  mc2File.fileName()<<mc2File.errorString()<<". Targets will not have country attributes.";
     }
 
     QList <QString> listCountryNames;

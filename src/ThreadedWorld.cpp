@@ -194,6 +194,12 @@ bool ThreadedWorld::slotCreateTargets(const QList<PBTargetPosition> &listPbTarge
                 if(qrand()%100<transQual.percentageTargetsObserved)
                     dataSource->addTargetIDObservedWithArgosAndMarineSat(targetID);
              }
+             if(mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Truth))
+             {
+                Struct_TransmissionQuality  transQual= mapInfoTypeTransmitQuality.value(EV_TargetInfoType_Truth);
+                if(qrand()%100<transQual.percentageTargetsObserved)
+                    dataSource->addTargetIDObservedWithTruth(targetID);
+             }
         }
     }
 

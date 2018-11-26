@@ -81,6 +81,8 @@ QString PBCoderDecoder::getReadableTargetInfo_TypeName(const PB_Enum_TargetInfo_
             return "Radar";
     case EV_TargetInfoType_LRIT:
         return "LRIT";
+    case EV_TargetInfoType_Truth:
+        return "Truth";
     default:
         if(language.toLower()=="cn")
             return "其他";

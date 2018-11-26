@@ -62,6 +62,13 @@
             "SOGDevInKnots":0.2,
             "COGDevInDegrees":3.0,
             "SampleMilliSeconds":5000
+        },
+        {
+            "TargetInfo_Type":31,
+            "PositioningDevInMeters":0,
+            "SOGDevInKnots":0,
+            "COGDevInDegrees":0,
+            "SampleMilliSeconds":2000
         }
     ],
 
@@ -173,6 +180,15 @@
                     "meanTimestampErrorInMiliSeconds":0,
                     "stdDevTimestampErrorInMiliSeconds":0,
                     "packetLossPercentage":10
+                },
+                {
+                    "TargetInfo_Type":31,
+                    "ObservePercentage":100,
+                    "meanTransmissionLatencyInMiliSeconds":0,
+                    "stdDevTransmissionLatencyInMiliSeconds":0,
+                    "meanTimestampErrorInMiliSeconds":0,
+                    "stdDevTimestampErrorInMiliSeconds":0,
+                    "packetLossPercentage":0
                 }
             ]
         }

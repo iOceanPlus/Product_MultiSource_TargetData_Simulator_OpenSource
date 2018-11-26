@@ -20,6 +20,7 @@ const QString ROUTING_KEY_ONLINE_PREPROCESSED_Beidou ="OnLine.PreprocessedData.B
 const QString ROUTING_KEY_ONLINE_PREPROCESSED_LRIT ="OnLine.PreprocessedData.LRIT";
 const QString ROUTING_KEY_ONLINE_PREPROCESSED_Haijian ="OnLine.PreprocessedData.HaiJian";
 const QString ROUTING_KEY_ONLINE_PREPROCESSED_Argos ="OnLine.PreprocessedData.Argos";
+const QString ROUTING_KEY_ONLINE_PREPROCESSED_Truth ="OnLine.PreprocessedData.Truth";
 
 class QMutex;
 class ContainerOfUnThreadedMQTopicConsume;

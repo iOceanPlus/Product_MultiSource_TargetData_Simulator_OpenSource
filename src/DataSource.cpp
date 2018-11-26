@@ -48,6 +48,12 @@ bool DataSource::addTargetIDObservedWithArgosAndMarineSat(qint32 targetID)
     return true;
 }
 
+bool DataSource::addTargetIDObservedWithTruth(qint32 targetID)
+{
+    setTargetIDsObservedWithTruth.insert(targetID);
+    return true;
+}
+
 bool DataSource::addTargetIDObservedWithHaijian(qint32 targetID)
 {
     setTargetIDsObservedWithHaijian.insert(targetID);
@@ -89,6 +95,13 @@ bool DataSource::fetchDataFromChannelsAndSendToMQ()
     {
         fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_ArgosAndMaritimeSatellite,setTargetIDsObservedWithArgosAndMarineSat,
                               setTargetIDsSentWithArgosAndMarineSat,  ROUTING_KEY_ONLINE_PREPROCESSED_Argos);
+    }
+
+    if(!setTargetIDsObservedWithTruth.isEmpty()&&mapInfoTypeTransmitQuality.contains(EV_TargetInfoType_Truth)
+            &&world->getMapInfoTypeDataChannels().contains(EV_TargetInfoType_Truth))
+    {
+        fetchDataFromAChannelAndSendToMQ(EV_TargetInfoType_Truth,setTargetIDsObservedWithTruth,
+                              setTargetIDsSentWithTruth,  ROUTING_KEY_ONLINE_PREPROCESSED_Truth);
     }
     return true;
 }
@@ -195,7 +208,11 @@ void DataSource::slotOutPutTargetsCountPerType()
     if(!setTargetIDsSentWithHaijian.isEmpty())
            std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Haijian,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithHaijian.size();
     if(!setTargetIDsSentWithArgosAndMarineSat.isEmpty())
-          std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite,world->getLanguage()).toStdString()<<"目标数:"<<setTargetIDsSentWithArgosAndMarineSat.size();
+          std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_ArgosAndMaritimeSatellite,world->getLanguage()).toStdString()
+                  <<"目标数:"<<setTargetIDsSentWithArgosAndMarineSat.size();
+    if(!setTargetIDsSentWithTruth.isEmpty())
+          std::cout<<"\t"<<PBCoderDecoder::getReadableTargetInfo_TypeName(EV_TargetInfoType_Truth,world->getLanguage()).toStdString()
+                  <<"目标数:"<<setTargetIDsSentWithTruth.size();
 
     std::cout<<endl;
 }
@@ -216,7 +233,7 @@ void DataSource::slotOutPutPosCountAndRate()
 qint32 DataSource::getTotalTargetCount()
 {
     return setTargetIDsSentWithAIS.size()+ setTargetIDsSentWithLRIT.size()+ setTargetIDsSentWithArgosAndMarineSat.size()+setTargetIDsSentWithBeidou.size()
-            +setTargetIDsSentWithHaijian.size();
+            +setTargetIDsSentWithHaijian.size()+ setTargetIDsSentWithTruth.size();
 }
 
 float DataSource::getposCountPerMinute()
@@ -241,6 +258,9 @@ void DataSource::uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> >
     if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_LRIT))
         mapInfoTypeSetTargetID.insert(EV_TargetInfoType_LRIT,QSet <qint32> ());
 
+    if(!mapInfoTypeSetTargetID.contains(EV_TargetInfoType_Truth))
+        mapInfoTypeSetTargetID.insert(EV_TargetInfoType_Truth,QSet <qint32> ());
+
     QMutableMapIterator <PB_Enum_TargetInfo_Type, QSet <qint32> > iMapInfoTypeSetTargetID(mapInfoTypeSetTargetID);
     while(iMapInfoTypeSetTargetID.hasNext())
     {
@@ -261,6 +281,9 @@ void DataSource::uniteSetTargetID(QMap <PB_Enum_TargetInfo_Type, QSet <qint32> >
             break;
         case EV_TargetInfoType_LRIT:
             iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithLRIT);
+            break;
+        case EV_TargetInfoType_Truth:
+            iMapInfoTypeSetTargetID.value().unite(setTargetIDsSentWithTruth);
             break;
         default:
             break;
