@@ -1,5 +1,9 @@
 ### 注意！该项目为开源项目，请勿将账号、消息队列信息、敏感信息等传入代码或附件！   
 Notice! This project is open source, DO NOT PUSH personal or sensitive contents, such as accounts of rabbitmq.
+
+本项目受到“广东省大数据分析与处理重点实验室开放基金项目”资助(201804)。  
+Supported by the Opening Project of Guangdong Key Laboratory of Big Data Analysis and Processing (201804).
+
   
 # ICTShips: Multisource Target Data Simulator
 
